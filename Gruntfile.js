@@ -43,6 +43,20 @@ module.exports = function (grunt) {
         src: ['test/**/*.js']
       },
     },
+    jscs: {
+      gruntfile: {
+        src: '<%= jshint.gruntfile.src %>',
+        options: {
+          validateIndentation: 2
+        }
+      },
+      lib: {
+        src: '<%= jshint.lib.src %>'
+      },
+      test: {
+        src: '<%= jshint.test.src %>'
+      }
+    },
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
