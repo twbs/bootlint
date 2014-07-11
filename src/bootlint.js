@@ -71,6 +71,13 @@
         }
         return null;
     };
+    exports.lintRemoteModals = function ($) {
+        var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
+        if (remoteModalTriggers.length) {
+            return "Found one or more modals using the deprecated `remote` option";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -81,6 +88,7 @@
         errs.push(this.lintContainers($));
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
+        errs.push(this.lintRemoteModals($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };

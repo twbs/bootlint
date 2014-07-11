@@ -93,5 +93,12 @@ exports['awesome'] = {
             ["Found both `.row` and `.col-*-*` used on the same element"],
             'should complain when .row and .col-*-* used on the same element.');
         test.done();
+    },
+    'remote modals': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('modal-remote.html')),
+            ["Found one or more modals using the deprecated `remote` option"],
+            'should complain when remote modals are present');
+        test.done();
     }
 };
