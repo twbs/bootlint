@@ -63,5 +63,18 @@ exports['awesome'] = {
             ["Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes"],
             'should complain when Bootstrap v2 grid classes are present.');
         test.done();
+    },
+    'containers': function (test) {
+        test.expect(3);
+        test.deepEqual(bootlint.lint(utf8Fixture('containers/fixed.html')),
+            [],
+            'should not complain when rows are within fixed containers.');
+        test.deepEqual(bootlint.lint(utf8Fixture('containers/fluid.html')),
+            [],
+            'should not complain when rows are within fluid containers.');
+        test.deepEqual(bootlint.lint(utf8Fixture('containers/missing.html')),
+            ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`."],
+            'should complain when a row is not within a container.');
+        test.done();
     }
 };

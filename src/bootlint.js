@@ -37,6 +37,17 @@
         }
         return null;
     };
+    exports.lintContainers = function ($) {
+        var rows = $('.row');
+        var rowsOutsideContainers = rows.filter(function (i, row) {
+            var parent = $(row).parent();
+            return !parent.hasClass('container') && !parent.hasClass('container-fluid');
+        });
+        if (rowsOutsideContainers.length) {
+            return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`.";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -44,6 +55,7 @@
         errs.push(this.lintMetaCharsetUtf8($));
         errs.push(this.lintXUaCompatible($));
         errs.push(this.lintBootstrapv2($));
+        errs.push(this.lintContainers($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
