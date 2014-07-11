@@ -1,5 +1,7 @@
 # bootlint
 [![Build Status](https://travis-ci.org/cvrebert/bootlint.svg?branch=master)](https://travis-ci.org/cvrebert/bootlint)
+[![Dependency Status](https://david-dm.org/cvrebert/bootlint.svg)](https://david-dm.org/cvrebert/bootlint)
+[![devDependency Status](https://david-dm.org/cvrebert/bootlint/dev-status.svg)](https://david-dm.org/cvrebert/bootlint#info=devDependencies)
 
 HTML linter for Bootstrap projects
 
