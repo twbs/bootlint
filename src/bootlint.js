@@ -16,7 +16,7 @@
     });
 
     function isDoctype(node) {
-        return node.type == 'directive' && node.name == '!doctype';
+        return node.type === 'directive' && node.name === '!doctype';
     }
 
     exports.lintDoctype = function ($) {
