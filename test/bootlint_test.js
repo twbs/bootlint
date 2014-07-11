@@ -56,5 +56,12 @@ exports['awesome'] = {
             ["<head> is missing X-UA-Compatible meta tag that disables old IE compatibility modes"],
             'should complain when X-UA-Compatible meta tag is missing.');
         test.done();
+    },
+    'Bootstrap v2': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('bs-v2.html')),
+            ["Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes"],
+            'should complain when Bootstrap v2 grid classes are present.');
+        test.done();
     }
 };

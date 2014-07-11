@@ -25,12 +25,25 @@
         }
         return null;
     };
+    exports.lintBootstrapv2 = function ($) {
+        var columnClasses = [];
+        for (var n = 1; n <= 12; n++) {
+            columnClasses.push('.span' + n);
+        }
+        var selector = columnClasses.join(',');
+        var spanNs = $(selector);
+        if (spanNs.length) {
+            return "Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
         var errs = [];
         errs.push(this.lintMetaCharsetUtf8($));
         errs.push(this.lintXUaCompatible($));
+        errs.push(this.lintBootstrapv2($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
