@@ -1,4 +1,5 @@
 # bootlint
+[![NPM version](https://badge.fury.io/js/bootlint.svg)](http://badge.fury.io/js/bootlint)
 [![Build Status](https://travis-ci.org/cvrebert/bootlint.svg?branch=master)](https://travis-ci.org/cvrebert/bootlint)
 [![Dependency Status](https://david-dm.org/cvrebert/bootlint.svg)](https://david-dm.org/cvrebert/bootlint)
 [![devDependency Status](https://david-dm.org/cvrebert/bootlint/dev-status.svg)](https://david-dm.org/cvrebert/bootlint#info=devDependencies)
