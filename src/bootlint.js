@@ -15,6 +15,24 @@
         }
     });
 
+    function isDoctype(node) {
+        return node.type == 'directive' && node.name == '!doctype';
+    }
+
+    exports.lintDoctype = function ($) {
+        var doctype = $(':root')[0];
+        while (doctype && !isDoctype(doctype)) {
+            doctype = doctype.prev;
+        }
+        if (!doctype) {
+            return "Document is missing a DOCTYPE declaration";
+        }
+        var doctypeId = doctype.data.toLowerCase();
+        if (doctypeId !== '!doctype html' && doctypeId !== '!doctype html system "about:legacy-compat"') {
+            return "Document declares a non-HTML5 DOCTYPE";
+        }
+        return null;
+    };
     exports.lintMetaCharsetUtf8 = function ($) {
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
@@ -82,6 +100,7 @@
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
         var errs = [];
+        errs.push(this.lintDoctype($));
         errs.push(this.lintMetaCharsetUtf8($));
         errs.push(this.lintXUaCompatible($));
         errs.push(this.lintBootstrapv2($));

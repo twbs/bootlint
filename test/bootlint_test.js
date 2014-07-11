@@ -29,10 +29,26 @@ function utf16Fixture(name) {
         test.ifError(value)
 */
 
-exports['awesome'] = {
+exports['bootlint'] = {
     setUp: function(done) {
         // setup here
         done();
+    },
+    'HTML5 DOCTYPE': function (test) {
+        test.expect(4);
+        test.deepEqual(bootlint.lint(utf8Fixture('doctype/missing.html')),
+            ["Document is missing a DOCTYPE declaration"],
+            'should complain when no doctype declaration is present.');
+        test.deepEqual(bootlint.lint(utf8Fixture('doctype/html4.html')),
+            ["Document declares a non-HTML5 DOCTYPE"],
+            'should complain when the HTML4 doctype is used.');
+        test.deepEqual(bootlint.lint(utf8Fixture('doctype/html5-normal.html')),
+            [],
+            'should not complain when the normal simple HTML5 doctype is used.');
+        test.deepEqual(bootlint.lint(utf8Fixture('doctype/html5-legacy.html')),
+            [],
+            'should not complain when the legacy-compatibility HTML5 doctype is used.');
+        test.done();
     },
     'UTF-8 charset meta tag': function (test) {
         test.expect(3);
