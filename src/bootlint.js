@@ -7,6 +7,14 @@
 (function (exports) {
     'use strict';
 
+    var COL_CLASSES = [];
+    var SCREENS = ['xs', 'sm', 'md', 'lg'];
+    SCREENS.forEach(function (screen) {
+        for (var n = 1; n <= 12; n++) {
+            COL_CLASSES.push('.col-' + screen + '-' + n);
+        }
+    });
+
     exports.lintMetaCharsetUtf8 = function ($) {
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
@@ -51,7 +59,15 @@
             return !parent.hasClass('container') && !parent.hasClass('container-fluid');
         });
         if (rowsOutsideContainers.length) {
-            return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`.";
+            return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
+        }
+        return null;
+    };
+    exports.lintRowAndColOnSameElem = function ($) {
+        var selector = COL_CLASSES.map(function (col) { return ".row" + col; }).join(',');
+        var rowCols = $(selector);
+        if (rowCols.length) {
+            return "Found both `.row` and `.col-*-*` used on the same element";
         }
         return null;
     };
@@ -64,6 +80,7 @@
         errs.push(this.lintBootstrapv2($));
         errs.push(this.lintContainers($));
         errs.push(this.lintViewport($));
+        errs.push(this.lintRowAndColOnSameElem($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };

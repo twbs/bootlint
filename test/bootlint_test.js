@@ -73,18 +73,25 @@ exports['awesome'] = {
             [],
             'should not complain when rows are within fluid containers.');
         test.deepEqual(bootlint.lint(utf8Fixture('containers/missing.html')),
-            ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`."],
+            ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`"],
             'should complain when a row is not within a container.');
         test.done();
     },
     'viewport meta tag': function (test) {
-        test.expect();
+        test.expect(2);
         test.deepEqual(bootlint.lint(utf8Fixture('viewport/present.html')),
             [],
             'should not complain when viewport <meta> tag is present');
         test.deepEqual(bootlint.lint(utf8Fixture('viewport/missing.html')),
             ["<head> is missing viewport <meta> tag that enables responsiveness"],
             'should complain when viewport <meta> tag is missing');
+        test.done();
+    },
+    'row and column classes on same element': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('row-col-same-elem.html')),
+            ["Found both `.row` and `.col-*-*` used on the same element"],
+            'should complain when .row and .col-*-* used on the same element.');
         test.done();
     }
 };
