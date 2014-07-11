@@ -38,23 +38,23 @@ exports['awesome'] = {
         test.expect(3);
         test.deepEqual(bootlint.lint(utf8Fixture('charset/utf8.html')),
             [],
-            'should not complain when UTF-8 charset meta tag is present.');
+            'should not complain when UTF-8 charset <meta> tag is present.');
         test.deepEqual(bootlint.lint(utf8Fixture('charset/missing.html')),
             ['<head> is missing UTF-8 charset <meta> tag'],
-            'should complain when charset meta tag is missing.');
+            'should complain when charset <meta> tag is missing.');
         test.deepEqual(bootlint.lint(utf16Fixture('charset/not-utf8.html')),
-            ['charset meta tag is specifying a legacy, non-UTF-8 charset'],
-            'should complain when meta tag specifies non-UTF-8 charset.');
+            ['charset <meta> tag is specifying a legacy, non-UTF-8 charset'],
+            'should complain when <meta> tag specifies non-UTF-8 charset.');
         test.done();
     },
     'X-UA-Compatible': function (test) {
         test.expect(2);
         test.deepEqual(bootlint.lint(utf8Fixture('x-ua-compatible/present.html')),
             [],
-            'should not complain when X-UA-Compatible meta tag is present.');
+            'should not complain when X-UA-Compatible <meta> tag is present.');
         test.deepEqual(bootlint.lint(utf8Fixture('x-ua-compatible/missing.html')),
-            ["<head> is missing X-UA-Compatible meta tag that disables old IE compatibility modes"],
-            'should complain when X-UA-Compatible meta tag is missing.');
+            ["<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes"],
+            'should complain when X-UA-Compatible <meta> tag is missing.');
         test.done();
     },
     'Bootstrap v2': function (test) {

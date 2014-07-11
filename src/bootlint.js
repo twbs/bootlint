@@ -14,14 +14,14 @@
             return '<head> is missing UTF-8 charset <meta> tag';
         }
         if (charset.toLowerCase() !== "utf-8") {
-            return 'charset meta tag is specifying a legacy, non-UTF-8 charset';
+            return 'charset <meta> tag is specifying a legacy, non-UTF-8 charset';
         }
         return null;
     };
     exports.lintXUaCompatible = function ($) {
         var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
         if (!meta.length) {
-            return "<head> is missing X-UA-Compatible meta tag that disables old IE compatibility modes";
+            return "<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes";
         }
         return null;
     };
