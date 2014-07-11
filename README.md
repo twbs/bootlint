@@ -1,5 +1,5 @@
-bootlint
-========
+# bootlint
+[![Build Status](https://travis-ci.org/cvrebert/bootlint.svg?branch=master)](https://travis-ci.org/cvrebert/bootlint)
 
 HTML linter for Bootstrap projects
 
