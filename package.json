@@ -39,6 +39,6 @@
         "cheerio": "^0.17.0"
     },
     "scripts": {
-        "test": "grunt nodeunit"
+        "test": "grunt test"
     }
 }

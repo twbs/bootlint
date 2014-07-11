@@ -74,5 +74,6 @@ module.exports = function (grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit', 'concat']);
+  grunt.registerTask('test', ['jshint', 'jscs', 'nodeunit']);
+  grunt.registerTask('default', ['test', 'concat']);
 };
