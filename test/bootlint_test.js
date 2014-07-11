@@ -46,5 +46,15 @@ exports['awesome'] = {
             ['charset meta tag is specifying a legacy, non-UTF-8 charset'],
             'should complain when meta tag specifies non-UTF-8 charset.');
         test.done();
+    },
+    'X-UA-Compatible': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lint(utf8Fixture('x-ua-compatible/present.html')),
+            [],
+            'should not complain when X-UA-Compatible meta tag is present.');
+        test.deepEqual(bootlint.lint(utf8Fixture('x-ua-compatible/missing.html')),
+            ["<head> is missing X-UA-Compatible meta tag that disables old IE compatibility modes"],
+            'should complain when X-UA-Compatible meta tag is missing.');
+        test.done();
     }
 };

@@ -18,11 +18,19 @@
         }
         return null;
     };
+    exports.lintXUaCompatible = function ($) {
+        var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
+        if (!meta.length) {
+            return "<head> is missing X-UA-Compatible meta tag that disables old IE compatibility modes";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
         var errs = [];
         errs.push(this.lintMetaCharsetUtf8($));
+        errs.push(this.lintXUaCompatible($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
