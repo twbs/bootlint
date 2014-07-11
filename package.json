@@ -1,44 +1,43 @@
 {
-  "name": "bootlint",
-  "version": "0.0.0",
-  "description": "HTML linter for Bootstrap projects",
-  "keywords": [
-    "bootstrap",
-    "checker",
-    "correctness",
-    "html",
-    "lint",
-    "linter",
-    "validator",
-    "validity"
-  ],
-  "homepage": "https://github.com/cvrebert/bootlint",
-  "bugs": "https://github.com/cvrebert/bootlint/issues",
-  "author": {
-    "name": "Chris Rebert",
-    "email": "code@rebertia.com",
-    "url": "http://chrisrebert.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cvrebert/bootlint"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
+    "name": "bootlint",
+    "version": "0.0.0",
+    "description": "HTML linter for Bootstrap projects",
+    "keywords": [
+        "bootstrap",
+        "checker",
+        "correctness",
+        "html",
+        "lint",
+        "linter",
+        "validator",
+        "validity"
+    ],
+    "homepage": "https://github.com/cvrebert/bootlint",
+    "bugs": "https://github.com/cvrebert/bootlint/issues",
+    "author": {
+        "name": "Chris Rebert",
+        "email": "code@rebertia.com",
+        "url": "http://chrisrebert.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cvrebert/bootlint"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-qunit": "~0.5.2",
+        "grunt-contrib-concat": "~0.4.0",
+        "grunt-contrib-watch": "~0.6.1",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-nodeunit": "~0.4.1",
+        "time-grunt": "~0.4.0",
+        "load-grunt-tasks": "~0.6.0"
+    },
+    "dependencies": {
+        "cheerio": "^0.17.0"
+    },
+    "scripts": {
+        "test": "grunt nodeunit"
     }
-  ],
-  "devDependencies": {
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-qunit": "~0.5.2",
-    "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "time-grunt": "~0.4.0",
-    "load-grunt-tasks": "~0.6.0"
-  },
-  "dependencies": {
-    "cheerio": "^0.17.0"
-  }
 }
