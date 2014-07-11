@@ -113,6 +113,12 @@
         }
         return null;
     };
+    exports.lintBootstrapJs = function ($) {
+        if ($('script[src$="bootstrap.js"]').length && $('script[src$="bootstrap.min.js"]').length) {
+            return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -126,6 +132,7 @@
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
+        errs.push(this.lintBootstrapJs($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };

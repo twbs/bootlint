@@ -126,5 +126,15 @@ exports['bootlint'] = {
             ["Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work"],
             'should complain when jQuery appears to be missing.');
         test.done();
+    },
+    'bootstrap[.min].js': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lint(utf8Fixture('js/both.html')),
+            ["Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js"],
+            'should complain when both bootstrap.js and bootstrap.min.js are included.');
+        test.deepEqual(bootlint.lint(utf8Fixture('js/one.html')),
+            [],
+            'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included.');
+        test.done();
     }
 };
