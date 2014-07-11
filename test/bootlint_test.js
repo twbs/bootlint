@@ -100,7 +100,7 @@ exports['bootlint'] = {
             'should not complain when viewport <meta> tag is present');
         test.deepEqual(bootlint.lint(utf8Fixture('viewport/missing.html')),
             ["<head> is missing viewport <meta> tag that enables responsiveness"],
-            'should complain when viewport <meta> tag is missing');
+            'should complain when viewport <meta> tag is missing.');
         test.done();
     },
     'row and column classes on same element': function (test) {
@@ -114,7 +114,17 @@ exports['bootlint'] = {
         test.expect(1);
         test.deepEqual(bootlint.lint(utf8Fixture('modal-remote.html')),
             ["Found one or more modals using the deprecated `remote` option"],
-            'should complain when remote modals are present');
+            'should complain when remote modals are present.');
+        test.done();
+    },
+    'jQuery': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lint(utf8Fixture('jquery/present.html')),
+            [],
+            'should not complain when jQuery is present.');
+        test.deepEqual(bootlint.lint(utf8Fixture('jquery/missing.html')),
+            ["Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work"],
+            'should complain when jQuery appears to be missing.');
         test.done();
     }
 };

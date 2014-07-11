@@ -96,6 +96,23 @@
         }
         return null;
     };
+    exports.lintJquery = function ($) {
+        var theWindow = null;
+        try {
+            theWindow = window;
+        }
+        catch (e) {
+            // deliberately do nothing
+        }
+        if (theWindow && (theWindow.$ || theWindow.jQuery)) {
+            return null;
+        }
+        var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
+        if (!jqueries.length) {
+            return "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -108,6 +125,7 @@
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRemoteModals($));
+        errs.push(this.lintJquery($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
