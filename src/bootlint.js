@@ -113,6 +113,18 @@
         }
         return null;
     };
+    exports.lintInputGroupFormControlTypes = function ($) {
+        var errs = [];
+        var selectInputGroups = $('.input-group select');
+        if (selectInputGroups.length) {
+            errs.push("`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers");
+        }
+        var textareaInputGroups = $('.input-group textarea');
+        if (textareaInputGroups.length) {
+            errs.push("`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`");
+        }
+        return errs;
+    };
     exports.lintBootstrapJs = function ($) {
         if ($('script[src$="bootstrap.js"]').length && $('script[src$="bootstrap.min.js"]').length) {
             return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
@@ -133,6 +145,7 @@
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));
+        errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };

@@ -136,5 +136,18 @@ exports['bootlint'] = {
             [],
             'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included.');
         test.done();
+    },
+    'input groups with impermissible kind of form control': function (test) {
+        test.expect(3);
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/textarea.html')),
+            ["`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`"],
+            'should complain about input groups with a <textarea> form control');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/select.html')),
+            ["`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers"],
+            'should complain about input groups with a <select> form control');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/valid.html')),
+            [],
+            'should not complain about input groups with text-based <input>s');
+        test.done();
     }
 };
