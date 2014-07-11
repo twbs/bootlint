@@ -76,5 +76,15 @@ exports['awesome'] = {
             ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`."],
             'should complain when a row is not within a container.');
         test.done();
+    },
+    'viewport meta tag': function (test) {
+        test.expect();
+        test.deepEqual(bootlint.lint(utf8Fixture('viewport/present.html')),
+            [],
+            'should not complain when viewport <meta> tag is present');
+        test.deepEqual(bootlint.lint(utf8Fixture('viewport/missing.html')),
+            ["<head> is missing viewport <meta> tag that enables responsiveness"],
+            'should complain when viewport <meta> tag is missing');
+        test.done();
     }
 };

@@ -25,6 +25,13 @@
         }
         return null;
     };
+    exports.lintViewport = function ($) {
+        var meta = $('head>meta[name="viewport"][content]');
+        if (!meta.length) {
+            return "<head> is missing viewport <meta> tag that enables responsiveness";
+        }
+        return null;
+    };
     exports.lintBootstrapv2 = function ($) {
         var columnClasses = [];
         for (var n = 1; n <= 12; n++) {
@@ -56,6 +63,7 @@
         errs.push(this.lintXUaCompatible($));
         errs.push(this.lintBootstrapv2($));
         errs.push(this.lintContainers($));
+        errs.push(this.lintViewport($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
