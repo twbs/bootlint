@@ -1,0 +1,44 @@
+{
+  "name": "bootlint",
+  "version": "0.0.0",
+  "description": "HTML linter for Bootstrap projects",
+  "keywords": [
+    "bootstrap",
+    "checker",
+    "correctness",
+    "html",
+    "lint",
+    "linter",
+    "validator",
+    "validity"
+  ],
+  "homepage": "https://github.com/cvrebert/bootlint",
+  "bugs": "https://github.com/cvrebert/bootlint/issues",
+  "author": {
+    "name": "Chris Rebert",
+    "email": "code@rebertia.com",
+    "url": "http://chrisrebert.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cvrebert/bootlint"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.5",
+    "grunt-contrib-qunit": "~0.2.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "time-grunt": "~0.1.2",
+    "load-grunt-tasks": "~0.2.1"
+  },
+  "dependencies": {
+    "cheerio": "^0.17.0"
+  }
+}
