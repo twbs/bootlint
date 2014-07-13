@@ -165,6 +165,21 @@
         }
         return null;
     };
+    exports.lintFormGroupMixedWithInputGroup = function ($) {
+        var badMixes = $('.input-group.form-group');
+        if (badMixes.length) {
+            return ".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group";
+        }
+        return null;
+    };
+    exports.lintGridClassMixedWithInputGroup = function ($) {
+        var selector = COL_CLASSES.map(function (colClass) { return '.input-group' + colClass; }).join(',');
+        var badMixes = $(selector);
+        if (badMixes.length) {
+            return ".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -182,6 +197,8 @@
         errs.push(this.lintTooltipsOnDisabledElems($));
         errs.push(this.lintTooltipsInBtnGroups($));
         errs.push(this.lintMultipleFormControlsInInputGroup($));
+        errs.push(this.lintFormGroupMixedWithInputGroup($));
+        errs.push(this.lintGridClassMixedWithInputGroup($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;

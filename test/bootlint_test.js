@@ -167,10 +167,24 @@ exports['bootlint'] = {
         test.done();
     },
     'input groups with multiple form controls': function (test) {
-        test.expect();
+        test.expect(1);
         test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-form-controls.html')),
             ["Input groups cannot contain multiple `.form-control`s"],
-            'should complain when an input group contains multiple form controls');
+            'should complain when an input group contains multiple form controls.');
+        test.done();
+    },
+    'mixing input groups with form groups': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/mixed-with-form-group.html')),
+            [".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group"],
+            'should complain when .input-group and .form-group are used on the same element.');
+        test.done();
+    },
+    'mixing input groups with grid columns': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/mixed-with-grid-col.html')),
+            [".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*"],
+            'should complain when an input group has a grid column class on it');
         test.done();
     }
 };
