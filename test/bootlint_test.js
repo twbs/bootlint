@@ -165,5 +165,12 @@ exports['bootlint'] = {
             ["Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting."],
             'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
+    },
+    'input groups with multiple form controls': function (test) {
+        test.expect();
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-form-controls.html')),
+            ["Input groups cannot contain multiple `.form-control`s"],
+            'should complain when an input group contains multiple form controls');
+        test.done();
     }
 };

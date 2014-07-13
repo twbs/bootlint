@@ -156,6 +156,15 @@
         }
         return null;
     };
+    exports.lintMultipleFormControlsInInputGroup = function ($) {
+        var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
+            return $(inputGroup).find('.form-control').length > 1;
+        });
+        if (badInputGroups.length) {
+            return "Input groups cannot contain multiple `.form-control`s";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -172,6 +181,7 @@
         errs.push(this.lintBootstrapJs($));
         errs.push(this.lintTooltipsOnDisabledElems($));
         errs.push(this.lintTooltipsInBtnGroups($));
+        errs.push(this.lintMultipleFormControlsInInputGroup($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
