@@ -149,5 +149,14 @@ exports['bootlint'] = {
             [],
             'should not complain about input groups with text-based <input>s');
         test.done();
+    },
+    'tooltips and popovers on disabled elements': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('tooltips/on-disabled-elems.html')),
+            ["Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
+            " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
+            " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead."],
+            'should complain about tooltips and popovers on disabled elements');
+        test.done();
     }
 };

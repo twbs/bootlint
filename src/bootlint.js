@@ -131,6 +131,21 @@
         }
         return null;
     };
+    exports.lintTooltipsOnDisabledElems = function ($) {
+        var selector = [
+            '[disabled][data-toggle="tooltip"]',
+            '.disabled[data-toggle="tooltip"]',
+            '[disabled][data-toggle="popover"]',
+            '.disabled[data-toggle="popover"]'
+        ].join(',');
+        var disabledWithTooltips = $(selector);
+        if (disabledWithTooltips.length) {
+            return "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
+                " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
+                " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead.";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -145,6 +160,7 @@
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));
+        errs.push(this.lintTooltipsOnDisabledElems($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
