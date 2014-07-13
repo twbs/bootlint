@@ -147,7 +147,7 @@ exports['bootlint'] = {
             'should complain about input groups with a <select> form control');
         test.deepEqual(bootlint.lint(utf8Fixture('input-group/valid.html')),
             [],
-            'should not complain about input groups with text-based <input>s');
+            'should not complain about input groups with text-based <input>s.');
         test.done();
     },
     'tooltips and popovers on disabled elements': function (test) {
@@ -156,7 +156,14 @@ exports['bootlint'] = {
             ["Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
             " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
             " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead."],
-            'should complain about tooltips and popovers on disabled elements');
+            'should complain about tooltips and popovers on disabled elements.');
+        test.done();
+    },
+    'tooltips and popovers within button groups should have their container set to body': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('tooltips/in-btn-groups.html')),
+            ["Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting."],
+            'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
     }
 };

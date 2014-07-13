@@ -146,6 +146,16 @@
         }
         return null;
     };
+    exports.lintTooltipsInBtnGroups = function ($) {
+        var tooltipsInBtnGroups = $('.btn-group [data-toggle="tooltip"], .btn-group [data-toggle="popover"]');
+        var nonBodyContainers = tooltipsInBtnGroups.filter(function (i, tooltip) {
+            return $(tooltip).attr('data-container') !== 'body';
+        });
+        if (nonBodyContainers.length) {
+            return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -161,6 +171,7 @@
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));
         errs.push(this.lintTooltipsOnDisabledElems($));
+        errs.push(this.lintTooltipsInBtnGroups($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
