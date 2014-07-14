@@ -38,6 +38,7 @@
     "dependencies": {
         "cheerio": "^0.17.0"
     },
+    "bin": "./src/cli.js",
     "scripts": {
         "test": "grunt test"
     }
