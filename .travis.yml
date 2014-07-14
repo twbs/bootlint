@@ -1,5 +1,15 @@
 {
     "language": "node_js",
     "node_js": ["0.10"],
-    "before_script": "npm install -g grunt-cli",
+    "before_install": "sudo ln -s $(which node) /usr/local/bin/nodejs",
+    "before_script": [
+        "npm install -g grunt-cli",
+        "gem install jekyll rouge",
+        "git clone https://github.com/twbs/bootstrap.git",
+        "pushd bootstrap && jekyll build; popd"
+    ],
+    "script": [
+        "npm test",
+        "./src/cli.js bootstrap/_gh_pages/*/index.html"
+    ]
 }
