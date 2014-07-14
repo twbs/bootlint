@@ -71,11 +71,7 @@
         return null;
     };
     exports.lintContainers = function ($) {
-        var rows = $('.row');
-        var rowsOutsideContainers = rows.filter(function (i, row) {
-            var parent = $(row).parent();
-            return !parent.hasClass('container') && !parent.hasClass('container-fluid');
-        });
+        var rowsOutsideContainers = $('*:not(.container):not(.container-fluid)>.row');
         if (rowsOutsideContainers.length) {
             return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
         }
@@ -147,10 +143,7 @@
         return null;
     };
     exports.lintTooltipsInBtnGroups = function ($) {
-        var tooltipsInBtnGroups = $('.btn-group [data-toggle="tooltip"], .btn-group [data-toggle="popover"]');
-        var nonBodyContainers = tooltipsInBtnGroups.filter(function (i, tooltip) {
-            return $(tooltip).attr('data-container') !== 'body';
-        });
+        var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
             return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
         }
