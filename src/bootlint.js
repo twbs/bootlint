@@ -71,7 +71,7 @@
         return null;
     };
     exports.lintContainers = function ($) {
-        var rowsOutsideContainers = $('*:not(.container):not(.container-fluid)>.row');
+        var rowsOutsideContainers = $('*:not(.container):not(.container-fluid):not(.bs-example)>.row');
         if (rowsOutsideContainers.length) {
             return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
         }
@@ -174,7 +174,8 @@
         return null;
     };
     exports.lintRowChildrenAreCols = function ($) {
-        var selector = '.row>*' + COL_CLASSES.map(function (colClass) { return ':not(' + colClass + ')'; }).join('');
+        var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
+        var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) { return ':not(' + colClass + ')'; }).join('');
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
             return "Only columns (.col-*-*) may be children of `.row`s";
