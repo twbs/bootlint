@@ -196,5 +196,24 @@ exports['bootlint'] = {
             ["Only columns (.col-*-*) may be children of `.row`s"],
             'should complain when rows have non-column children.');
         test.done();
+    },
+    'multiple columns on the same side of an input group': function (test) {
+        test.expect(5);
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-add-on-left.html')),
+            ["Having multiple add-ons on a single side of an input group is not supported"],
+            'should complain when multiple normal add-ons are on the left side of an input group.');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-add-on-right.html')),
+            ["Having multiple add-ons on a single side of an input group is not supported"],
+            'should complain when multiple normal add-ons are on the right side of an input group.');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-btn-add-on-left.html')),
+            ["Having multiple add-ons on a single side of an input group is not supported"],
+            'should complain when multiple button add-ons are on the left side of an input group.');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-btn-add-on-right.html')),
+            ["Having multiple add-ons on a single side of an input group is not supported"],
+            'should complain when multiple button add-ons are on the right side of an input group.');
+        test.deepEqual(bootlint.lint(utf8Fixture('input-group/multiple-mixed-add-on-left.html')),
+            ["Having multiple add-ons on a single side of an input group is not supported"],
+            'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
+        test.done();
     }
 };

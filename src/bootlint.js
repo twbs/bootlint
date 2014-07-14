@@ -181,6 +181,21 @@
         }
         return null;
     };
+    exports.lintInputGroupsWithMultipleAddOnsPerSide = function ($) {
+        var addOnClasses = ['.input-group-addon', '.input-group-btn'];
+        var combos = [];
+        addOnClasses.forEach(function (first) {
+            addOnClasses.forEach(function (second) {
+                combos.push('.input-group>' + first + '+' + second);
+            });
+        });
+        var selector = combos.join(',');
+        var multipleAddOns = $(selector);
+        if (multipleAddOns.length) {
+            return "Having multiple add-ons on a single side of an input group is not supported";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -201,6 +216,7 @@
         errs.push(this.lintMultipleFormControlsInInputGroup($));
         errs.push(this.lintFormGroupMixedWithInputGroup($));
         errs.push(this.lintGridClassMixedWithInputGroup($));
+        errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
