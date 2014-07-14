@@ -76,7 +76,10 @@ exports['bootlint'] = {
     'Bootstrap v2': function (test) {
         test.expect(1);
         test.deepEqual(bootlint.lint(utf8Fixture('bs-v2.html')),
-            ["Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes"],
+            [
+                "Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes",
+                "Only columns (.col-*-*) may be children of `.row`s"
+            ],
             'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
@@ -184,7 +187,14 @@ exports['bootlint'] = {
         test.expect(1);
         test.deepEqual(bootlint.lint(utf8Fixture('input-group/mixed-with-grid-col.html')),
             [".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*"],
-            'should complain when an input group has a grid column class on it');
+            'should complain when an input group has a grid column class on it.');
+        test.done();
+    },
+    'non-column children of rows': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('non-col-row-children.html')),
+            ["Only columns (.col-*-*) may be children of `.row`s"],
+            'should complain when rows have non-column children.');
         test.done();
     }
 };

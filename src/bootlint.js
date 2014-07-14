@@ -173,6 +173,14 @@
         }
         return null;
     };
+    exports.lintRowChildrenAreCols = function ($) {
+        var selector = '.row>*' + COL_CLASSES.map(function (colClass) { return ':not(' + colClass + ')'; }).join('');
+        var nonColRowChildren = $(selector);
+        if (nonColRowChildren.length) {
+            return "Only columns (.col-*-*) may be children of `.row`s";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -184,6 +192,7 @@
         errs.push(this.lintContainers($));
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
+        errs.push(this.lintRowChildrenAreCols($));
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));
