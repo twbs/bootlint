@@ -1,5 +1,7 @@
 #!/usr/bin/env nodejs
 
+'use strict';
+
 var fs = require('fs');
 var bootlint = require('./bootlint.js');
 
