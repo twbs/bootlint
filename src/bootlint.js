@@ -197,6 +197,52 @@
         }
         return null;
     };
+    exports.lintBlockCheckboxes = function ($) {
+        var badCheckboxes = $('.checkbox').filter(function (i, div) {
+            return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
+        });
+        if (badCheckboxes.length) {
+            return 'Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]';
+        }
+        return null;
+    };
+    exports.lintBlockRadios = function ($) {
+        var badRadios = $('.radio').filter(function (i, div) {
+            return $(div).filter(':has(>label>input[type="radio"])').length <= 0;
+        });
+        if (badRadios.length) {
+            return 'Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]';
+        }
+        return null;
+    };
+    exports.lintInlineCheckboxes = function ($) {
+        var errs = [];
+        var wrongElems = $('.checkbox-inline:not(label)');
+        if (wrongElems.length) {
+            errs.push(".checkbox-inline should only be used on <label> elements");
+        }
+        var badStructures = $('.checkbox-inline').filter(function (i, label) {
+            return $(label).children('input[type="checkbox"]').length <= 0;
+        });
+        if (badStructures.length) {
+            errs.push('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]');
+        }
+        return errs;
+    };
+    exports.lintInlineRadios = function ($) {
+        var errs = [];
+        var wrongElems = $('.radio-inline:not(label)');
+        if (wrongElems.length) {
+            errs.push(".radio-inline should only be used on <label> elements");
+        }
+        var badStructures = $('.radio-inline').filter(function (i, label) {
+            return $(label).children('input[type="radio"]').length <= 0;
+        });
+        if (badStructures.length) {
+            errs.push('Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]');
+        }
+        return errs;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -218,7 +264,11 @@
         errs.push(this.lintFormGroupMixedWithInputGroup($));
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
+        errs.push(this.lintBlockCheckboxes($));
+        errs.push(this.lintBlockRadios($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
+        errs = errs.concat(this.lintInlineCheckboxes($));
+        errs = errs.concat(this.lintInlineRadios($));
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };

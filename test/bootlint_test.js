@@ -215,5 +215,35 @@ exports['bootlint'] = {
             ["Having multiple add-ons on a single side of an input group is not supported"],
             'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
         test.done();
+    },
+    '': function (test) {
+        test.expect(7);
+
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/valid.html')),
+            [],
+            'should not complain when correct radio and checkbox markup is used.');
+
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/checkbox-block-bad.html')),
+            ['Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]'],
+            'should complain when invalid .checkbox markup is used.');
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/radio-block-bad.html')),
+            ['Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]'],
+            'should complain when invalid .radio markup is used.');
+
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/checkbox-inline-non-label.html')),
+            [".checkbox-inline should only be used on <label> elements"],
+            'should complain when .checkbox-inline is used on a non-<label> element.');
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/radio-inline-non-label.html')),
+            [".radio-inline should only be used on <label> elements"],
+            'should complain when .radio-inline is used on a non-<label> element.');
+
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/checkbox-inline-bad-structure.html')),
+            ['Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]'],
+            'should complain when invalid .checkbox-inline markup is used.');
+        test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/radio-inline-bad-structure.html')),
+            ['Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]'],
+            'should complain when invalid .radio-inline markup is used.');
+
+        test.done();
     }
 };
