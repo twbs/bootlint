@@ -216,7 +216,7 @@ exports['bootlint'] = {
             'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
         test.done();
     },
-    '': function (test) {
+    'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
         test.expect(7);
 
         test.deepEqual(bootlint.lint(utf8Fixture('checkboxes-radios/valid.html')),
