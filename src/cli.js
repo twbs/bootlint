@@ -5,7 +5,9 @@
 var fs = require('fs');
 var bootlint = require('./bootlint.js');
 
-process.argv.slice(2).forEach(function (filename) {
+var totalErrCount = 0;
+var filenames = process.argv.slice(2);
+filenames.forEach(function (filename) {
     var html = null;
     try {
         html = fs.readFileSync(filename, {encoding: 'utf8'});
@@ -14,7 +16,14 @@ process.argv.slice(2).forEach(function (filename) {
         console.log(filename + ":", err);
         return;
     }
-    bootlint.lint(html).forEach(function (msg) {
+    var errs = bootlint.lint(html);
+    totalErrCount += errs.length;
+    errs.forEach(function (msg) {
         console.log(filename + ":", msg);
     });
 });
+
+console.log("" + totalErrCount + " lint errors found across " + filenames.length + " files.");
+if (totalErrCount) {
+    process.exit(1);
+}
