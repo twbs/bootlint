@@ -245,5 +245,19 @@ exports['bootlint'] = {
             'should complain when invalid .radio-inline markup is used.');
 
         test.done();
+    },
+
+    '.active class and checked attribute for buttons plugin do not match': function (test) {
+        test.expect(3);
+        test.deepEqual(bootlint.lint(utf8Fixture('buttons-plugin/valid.html')),
+            [],
+            'should not complain when .active and checked correspond correctly.');
+        test.deepEqual(bootlint.lint(utf8Fixture('buttons-plugin/checkbox-bad.html')),
+            [".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin"],
+            'should complain when .active and checked do not correspond correctly in a checkbox button group.');
+        test.deepEqual(bootlint.lint(utf8Fixture('buttons-plugin/radio-bad.html')),
+            [".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin"],
+            'should complain when .active and checked do not correspond correctly in a radio button group.');
+        test.done();
     }
 };

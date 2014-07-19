@@ -243,6 +243,19 @@
         }
         return errs;
     };
+    exports.lintButtonsCheckedActive = function ($) {
+        var selector = [
+            '[data-toggle="buttons"]>label:not(.active)>input[type="checkbox"][checked]',
+            '[data-toggle="buttons"]>label.active>input[type="checkbox"]:not([checked])',
+            '[data-toggle="buttons"]>label:not(.active)>input[type="radio"][checked]',
+            '[data-toggle="buttons"]>label.active>input[type="radio"]:not([checked])'
+        ].join(',');
+        var mismatchedButtonInputs = $(selector);
+        if (mismatchedButtonInputs.length) {
+            return ".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -266,6 +279,7 @@
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
+        errs.push(this.lintButtonsCheckedActive($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
