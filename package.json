@@ -1,45 +1,52 @@
 {
-    "name": "bootlint",
-    "version": "0.0.1",
-    "description": "HTML linter for Bootstrap projects",
-    "keywords": [
-        "bootstrap",
-        "checker",
-        "correctness",
-        "html",
-        "lint",
-        "linter",
-        "validator",
-        "validity"
-    ],
-    "homepage": "https://github.com/cvrebert/bootlint",
-    "bugs": "https://github.com/cvrebert/bootlint/issues",
-    "author": {
-        "name": "Chris Rebert",
-        "email": "code@rebertia.com",
-        "url": "http://chrisrebert.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cvrebert/bootlint"
-    },
-    "license": "MIT",
-    "devDependencies": {
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-concat": "~0.4.0",
-        "grunt-contrib-jshint": "~0.10.0",
-        "grunt-contrib-nodeunit": "~0.4.1",
-        "grunt-contrib-qunit": "~0.5.2",
-        "grunt-contrib-watch": "~0.6.1",
-        "grunt-jscs": "^0.6.1",
-        "load-grunt-tasks": "~0.6.0",
-        "time-grunt": "~0.4.0"
-    },
-    "dependencies": {
-        "cheerio": "^0.17.0"
-    },
-    "bin": "./src/cli.js",
-    "scripts": {
-        "test": "grunt test"
-    }
+  "name": "bootlint",
+  "version": "0.0.1",
+  "description": "HTML linter for Bootstrap projects",
+  "keywords": [
+    "bootstrap",
+    "checker",
+    "correctness",
+    "html",
+    "lint",
+    "linter",
+    "validator",
+    "validity"
+  ],
+  "homepage": "https://github.com/cvrebert/bootlint",
+  "bugs": "https://github.com/cvrebert/bootlint/issues",
+  "author": {
+    "name": "Chris Rebert",
+    "email": "code@rebertia.com",
+    "url": "http://chrisrebert.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cvrebert/bootlint"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-banner": "^0.2.3",
+    "grunt-browserify": "^2.1.3",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-qunit": "^0.5.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^0.6.1",
+    "jquery": "~2.1.1",
+    "load-grunt-tasks": "^0.6.0",
+    "time-grunt": "^0.4.0"
+  },
+  "dependencies": {
+    "cheerio": "^0.17.0"
+  },
+  "bin": "./src/cli.js",
+  "browser": {
+    "cheerio": "jquery",
+    "src/cli.js": false
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
 }

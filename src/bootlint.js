@@ -1,12 +1,14 @@
 /*!
- * bootlint - https://github.com/cvrebert/bootlint
+ * bootlint - an HTML linter for Bootstrap projects
+ * https://github.com/cvrebert/bootlint
  * Copyright (c) 2014 Christopher Rebert
- * Licensed under the MIT license.
+ * Licensed under the MIT License.
  */
+
+var cheerio = require('cheerio');
 
 (function (exports) {
     'use strict';
-
     var COL_CLASSES = [];
     var SCREENS = ['xs', 'sm', 'md', 'lg'];
     SCREENS.forEach(function (screen) {
@@ -263,9 +265,7 @@
         }
         return null;
     };
-    exports.lint = function (html) {
-        var cheerio = require('cheerio');
-        var $ = cheerio.load(html);
+    exports._lint = function ($) {
         var errs = [];
         errs.push(this.lintDoctype($));
         errs.push(this.lintMetaCharsetUtf8($));
@@ -294,5 +294,32 @@
         errs = errs.filter(function (item) { return item !== null; });
         return errs;
     };
-
+    if (cheerio.load) {
+        // cheerio; Node.js
+        exports.lintHtml = function (html) {
+            var $ = cheerio.load(html);
+            return this._lint($);
+        };
+    }
+    else {
+        // jQuery; in-browser
+        (function () {
+            var $ = cheerio;
+            exports.lintCurrentDocument = function () {
+                return this._lint($);
+            };
+            exports.showLintReportForCurrentDocument = function () {
+                var errs = this.lintCurrentDocument();
+                if (errs.length) {
+                    window.alert("bootlint found errors in this document! See the JavaScript console for details.");
+                    errs.forEach(function (err) {
+                        console.warn("bootlint:", err);
+                    });
+                }
+            };
+            $(function () {
+                exports.showLintReportForCurrentDocument();
+            });
+        })();
+    }
 }(typeof exports === 'object' && exports || this));

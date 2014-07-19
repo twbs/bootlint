@@ -4,7 +4,6 @@
   "curly": true,
   "eqeqeq": true,
   "forin": true,
-  "globalstrict": true,
   "immed": true,
   "latedef": true,
   "newcap": true,

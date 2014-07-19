@@ -10,21 +10,21 @@ module.exports = function (grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed MIT */\n',
+    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n',
     // Task configuration.
-    concat: {
+    browserify: {
+      dist: {
+        src: 'src/bootlint.js',
+        dest: 'dist/<%= pkg.name %>.js'
+      }
+    },
+    usebanner: {
       options: {
-        banner: '<%= banner %>',
-        stripBanners: true
+        banner: '<%= banner %>'
       },
       dist: {
-        src: ['src/<%= pkg.name %>.js'],
-        dest: 'dist/<%= pkg.name %>.js'
-      },
+        src: ['dist/*.js']
+      }
     },
     nodeunit: {
       files: ['test/**/*_test.js']
@@ -75,5 +75,6 @@ module.exports = function (grunt) {
 
   // Default task.
   grunt.registerTask('test', ['jshint', 'jscs', 'nodeunit']);
-  grunt.registerTask('default', ['test', 'concat']);
+  grunt.registerTask('dist', ['browserify', 'usebanner']);
+  grunt.registerTask('default', ['test', 'dist']);
 };
