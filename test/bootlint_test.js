@@ -259,5 +259,12 @@ exports['bootlint'] = {
             [".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin"],
             'should complain when .active and checked do not correspond correctly in a radio button group.');
         test.done();
+    },
+    'modals within other components': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lint(utf8Fixture('modal/within-table.html')),
+            ["Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality"],
+            'should complain when a modal is placed within a `.table`.');
+        test.done();
     }
 };

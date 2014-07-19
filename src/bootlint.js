@@ -256,6 +256,13 @@
         }
         return null;
     };
+    exports.lintModalsWithinOtherComponents = function ($) {
+        var badNestings = $('.table .modal');
+        if (badNestings.length) {
+            return "Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality";
+        }
+        return null;
+    };
     exports.lint = function (html) {
         var cheerio = require('cheerio');
         var $ = cheerio.load(html);
@@ -280,6 +287,7 @@
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));
+        errs.push(this.lintModalsWithinOtherComponents($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
