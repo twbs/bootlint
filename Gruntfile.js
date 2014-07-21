@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     browserify: {
       dist: {
         src: 'src/bootlint.js',
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'dist/browser/<%= pkg.name %>.js'
       }
     },
     usebanner: {
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         banner: '<%= banner %>'
       },
       dist: {
-        src: ['dist/*.js']
+        src: ['dist/**/*.js']
       }
     },
     nodeunit: {
@@ -74,7 +74,8 @@ module.exports = function (grunt) {
   });
 
   // Default task.
-  grunt.registerTask('test', ['jshint', 'jscs', 'nodeunit']);
+  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('test', ['nodeunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
-  grunt.registerTask('default', ['test', 'dist']);
+  grunt.registerTask('default', ['lint', 'dist', 'test']);
 };
