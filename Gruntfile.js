@@ -78,7 +78,7 @@ module.exports = function (grunt) {
 
   // Default task.
   grunt.registerTask('lint', ['jshint', 'jscs']);
-  grunt.registerTask('test', ['nodeunit', 'qunit']);
+  grunt.registerTask('test', ['dist', 'nodeunit', 'qunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('default', ['lint', 'dist', 'test']);
 };
