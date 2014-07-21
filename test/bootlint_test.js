@@ -30,7 +30,7 @@ function utf16Fixture(name) {
 */
 
 exports['bootlint'] = {
-    setUp: function(done) {
+    setUp: function (done) {
         // setup here
         done();
     },
