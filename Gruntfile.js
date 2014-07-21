@@ -29,6 +29,9 @@ module.exports = function (grunt) {
     nodeunit: {
       files: ['test/**/*_test.js']
     },
+    qunit: {
+      files: ['test/fixtures/**/*.html']
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -75,7 +78,7 @@ module.exports = function (grunt) {
 
   // Default task.
   grunt.registerTask('lint', ['jshint', 'jscs']);
-  grunt.registerTask('test', ['nodeunit']);
+  grunt.registerTask('test', ['nodeunit', 'qunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('default', ['lint', 'dist', 'test']);
 };
