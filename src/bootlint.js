@@ -33,7 +33,6 @@ var cheerio = require('cheerio');
         if (doctypeId !== '!doctype html' && doctypeId !== '!doctype html system "about:legacy-compat"') {
             return "Document declares a non-HTML5 DOCTYPE";
         }
-        return null;
     };
     exports.lintMetaCharsetUtf8 = function ($) {
         var meta = $('head>meta[charset]');
@@ -44,21 +43,18 @@ var cheerio = require('cheerio');
         if (charset.toLowerCase() !== "utf-8") {
             return 'charset <meta> tag is specifying a legacy, non-UTF-8 charset';
         }
-        return null;
     };
     exports.lintXUaCompatible = function ($) {
         var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
         if (!meta.length) {
             return "<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes";
         }
-        return null;
     };
     exports.lintViewport = function ($) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
             return "<head> is missing viewport <meta> tag that enables responsiveness";
         }
-        return null;
     };
     exports.lintBootstrapv2 = function ($) {
         var columnClasses = [];
@@ -70,14 +66,12 @@ var cheerio = require('cheerio');
         if (spanNs.length) {
             return "Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes";
         }
-        return null;
     };
     exports.lintContainers = function ($) {
         var rowsOutsideContainers = $('*:not(.container):not(.container-fluid):not(.bs-example)>.row');
         if (rowsOutsideContainers.length) {
             return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
         }
-        return null;
     };
     exports.lintRowAndColOnSameElem = function ($) {
         var selector = COL_CLASSES.map(function (col) { return ".row" + col; }).join(',');
@@ -85,14 +79,12 @@ var cheerio = require('cheerio');
         if (rowCols.length) {
             return "Found both `.row` and `.col-*-*` used on the same element";
         }
-        return null;
     };
     exports.lintRemoteModals = function ($) {
         var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
         if (remoteModalTriggers.length) {
             return "Found one or more modals using the deprecated `remote` option";
         }
-        return null;
     };
     exports.lintJquery = function ($) {
         var theWindow = null;
@@ -103,13 +95,12 @@ var cheerio = require('cheerio');
             // deliberately do nothing
         }
         if (theWindow && (theWindow.$ || theWindow.jQuery)) {
-            return null;
+            return;
         }
         var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
         if (!jqueries.length) {
             return "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
         }
-        return null;
     };
     exports.lintInputGroupFormControlTypes = function ($) {
         var errs = [];
@@ -127,7 +118,6 @@ var cheerio = require('cheerio');
         if ($('script[src$="bootstrap.js"]').length && $('script[src$="bootstrap.min.js"]').length) {
             return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
         }
-        return null;
     };
     exports.lintTooltipsOnDisabledElems = function ($) {
         var selector = [
@@ -142,14 +132,12 @@ var cheerio = require('cheerio');
                 " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
                 " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead.";
         }
-        return null;
     };
     exports.lintTooltipsInBtnGroups = function ($) {
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
             return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
         }
-        return null;
     };
     exports.lintMultipleFormControlsInInputGroup = function ($) {
         var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
@@ -158,14 +146,12 @@ var cheerio = require('cheerio');
         if (badInputGroups.length) {
             return "Input groups cannot contain multiple `.form-control`s";
         }
-        return null;
     };
     exports.lintFormGroupMixedWithInputGroup = function ($) {
         var badMixes = $('.input-group.form-group');
         if (badMixes.length) {
             return ".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group";
         }
-        return null;
     };
     exports.lintGridClassMixedWithInputGroup = function ($) {
         var selector = COL_CLASSES.map(function (colClass) { return '.input-group' + colClass; }).join(',');
@@ -173,7 +159,6 @@ var cheerio = require('cheerio');
         if (badMixes.length) {
             return ".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*";
         }
-        return null;
     };
     exports.lintRowChildrenAreCols = function ($) {
         var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
@@ -182,7 +167,6 @@ var cheerio = require('cheerio');
         if (nonColRowChildren.length) {
             return "Only columns (.col-*-*) may be children of `.row`s";
         }
-        return null;
     };
     exports.lintInputGroupsWithMultipleAddOnsPerSide = function ($) {
         var addOnClasses = ['.input-group-addon', '.input-group-btn'];
@@ -197,7 +181,6 @@ var cheerio = require('cheerio');
         if (multipleAddOns.length) {
             return "Having multiple add-ons on a single side of an input group is not supported";
         }
-        return null;
     };
     exports.lintBlockCheckboxes = function ($) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
@@ -206,7 +189,6 @@ var cheerio = require('cheerio');
         if (badCheckboxes.length) {
             return 'Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]';
         }
-        return null;
     };
     exports.lintBlockRadios = function ($) {
         var badRadios = $('.radio').filter(function (i, div) {
@@ -215,7 +197,6 @@ var cheerio = require('cheerio');
         if (badRadios.length) {
             return 'Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]';
         }
-        return null;
     };
     exports.lintInlineCheckboxes = function ($) {
         var errs = [];
@@ -256,14 +237,12 @@ var cheerio = require('cheerio');
         if (mismatchedButtonInputs.length) {
             return ".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin";
         }
-        return null;
     };
     exports.lintModalsWithinOtherComponents = function ($) {
         var badNestings = $('.table .modal');
         if (badNestings.length) {
             return "Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality";
         }
-        return null;
     };
     exports._lint = function ($) {
         var errs = [];
@@ -291,7 +270,7 @@ var cheerio = require('cheerio');
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
-        errs = errs.filter(function (item) { return item !== null; });
+        errs = errs.filter(function (item) { return item !== undefined; });
         return errs;
     };
     if (cheerio.load) {
