@@ -48,7 +48,7 @@ var cheerio = require('cheerio');
                 if (document.doctype.publicId) {
                     return NON_HTML5_DOCTYPE;
                 }
-                if (document.doctype.systemId !== "about:legacy-compat") {
+                if (document.doctype.systemId && document.doctype.systemId !== "about:legacy-compat") {
                     return NON_HTML5_DOCTYPE;
                 }
             };
