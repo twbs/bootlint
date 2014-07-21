@@ -316,6 +316,7 @@ var cheerio = require('cheerio');
                     });
                 }
             };
+            window.bootlint = exports;
             $(function () {
                 exports.showLintReportForCurrentDocument();
             });
