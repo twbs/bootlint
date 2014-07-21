@@ -1,3 +1,4 @@
+/* global QUnit, expect, bootlint */
 QUnit.test(window.location.pathname, function (assert) {
     expect(1);
     var lints = Array.prototype.slice.call(document.querySelectorAll('#bootlint>li'));
