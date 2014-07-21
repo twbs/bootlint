@@ -295,6 +295,11 @@ var cheerio = require('cheerio');
     };
     if (IN_NODE_JS) {
         // cheerio; Node.js
+        /**
+         * Lints the given HTML.
+         * @param {string} html The HTML to lint
+         * @returns {string[]} List of lint warnings
+         */
         exports.lintHtml = function (html) {
             var $ = cheerio.load(html);
             return this._lint($);
@@ -304,9 +309,19 @@ var cheerio = require('cheerio');
         // jQuery; in-browser
         (function () {
             var $ = cheerio;
+            /**
+             * Lints the HTML of the current document.
+             * @returns {string[]} List of lint warnings
+             */
             exports.lintCurrentDocument = function () {
                 return this._lint($);
             };
+            /**
+             * Lints the HTML of the current document.
+             * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
+             * Each warning will be output individually using console.warn().
+             * @returns {undefined} Nothing
+             */
             exports.showLintReportForCurrentDocument = function () {
                 var errs = this.lintCurrentDocument();
                 if (errs.length) {
