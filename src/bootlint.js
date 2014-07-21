@@ -16,24 +16,44 @@ var cheerio = require('cheerio');
             COL_CLASSES.push('.col-' + screen + '-' + n);
         }
     });
+    var IN_NODE_JS = !!(cheerio.load);
 
     function isDoctype(node) {
         return node.type === 'directive' && node.name === '!doctype';
     }
 
-    exports.lintDoctype = function ($) {
-        var doctype = $(':root')[0];
-        while (doctype && !isDoctype(doctype)) {
-            doctype = doctype.prev;
+    exports.lintDoctype = (function () {
+        var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";
+        var NON_HTML5_DOCTYPE = "Document declares a non-HTML5 DOCTYPE";
+        if (IN_NODE_JS) {
+            return function ($) {
+                var doctype = $(':root')[0];
+                while (doctype && !isDoctype(doctype)) {
+                    doctype = doctype.prev;
+                }
+                if (!doctype) {
+                    return MISSING_DOCTYPE;
+                }
+                var doctypeId = doctype.data.toLowerCase();
+                if (doctypeId !== '!doctype html' && doctypeId !== '!doctype html system "about:legacy-compat"') {
+                    return NON_HTML5_DOCTYPE;
+                }
+            };
         }
-        if (!doctype) {
-            return "Document is missing a DOCTYPE declaration";
+        else {
+            return function ($) {
+                if (document.doctype === null) {
+                    return MISSING_DOCTYPE;
+                }
+                if (document.doctype.publicId) {
+                    return NON_HTML5_DOCTYPE;
+                }
+                if (document.doctype.systemId !== "about:legacy-compat") {
+                    return NON_HTML5_DOCTYPE;
+                }
+            };
         }
-        var doctypeId = doctype.data.toLowerCase();
-        if (doctypeId !== '!doctype html' && doctypeId !== '!doctype html system "about:legacy-compat"') {
-            return "Document declares a non-HTML5 DOCTYPE";
-        }
-    };
+    })();
     exports.lintMetaCharsetUtf8 = function ($) {
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
@@ -273,7 +293,7 @@ var cheerio = require('cheerio');
         errs = errs.filter(function (item) { return item !== undefined; });
         return errs;
     };
-    if (cheerio.load) {
+    if (IN_NODE_JS) {
         // cheerio; Node.js
         exports.lintHtml = function (html) {
             var $ = cheerio.load(html);
