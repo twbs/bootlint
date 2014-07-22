@@ -16,7 +16,7 @@ filenames.forEach(function (filename) {
         console.log(filename + ":", err);
         return;
     }
-    var errs = bootlint.lint(html);
+    var errs = bootlint.lintHtml(html);
     totalErrCount += errs.length;
     errs.forEach(function (msg) {
         console.log(filename + ":", msg);
