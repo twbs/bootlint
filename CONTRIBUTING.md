@@ -26,9 +26,8 @@ Assuming that you don't see any red, you're ready to go. Just be sure to run `gr
 2. Add failing tests for the change you want to make. Run `grunt` to see the tests fail.
 3. Fix stuff.
 4. Run `grunt` to see if the tests pass. Repeat steps 2-4 until done.
-5. Open `test/*.html` unit test file(s) in actual browser to ensure tests pass everywhere.
-6. Update the documentation to reflect any changes.
-7. Push to your fork and submit a pull request.
+5. Update the documentation to reflect any changes.
+6. Push to your fork and submit a pull request.
 
 ### Licensing
 By contributing your code, you agree to license your contribution under [the MIT License](https://github.com/cvrebert/bootlint/blob/master/LICENSE).
