@@ -37,7 +37,7 @@ In your webpage:
 Then check the JavaScript console for lint warning messages.
 
 ## API Documentation
-Bootlint is a CommonJS module.
+Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 
 ### Browser
 Bootlint exports a `bootlint` property on the global `window` object.
