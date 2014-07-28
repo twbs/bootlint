@@ -93,6 +93,12 @@ var cheerio = require('cheerio');
             return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
         }
     };
+    exports.lintNestedContainers = function ($) {
+        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
+        if (nestedContainers.length) {
+            return "Due to `padding` and more, containers are not nestable";
+        }
+    };
     exports.lintRowAndColOnSameElem = function ($) {
         var selector = COL_CLASSES.map(function (col) { return ".row" + col; }).join(',');
         var rowCols = $(selector);
@@ -271,6 +277,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintXUaCompatible($));
         errs.push(this.lintBootstrapv2($));
         errs.push(this.lintContainers($));
+        errs.push(this.lintNestedContainers($));
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRowChildrenAreCols($));
