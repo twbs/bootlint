@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-
+/*eslint-env node */
+/*eslint no-process-exit: 0 */
 'use strict';
 
 var fs = require('fs');
