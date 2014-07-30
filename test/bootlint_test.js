@@ -84,7 +84,7 @@ exports['bootlint'] = {
         test.done();
     },
     'containers': function (test) {
-        test.expect(3);
+        test.expect(7);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fixed.html')),
             [],
             'should not complain when rows are within fixed containers.');
@@ -94,6 +94,18 @@ exports['bootlint'] = {
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/missing.html')),
             ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`"],
             'should complain when a row is not within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-container-container.html')),
+            ["Due to `padding` and more, containers are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-container-container-fluid.html')),
+            ["Due to `padding` and more, containers are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-container-fluid-container-fluid.html')),
+            ["Due to `padding` and more, containers are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-container-fluid-container.html')),
+            ["Due to `padding` and more, containers are not nestable"],
+            'should complain when a container is within a container.');
         test.done();
     },
     'viewport meta tag': function (test) {
