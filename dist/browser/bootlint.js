@@ -1,4 +1,4 @@
-/*! bootlint - v0.0.1 - 2014-07-20 */
+/*! bootlint - v0.1.1 - 2014-07-31 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
@@ -9288,6 +9288,12 @@ var cheerio = require('cheerio');
             return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
         }
     };
+    exports.lintNestedContainers = function ($) {
+        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
+        if (nestedContainers.length) {
+            return "Containers (`.container` and `.container-fluid`) are not nestable";
+        }
+    };
     exports.lintRowAndColOnSameElem = function ($) {
         var selector = COL_CLASSES.map(function (col) { return ".row" + col; }).join(',');
         var rowCols = $(selector);
@@ -9466,6 +9472,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintXUaCompatible($));
         errs.push(this.lintBootstrapv2($));
         errs.push(this.lintContainers($));
+        errs.push(this.lintNestedContainers($));
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRowChildrenAreCols($));
@@ -9490,6 +9497,11 @@ var cheerio = require('cheerio');
     };
     if (IN_NODE_JS) {
         // cheerio; Node.js
+        /**
+         * Lints the given HTML.
+         * @param {string} html The HTML to lint
+         * @returns {string[]} List of lint warnings
+         */
         exports.lintHtml = function (html) {
             var $ = cheerio.load(html);
             return this._lint($);
@@ -9499,9 +9511,19 @@ var cheerio = require('cheerio');
         // jQuery; in-browser
         (function () {
             var $ = cheerio;
+            /**
+             * Lints the HTML of the current document.
+             * @returns {string[]} List of lint warnings
+             */
             exports.lintCurrentDocument = function () {
                 return this._lint($);
             };
+            /**
+             * Lints the HTML of the current document.
+             * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
+             * Each warning will be output individually using console.warn().
+             * @returns {undefined} Nothing
+             */
             exports.showLintReportForCurrentDocument = function () {
                 var errs = this.lintCurrentDocument();
                 if (errs.length) {

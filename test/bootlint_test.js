@@ -83,7 +83,7 @@ exports['bootlint'] = {
             'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
-    'containers': function (test) {
+    'rows outside containers': function (test) {
         test.expect(3);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fixed.html')),
             [],
@@ -94,6 +94,22 @@ exports['bootlint'] = {
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/missing.html')),
             ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`"],
             'should complain when a row is not within a container.');
+        test.done();
+    },
+    'nested containers': function (test) {
+        test.expect(4);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-fixed-fixed.html')),
+            ["Containers (`.container` and `.container-fluid`) are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-fixed-fluid.html')),
+            ["Containers (`.container` and `.container-fluid`) are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-fluid-fluid.html')),
+            ["Containers (`.container` and `.container-fluid`) are not nestable"],
+            'should complain when a container is within a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/nested-fluid-fixed.html')),
+            ["Containers (`.container` and `.container-fluid`) are not nestable"],
+            'should complain when a container is within a container.');
         test.done();
     },
     'viewport meta tag': function (test) {
