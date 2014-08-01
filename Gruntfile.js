@@ -30,7 +30,7 @@ module.exports = function (grunt) {
       files: ['test/**/*_test.js']
     },
     qunit: {
-      files: ['test/fixtures/**/*.html']
+      files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html']
     },
     jshint: {
       options: {
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
         src: ['src/**/*.js']
       },
       test: {
-        src: ['test/**/*.js']
+        src: ['test/**/*.js', '!test/lib/**/*.js']
       },
     },
     jscs: {
