@@ -282,5 +282,25 @@ exports['bootlint'] = {
             ["Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality"],
             'should complain when a modal is placed within a `.table`.');
         test.done();
+    },
+
+    'panel structure': function (test) {
+      test.expect(5);
+      test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panels.html')),
+          [],
+          'should not complain when panel is structured correctly.');
+      test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panel-body-missing-parent.html')),
+          ["`.panel-body` must have a `.panel` parent"],
+          'should complain when .panel-body is missing .panel parent');
+      test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panel-footer-missing-parent.html')),
+          ["`.panel-footer` must have a `.panel` parent"],
+          'should complain when .panel-footer is missing .panel parent');
+      test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panel-title-missing-parent.html')),
+          ["`.panel-title` must have a `.panel-heading` parent"],
+          'should complain when .panel-title is missing .panel-heading parent');
+      test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panel-heading-missing-parent.html')),
+          ["`.panel-heading` must have a `.panel` parent"],
+          'should complain when .panel-heading is missing .panel parent');
+      test.done();
     }
 };
