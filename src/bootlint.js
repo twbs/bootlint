@@ -286,28 +286,28 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintPanelBodyWithoutPanel = function ($) {
-      var badPanelBody = $('.panel-body').parent(':not(.panel)');
-      if (badPanelBody.length) {
-        return "`.panel-body` must have a `.panel` parent";
-      }
+        var badPanelBody = $('.panel-body').parent(':not(.panel)');
+        if (badPanelBody.length) {
+            return "`.panel-body` must have a `.panel` parent";
+        }
     };
     exports.lintPanelHeadingWithoutPanel = function ($) {
-      var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
-      if (badPanelHeading.length) {
-        return "`.panel-heading` must have a `.panel` parent";
-      }
+        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
+        if (badPanelHeading.length) {
+            return "`.panel-heading` must have a `.panel` parent";
+        }
     };
     exports.lintPanelFooterWithoutPanel = function ($) {
-      var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
-      if (badPanelFooter.length) {
-        return "`.panel-footer` must have a `.panel` parent";
-      }
+        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
+        if (badPanelFooter.length) {
+            return "`.panel-footer` must have a `.panel` parent";
+        }
     };
     exports.lintPanelTitleWithoutPanelHeading = function ($) {
-      var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
-      if (badPanelTitle.length) {
-        return "`.panel-title` must have a `.panel-heading` parent";
-      }
+        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
+        if (badPanelTitle.length) {
+            return "`.panel-title` must have a `.panel-heading` parent";
+        }
     };
 
     exports._lint = function ($) {
