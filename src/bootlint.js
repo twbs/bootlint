@@ -286,26 +286,38 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintPanelBodyWithoutPanel = function ($) {
-        var badPanelBody = $('.panel-body').parent(':not(.panel)');
-        if (badPanelBody.length) {
+        var panelBody = $('.panel-body');
+        var hasPanel = panelBody.parents().filter(function (i, div) {
+            return $(div).hasClass('panel');
+        });
+        if (panelBody.length && hasPanel.length <= 0) {
             return "`.panel-body` must have a `.panel` parent";
         }
     };
     exports.lintPanelHeadingWithoutPanel = function ($) {
-        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
-        if (badPanelHeading.length) {
+        var panelHeading = $('.panel-heading');
+        var hasPanel = panelHeading.parents().filter(function (i, div) {
+            return $(div).hasClass('panel');
+        });
+        if (panelHeading.length && hasPanel.length <= 0) {
             return "`.panel-heading` must have a `.panel` parent";
         }
     };
     exports.lintPanelFooterWithoutPanel = function ($) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
-        if (badPanelFooter.length) {
+        var panelFooter = $('.panel-footer');
+        var hasPanel = panelFooter.parents().filter(function (i, div) {
+            return $(div).hasClass('panel');
+        });
+        if (panelFooter.length && hasPanel.length <= 0) {
             return "`.panel-footer` must have a `.panel` parent";
         }
     };
     exports.lintPanelTitleWithoutPanelHeading = function ($) {
-        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
-        if (badPanelTitle.length) {
+        var panelTitle = $('.panel-title');
+        var hasPanelHeading = panelTitle.parents().filter(function (i, div) {
+            return $(div).hasClass('panel-heading');
+        });
+        if (panelTitle.length && hasPanelHeading.length <= 0) {
             return "`.panel-title` must have a `.panel-heading` parent";
         }
     };
