@@ -9371,14 +9371,14 @@ var cheerio = require('cheerio');
     };
     exports.lintMissingInputGroupSizes = function ($) {
         var selector = [
-            '.input-group:not(input-group-lg) .btn-lg',
-            '.input-group:not(input-group-lg) .input-lg',
-            '.input-group:not(input-group-sm) .btn-sm',
-            '.input-group:not(input-group-sm) .input-sm'
+            '.input-group:not(.input-group-lg) .btn-lg',
+            '.input-group:not(.input-group-lg) .input-lg',
+            '.input-group:not(.input-group-sm) .btn-sm',
+            '.input-group:not(.input-group-sm) .input-sm'
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
-            return "Button and input sizing within `.input-group`s can causes issues. Instead, use relative form sizing classes `.input-group-lg` or `.input-group-sm`";
+            return "Button and input sizing within `.input-group`s can causes issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`";
         }
     };
     exports.lintMultipleFormControlsInInputGroup = function ($) {

@@ -188,7 +188,7 @@ exports['bootlint'] = {
     'btn/input sizing used without input-group-* size': function (test) {
         test.expect(1);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('input-group/missing-input-group-sizing.html')),
-            ["Button and input sizing within `.input-group`s can causes issues. Instead, use relative form sizing classes `.input-group-lg` or `.input-group-sm`"],
+            ["Button and input sizing within `.input-group`s can causes issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`"],
             'should complain when an input/btn sizes are used within input-group.');
         test.done();
     },
