@@ -185,6 +185,13 @@ exports['bootlint'] = {
             'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
     },
+    'btn/input sizing used without input-group-* size': function (test) {
+        test.expect(1);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('input-group/missing-input-group-sizing.html')),
+            ["Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`"],
+            'should complain when an input/btn sizes are used within input-group.');
+        test.done();
+    },
     'input groups with multiple form controls': function (test) {
         test.expect(1);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('input-group/multiple-form-controls.html')),
