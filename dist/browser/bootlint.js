@@ -1,4 +1,4 @@
-/*! bootlint - v0.1.1 - 2014-07-31 */
+/*! bootlint - v0.1.1 - 2014-08-18 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
@@ -9199,6 +9199,7 @@ return jQuery;
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License.
  */
+ /*eslint-env node */
 
 var cheerio = require('cheerio');
 
@@ -9236,14 +9237,17 @@ var cheerio = require('cheerio');
             };
         }
         else {
-            return function ($) {
-                if (document.doctype === null) {
+            return function () {
+                /*eslint-disable no-undef */
+                var doc = window.document;
+                /*eslint-enable un-undef */
+                if (doc.doctype === null) {
                     return MISSING_DOCTYPE;
                 }
-                if (document.doctype.publicId) {
+                if (doc.doctype.publicId) {
                     return NON_HTML5_DOCTYPE;
                 }
-                if (document.doctype.systemId && document.doctype.systemId !== "about:legacy-compat") {
+                if (doc.doctype.systemId && doc.doctype.systemId !== "about:legacy-compat") {
                     return NON_HTML5_DOCTYPE;
                 }
             };
@@ -9295,7 +9299,10 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintRowAndColOnSameElem = function ($) {
-        var selector = COL_CLASSES.map(function (col) { return ".row" + col; }).join(',');
+        var selector = COL_CLASSES.map(function (col) {
+            return ".row" + col;
+        }).join(',');
+
         var rowCols = $(selector);
         if (rowCols.length) {
             return "Found both `.row` and `.col-*-*` used on the same element";
@@ -9310,13 +9317,15 @@ var cheerio = require('cheerio');
     exports.lintJquery = function ($) {
         var theWindow = null;
         try {
+            /*eslint-disable no-undef */
             theWindow = window;
+            /*eslint-enable no-undef */
         }
         catch (e) {
             // deliberately do nothing
         }
         if (theWindow && (theWindow.$ || theWindow.jQuery)) {
-            return;
+            return undefined;
         }
         var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
         if (!jqueries.length) {
@@ -9360,6 +9369,18 @@ var cheerio = require('cheerio');
             return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
         }
     };
+    exports.lintMissingInputGroupSizes = function ($) {
+        var selector = [
+            '.input-group:not(input-group-lg) .btn-lg',
+            '.input-group:not(input-group-lg) .input-lg',
+            '.input-group:not(input-group-sm) .btn-sm',
+            '.input-group:not(input-group-sm) .input-sm'
+        ].join(',');
+        var badInputGroupSizing = $(selector);
+        if (badInputGroupSizing.length) {
+            return "Button and input sizing within `.input-group`s can causes issues. Instead, use relative form sizing classes `.input-group-lg` or `.input-group-sm`";
+        }
+    };
     exports.lintMultipleFormControlsInInputGroup = function ($) {
         var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
             return $(inputGroup).find('.form-control').length > 1;
@@ -9375,7 +9396,10 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintGridClassMixedWithInputGroup = function ($) {
-        var selector = COL_CLASSES.map(function (colClass) { return '.input-group' + colClass; }).join(',');
+        var selector = COL_CLASSES.map(function (colClass) {
+            return '.input-group' + colClass;
+        }).join(',');
+
         var badMixes = $(selector);
         if (badMixes.length) {
             return ".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*";
@@ -9383,7 +9407,10 @@ var cheerio = require('cheerio');
     };
     exports.lintRowChildrenAreCols = function ($) {
         var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
-        var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) { return ':not(' + colClass + ')'; }).join('');
+        var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) {
+            return ':not(' + colClass + ')';
+        }).join('');
+
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
             return "Only columns (.col-*-*) may be children of `.row`s";
@@ -9482,6 +9509,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintTooltipsOnDisabledElems($));
         errs.push(this.lintTooltipsInBtnGroups($));
         errs.push(this.lintMultipleFormControlsInInputGroup($));
+        errs.push(this.lintMissingInputGroupSizes($));
         errs.push(this.lintFormGroupMixedWithInputGroup($));
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
@@ -9492,7 +9520,9 @@ var cheerio = require('cheerio');
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
-        errs = errs.filter(function (item) { return item !== undefined; });
+        errs = errs.filter(function (item) {
+            return item !== undefined;
+        });
         return errs;
     };
     if (IN_NODE_JS) {
@@ -9527,18 +9557,22 @@ var cheerio = require('cheerio');
             exports.showLintReportForCurrentDocument = function () {
                 var errs = this.lintCurrentDocument();
                 if (errs.length) {
+                    /*eslint-disable no-alert, no-undef */
                     window.alert("bootlint found errors in this document! See the JavaScript console for details.");
+                    /*eslint-enable no-alert, no-undef */
                     errs.forEach(function (err) {
                         console.warn("bootlint:", err);
                     });
                 }
             };
+            /*eslint-disable no-undef */
             window.bootlint = exports;
+            /*eslint-enable no-undef */
             $(function () {
                 exports.showLintReportForCurrentDocument();
             });
         })();
     }
-}(typeof exports === 'object' && exports || this));
+})(typeof exports === 'object' && exports || this);
 
 },{"cheerio":1}]},{},[2]);
