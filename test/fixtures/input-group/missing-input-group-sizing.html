@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Test</title>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="../../lib/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="../../lib/qunit-1.14.0.css">
+        <script src="../../lib/qunit-1.14.0.js"></script>
+        <script src="../../../dist/browser/bootlint.js"></script>
+        <script src="../generic-qunit.js"></script>
+    </head>
+    <body>
+
+      <div class="input-group">
+        <span class="input-group-btn">
+            <button id="button" class="btn btn-default btn-lg" type="button">Go!</button>
+        </span>
+        <input id="input" type="text" class="form-control input-lg" />
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-btn">
+            <button id="button" class="btn btn-default btn-lg" type="button">Go!</button>
+        </span>
+        <input id="input" type="text" class="form-control input-lg" />
+      </div>
+
+        <div id="qunit"></div>
+        <ol id="bootlint">
+          <li data-lint="Button and input sizing within `.input-group`s can causes issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`"></li>
+        </ol>
+    </body>
+</html>
