@@ -232,6 +232,16 @@ exports['bootlint'] = {
             'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
         test.done();
     },
+    'dropdown-toggle comes before btn': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('buttons/btn-toggle.html')),
+            [],
+            'should not complain when correct .dropdown-toggle markup is used.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('buttons/btn-toggle-after-btn.html')),
+            ["`.btn.dropdown-toggle` must be the last button in a button group."],
+            'should complain when `.dropdown-toggle` is on the left side of a btn');
+        test.done();
+    },
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
         test.expect(7);
 

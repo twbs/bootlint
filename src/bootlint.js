@@ -223,6 +223,12 @@ var cheerio = require('cheerio');
             return "Having multiple add-ons on a single side of an input group is not supported";
         }
     };
+    exports.lintBtnToggle = function ($) {
+        var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
+        if (badBtnToggle.length) {
+            return "`.btn.dropdown-toggle` must be the last button in a button group.";
+        }
+    };
     exports.lintBlockCheckboxes = function ($) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
@@ -305,6 +311,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintFormGroupMixedWithInputGroup($));
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
+        errs.push(this.lintBtnToggle($));
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));
