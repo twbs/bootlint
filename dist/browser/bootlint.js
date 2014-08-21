@@ -9499,9 +9499,13 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintPanelBodyWithoutPanel = function ($) {
-        var badPanelBody = $('.panel-body').parent(':not(.panel)');
+        var badPanelBody = $('.panel-body').filter(function (i, div) {
+            var panel = $(div).parent(':not(.panel)');
+            var panelCollapse = $(div).parent(':not(.panel-collapse)');
+            return panel || panelCollapse;
+        });
         if (badPanelBody.length) {
-            return "`.panel-body` must have a `.panel` parent";
+            return "`.panel-body` must have a `.panel` or `.panel-collapse` parent";
         }
     };
     exports.lintPanelHeadingWithoutPanel = function ($) {
