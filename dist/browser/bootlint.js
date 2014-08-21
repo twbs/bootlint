@@ -1,4 +1,4 @@
-/*! bootlint - v0.1.1 - 2014-08-20 */
+/*! bootlint - v0.1.1 - 2014-08-21 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
@@ -9498,6 +9498,31 @@ var cheerio = require('cheerio');
             return "Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality";
         }
     };
+    exports.lintPanelBodyWithoutPanel = function ($) {
+        var badPanelBody = $('.panel-body').parent(':not(.panel, .panel-collapse)');
+        if (badPanelBody.length) {
+            return "`.panel-body` must have a `.panel` or `.panel-collapse` parent";
+        }
+    };
+    exports.lintPanelHeadingWithoutPanel = function ($) {
+        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
+        if (badPanelHeading.length) {
+            return "`.panel-heading` must have a `.panel` parent";
+        }
+    };
+    exports.lintPanelFooterWithoutPanel = function ($) {
+        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
+        if (badPanelFooter.length) {
+            return "`.panel-footer` must have a `.panel` parent";
+        }
+    };
+    exports.lintPanelTitleWithoutPanelHeading = function ($) {
+        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
+        if (badPanelTitle.length) {
+            return "`.panel-title` must have a `.panel-heading` parent";
+        }
+    };
+
     exports._lint = function ($) {
         var errs = [];
         errs.push(this.lintDoctype($));
@@ -9524,6 +9549,10 @@ var cheerio = require('cheerio');
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));
         errs.push(this.lintModalsWithinOtherComponents($));
+        errs.push(this.lintPanelBodyWithoutPanel($));
+        errs.push(this.lintPanelHeadingWithoutPanel($));
+        errs.push(this.lintPanelTitleWithoutPanelHeading($));
+        errs.push(this.lintPanelFooterWithoutPanel($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
