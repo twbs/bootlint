@@ -9499,38 +9499,26 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintPanelBodyWithoutPanel = function ($) {
-        var panelBody = $('.panel-body');
-        var hasPanel = panelBody.parents().filter(function (i, div) {
-            return $(div).hasClass('panel');
-        });
-        if (panelBody.length && hasPanel.length <= 0) {
+        var badPanelBody = $('.panel-body').parent(':not(.panel)');
+        if (badPanelBody.length) {
             return "`.panel-body` must have a `.panel` parent";
         }
     };
     exports.lintPanelHeadingWithoutPanel = function ($) {
-        var panelHeading = $('.panel-heading');
-        var hasPanel = panelHeading.parents().filter(function (i, div) {
-            return $(div).hasClass('panel');
-        });
-        if (panelHeading.length && hasPanel.length <= 0) {
+        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
+        if (badPanelHeading.length) {
             return "`.panel-heading` must have a `.panel` parent";
         }
     };
     exports.lintPanelFooterWithoutPanel = function ($) {
-        var panelFooter = $('.panel-footer');
-        var hasPanel = panelFooter.parents().filter(function (i, div) {
-            return $(div).hasClass('panel');
-        });
-        if (panelFooter.length && hasPanel.length <= 0) {
+        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
+        if (badPanelFooter.length) {
             return "`.panel-footer` must have a `.panel` parent";
         }
     };
     exports.lintPanelTitleWithoutPanelHeading = function ($) {
-        var panelTitle = $('.panel-title');
-        var hasPanelHeading = panelTitle.parents().filter(function (i, div) {
-            return $(div).hasClass('panel-heading');
-        });
-        if (panelTitle.length && hasPanelHeading.length <= 0) {
+        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
+        if (badPanelTitle.length) {
             return "`.panel-title` must have a `.panel-heading` parent";
         }
     };
