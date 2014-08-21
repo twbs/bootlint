@@ -174,6 +174,18 @@ var cheerio = require('cheerio');
             return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
         }
     };
+    exports.lintMissingInputGroupSizes = function ($) {
+        var selector = [
+            '.input-group:not(.input-group-lg) .btn-lg',
+            '.input-group:not(.input-group-lg) .input-lg',
+            '.input-group:not(.input-group-sm) .btn-sm',
+            '.input-group:not(.input-group-sm) .input-sm'
+        ].join(',');
+        var badInputGroupSizing = $(selector);
+        if (badInputGroupSizing.length) {
+            return "Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`";
+        }
+    };
     exports.lintMultipleFormControlsInInputGroup = function ($) {
         var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
             return $(inputGroup).find('.form-control').length > 1;
@@ -221,6 +233,12 @@ var cheerio = require('cheerio');
         var multipleAddOns = $(selector);
         if (multipleAddOns.length) {
             return "Having multiple add-ons on a single side of an input group is not supported";
+        }
+    };
+    exports.lintBtnToggle = function ($) {
+        var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
+        if (badBtnToggle.length) {
+            return "`.btn.dropdown-toggle` must be the last button in a button group.";
         }
     };
     exports.lintBlockCheckboxes = function ($) {
@@ -339,9 +357,11 @@ var cheerio = require('cheerio');
         errs.push(this.lintTooltipsOnDisabledElems($));
         errs.push(this.lintTooltipsInBtnGroups($));
         errs.push(this.lintMultipleFormControlsInInputGroup($));
+        errs.push(this.lintMissingInputGroupSizes($));
         errs.push(this.lintFormGroupMixedWithInputGroup($));
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
+        errs.push(this.lintBtnToggle($));
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));
