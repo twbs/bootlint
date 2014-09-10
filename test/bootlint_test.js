@@ -249,6 +249,16 @@ exports['bootlint'] = {
             'should complain when `.dropdown-toggle` is on the left side of a btn');
         test.done();
     },
+    'buttons should set type': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('buttons/without-type.html')),
+            ['Always set a `type` on `<button>`s.'],
+            'should complain about lack of type attribute on buttons');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('buttons/with-type.html')),
+            [],
+            'should not complain when type is set on buttons');
+        test.done();
+    },
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
         test.expect(7);
 

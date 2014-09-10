@@ -241,6 +241,12 @@ var cheerio = require('cheerio');
             return "`.btn.dropdown-toggle` must be the last button in a button group.";
         }
     };
+    exports.lintBtnType = function ($) {
+        var badBtnType = $('button:not([type="submit"], [type="button"])');
+        if (badBtnType.length) {
+            return "Always set a `type` on `<button>`s.";
+        }
+    };
     exports.lintBlockCheckboxes = function ($) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
@@ -325,6 +331,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
         errs.push(this.lintBtnToggle($));
+        errs.push(this.lintBtnType($));
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));

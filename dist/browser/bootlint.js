@@ -1,4 +1,4 @@
-/*! bootlint - v0.1.1 - 2014-08-20 */
+/*! bootlint - v0.1.1 - 2014-09-10 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
@@ -9436,6 +9436,12 @@ var cheerio = require('cheerio');
             return "`.btn.dropdown-toggle` must be the last button in a button group.";
         }
     };
+    exports.lintBtnType = function ($) {
+        var badBtnType = $('button:not([type="submit"], [type="button"])');
+        if (badBtnType.length) {
+            return "Always set a `type` on `<button>`s.";
+        }
+    };
     exports.lintBlockCheckboxes = function ($) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
@@ -9520,6 +9526,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintGridClassMixedWithInputGroup($));
         errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
         errs.push(this.lintBtnToggle($));
+        errs.push(this.lintBtnType($));
         errs.push(this.lintBlockCheckboxes($));
         errs.push(this.lintBlockRadios($));
         errs.push(this.lintButtonsCheckedActive($));
