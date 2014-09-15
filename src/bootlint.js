@@ -92,9 +92,13 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintContainers = function ($) {
-        var rowsOutsideContainers = $('*:not(.container):not(.container-fluid):not(.bs-example)>.row');
+        var notAnyColClass = COL_CLASSES.map(function (colClass) {
+            return ':not(' + colClass + ')';
+        }).join('');
+        var selector = '*:not(.container):not(.container-fluid):not(.bs-example)' + notAnyColClass + '>.row';
+        var rowsOutsideContainers = $(selector);
         if (rowsOutsideContainers.length) {
-            return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
+            return "Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`";
         }
     };
     exports.lintNestedContainers = function ($) {
