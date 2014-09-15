@@ -4,7 +4,7 @@
     "before_script": [
         "npm install -g grunt-cli",
         "gem install jekyll rouge",
-        "git clone https://github.com/twbs/bootstrap.git",
+        "git clone --depth 1 https://github.com/twbs/bootstrap.git",
         "pushd bootstrap && jekyll build; popd"
     ],
     "script": [
