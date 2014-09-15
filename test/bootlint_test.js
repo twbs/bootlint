@@ -84,15 +84,18 @@ exports['bootlint'] = {
         test.done();
     },
     'rows outside containers': function (test) {
-        test.expect(3);
+        test.expect(4);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fixed.html')),
             [],
             'should not complain when rows are within fixed containers.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fluid.html')),
             [],
             'should not complain when rows are within fluid containers.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/columns.html')),
+            [],
+            'should not complain when rows are within columns.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/missing.html')),
-            ["Found one or more `.row`s that were not children of a `.container` or `.container-fluid`"],
+            ["Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`"],
             'should complain when a row is not within a container.');
         test.done();
     },

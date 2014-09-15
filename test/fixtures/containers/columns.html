@@ -17,11 +17,20 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="row"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            We can nest rows within columns.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">Rest</div>
+            </div>
+        </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint">
-            <li data-lint="Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`"></li>
-        </ol>
+        <ol id="bootlint"></ol>
     </body>
 </html>
