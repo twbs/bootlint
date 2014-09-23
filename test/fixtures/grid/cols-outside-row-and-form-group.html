@@ -17,18 +17,15 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="input-group col-sm-12">
-                    <span class="input-group-addon">@</span>
-                    <input type="text" class="form-control" placeholder="Username">
-                </div>    
-            </div>
+        <div>
+            <div class="col-md-3"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint=".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*"></li>
+            <li>Columns (.col-*-*) can only be children of `.row`s or `.form-group`s</li>
         </ol>
     </body>
 </html>

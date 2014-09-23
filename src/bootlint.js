@@ -225,6 +225,16 @@ var cheerio = require('cheerio');
             return "Only columns (.col-*-*) may be children of `.row`s";
         }
     };
+    exports.lintColParentsAreRowsOrFormGroups = function ($) {
+        var selector = COL_CLASSES.map(function (colClass) {
+            return '*:not(.row):not(.form-group)>' + colClass;
+        }).join(',');
+
+        var colsOutsideRowsAndFormGroups = $(selector);
+        if (colsOutsideRowsAndFormGroups.length) {
+            return "Columns (.col-*-*) can only be children of `.row`s or `.form-group`s";
+        }
+    };
     exports.lintInputGroupsWithMultipleAddOnsPerSide = function ($) {
         var addOnClasses = ['.input-group-addon', '.input-group-btn'];
         var combos = [];
@@ -349,6 +359,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRowChildrenAreCols($));
+        errs.push(this.lintColParentsAreRowsOrFormGroups($));
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));

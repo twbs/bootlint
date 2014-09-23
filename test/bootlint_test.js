@@ -128,7 +128,10 @@ exports['bootlint'] = {
     'row and column classes on same element': function (test) {
         test.expect(1);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('row-col-same-elem.html')),
-            ["Found both `.row` and `.col-*-*` used on the same element"],
+            [
+                "Found both `.row` and `.col-*-*` used on the same element",
+                'Columns (.col-*-*) can only be children of `.row`s or `.form-group`s'
+            ],
             'should complain when .row and .col-*-* used on the same element.');
         test.done();
     },
@@ -331,6 +334,23 @@ exports['bootlint'] = {
         test.deepEqual(bootlint.lintHtml(utf8Fixture('panels/panel-heading-missing-parent.html')),
             ["`.panel-heading` must have a `.panel` parent"],
             'should complain when .panel-heading is missing .panel parent');
+        test.done();
+    },
+
+    'columns outside of rows and form groups': function (test) {
+        test.expect(3);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('grid/cols-within-row.html')),
+            [],
+            'should not complain when columns are within a row.'
+        );
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('grid/cols-within-form-group.html')),
+            [],
+            'should not complain when columns are within a form group.'
+        );
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('grid/cols-outside-row-and-form-group.html')),
+            ["Columns (.col-*-*) can only be children of `.row`s or `.form-group`s"],
+            'should complain when columns are outside of rows and form groups.'
+        );
         test.done();
     }
 };
