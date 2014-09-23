@@ -30,4 +30,4 @@ Assuming that you don't see any red, you're ready to go. Just be sure to run `gr
 6. Push to your fork and submit a pull request.
 
 ### Licensing
-By contributing your code, you agree to license your contribution under [the MIT License](https://github.com/cvrebert/bootlint/blob/master/LICENSE).
+By contributing your code, you agree to license your contribution under [the MIT License](https://github.com/twbs/bootlint/blob/master/LICENSE).

@@ -1,8 +1,8 @@
 # Bootlint
 [![NPM version](https://badge.fury.io/js/bootlint.svg)](http://badge.fury.io/js/bootlint)
-[![Build Status](https://travis-ci.org/cvrebert/bootlint.svg?branch=master)](https://travis-ci.org/cvrebert/bootlint)
-[![Dependency Status](https://david-dm.org/cvrebert/bootlint.svg)](https://david-dm.org/cvrebert/bootlint)
-[![devDependency Status](https://david-dm.org/cvrebert/bootlint/dev-status.svg)](https://david-dm.org/cvrebert/bootlint#info=devDependencies)
+[![Build Status](https://travis-ci.org/twbs/bootlint.svg?branch=master)](https://travis-ci.org/twbs/bootlint)
+[![Dependency Status](https://david-dm.org/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint)
+[![devDependency Status](https://david-dm.org/twbs/bootlint/dev-status.svg)](https://david-dm.org/twbs/bootlint#info=devDependencies)
 
 An HTML [linter](http://en.wikipedia.org/wiki/Lint_(software)) for [Bootstrap](http://getbootstrap.com) projects
 
@@ -26,7 +26,7 @@ $ bootlint /path/to/some/webpage.html another_webpage.html [...]
 This will output the lint warnings applicable to each file.
 
 ### In the browser
-Download [the code](https://raw.github.com/cvrebert/bootlint/master/dist/browser/bootlint.js).
+Download [the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js).
 
 In your webpage:
 

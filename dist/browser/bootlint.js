@@ -9195,7 +9195,7 @@ return jQuery;
 },{}],2:[function(require,module,exports){
 /*!
  * bootlint - an HTML linter for Bootstrap projects
- * https://github.com/cvrebert/bootlint
+ * https://github.com/twbs/bootlint
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License.
  */

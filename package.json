@@ -12,8 +12,8 @@
     "validator",
     "validity"
   ],
-  "homepage": "https://github.com/cvrebert/bootlint",
-  "bugs": "https://github.com/cvrebert/bootlint/issues",
+  "homepage": "https://github.com/twbs/bootlint",
+  "bugs": "https://github.com/twbs/bootlint/issues",
   "author": {
     "name": "Chris Rebert",
     "email": "code@rebertia.com",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cvrebert/bootlint"
+    "url": "https://github.com/twbs/bootlint"
   },
   "license": "MIT",
   "devDependencies": {
