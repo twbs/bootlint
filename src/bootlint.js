@@ -261,7 +261,7 @@ var cheerio = require('cheerio');
     };
     exports.lintColParentsAreRowsOrFormGroups = function ($) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row):not(.form-group)>' + colClass;
+            return '*:not(.row):not(.form-group)>' + colClass + ':not(col)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
