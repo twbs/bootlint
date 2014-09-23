@@ -9299,10 +9299,20 @@ var cheerio = require('cheerio');
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
-        var selector = '*:not(.container):not(.container-fluid):not(.bs-example)' + notAnyColClass + '>.row';
-        var rowsOutsideContainers = $(selector);
-        if (rowsOutsideContainers.length) {
-            return "Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`";
+        var selector = '*:not(.bs-example)' + notAnyColClass + '>.row';
+        var rowsOutsideColumns = $(selector);
+        var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function (i, row) {
+            var parent = $(row);
+            while (parent.length) {
+                if (parent.hasClass('container') || parent.hasClass('container-fluid')) {
+                    return false;
+                }
+                parent = $(parent).parent();
+            }
+            return true;
+        });
+        if (rowsOutsideColumnsAndContainers.length) {
+            return "Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`";
         }
     };
     exports.lintNestedContainers = function ($) {
@@ -9446,7 +9456,7 @@ var cheerio = require('cheerio');
     };
     exports.lintColParentsAreRowsOrFormGroups = function ($) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row):not(.form-group)>' + colClass;
+            return '*:not(.row):not(.form-group)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
