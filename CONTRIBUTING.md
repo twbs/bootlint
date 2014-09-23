@@ -4,7 +4,7 @@
 Please don't edit files in the `dist` subdirectory as they are generated via Grunt. You'll find source code in the `src` subdirectory!
 
 ### Code style
-The project's coding style is laid out in the JSHint and JSCS configurations.
+The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations.
 
 ### PhantomJS
 Grunt can run the included unit tests via [PhantomJS](http://phantomjs.org/).
