@@ -84,19 +84,22 @@ exports['bootlint'] = {
         test.done();
     },
     'rows outside containers': function (test) {
-        test.expect(4);
+        test.expect(5);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fixed.html')),
             [],
-            'should not complain when rows are within fixed containers.');
+            'should not complain when rows are descendants of fixed containers.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fluid.html')),
             [],
-            'should not complain when rows are within fluid containers.');
+            'should not complain when rows are descendants of fluid containers.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/columns.html')),
             [],
-            'should not complain when rows are within columns.');
+            'should not complain when rows are children of columns.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/missing.html')),
-            ["Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`"],
-            'should complain when a row is not within a container.');
+            ["Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`"],
+            'should complain when a row is not a descendant of a container.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/ancestor.html')),
+            [],
+            'should not complain when rows are descendants (but not children) of containers.');
         test.done();
     },
     'nested containers': function (test) {
