@@ -23,6 +23,15 @@ var cheerio = require('cheerio');
         return node.type === 'directive' && node.name === '!doctype';
     }
 
+    function filenameFromUrl(url) {
+        var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
+        var lastSlash = filename.lastIndexOf('/');
+        if (lastSlash !== -1) {
+            filename = filename.slice(lastSlash + 1);
+        }
+        return filename;
+    }
+
     exports.lintDoctype = (function () {
         var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";
         var NON_HTML5_DOCTYPE = "Document declares a non-HTML5 DOCTYPE";
@@ -154,9 +163,24 @@ var cheerio = require('cheerio');
         return errs;
     };
     exports.lintBootstrapJs = function ($) {
-        if ($('script[src$="bootstrap.js"]').length && $('script[src$="bootstrap.min.js"]').length) {
-            return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
+        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.js";
+        });
+        if (!longhands.length) {
+            return undefined;
         }
+        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.min.js";
+        });
+        if (!minifieds.length) {
+            return undefined;
+        }
+
+        return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
     };
     exports.lintTooltipsOnDisabledElems = function ($) {
         var selector = [

@@ -153,13 +153,19 @@ exports['bootlint'] = {
         test.done();
     },
     'bootstrap[.min].js': function (test) {
-        test.expect(2);
+        test.expect(4);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('js/both.html')),
             ["Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js"],
             'should complain when both bootstrap.js and bootstrap.min.js are included.');
         test.deepEqual(bootlint.lintHtml(utf8Fixture('js/one.html')),
             [],
             'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('js/similar.html')),
+            [],
+            'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included but another JS file with "bootstrap" in its name is included.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('js/weird.html')),
+            ["Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js"],
+            'should complain when both bootstrap.js and bootstrap.min.js are included, even when their URLs use fragments and query strings.');
         test.done();
     },
     'input groups with impermissible kind of form control': function (test) {
