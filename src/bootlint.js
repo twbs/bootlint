@@ -104,7 +104,7 @@ var cheerio = require('cheerio');
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
-        var selector = '*:not(.bs-example)' + notAnyColClass + '>.row';
+        var selector = '*:not(.bs-example)' + notAnyColClass + '>.row:not(.show-grid):not(.responsive-utilities-test):not(.bs-examples):not(.bs-downloads)';
         var rowsOutsideColumns = $(selector);
         var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function (i, row) {
             var parent = $(row);
