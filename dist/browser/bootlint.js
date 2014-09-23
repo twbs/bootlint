@@ -1,4 +1,4 @@
-/*! bootlint - v0.1.1 - 2014-09-10 */
+/*! bootlint - v0.1.1 - 2014-09-23 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
@@ -9218,6 +9218,15 @@ var cheerio = require('cheerio');
         return node.type === 'directive' && node.name === '!doctype';
     }
 
+    function filenameFromUrl(url) {
+        var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
+        var lastSlash = filename.lastIndexOf('/');
+        if (lastSlash !== -1) {
+            filename = filename.slice(lastSlash + 1);
+        }
+        return filename;
+    }
+
     exports.lintDoctype = (function () {
         var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";
         var NON_HTML5_DOCTYPE = "Document declares a non-HTML5 DOCTYPE";
@@ -9287,9 +9296,13 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintContainers = function ($) {
-        var rowsOutsideContainers = $('*:not(.container):not(.container-fluid):not(.bs-example)>.row');
+        var notAnyColClass = COL_CLASSES.map(function (colClass) {
+            return ':not(' + colClass + ')';
+        }).join('');
+        var selector = '*:not(.container):not(.container-fluid):not(.bs-example)' + notAnyColClass + '>.row';
+        var rowsOutsideContainers = $(selector);
         if (rowsOutsideContainers.length) {
-            return "Found one or more `.row`s that were not children of a `.container` or `.container-fluid`";
+            return "Found one or more `.row`s that were not children of a grid column or `.container` or `.container-fluid`";
         }
     };
     exports.lintNestedContainers = function ($) {
@@ -9345,9 +9358,24 @@ var cheerio = require('cheerio');
         return errs;
     };
     exports.lintBootstrapJs = function ($) {
-        if ($('script[src$="bootstrap.js"]').length && $('script[src$="bootstrap.min.js"]').length) {
-            return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
+        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.js";
+        });
+        if (!longhands.length) {
+            return undefined;
         }
+        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.min.js";
+        });
+        if (!minifieds.length) {
+            return undefined;
+        }
+
+        return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
     };
     exports.lintTooltipsOnDisabledElems = function ($) {
         var selector = [
@@ -9414,6 +9442,16 @@ var cheerio = require('cheerio');
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
             return "Only columns (.col-*-*) may be children of `.row`s";
+        }
+    };
+    exports.lintColParentsAreRowsOrFormGroups = function ($) {
+        var selector = COL_CLASSES.map(function (colClass) {
+            return '*:not(.row):not(.form-group)>' + colClass;
+        }).join(',');
+
+        var colsOutsideRowsAndFormGroups = $(selector);
+        if (colsOutsideRowsAndFormGroups.length) {
+            return "Columns (.col-*-*) can only be children of `.row`s or `.form-group`s";
         }
     };
     exports.lintInputGroupsWithMultipleAddOnsPerSide = function ($) {
@@ -9540,6 +9578,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintViewport($));
         errs.push(this.lintRowAndColOnSameElem($));
         errs.push(this.lintRowChildrenAreCols($));
+        errs.push(this.lintColParentsAreRowsOrFormGroups($));
         errs.push(this.lintRemoteModals($));
         errs.push(this.lintJquery($));
         errs.push(this.lintBootstrapJs($));
