@@ -50,6 +50,11 @@
     "cheerio": "jquery",
     "src/cli.js": false
   },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "grunt test"
   }
