@@ -381,6 +381,12 @@ var cheerio = require('cheerio');
             return "`.panel-title` must have a `.panel-heading` parent";
         }
     };
+    exports.lintTableResponsive = function ($) {
+        var badStructure = $('.table.table-responsive,table.table-responsive');
+        if (badStructure.length) {
+            return "`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself";
+        }
+    };
 
     exports._lint = function ($) {
         var errs = [];
@@ -414,6 +420,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintPanelHeadingWithoutPanel($));
         errs.push(this.lintPanelTitleWithoutPanelHeading($));
         errs.push(this.lintPanelFooterWithoutPanel($));
+        errs.push(this.lintTableResponsive($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
