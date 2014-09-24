@@ -65,7 +65,7 @@ In a Node.js environment, Bootlint exposes the following public API:
   * Returns an array of lint warning strings
 
 ## Contributing
-The project's coding style is laid out in the JSHint and JSCS configurations. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 _Also, please don't edit files in the "dist" subdirectory as they are generated via Grunt. You'll find source code in the "src" subdirectory!_
 
