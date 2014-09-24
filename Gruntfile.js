@@ -10,7 +10,13 @@ module.exports = function (grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+    banner: (
+      "/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
+      " * <%= pkg.description %>\n" +
+      " * Copyright (c) 2014 Christopher Rebert\n" +
+      " * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n" +
+      " */\n"
+    ),
     // Task configuration.
     browserify: {
       dist: {
