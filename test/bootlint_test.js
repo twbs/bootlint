@@ -410,15 +410,19 @@ exports.bootlint = {
         test.done();
     },
 
-    '.form-control-feedback without a .has-feedback parent': function (test) {
-        test.expect(2);
+    '.form-control-feedback without a .has-feedback ancestor': function (test) {
+        test.expect(3);
         test.deepEqual(bootlint.lintHtml(utf8Fixture('feedback/form-control-valid.html')),
             [],
-            'should not complain when .form-control-feedback has a correct parent.'
+            'should not complain when .form-control-feedback has a correct ancestor.'
         );
         test.deepEqual(bootlint.lintHtml(utf8Fixture('feedback/form-control-bad.html')),
-            ["`.form-control-feedback` must have a `.form-group.has-feedback` parent"],
-            'should complain when .form-control-feedback\'s parent isn\'t a .form-group.has-feedback.'
+            ["`.form-control-feedback` must have a `.form-group.has-feedback` ancestor"],
+            'should complain when .form-control-feedback doesn\'t have a .form-group.has-feedback ancestor.'
+        );
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('feedback/nested-form-control-bad.html')),
+            ["`.form-control-feedback` must have a `.form-group.has-feedback` ancestor"],
+            'should complain when a nested .form-control-feedback doesn\'t have a .form-group.has-feedback ancestor.'
         );
         test.done();
     }
