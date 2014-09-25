@@ -9,6 +9,6 @@
     ],
     "script": [
         "npm test",
-        "./src/cli.js bootstrap/_gh_pages/*/index.html"
+        "./src/cli.js bootstrap/_gh_pages/**/index.html"
     ]
 }
