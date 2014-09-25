@@ -103,7 +103,7 @@ module.exports = function (grunt) {
 
   // Default task.
   grunt.registerTask('lint', ['jshint', 'jscs', 'eslint']);
-  grunt.registerTask('test', ['dist', 'nodeunit', 'qunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
-  grunt.registerTask('default', ['lint', 'dist', 'test']);
+  grunt.registerTask('test', ['lint', 'dist', 'nodeunit', 'qunit']);
+  grunt.registerTask('default', ['test']);
 };
