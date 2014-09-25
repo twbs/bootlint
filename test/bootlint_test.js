@@ -374,5 +374,25 @@ exports['bootlint'] = {
             'should complain when .table-responsive is used on the table itself.'
         );
         test.done();
+    },
+
+    'redundant grid column classes': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('grid/cols-not-redundant.html')),
+            [],
+            'should not complain when there are non-redundant grid column classes.'
+        );
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('grid/cols-redundant.html')),
+            [
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="abc col-xs-2 def col-sm-1 ghi col-md-1 jkl col-lg-1" is redundant and can be simplified to class="abc def ghi jkl col-xs-2 col-sm-1"',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-10 abc col-sm-10 def col-md-10 ghi col-lg-12 jkl" is redundant and can be simplified to class="abc def ghi jkl col-xs-10 col-lg-12"',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-6 col-sm-6 col-md-6 col-lg-6" is redundant and can be simplified to class="col-xs-6"',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-5 col-sm-5" is redundant and can be simplified to class="col-xs-5"',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-sm-4 col-md-4" is redundant and can be simplified to class="col-sm-4"',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-md-3 col-lg-3" is redundant and can be simplified to class="col-md-3"'
+            ],
+            'should complain when there are redundant grid column classes.'
+        );
+        test.done();
     }
 };
