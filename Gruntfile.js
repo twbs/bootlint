@@ -41,6 +41,9 @@ module.exports = function (grunt) {
       files: ['test/**/*_test.js']
     },
     qunit: {
+      options: {
+        timeout: 10000
+      },
       files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/charset/not-utf8.html']
     },
     jshint: {
