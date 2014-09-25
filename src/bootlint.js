@@ -222,10 +222,10 @@ var cheerio = require('cheerio');
         }).join('');
         var selector = '*' + notAnyColClass + '>.row';
         var rowsOutsideColumns = $(selector);
-        var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function (i, row) {
-            var parent = $(row);
+        var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function () {
+            var parent = $(this).parent();
             while (parent.length) {
-                if (parent.hasClass('container') || parent.hasClass('container-fluid')) {
+                if (parent.is('.container, .container-fluid')) {
                     return false;
                 }
                 parent = $(parent).parent();
