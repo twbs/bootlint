@@ -10,14 +10,28 @@ var cheerio = require('cheerio');
 
 (function (exports) {
     'use strict';
+    var NUM_COLS = 12;
+    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/;
+    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/g;
     var COL_CLASSES = [];
     var SCREENS = ['xs', 'sm', 'md', 'lg'];
     SCREENS.forEach(function (screen) {
-        for (var n = 1; n <= 12; n++) {
+        for (var n = 1; n <= NUM_COLS; n++) {
             COL_CLASSES.push('.col-' + screen + '-' + n);
         }
     });
+    var SCREEN2NUM = {
+        'xs': 0,
+        'sm': 1,
+        'md': 2,
+        'lg': 3
+    };
+    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
+
+    function compareNums(a, b) {
+        return a - b;
+    }
 
     function isDoctype(node) {
         return node.type === 'directive' && node.name === '!doctype';
@@ -30,6 +44,107 @@ var cheerio = require('cheerio');
             filename = filename.slice(lastSlash + 1);
         }
         return filename;
+    }
+
+    function withoutClass(classes, klass) {
+        return classes.replace(new RegExp('\\b' + klass + '\\b', 'g'), '');
+    }
+
+    function columnClassKey(colClass) {
+        return SCREEN2NUM[COL_REGEX.exec(colClass)[1]];
+    }
+
+    function compareColumnClasses(a, b) {
+        return columnClassKey(a) - columnClassKey(b);
+    }
+
+    /**
+     * Moves any grid column classes to the end of the class string and sorts the grid classes by ascending screen size.
+     * @param {string} classes The "class" attribute of a DOM node
+     * @returns {string}
+     */
+    function sortedColumnClasses(classes) {
+        // extract column classes
+        var colClasses = [];
+        while (true) {
+            var match = COL_REGEX.exec(classes);
+            if (!match) {
+                break;
+            }
+            var colClass = match[0];
+            colClasses.push(colClass);
+            classes = withoutClass(classes, colClass);
+        }
+
+        colClasses.sort(compareColumnClasses);
+        return classes + ' ' + colClasses.join(' ');
+    }
+
+    /**
+     * @param {string} classes The "class" attribute of a DOM node
+     * @returns {Object.<string, integer[]>} Object mapping grid column widths (1 thru 12) to sorted arrays of screen size numbers (see SCREEN2NUM)
+     *      Widths not used in the classes will not have an entry in the object.
+     */
+    function width2screensFor(classes) {
+        var width = null;
+        var width2screens = {};
+        while (true) {
+            var match = COL_REGEX_G.exec(classes);
+            if (!match) {
+                break;
+            }
+            var screen = match[1];
+            width = match[2];
+            var screens = width2screens[width];
+            if (!screens) {
+                screens = width2screens[width] = [];
+            }
+            screens.push(SCREEN2NUM[screen]);
+        }
+
+        for (width in width2screens) {
+            if (width2screens.hasOwnProperty(width)) {
+                width2screens[width].sort(compareNums);
+            }
+        }
+
+        return width2screens;
+    }
+
+    /**
+     * Given a sorted array of integers, this finds all contiguous runs where each item is incremented by 1 from the next.
+     * For example:
+     *      [0, 2, 3, 5] has one such run: [2, 3]
+     *      [0, 2, 3, 4, 6, 8, 9, 11] has two such runs: [2, 3, 4], [8, 9]
+     *      [0, 2, 4] has no runs.
+     * @param {integer[]} list Sorted array of integers
+     * @returns {integer[][]} Array of pairs of start and end values of runs
+     */
+    function incrementingRunsFrom(list) {
+        list = list.concat([Infinity]);// use Infinity to ensure any nontrivial (length >= 2) run ends before the end of the loop
+        var runs = [];
+        var start = null;
+        var prev = null;
+        for (var i = 0; i < list.length; i++) {
+            var current = list[i];
+            if (start === null) {
+                // first element starts a trivial run
+                start = current;
+            }
+            else if (prev + 1 !== current) {
+                // run ended
+                if (start !== prev) {
+                    // run is nontrivial
+                    runs.push([start, prev]);
+                }
+                // start new run
+                start = current;
+            }
+            // else: the run continues
+
+            prev = current;
+        }
+        return runs;
     }
 
     exports.lintDoctype = (function () {
@@ -387,6 +502,53 @@ var cheerio = require('cheerio');
             return "`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself";
         }
     };
+    exports.lintRedundantColumnClasses = function ($) {
+        var columns = $(COL_CLASSES.join(','));
+        var errs = [];
+        columns.each(function (_index, column) {
+            var classes = $(column).attr('class');
+            var simplifiedClasses = classes;
+            var width2screens = width2screensFor(classes);
+            var isRedundant = false;
+            for (var width = 1; width <= NUM_COLS; width++) {
+                var screens = width2screens[width];
+                if (!screens) {
+                    continue;
+                }
+                var runs = incrementingRunsFrom(screens);
+                if (!runs.length) {
+                    continue;
+                }
+
+                isRedundant = true;
+
+                for (var i = 0; i < runs.length; i++) {
+                    var run = runs[i];
+                    var min = run[0];
+                    var max = run[1];
+
+                    // remove redundant classes
+                    for (var screenNum = min + 1; screenNum <= max; screenNum++) {
+                        var colClass = 'col-' + NUM2SCREEN[screenNum] + '-' + width;
+                        simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                    }
+                }
+            }
+            if (!isRedundant) {
+                return;
+            }
+
+            simplifiedClasses = sortedColumnClasses(simplifiedClasses);
+            simplifiedClasses = simplifiedClasses.replace(/ {2,}/g, ' ').trim();
+            var oldClass = 'class="' + classes + '"';
+            var newClass = 'class="' + simplifiedClasses + '"';
+            errs.push(
+                "Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), " +
+                oldClass + " is redundant and can be simplified to " + newClass
+            );
+        });
+        return errs;
+    };
 
     exports._lint = function ($) {
         var errs = [];
@@ -424,6 +586,7 @@ var cheerio = require('cheerio');
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
+        errs = errs.concat(this.lintRedundantColumnClasses($));
         errs = errs.filter(function (item) {
             return item !== undefined;
         });
