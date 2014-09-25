@@ -394,5 +394,18 @@ exports['bootlint'] = {
             'should complain when there are redundant grid column classes.'
         );
         test.done();
+    },
+
+    '.form-control-feedback without a .has-feedback parent': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('feedback/form-control-valid.html')),
+            [],
+            'should not complain when .form-control-feedback has a correct parent.'
+        );
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('feedback/form-control-bad.html')),
+            ["`.form-control-feedback` must have a `.form-group.has-feedback` parent"],
+            'should complain when .form-control-feedback\'s parent isn\'t a .form-group.has-feedback.'
+        );
+        test.done();
     }
 };

@@ -502,6 +502,12 @@ var cheerio = require('cheerio');
             return "`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself";
         }
     };
+    exports.lintFormControlFeedbackWithoutHasFeedback = function ($) {
+        var parentsMissingClasses = $('*:not(.form-group.has-feedback)>.form-control-feedback');
+        if (parentsMissingClasses.length) {
+            return "`.form-control-feedback` must have a `.form-group.has-feedback` parent";
+        }
+    };
     exports.lintRedundantColumnClasses = function ($) {
         var columns = $(COL_CLASSES.join(','));
         var errs = [];
@@ -583,6 +589,7 @@ var cheerio = require('cheerio');
         errs.push(this.lintPanelTitleWithoutPanelHeading($));
         errs.push(this.lintPanelFooterWithoutPanel($));
         errs.push(this.lintTableResponsive($));
+        errs.push(this.lintFormControlFeedbackWithoutHasFeedback($));
         errs = errs.concat(this.lintInputGroupFormControlTypes($));
         errs = errs.concat(this.lintInlineCheckboxes($));
         errs = errs.concat(this.lintInlineRadios($));
