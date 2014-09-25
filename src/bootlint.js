@@ -1,5 +1,5 @@
 /*!
- * bootlint - an HTML linter for Bootstrap projects
+ * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License.
