@@ -1,6 +1,7 @@
-'use strict';
+/*eslint-env node */
 
 module.exports = function (grunt) {
+  'use strict';
 
   // Force use of Unix newlines
   grunt.util.linefeed = '\n';
@@ -54,7 +55,7 @@ module.exports = function (grunt) {
       },
       test: {
         src: ['test/**/*.js', '!test/lib/**/*.js']
-      },
+      }
     },
     jscs: {
       gruntfile: {
@@ -62,6 +63,20 @@ module.exports = function (grunt) {
         options: {
           validateIndentation: 2
         }
+      },
+      lib: {
+        src: '<%= jshint.lib.src %>'
+      },
+      test: {
+        src: '<%= jshint.test.src %>'
+      }
+    },
+    eslint: {
+      options: {
+        config: '.eslintrc'
+      },
+      gruntfile: {
+        src: '<%= jshint.gruntfile.src %>'
       },
       lib: {
         src: '<%= jshint.lib.src %>'
@@ -82,12 +97,12 @@ module.exports = function (grunt) {
       test: {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'nodeunit']
-      },
-    },
+      }
+    }
   });
 
   // Default task.
-  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('lint', ['jshint', 'jscs', 'eslint']);
   grunt.registerTask('test', ['dist', 'nodeunit', 'qunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('default', ['lint', 'dist', 'test']);

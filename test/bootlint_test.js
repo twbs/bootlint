@@ -1,9 +1,13 @@
+/*eslint-env node */
+
 'use strict';
 
 var bootlint = require('../src/bootlint.js');
 var fs = require('fs');
+var path = require('path');
+
 function _fixtureNameToFilepath(name) {
-    return __dirname + '/fixtures/' + name;
+    return path.join(__dirname, '/fixtures/', name);
 }
 function utf8Fixture(name) {
     return fs.readFileSync(_fixtureNameToFilepath(name), {encoding: 'utf8'});
@@ -29,7 +33,7 @@ function utf16Fixture(name) {
         test.ifError(value)
 */
 
-exports['bootlint'] = {
+exports.bootlint = {
     setUp: function (done) {
         // setup here
         done();
