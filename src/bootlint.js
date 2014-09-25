@@ -290,7 +290,7 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintBtnType = function ($) {
-        var badBtnType = $('button:not([type="submit"], [type="button"])');
+        var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
         if (badBtnType.length) {
             return "Always set a `type` on `<button>`s.";
         }
