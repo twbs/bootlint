@@ -4,7 +4,8 @@
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License.
  */
- /*eslint-env node */
+
+/*eslint-env node */
 
 var cheerio = require('cheerio');
 
