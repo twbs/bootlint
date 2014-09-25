@@ -504,9 +504,11 @@ var cheerio = require('cheerio');
         }
     };
     exports.lintFormControlFeedbackWithoutHasFeedback = function ($) {
-        var parentsMissingClasses = $('*:not(.form-group.has-feedback)>.form-control-feedback');
-        if (parentsMissingClasses.length) {
-            return "`.form-control-feedback` must have a `.form-group.has-feedback` parent";
+        var ancestorsMissingClasses = $('.form-control-feedback').filter(function () {
+            return $(this).closest('.form-group.has-feedback').length !== 1;
+        });
+        if (ancestorsMissingClasses.length) {
+            return "`.form-control-feedback` must have a `.form-group.has-feedback` ancestor";
         }
     };
     exports.lintRedundantColumnClasses = function ($) {
