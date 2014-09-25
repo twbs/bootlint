@@ -15,6 +15,10 @@ Bootlint assumes that your webpage is already valid HTML5. If you need to check 
 Bootlint assumes that you are using Bootstrap's default class names in your webpage, as opposed to taking advantage of the "mixins" functionality of Less or Sass to map them to custom class names. If you are using mixins, Bootlint may report some false-positive warnings. However, there are some Bootlint checks that are applicable even if you are using mixins pervasively.
 
 ## Getting Started
+### Via Grunt
+
+To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/zacechola/grunt-bootlint)
+
 ### On the command line
 Install the module with: `npm install -g bootlint`
 
