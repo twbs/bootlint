@@ -70,6 +70,20 @@ module.exports = function (grunt) {
         src: '<%= jshint.test.src %>'
       }
     },
+    eslint: {
+      options: {
+        config: '.eslintrc'
+      },
+      gruntfile: {
+        src: '<%= jshint.gruntfile.src %>'
+      },
+      lib: {
+        src: '<%= jshint.lib.src %>'
+      },
+      test: {
+        src: '<%= jshint.test.src %>'
+      }
+    },
     watch: {
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -87,7 +101,7 @@ module.exports = function (grunt) {
   });
 
   // Default task.
-  grunt.registerTask('lint', ['jshint', 'jscs']);
+  grunt.registerTask('lint', ['jshint', 'jscs', 'eslint']);
   grunt.registerTask('test', ['dist', 'nodeunit', 'qunit']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('default', ['lint', 'dist', 'test']);
