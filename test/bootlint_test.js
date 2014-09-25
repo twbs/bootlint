@@ -139,7 +139,17 @@ exports.bootlint = {
                 "Found both `.row` and `.col-*-*` used on the same element",
                 'Columns (.col-*-*) can only be children of `.row`s or `.form-group`s'
             ],
-            'should complain when .row and .col-*-* used on the same element.');
+            'should complain when .row and .col-*-* are used on the same element.');
+        test.done();
+    },
+    'row and container classes on same element': function (test) {
+        test.expect(2);
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fixed-row-same-elem.html')),
+            ["Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`"],
+            'should complain when .row and .container are used on the same element.');
+        test.deepEqual(bootlint.lintHtml(utf8Fixture('containers/fluid-row-same-elem.html')),
+            ["Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`"],
+            'should complain when .row and .container-fluid are used on the same element.');
         test.done();
     },
     'remote modals': function (test) {
