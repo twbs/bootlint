@@ -1,3 +1,10 @@
+/*!
+ * Bootlint's Gruntfile
+ * https://github.com/twbs/bootlint
+ * Copyright 2014 Christopher Rebert
+ * Portions Copyright 2013-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootlint/blob/master/LICENSE)
+ */
 /*eslint-env node */
 
 module.exports = function (grunt) {
@@ -5,6 +12,9 @@ module.exports = function (grunt) {
 
   // Force use of Unix newlines
   grunt.util.linefeed = '\n';
+
+  var fs = require('fs');
+  var npmShrinkwrap = require('npm-shrinkwrap');
 
   // Load all grunt tasks
   require('load-grunt-tasks')(grunt);
@@ -101,12 +111,33 @@ module.exports = function (grunt) {
         files: '<%= jshint.test.src %>',
         tasks: ['jshint:test', 'nodeunit']
       }
+    },
+    exec: {
+      npmUpdate: {
+        command: 'npm update'
+      }
     }
   });
 
-  // Default task.
+  // Tasks
   grunt.registerTask('lint', ['jshint', 'jscs', 'eslint']);
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('test', ['lint', 'dist', 'nodeunit', 'qunit']);
   grunt.registerTask('default', ['test']);
+
+  // Task for updating the cached npm packages used by the Travis build (which are controlled by test-infra/npm-shrinkwrap.json).
+  // This task should be run and the updated file should be committed whenever Bootstrap's dependencies change.
+  grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
+  grunt.registerTask('_update-shrinkwrap', function () {
+    var done = this.async();
+    npmShrinkwrap({ dev: true, dirname: __dirname }, function (err) {
+      if (err) {
+        grunt.fail.warn(err);
+      }
+      var dest = 'test-infra/npm-shrinkwrap.json';
+      fs.renameSync('npm-shrinkwrap.json', dest);
+      grunt.log.writeln('File ' + dest.cyan + ' updated.');
+      done();
+    });
+  });
 };

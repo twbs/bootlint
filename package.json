@@ -35,9 +35,11 @@
     "grunt-contrib-qunit": "^0.5.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^1.1.0",
+    "grunt-exec": "^0.4.6",
     "grunt-jscs": "^0.7.1",
     "jquery": "~2.1.1",
     "load-grunt-tasks": "^0.6.0",
+    "npm-shrinkwrap": "^3.1.8",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
