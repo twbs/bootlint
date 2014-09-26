@@ -95,6 +95,8 @@ The project's coding style is laid out in the JSHint, ESLint, and JSCS configura
 _Also, please don't edit files in the "dist" subdirectory as they are generated via Grunt. You'll find source code in the "src" subdirectory!_
 
 ## Release History
+See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
+* 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
 * 2014-09-23 - v0.2.0: First formal release. Announcement: http://blog.getbootstrap.com/2014/09/23/bootlint/
 
 ## License
