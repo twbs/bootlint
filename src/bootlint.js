@@ -148,64 +148,107 @@ var cheerio = require('cheerio');
         return runs;
     }
 
-    exports.lintDoctype = (function () {
+    function LintError(id, message) {
+        this.id = id;
+        this.message = message;
+    }
+    exports.LintError = LintError;
+
+    function LintWarning(id, message) {
+        this.id = id;
+        this.message = message;
+    }
+    exports.LintWarning = LintWarning;
+
+    var allLinters = {};
+    function addLinter(id, linter) {
+        if (allLinters[id]) {
+            throw new Error("Linter already registered with ID: " + id);
+        }
+
+        var Problem = null;
+        if (id[0] === 'E') {
+            Problem = LintError;
+        }
+        else if (id[0] === 'W') {
+            Problem = LintWarning;
+        }
+        else {
+            throw new Error("Invalid linter ID: " + id);
+        }
+
+        function linterWrapper($, reporter) {
+            function specializedReporter(message) {
+                reporter(new Problem(id, message));
+            }
+
+            linter($, specializedReporter);
+        }
+
+        linterWrapper.id = id;
+        allLinters[id] = linterWrapper;
+    }
+
+
+    addLinter("E001", (function () {
         var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";
         var NON_HTML5_DOCTYPE = "Document declares a non-HTML5 DOCTYPE";
         if (IN_NODE_JS) {
-            return function ($) {
+            return function lintDoctype($, reporter) {
                 var doctype = $(':root')[0];
                 while (doctype && !isDoctype(doctype)) {
                     doctype = doctype.prev;
                 }
                 if (!doctype) {
-                    return MISSING_DOCTYPE;
+                    reporter(MISSING_DOCTYPE);
+                    return;
                 }
                 var doctypeId = doctype.data.toLowerCase();
                 if (doctypeId !== '!doctype html' && doctypeId !== '!doctype html system "about:legacy-compat"') {
-                    return NON_HTML5_DOCTYPE;
+                    reporter(NON_HTML5_DOCTYPE);
                 }
             };
         }
         else {
-            return function () {
+            return function lintDoctype($, reporter) {
                 /*eslint-disable no-undef, block-scoped-var */
                 var doc = window.document;
                 /*eslint-enable un-undef, block-scoped-var */
                 if (doc.doctype === null) {
-                    return MISSING_DOCTYPE;
+                    reporter(MISSING_DOCTYPE);
                 }
-                if (doc.doctype.publicId) {
-                    return NON_HTML5_DOCTYPE;
+                else if (doc.doctype.publicId) {
+                    reporter(NON_HTML5_DOCTYPE);
                 }
-                if (doc.doctype.systemId && doc.doctype.systemId !== "about:legacy-compat") {
-                    return NON_HTML5_DOCTYPE;
+                else if (doc.doctype.systemId && doc.doctype.systemId !== "about:legacy-compat") {
+                    reporter(NON_HTML5_DOCTYPE);
                 }
             };
         }
-    })();
-    exports.lintMetaCharsetUtf8 = function ($) {
+    })());
+    addLinter("W001", function lintMetaCharsetUtf8($, reporter) {
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
         if (!charset) {
-            return '<head> is missing UTF-8 charset <meta> tag';
+            reporter('<head> is missing UTF-8 charset <meta> tag');
         }
-        if (charset.toLowerCase() !== "utf-8") {
-            return 'charset <meta> tag is specifying a legacy, non-UTF-8 charset';
+        else if (charset.toLowerCase() !== "utf-8") {
+            reporter('charset <meta> tag is specifying a legacy, non-UTF-8 charset');
         }
-    };
-    exports.lintXUaCompatible = function ($) {
+    });
+    addLinter("W002", function lintXUaCompatible($, reporter) {
         var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
         if (!meta.length) {
-            return "<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes";
+            reporter("<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes");
         }
-    };
-    exports.lintViewport = function ($) {
+    });
+    addLinter("W003", function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
-            return "<head> is missing viewport <meta> tag that enables responsiveness";
+            reporter("<head> is missing viewport <meta> tag that enables responsiveness");
         }
-    };
-    exports.lintBootstrapv2 = function ($) {
+    });
+    addLinter("E002", function lintBootstrapv2($, reporter) {
         var columnClasses = [];
         for (var n = 1; n <= 12; n++) {
             columnClasses.push('.span' + n);
@@ -213,10 +256,10 @@ var cheerio = require('cheerio');
         var selector = columnClasses.join(',');
         var spanNs = $(selector);
         if (spanNs.length) {
-            return "Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes";
+            reporter("Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes");
         }
-    };
-    exports.lintContainers = function ($) {
+    });
+    addLinter("E003", function lintContainers($, reporter) {
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
@@ -233,32 +276,32 @@ var cheerio = require('cheerio');
             return true;
         });
         if (rowsOutsideColumnsAndContainers.length) {
-            return "Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`";
+            reporter("Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`");
         }
-    };
-    exports.lintNestedContainers = function ($) {
+    });
+    addLinter("E004", function lintNestedContainers($, reporter) {
         var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
         if (nestedContainers.length) {
-            return "Containers (`.container` and `.container-fluid`) are not nestable";
+            reporter("Containers (`.container` and `.container-fluid`) are not nestable");
         }
-    };
-    exports.lintRowAndColOnSameElem = function ($) {
+    });
+    addLinter("E005", function lintRowAndColOnSameElem($, reporter) {
         var selector = COL_CLASSES.map(function (col) {
             return ".row" + col;
         }).join(',');
 
         var rowCols = $(selector);
         if (rowCols.length) {
-            return "Found both `.row` and `.col-*-*` used on the same element";
+            reporter("Found both `.row` and `.col-*-*` used on the same element");
         }
-    };
-    exports.lintRemoteModals = function ($) {
+    });
+    addLinter("W004", function lintRemoteModals($, reporter) {
         var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
         if (remoteModalTriggers.length) {
-            return "Found one or more modals using the deprecated `remote` option";
+            reporter("Found one or more modals using the deprecated `remote` option");
         }
-    };
-    exports.lintJquery = function ($) {
+    });
+    addLinter("W005", function lintJquery($, reporter) {
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -269,33 +312,31 @@ var cheerio = require('cheerio');
             // deliberately do nothing
         }
         if (theWindow && (theWindow.$ || theWindow.jQuery)) {
-            return undefined;
+            return;
         }
         var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
         if (!jqueries.length) {
-            return "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+            reporter("Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work");
         }
-    };
-    exports.lintInputGroupFormControlTypes = function ($) {
-        var errs = [];
+    });
+    addLinter("E006", function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
         if (selectInputGroups.length) {
-            errs.push("`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers");
+            reporter("`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers");
         }
         var textareaInputGroups = $('.input-group textarea');
         if (textareaInputGroups.length) {
-            errs.push("`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`");
+            reporter("`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`");
         }
-        return errs;
-    };
-    exports.lintBootstrapJs = function ($) {
+    });
+    addLinter("E007", function lintBootstrapJs($, reporter) {
         var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
             var url = $(script).attr('src');
             var filename = filenameFromUrl(url);
             return filename === "bootstrap.js";
         });
         if (!longhands.length) {
-            return undefined;
+            return;
         }
         var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
             var url = $(script).attr('src');
@@ -303,12 +344,12 @@ var cheerio = require('cheerio');
             return filename === "bootstrap.min.js";
         });
         if (!minifieds.length) {
-            return undefined;
+            return;
         }
 
-        return "Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js";
-    };
-    exports.lintTooltipsOnDisabledElems = function ($) {
+        reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js");
+    });
+    addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
         var selector = [
             '[disabled][data-toggle="tooltip"]',
             '.disabled[data-toggle="tooltip"]',
@@ -317,18 +358,20 @@ var cheerio = require('cheerio');
         ].join(',');
         var disabledWithTooltips = $(selector);
         if (disabledWithTooltips.length) {
-            return "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
+            reporter(
+                "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
                 " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
-                " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead.";
+                " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead."
+            );
         }
-    };
-    exports.lintTooltipsInBtnGroups = function ($) {
+    });
+    addLinter("E008", function lintTooltipsInBtnGroups($, reporter) {
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
-            return "Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.";
+            reporter("Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.");
         }
-    };
-    exports.lintMissingInputGroupSizes = function ($) {
+    });
+    addLinter("E009", function lintMissingInputGroupSizes($, reporter) {
         var selector = [
             '.input-group:not(.input-group-lg) .btn-lg',
             '.input-group:not(.input-group-lg) .input-lg',
@@ -337,34 +380,34 @@ var cheerio = require('cheerio');
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
-            return "Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`";
+            reporter("Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`");
         }
-    };
-    exports.lintMultipleFormControlsInInputGroup = function ($) {
+    });
+    addLinter("E010", function lintMultipleFormControlsInInputGroup($, reporter) {
         var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
             return $(inputGroup).find('.form-control').length > 1;
         });
         if (badInputGroups.length) {
-            return "Input groups cannot contain multiple `.form-control`s";
+            reporter("Input groups cannot contain multiple `.form-control`s");
         }
-    };
-    exports.lintFormGroupMixedWithInputGroup = function ($) {
+    });
+    addLinter("E011", function lintFormGroupMixedWithInputGroup($, reporter) {
         var badMixes = $('.input-group.form-group');
         if (badMixes.length) {
-            return ".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group";
+            reporter(".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group");
         }
-    };
-    exports.lintGridClassMixedWithInputGroup = function ($) {
+    });
+    addLinter("E012", function lintGridClassMixedWithInputGroup($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return '.input-group' + colClass;
         }).join(',');
 
         var badMixes = $(selector);
         if (badMixes.length) {
-            return ".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*";
+            reporter(".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*");
         }
-    };
-    exports.lintRowChildrenAreCols = function ($) {
+    });
+    addLinter("E013", function lintRowChildrenAreCols($, reporter) {
         var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
         var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
@@ -372,20 +415,20 @@ var cheerio = require('cheerio');
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            return "Only columns (.col-*-*) may be children of `.row`s";
+            reporter("Only columns (.col-*-*) may be children of `.row`s");
         }
-    };
-    exports.lintColParentsAreRowsOrFormGroups = function ($) {
+    });
+    addLinter("E014", function lintColParentsAreRowsOrFormGroups($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return '*:not(.row):not(.form-group)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            return "Columns (.col-*-*) can only be children of `.row`s or `.form-group`s";
+            reporter("Columns (.col-*-*) can only be children of `.row`s or `.form-group`s");
         }
-    };
-    exports.lintInputGroupsWithMultipleAddOnsPerSide = function ($) {
+    });
+    addLinter("E015", function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
         var addOnClasses = ['.input-group-addon', '.input-group-btn'];
         var combos = [];
         addOnClasses.forEach(function (first) {
@@ -396,66 +439,62 @@ var cheerio = require('cheerio');
         var selector = combos.join(',');
         var multipleAddOns = $(selector);
         if (multipleAddOns.length) {
-            return "Having multiple add-ons on a single side of an input group is not supported";
+            reporter("Having multiple add-ons on a single side of an input group is not supported");
         }
-    };
-    exports.lintBtnToggle = function ($) {
+    });
+    addLinter("E016", function lintBtnToggle($, reporter) {
         var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
         if (badBtnToggle.length) {
-            return "`.btn.dropdown-toggle` must be the last button in a button group.";
+            reporter("`.btn.dropdown-toggle` must be the last button in a button group.");
         }
-    };
-    exports.lintBtnType = function ($) {
+    });
+    addLinter("W007", function lintBtnType($, reporter) {
         var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
         if (badBtnType.length) {
-            return "Always set a `type` on `<button>`s.";
+            reporter("Always set a `type` on `<button>`s.");
         }
-    };
-    exports.lintBlockCheckboxes = function ($) {
+    });
+    addLinter("E017", function lintBlockCheckboxes($, reporter) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
         });
         if (badCheckboxes.length) {
-            return 'Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]';
+            reporter('Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]');
         }
-    };
-    exports.lintBlockRadios = function ($) {
+    });
+    addLinter("E018", function lintBlockRadios($, reporter) {
         var badRadios = $('.radio').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="radio"])').length <= 0;
         });
         if (badRadios.length) {
-            return 'Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]';
+            reporter('Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]');
         }
-    };
-    exports.lintInlineCheckboxes = function ($) {
-        var errs = [];
+    });
+    addLinter("E019", function lintInlineCheckboxes($, reporter) {
         var wrongElems = $('.checkbox-inline:not(label)');
         if (wrongElems.length) {
-            errs.push(".checkbox-inline should only be used on <label> elements");
+            reporter(".checkbox-inline should only be used on <label> elements");
         }
         var badStructures = $('.checkbox-inline').filter(function (i, label) {
             return $(label).children('input[type="checkbox"]').length <= 0;
         });
         if (badStructures.length) {
-            errs.push('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]');
+            reporter('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]');
         }
-        return errs;
-    };
-    exports.lintInlineRadios = function ($) {
-        var errs = [];
+    });
+    addLinter("E020", function lintInlineRadios($, reporter) {
         var wrongElems = $('.radio-inline:not(label)');
         if (wrongElems.length) {
-            errs.push(".radio-inline should only be used on <label> elements");
+            reporter(".radio-inline should only be used on <label> elements");
         }
         var badStructures = $('.radio-inline').filter(function (i, label) {
             return $(label).children('input[type="radio"]').length <= 0;
         });
         if (badStructures.length) {
-            errs.push('Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]');
+            reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]');
         }
-        return errs;
-    };
-    exports.lintButtonsCheckedActive = function ($) {
+    });
+    addLinter("E021", function lintButtonsCheckedActive($, reporter) {
         var selector = [
             '[data-toggle="buttons"]>label:not(.active)>input[type="checkbox"][checked]',
             '[data-toggle="buttons"]>label.active>input[type="checkbox"]:not([checked])',
@@ -464,56 +503,55 @@ var cheerio = require('cheerio');
         ].join(',');
         var mismatchedButtonInputs = $(selector);
         if (mismatchedButtonInputs.length) {
-            return ".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin";
+            reporter(".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin");
         }
-    };
-    exports.lintModalsWithinOtherComponents = function ($) {
+    });
+    addLinter("E022", function lintModalsWithinOtherComponents($, reporter) {
         var badNestings = $('.table .modal');
         if (badNestings.length) {
-            return "Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality";
+            reporter("Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality");
         }
-    };
-    exports.lintPanelBodyWithoutPanel = function ($) {
+    });
+    addLinter("E023", function lintPanelBodyWithoutPanel($, reporter) {
         var badPanelBody = $('.panel-body').parent(':not(.panel, .panel-collapse)');
         if (badPanelBody.length) {
-            return "`.panel-body` must have a `.panel` or `.panel-collapse` parent";
+            reporter("`.panel-body` must have a `.panel` or `.panel-collapse` parent");
         }
-    };
-    exports.lintPanelHeadingWithoutPanel = function ($) {
+    });
+    addLinter("E024", function lintPanelHeadingWithoutPanel($, reporter) {
         var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
         if (badPanelHeading.length) {
-            return "`.panel-heading` must have a `.panel` parent";
+            reporter("`.panel-heading` must have a `.panel` parent");
         }
-    };
-    exports.lintPanelFooterWithoutPanel = function ($) {
+    });
+    addLinter("E025", function lintPanelFooterWithoutPanel($, reporter) {
         var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
         if (badPanelFooter.length) {
-            return "`.panel-footer` must have a `.panel` parent";
+            reporter("`.panel-footer` must have a `.panel` parent");
         }
-    };
-    exports.lintPanelTitleWithoutPanelHeading = function ($) {
+    });
+    addLinter("E026", function lintPanelTitleWithoutPanelHeading($, reporter) {
         var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
         if (badPanelTitle.length) {
-            return "`.panel-title` must have a `.panel-heading` parent";
+            reporter("`.panel-title` must have a `.panel-heading` parent");
         }
-    };
-    exports.lintTableResponsive = function ($) {
+    });
+    addLinter("E027", function lintTableResponsive($, reporter) {
         var badStructure = $('.table.table-responsive,table.table-responsive');
         if (badStructure.length) {
-            return "`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself";
+            reporter("`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself");
         }
-    };
-    exports.lintFormControlFeedbackWithoutHasFeedback = function ($) {
+    });
+    addLinter("E028", function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
         var ancestorsMissingClasses = $('.form-control-feedback').filter(function () {
             return $(this).closest('.form-group.has-feedback').length !== 1;
         });
         if (ancestorsMissingClasses.length) {
-            return "`.form-control-feedback` must have a `.form-group.has-feedback` ancestor";
+            reporter("`.form-control-feedback` must have a `.form-group.has-feedback` ancestor");
         }
-    };
-    exports.lintRedundantColumnClasses = function ($) {
+    });
+    addLinter("E029", function lintRedundantColumnClasses($, reporter) {
         var columns = $(COL_CLASSES.join(','));
-        var errs = [];
         columns.each(function (_index, column) {
             var classes = $(column).attr('class');
             var simplifiedClasses = classes;
@@ -551,67 +589,29 @@ var cheerio = require('cheerio');
             simplifiedClasses = simplifiedClasses.replace(/ {2,}/g, ' ').trim();
             var oldClass = 'class="' + classes + '"';
             var newClass = 'class="' + simplifiedClasses + '"';
-            errs.push(
+            reporter(
                 "Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), " +
                 oldClass + " is redundant and can be simplified to " + newClass
             );
         });
-        return errs;
-    };
+    });
 
-    exports._lint = function ($) {
-        var errs = [];
-        errs.push(this.lintDoctype($));
-        errs.push(this.lintMetaCharsetUtf8($));
-        errs.push(this.lintXUaCompatible($));
-        errs.push(this.lintBootstrapv2($));
-        errs.push(this.lintContainers($));
-        errs.push(this.lintNestedContainers($));
-        errs.push(this.lintViewport($));
-        errs.push(this.lintRowAndColOnSameElem($));
-        errs.push(this.lintRowChildrenAreCols($));
-        errs.push(this.lintColParentsAreRowsOrFormGroups($));
-        errs.push(this.lintRemoteModals($));
-        errs.push(this.lintJquery($));
-        errs.push(this.lintBootstrapJs($));
-        errs.push(this.lintTooltipsOnDisabledElems($));
-        errs.push(this.lintTooltipsInBtnGroups($));
-        errs.push(this.lintMultipleFormControlsInInputGroup($));
-        errs.push(this.lintMissingInputGroupSizes($));
-        errs.push(this.lintFormGroupMixedWithInputGroup($));
-        errs.push(this.lintGridClassMixedWithInputGroup($));
-        errs.push(this.lintInputGroupsWithMultipleAddOnsPerSide($));
-        errs.push(this.lintBtnToggle($));
-        errs.push(this.lintBtnType($));
-        errs.push(this.lintBlockCheckboxes($));
-        errs.push(this.lintBlockRadios($));
-        errs.push(this.lintButtonsCheckedActive($));
-        errs.push(this.lintModalsWithinOtherComponents($));
-        errs.push(this.lintPanelBodyWithoutPanel($));
-        errs.push(this.lintPanelHeadingWithoutPanel($));
-        errs.push(this.lintPanelTitleWithoutPanelHeading($));
-        errs.push(this.lintPanelFooterWithoutPanel($));
-        errs.push(this.lintTableResponsive($));
-        errs.push(this.lintFormControlFeedbackWithoutHasFeedback($));
-        errs = errs.concat(this.lintInputGroupFormControlTypes($));
-        errs = errs.concat(this.lintInlineCheckboxes($));
-        errs = errs.concat(this.lintInlineRadios($));
-        errs = errs.concat(this.lintRedundantColumnClasses($));
-        errs = errs.filter(function (item) {
-            return item !== undefined;
+    exports._lint = function ($, reporter) {
+        Object.keys(allLinters).sort().forEach(function (linterId) {
+            allLinters[linterId]($, reporter);
         });
-        return errs;
     };
     if (IN_NODE_JS) {
         // cheerio; Node.js
         /**
          * Lints the given HTML.
          * @param {string} html The HTML to lint
-         * @returns {string[]} List of lint warnings
+         * @param reporter Function to call with each lint problem
+         * @returns {undefined} Nothing
          */
-        exports.lintHtml = function (html) {
+        exports.lintHtml = function (html, reporter) {
             var $ = cheerio.load(html);
-            return this._lint($);
+            this._lint($, reporter);
         };
     }
     else {
@@ -620,10 +620,11 @@ var cheerio = require('cheerio');
             var $ = cheerio;
             /**
              * Lints the HTML of the current document.
+             * @param reporter Function to call with each lint problem
              * @returns {string[]} List of lint warnings
              */
-            exports.lintCurrentDocument = function () {
-                return this._lint($);
+            exports.lintCurrentDocument = function (reporter) {
+                this._lint($, reporter);
             };
             /**
              * Lints the HTML of the current document.
@@ -632,15 +633,17 @@ var cheerio = require('cheerio');
              * @returns {undefined} Nothing
              */
             exports.showLintReportForCurrentDocument = function () {
-                var errs = this.lintCurrentDocument();
-                if (errs.length) {
-                    /*eslint-disable no-alert, no-undef, block-scoped-var */
-                    window.alert("bootlint found errors in this document! See the JavaScript console for details.");
-                    /*eslint-enable no-alert, no-undef, block-scoped-var */
-                    errs.forEach(function (err) {
-                        console.warn("bootlint:", err);
-                    });
-                }
+                var seenLint = false;
+                var reporter = function (lint) {
+                    if (!seenLint) {
+                        /*eslint-disable no-alert, no-undef, block-scoped-var */
+                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");
+                        /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        seenLint = true;
+                    }
+                    console.warn("bootlint:", lint.id, lint.message);
+                };
+                this.lintCurrentDocument(reporter);
             };
             /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;

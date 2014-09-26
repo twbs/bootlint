@@ -43,15 +43,33 @@ Then check the JavaScript console for lint warning messages.
 ## API Documentation
 Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 
+Bootlint represents the lint problems it reports using the `LintError` and `LintWarning` classes:
+* `LintWarning`
+  * Represents a potential error. It may have false-positives.
+  * Constructor: `LintWarning(id, message)`
+  * Properties:
+    * `id` - Unique string ID for this type of lint problem. Of the form "W###" (e.g. "W123").
+    * `message` - Human-readable string describing the problem
+* `LintError`
+  * Represents an error. Under the assumptions explained in the above "Caveats" section, it should never have any false-positives.
+  * Constructor: `LintError(id, message)`
+  * Properties:
+    * `id` - Unique string ID for this type of lint problem. Of the form "E###" (e.g. "E123").
+    * `message` - Human-readable string describing the problem
+
+A ***reporter*** is a function that accepts exactly 1 argument of type `LintWarning` or `LintError`. Its return value is ignored. It should somehow record the problem or display it to the user.
+
 ### Browser
 Bootlint exports a `bootlint` property on the global `window` object.
 In a browser environment, the following public APIs are available:
 
-* `bootlint.lintCurrentDocument()`: Lints the HTML of the current document and returns the linting results.
-  * Returns an array of lint warning strings
+* `bootlint.lintCurrentDocument(reporter)`: Lints the HTML of the current document and calls the `reporter()` function repeatedly with each lint problem as an argument.
+  * Returns nothing (i.e. `undefined`)
 * `bootlint.showLintReportForCurrentDocument()`: Lints the HTML of the current document and reports the linting results to the user.
   * If there are any lint warnings, one general notification message will be `window.alert()`-ed to the user. Each warning will be output individually using `console.warn()`.
   * Returns nothing (i.e. `undefined`)
+
+In a browser environment, after Bootlint has loaded, `bootlint.showLintReportForCurrentDocument()` will be invoked once.
 
 ### Node.js
 
@@ -59,14 +77,20 @@ Example:
 
 ```javascript
 var bootlint = require('bootlint');
-bootlint.lintHtml("<!DOCTYPE html><html>..."); // returns list of lint warning messages
+
+function reporter(lint) {
+    console.log(lint.id, lint.message);
+}
+
+bootlint.lintHtml("<!DOCTYPE html><html>...", reporter); // calls reporter() repeatedly with each lint problem as an argument
 ```
 
 In a Node.js environment, Bootlint exposes the following public API:
 
-* `bootlint.lintHtml(html)`: Lints the given HTML for a webpage and returns the linting results.
-  * Has 1 required parameter: the HTML to lint, as a string
-  * Returns an array of lint warning strings
+* `bootlint.lintHtml(html, reporter)`: Lints the given HTML for a webpage and returns the linting results.
+  * `html` is the HTML to lint, as a string
+  * `reporter` is a function that should accept exactly 1 argument. It will be called repeatedly with each lint problem as an argument.
+  * Returns nothing (i.e. `undefined`)
 
 ## Contributing
 The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).

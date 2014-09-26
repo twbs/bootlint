@@ -14,6 +14,11 @@ patterns.forEach(function (pattern) {
     var filenames = glob.sync(pattern);
 
     filenames.forEach(function (filename) {
+        var reporter = function (lint) {
+            console.log(filename + ":", lint.id, lint.message);
+            totalErrCount++;
+        };
+
         var html = null;
         try {
             html = fs.readFileSync(filename, {encoding: 'utf8'});
@@ -22,12 +27,8 @@ patterns.forEach(function (pattern) {
             console.log(filename + ":", err);
             return;
         }
-        var errs = bootlint.lintHtml(html);
-        totalErrCount += errs.length;
+        bootlint.lintHtml(html, reporter);
         totalFileCount++;
-        errs.forEach(function (msg) {
-            console.log(filename + ":", msg);
-        });
     });
 });
 
