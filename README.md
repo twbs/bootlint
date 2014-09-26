@@ -30,14 +30,7 @@ $ bootlint /path/to/some/webpage.html another_webpage.html [...]
 This will output the lint warnings applicable to each file.
 
 ### In the browser
-Download [the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js).
-
-In your webpage:
-
-```html
-<script src="dist/browser/bootlint.js"></script>
-```
-
+[Use the CDN](http://www.bootstrapcdn.com/#bootlint_tab) provided by the fine folks at BootstrapCDN, or [download the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js), and insert a `<script>` tag for Bootlint into your webpage.
 Then check the JavaScript console for lint warning messages.
 
 ## API Documentation
