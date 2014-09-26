@@ -9,6 +9,7 @@ var bootlint = require('./bootlint.js');
 
 var totalErrCount = 0;
 var totalFileCount = 0;
+var disabledIds = [];
 var patterns = process.argv.slice(2);
 patterns.forEach(function (pattern) {
     var filenames = glob.sync(pattern);
@@ -27,7 +28,7 @@ patterns.forEach(function (pattern) {
             console.log(filename + ":", err);
             return;
         }
-        bootlint.lintHtml(html, reporter);
+        bootlint.lintHtml(html, reporter, disabledIds);
         totalFileCount++;
     });
 });

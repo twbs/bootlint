@@ -15,12 +15,12 @@ function utf8Fixture(name) {
 function utf16Fixture(name) {
     return fs.readFileSync(_fixtureNameToFilepath(name), {encoding: 'utf16le'});
 }
-function lintHtml(html) {
+function lintHtml(html, disabledIds) {
     var lints = [];
     var reporter = function (lint) {
         lints.push(lint.message);
     };
-    bootlint.lintHtml(html, reporter);
+    bootlint.lintHtml(html, reporter, disabledIds || []);
     return lints;
 }
 /*
@@ -60,6 +60,13 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('doctype/html5-legacy.html')),
             [],
             'should not complain when the legacy-compatibility HTML5 doctype is used.');
+        test.done();
+    },
+    'disabling lint checks': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('bs-v2.html'), ['E002', 'E013']),
+            [],
+            'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
     'UTF-8 charset meta tag': function (test) {
