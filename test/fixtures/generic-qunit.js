@@ -9,7 +9,7 @@
         var reporter = function (lint) {
             lints.push(lint.message);
         };
-        bootlint.lintCurrentDocument(reporter);
+        bootlint.lintCurrentDocument(reporter, []);
         return lints;
     }
 

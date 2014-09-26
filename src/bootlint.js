@@ -596,9 +596,15 @@ var cheerio = require('cheerio');
         });
     });
 
-    exports._lint = function ($, reporter) {
+    exports._lint = function ($, reporter, disabledIdList) {
+        var disabledIdSet = {};
+        disabledIdList.forEach(function (disabledId) {
+            disabledIdSet[disabledId] = true;
+        });
         Object.keys(allLinters).sort().forEach(function (linterId) {
-            allLinters[linterId]($, reporter);
+            if (!disabledIdSet[linterId]) {
+                allLinters[linterId]($, reporter);
+            }
         });
     };
     if (IN_NODE_JS) {
@@ -607,11 +613,12 @@ var cheerio = require('cheerio');
          * Lints the given HTML.
          * @param {string} html The HTML to lint
          * @param reporter Function to call with each lint problem
+         * @param {string[]} disabledIds Array of string IDs of linters to disable
          * @returns {undefined} Nothing
          */
-        exports.lintHtml = function (html, reporter) {
+        exports.lintHtml = function (html, reporter, disabledIds) {
             var $ = cheerio.load(html);
-            this._lint($, reporter);
+            this._lint($, reporter, disabledIds);
         };
     }
     else {
@@ -621,18 +628,20 @@ var cheerio = require('cheerio');
             /**
              * Lints the HTML of the current document.
              * @param reporter Function to call with each lint problem
+             * @param {string[]} disabledIds Array of string IDs of linters to disable
              * @returns {undefined} Nothing
              */
-            exports.lintCurrentDocument = function (reporter) {
-                this._lint($, reporter);
+            exports.lintCurrentDocument = function (reporter, disabledIds) {
+                this._lint($, reporter, disabledIds);
             };
             /**
              * Lints the HTML of the current document.
              * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
              * Each warning will be output individually using console.warn().
+             * @param {string[]} disabledIds Array of string IDs of linters to disable
              * @returns {undefined} Nothing
              */
-            exports.showLintReportForCurrentDocument = function () {
+            exports.showLintReportForCurrentDocument = function (disabledIds) {
                 var seenLint = false;
                 var reporter = function (lint) {
                     if (!seenLint) {
@@ -643,13 +652,13 @@ var cheerio = require('cheerio');
                     }
                     console.warn("bootlint:", lint.id, lint.message);
                 };
-                this.lintCurrentDocument(reporter);
+                this.lintCurrentDocument(reporter, disabledIds);
             };
             /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;
             /*eslint-enable no-undef, block-scoped-var */
             $(function () {
-                exports.showLintReportForCurrentDocument();
+                exports.showLintReportForCurrentDocument([]);
             });
         })();
     }
