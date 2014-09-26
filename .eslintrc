@@ -1,5 +1,6 @@
 {
     "rules": {
+        "block-scoped-var": 2,
         "brace-style": [2, "stroustrup"],
         "camelcase": 2,
         "consistent-this": [2, "self"],

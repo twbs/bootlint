@@ -168,9 +168,9 @@ var cheerio = require('cheerio');
         }
         else {
             return function () {
-                /*eslint-disable no-undef */
+                /*eslint-disable no-undef, block-scoped-var */
                 var doc = window.document;
-                /*eslint-enable un-undef */
+                /*eslint-enable un-undef, block-scoped-var */
                 if (doc.doctype === null) {
                     return MISSING_DOCTYPE;
                 }
@@ -261,9 +261,9 @@ var cheerio = require('cheerio');
     exports.lintJquery = function ($) {
         var theWindow = null;
         try {
-            /*eslint-disable no-undef */
+            /*eslint-disable no-undef, block-scoped-var */
             theWindow = window;
-            /*eslint-enable no-undef */
+            /*eslint-enable no-undef, block-scoped-var */
         }
         catch (e) {
             // deliberately do nothing
@@ -634,17 +634,17 @@ var cheerio = require('cheerio');
             exports.showLintReportForCurrentDocument = function () {
                 var errs = this.lintCurrentDocument();
                 if (errs.length) {
-                    /*eslint-disable no-alert, no-undef */
+                    /*eslint-disable no-alert, no-undef, block-scoped-var */
                     window.alert("bootlint found errors in this document! See the JavaScript console for details.");
-                    /*eslint-enable no-alert, no-undef */
+                    /*eslint-enable no-alert, no-undef, block-scoped-var */
                     errs.forEach(function (err) {
                         console.warn("bootlint:", err);
                     });
                 }
             };
-            /*eslint-disable no-undef */
+            /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;
-            /*eslint-enable no-undef */
+            /*eslint-enable no-undef, block-scoped-var */
             $(function () {
                 exports.showLintReportForCurrentDocument();
             });
