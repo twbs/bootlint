@@ -621,7 +621,7 @@ var cheerio = require('cheerio');
             /**
              * Lints the HTML of the current document.
              * @param reporter Function to call with each lint problem
-             * @returns {string[]} List of lint warnings
+             * @returns {undefined} Nothing
              */
             exports.lintCurrentDocument = function (reporter) {
                 this._lint($, reporter);
