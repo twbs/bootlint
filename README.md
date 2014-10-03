@@ -33,6 +33,9 @@ This will output the lint warnings applicable to each file.
 [Use the CDN](http://www.bootstrapcdn.com/#bootlint_tab) provided by the fine folks at BootstrapCDN, or [download the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js), and insert a `<script>` tag for Bootlint into your webpage.
 Then check the JavaScript console for lint warning messages.
 
+## Lint problem explanations
+For detailed explanations of each lint problem, [look up the IDs](https://github.com/twbs/bootlint/wiki) (for example, [`E001`](https://github.com/twbs/bootlint/wiki/E001) or [`W002`](https://github.com/twbs/bootlint/wiki/W002)) in [our wiki](https://github.com/twbs/bootlint/wiki).
+
 ## API Documentation
 Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 
