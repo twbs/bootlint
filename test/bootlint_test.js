@@ -364,7 +364,7 @@ exports.bootlint = {
             ["`.panel-body` must have a `.panel` or `.panel-collapse` parent"],
             'should complain when .panel-body is missing .panel or .panel-collapse parent');
         test.deepEqual(lintHtml(utf8Fixture('panels/panel-footer-missing-parent.html')),
-            ["`.panel-footer` must have a `.panel` parent"],
+            ["`.panel-footer` must have a `.panel` or `.panel-collapse` parent"],
             'should complain when .panel-footer is missing .panel parent');
         test.deepEqual(lintHtml(utf8Fixture('panels/panel-title-missing-parent.html')),
             ["`.panel-title` must have a `.panel-heading` parent"],
