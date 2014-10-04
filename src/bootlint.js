@@ -525,9 +525,9 @@ var cheerio = require('cheerio');
         }
     });
     addLinter("E025", function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
+        var badPanelFooter = $('.panel-footer').parent(':not(.panel, .panel-collapse)');
         if (badPanelFooter.length) {
-            reporter("`.panel-footer` must have a `.panel` parent");
+            reporter("`.panel-footer` must have a `.panel` or `.panel-collapse` parent");
         }
     });
     addLinter("E026", function lintPanelTitleWithoutPanelHeading($, reporter) {
