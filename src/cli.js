@@ -33,7 +33,7 @@ patterns.forEach(function (pattern) {
     });
 });
 
-console.log("" + totalErrCount + " lint error(s) found across " + totalFileCount + " files.");
+console.log("" + totalErrCount + " lint error(s) found across " + totalFileCount + " file(s).");
 if (totalErrCount) {
     process.exit(1);
 }
