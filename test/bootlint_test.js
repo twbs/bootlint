@@ -440,5 +440,35 @@ exports.bootlint = {
             'should complain when a nested .form-control-feedback doesn\'t have a .form-group.has-feedback ancestor.'
         );
         test.done();
+    },
+
+    'Glyphicons on non-empty elements': function (test) {
+        test.expect(3);
+        test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
+            [],
+            'should not complain when the .glyphicon element has no text content or children.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('glyphicons/on-elem-with-text.html')),
+            ["Glyphicon classes must only be used on elements that contain no text content and have no child elements."],
+            'should complain when Glyphicon is used on an element with text content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('glyphicons/on-elem-with-child.html')),
+            ["Glyphicon classes must only be used on elements that contain no text content and have no child elements."],
+            'should complain when Glyphicon is used on an element with child element(s).'
+        );
+        test.done();
+    },
+
+    'Glyphicons missing the .glyphicon class': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
+            [],
+            'should not complain when Glyphicon is used correctly.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('glyphicons/missing-glyphicon-class.html')),
+            ["Found elements with a .glyphicon-* class that were missing the additional required .glyphicon class."],
+            'should complain when .glyphicon-* class is used without the .glyphicon class.'
+        );
+        test.done();
     }
 };
