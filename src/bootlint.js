@@ -595,6 +595,19 @@ var cheerio = require('cheerio');
             );
         });
     });
+    addLinter("E030", function lintSoloGlyphiconClasses($, reporter) {
+        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
+            return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
+        });
+        if (missingGlyphiconClass.length) {
+            reporter("Found elements with a .glyphicon-* class that were missing the additional required .glyphicon class.");
+        }
+    });
+    addLinter("E031", function lintGlyphiconOnNonEmptyElement($, reporter) {
+        if ($('.glyphicon:not(:empty)').length) {
+            reporter("Glyphicon classes must only be used on elements that contain no text content and have no child elements.");
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
