@@ -596,7 +596,7 @@ var cheerio = require('cheerio');
         });
     });
     addLinter("E030", function lintSoloGlyphiconClasses($, reporter) {
-        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon)').filter(function () {
+        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
             return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
         });
         if (missingGlyphiconClass.length) {
