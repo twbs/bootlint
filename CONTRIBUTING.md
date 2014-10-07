@@ -23,7 +23,7 @@ Assuming that you don't see any red, you're ready to go. Just be sure to run `gr
 ## Submitting pull requests
 
 1. Create a new branch, please don't work in your `master` branch directly.
-2. Add failing tests for the change you want to make. Run `grunt` to see the tests fail.
+2. Add failing tests for the change you want to make. [See the test suite's README for instructions on how to do this.](https://github.com/twbs/bootlint/blob/master/test/README.md) Run `grunt` to see the tests fail.
 3. Fix stuff.
 4. Run `grunt` to see if the tests pass. Repeat steps 2-4 until done.
 5. Update the documentation to reflect any changes.
