@@ -1,5 +1,5 @@
 /*!
- * Bootlint v0.3.0 (https://github.com/twbs/bootlint)
+ * Bootlint v0.4.0 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
@@ -9725,9 +9725,9 @@ var cheerio = require('cheerio');
         }
     });
     addLinter("E025", function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel)');
+        var badPanelFooter = $('.panel-footer').parent(':not(.panel, .panel-collapse)');
         if (badPanelFooter.length) {
-            reporter("`.panel-footer` must have a `.panel` parent");
+            reporter("`.panel-footer` must have a `.panel` or `.panel-collapse` parent");
         }
     });
     addLinter("E026", function lintPanelTitleWithoutPanelHeading($, reporter) {
@@ -9794,6 +9794,41 @@ var cheerio = require('cheerio');
                 oldClass + " is redundant and can be simplified to " + newClass
             );
         });
+    });
+    addLinter("E030", function lintSoloGlyphiconClasses($, reporter) {
+        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
+            return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
+        });
+        if (missingGlyphiconClass.length) {
+            reporter("Found elements with a .glyphicon-* class that were missing the additional required .glyphicon class.");
+        }
+    });
+    addLinter("E031", function lintGlyphiconOnNonEmptyElement($, reporter) {
+        if ($('.glyphicon:not(:empty)').length) {
+            reporter("Glyphicon classes must only be used on elements that contain no text content and have no child elements.");
+        }
+    });
+    addLinter("E032", function lintModalStructure($, reporter) {
+        if ($('.modal-dialog').parent(':not(.modal)').length) {
+            reporter(".modal-dialog must be a child of .modal");
+        }
+        if ($('.modal-content').parent(':not(.modal-dialog)').length) {
+            reporter(".modal-content must be a child of .modal-dialog");
+        }
+
+        if ($('.modal-header').parent(':not(.modal-content)').length) {
+            reporter(".modal-header must be a child of .modal-content");
+        }
+        if ($('.modal-body').parent(':not(.modal-content)').length) {
+            reporter(".modal-body must be a child of .modal-content");
+        }
+        if ($('.modal-footer').parent(':not(.modal-content)').length) {
+            reporter(".modal-footer must be a child of .modal-content");
+        }
+
+        if ($('.modal-title').parent(':not(.modal-header)').length) {
+            reporter(".modal-title must be a child of .modal-header");
+        }
     });
 
     exports._lint = function ($, reporter, disabledIdList) {
