@@ -99,6 +99,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
+* 2014-10-07 - v0.4.0: Add checks for correct Glyphicon usage and correct modal DOM structure; fix `.panel-footer` false positive
 * 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
 * 2014-09-23 - v0.2.0: First formal release. Announcement: http://blog.getbootstrap.com/2014/09/23/bootlint/
 
