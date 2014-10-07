@@ -470,5 +470,38 @@ exports.bootlint = {
             'should complain when .glyphicon-* class is used without the .glyphicon class.'
         );
         test.done();
+    },
+
+    'modal structure': function (test) {
+        test.expect(7);
+        test.deepEqual(lintHtml(utf8Fixture('modal/valid.html')),
+            [],
+            'should not complain when modal markup structure is correct.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/dialog-outside-modal.html')),
+            [".modal-dialog must be a child of .modal"],
+            'should complain when modal dialog not within modal.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/content-outside-dialog.html')),
+            [".modal-content must be a child of .modal-dialog"],
+            'should complain when modal content not within modal dialog.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/header-outside-content.html')),
+            [".modal-header must be a child of .modal-content"],
+            'should complain when modal header not within modal content'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/body-outside-content.html')),
+            [".modal-body must be a child of .modal-content"],
+            'should complain when modal body not within modal content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/footer-outside-content.html')),
+            [".modal-footer must be a child of .modal-content"],
+            'should complain when modal footer not within modal content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/title-outside-header.html')),
+            [".modal-title must be a child of .modal-header"],
+            'should complain when modal title is not within modal header.'
+        );
+        test.done();
     }
 };
