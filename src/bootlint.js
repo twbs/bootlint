@@ -608,6 +608,28 @@ var cheerio = require('cheerio');
             reporter("Glyphicon classes must only be used on elements that contain no text content and have no child elements.");
         }
     });
+    addLinter("E032", function lintModalStructure($, reporter) {
+        if ($('.modal-dialog').parent(':not(.modal)').length) {
+            reporter(".modal-dialog must be a child of .modal");
+        }
+        if ($('.modal-content').parent(':not(.modal-dialog)').length) {
+            reporter(".modal-content must be a child of .modal-dialog");
+        }
+
+        if ($('.modal-header').parent(':not(.modal-content)').length) {
+            reporter(".modal-header must be a child of .modal-content");
+        }
+        if ($('.modal-body').parent(':not(.modal-content)').length) {
+            reporter(".modal-body must be a child of .modal-content");
+        }
+        if ($('.modal-footer').parent(':not(.modal-content)').length) {
+            reporter(".modal-footer must be a child of .modal-content");
+        }
+
+        if ($('.modal-title').parent(':not(.modal-header)').length) {
+            reporter(".modal-title must be a child of .modal-header");
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
