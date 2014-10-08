@@ -52,16 +52,18 @@ Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 Bootlint represents the lint problems it reports using the `LintError` and `LintWarning` classes:
 * `LintWarning`
   * Represents a potential error. It may have false-positives.
-  * Constructor: `LintWarning(id, message)`
+  * Constructor: `LintWarning(id, message, elements)`
   * Properties:
     * `id` - Unique string ID for this type of lint problem. Of the form "W###" (e.g. "W123").
     * `message` - Human-readable string describing the problem
+    * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
 * `LintError`
   * Represents an error. Under the assumptions explained in the above "Caveats" section, it should never have any false-positives.
-  * Constructor: `LintError(id, message)`
+  * Constructor: `LintError(id, message, elements)`
   * Properties:
     * `id` - Unique string ID for this type of lint problem. Of the form "E###" (e.g. "E123").
     * `message` - Human-readable string describing the problem
+    * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
 
 A ***reporter*** is a function that accepts exactly 1 argument of type `LintWarning` or `LintError`. Its return value is ignored. It should somehow record the problem or display it to the user.
 
