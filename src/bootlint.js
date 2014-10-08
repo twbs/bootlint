@@ -151,14 +151,14 @@ var cheerio = require('cheerio');
     function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
-        this.elements = elements;
+        this.elements = (elements ? (typeof elements.toArray === 'function' ? elements.toArray() : [elements]) : []);
     }
     exports.LintError = LintError;
 
     function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
-        this.elements = elements;
+        this.elements = (elements ? (typeof elements.toArray === 'function' ? elements.toArray() : [elements]) : []);
     }
     exports.LintWarning = LintWarning;
 
@@ -702,11 +702,11 @@ var cheerio = require('cheerio');
                         seenLint = true;
                     }
 
-                    if (!lint.elements) {
-                        console.warn("bootlint:", lint.id, lint.message);
+                    if (lint.elements.length) {
+                        console.warn("bootlint:", lint.id, lint.message + '\n', lint.elements);
                     }
                     else {
-                        console.warn("bootlint:", lint.id, lint.message + '\n', lint.elements);
+                        console.warn("bootlint:", lint.id, lint.message);
                     }
                 };
                 this.lintCurrentDocument(reporter, disabledIds);
