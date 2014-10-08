@@ -9348,15 +9348,17 @@ var cheerio = require('cheerio');
         return runs;
     }
 
-    function LintError(id, message) {
+    function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
+        this.elements = elements;
     }
     exports.LintError = LintError;
 
-    function LintWarning(id, message) {
+    function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
+        this.elements = elements;
     }
     exports.LintWarning = LintWarning;
 
@@ -9378,8 +9380,8 @@ var cheerio = require('cheerio');
         }
 
         function linterWrapper($, reporter) {
-            function specializedReporter(message) {
-                reporter(new Problem(id, message));
+            function specializedReporter(message, elements) {
+                reporter(new Problem(id, message, elements));
             }
 
             linter($, specializedReporter);
@@ -9885,7 +9887,13 @@ var cheerio = require('cheerio');
                         /*eslint-enable no-alert, no-undef, block-scoped-var */
                         seenLint = true;
                     }
-                    console.warn("bootlint:", lint.id, lint.message);
+
+                    if (!lint.elements) {
+                        console.warn("bootlint:", lint.id, lint.message);
+                    }
+                    else {
+                        console.warn("bootlint:", lint.id, lint.message + '\n', lint.elements);
+                    }
                 };
                 this.lintCurrentDocument(reporter, disabledIds);
             };
