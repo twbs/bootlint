@@ -39,7 +39,7 @@
     "grunt-jscs": "^0.7.1",
     "jquery": "~2.1.1",
     "load-grunt-tasks": "^0.6.0",
-    "npm-shrinkwrap": "^3.1.8",
+    "npm-shrinkwrap": "^4.0.0",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
