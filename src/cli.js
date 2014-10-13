@@ -3,24 +3,23 @@
 /*eslint no-process-exit: 0 */
 'use strict';
 
+var program  = require('commander');
 var fs = require('fs');
 var glob = require('glob');
 var bootlint = require('./bootlint.js');
 
+program
+    .version('0.4.0')
+    .usage('[options] [files...]')
+    .option('-d, --disable <IDs>', 'List of disabled IDs', function (val) {
+        return val.split(',');
+    })
+    .parse(process.argv);
+var disabledIds = program.disable;
+
 var totalErrCount = 0;
 var totalFileCount = 0;
-var disabledIds = [];
-var patterns = process.argv.slice(2);
-var regex = /([A-Z])([0-9]+)/;
-patterns.forEach(function (pattern) {
-    var p = pattern.replace('--disable=', '');
-    var matches = p.match(regex);
-
-    if (matches !== null && matches.length > 0) {
-        disabledIds.push(matches[0]);
-    }
-});
-patterns.forEach(function (pattern) {
+program.args.forEach(function (pattern) {
     var filenames = glob.sync(pattern);
 
     filenames.forEach(function (filename) {
