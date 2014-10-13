@@ -8,6 +8,7 @@
 /*eslint-env node */
 
 var cheerio = require('cheerio');
+var semver = require('semver');
 
 (function (exports) {
     'use strict';
@@ -29,6 +30,7 @@ var cheerio = require('cheerio');
     };
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
+    var MIN_JQUERY_VERSION = '1.9.0';// as of Bootstrap v3.2.0
 
     function compareNums(a, b) {
         return a - b;
@@ -302,6 +304,8 @@ var cheerio = require('cheerio');
         }
     });
     addLinter("W005", function lintJquery($, reporter) {
+        var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
+        var NO_JQUERY = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -311,13 +315,56 @@ var cheerio = require('cheerio');
         catch (e) {
             // deliberately do nothing
         }
-        if (theWindow && (theWindow.$ || theWindow.jQuery)) {
-            return;
+        if (theWindow) {
+            // check browser global jQuery
+            var globaljQuery = theWindow.$ || theWindow.jQuery;
+            if (globaljQuery) {
+                var globalVersion = null;
+                try {
+                    globalVersion = globaljQuery.fn.jquery;
+                }
+                catch (e) {
+                    // skip; not actually jQuery?
+                }
+                if (globalVersion) {
+                    // pad out short version numbers (e.g. '1.7')
+                    while (globalVersion.match(/\./g).length < 2) {
+                        globalVersion += ".0";
+                    }
+
+                    var upToDate = null;
+                    try {
+                        upToDate = semver.gte(globalVersion, MIN_JQUERY_VERSION, true);
+                    }
+                    catch (e) {
+                        // invalid version number
+                    }
+                    if (upToDate === false) {
+                        reporter(OLD_JQUERY);
+                    }
+                    if (upToDate !== null) {
+                        return;
+                    }
+                }
+            }
         }
+
+        // check for jQuery <script>s
         var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
         if (!jqueries.length) {
-            reporter("Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work");
+            reporter(NO_JQUERY);
+            return;
         }
+        jqueries.each(function () {
+            var matches = $(this).attr('src').match(/\d+\.\d+\.\d+/g);
+            if (!matches) {
+                return;
+            }
+            var version = matches[matches.length - 1];
+            if (!semver.gte(version, MIN_JQUERY_VERSION, true)) {
+                reporter(OLD_JQUERY);
+            }
+        });
     });
     addLinter("E006", function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
