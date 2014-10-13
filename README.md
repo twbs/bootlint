@@ -39,7 +39,7 @@ For detailed explanations of each lint problem, [look up the IDs](https://github
 These IDs can be passed into the command line tool by using the the `--disable=` option.
 
 ```
-$ bootlint /path/to/some/webpage.html another_webpage.html [...] --disable=E002,E020
+$ bootlint -d E002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 ## API Documentation
