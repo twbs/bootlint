@@ -11,6 +11,15 @@ var totalErrCount = 0;
 var totalFileCount = 0;
 var disabledIds = [];
 var patterns = process.argv.slice(2);
+var regex = /([A-Z])([0-9]+)/;
+patterns.forEach(function (pattern) {
+    var p = pattern.replace('--disable=', '');
+    var matches = p.match(regex);
+
+    if (matches !== null && matches.length > 0) {
+        disabledIds.push(matches[0]);
+    }
+});
 patterns.forEach(function (pattern) {
     var filenames = glob.sync(pattern);
 
