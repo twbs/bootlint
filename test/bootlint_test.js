@@ -296,7 +296,7 @@ exports.bootlint = {
     'buttons should set type': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/without-type.html')),
-            ['Always set a `type` on `<button>`s.'],
+            ['Found one or more `<button>`s missing a `type` attribute.'],
             'should complain about lack of type attribute on buttons');
         test.deepEqual(lintHtml(utf8Fixture('buttons/with-type.html')),
             [],
