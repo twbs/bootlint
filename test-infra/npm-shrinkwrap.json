@@ -129,6 +129,10 @@
         }
       }
     },
+    "commander": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/commander/-/commander-2.3.0.tgz"
+    },
     "glob": {
       "version": "4.0.6",
       "resolved": "https://registry.npmjs.org/glob/-/glob-4.0.6.tgz",

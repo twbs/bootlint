@@ -29,6 +29,11 @@ $ bootlint /path/to/some/webpage.html another_webpage.html [...]
 
 This will output the lint warnings applicable to each file.
 
+The CLI also accepts a `--disable` (or `-d`) option to disable certain lint checks. `--disable` takes a comma-separated list of [lint problem IDs](https://github.com/twbs/bootlint/wiki). Here's an example:
+```
+$ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
+```
+
 ### In the browser
 [Use the CDN](http://www.bootstrapcdn.com/#bootlint_tab) provided by the fine folks at BootstrapCDN, or [download the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js), and insert a `<script>` tag for Bootlint into your webpage.
 Then check the JavaScript console for lint warning messages.

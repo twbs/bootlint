@@ -45,6 +45,7 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "cheerio": "^0.17.0",
+    "commander": "^2.3.0",
     "glob": "^4.0.6"
   },
   "main": "./src/bootlint.js",
