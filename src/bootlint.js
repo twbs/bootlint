@@ -451,7 +451,7 @@ var cheerio = require('cheerio');
     addLinter("W007", function lintBtnType($, reporter) {
         var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
         if (badBtnType.length) {
-            reporter("Always set a `type` on `<button>`s.");
+            reporter("Found one or more `<button>`s missing a `type` attribute.");
         }
     });
     addLinter("E017", function lintBlockCheckboxes($, reporter) {
