@@ -11,7 +11,7 @@ var bootlint = require('./bootlint.js');
 program
     .version('0.4.0')
     .usage('[options] [files...]')
-    .option('-d, --disable <IDs>', 'List of disabled IDs', function (val) {
+    .option('-d, --disable <IDs>', 'Comma seperated list of disabled IDs', function (val) {
         return val.split(',');
     })
     .parse(process.argv);
