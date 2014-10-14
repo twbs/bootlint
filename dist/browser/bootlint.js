@@ -9879,13 +9879,14 @@ var cheerio = require('cheerio');
             exports.showLintReportForCurrentDocument = function (disabledIds) {
                 var seenLint = false;
                 var reporter = function (lint) {
+                    var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
                         /*eslint-disable no-alert, no-undef, block-scoped-var */
                         window.alert("bootlint found errors in this document! See the JavaScript console for details.");
                         /*eslint-enable no-alert, no-undef, block-scoped-var */
                         seenLint = true;
                     }
-                    console.warn("bootlint:", lint.id, lint.message);
+                    console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
                 };
                 this.lintCurrentDocument(reporter, disabledIds);
             };
