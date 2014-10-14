@@ -3,6 +3,7 @@
 /*eslint no-process-exit: 0 */
 'use strict';
 
+var chalk = require('chalk');
 var fs = require('fs');
 var glob = require('glob');
 var bootlint = require('./bootlint.js');
@@ -16,7 +17,8 @@ patterns.forEach(function (pattern) {
 
     filenames.forEach(function (filename) {
         var reporter = function (lint) {
-            console.log(filename + ":", lint.id, lint.message);
+            var lintId = (lint.id[0] === 'E') ? chalk.bgGreen.white(lint.id) : chalk.bgRed.white(lint.id);
+            console.log(filename + ":", lintId, lint.message);
             totalErrCount++;
         };
 
