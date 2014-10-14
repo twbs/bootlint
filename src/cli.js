@@ -33,6 +33,10 @@ patterns.forEach(function (pattern) {
     });
 });
 
+if (totalErrCount > 0) {
+    console.log("\nFor details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
+}
+
 console.log("" + totalErrCount + " lint error(s) found across " + totalFileCount + " file(s).");
 if (totalErrCount) {
     process.exit(1);

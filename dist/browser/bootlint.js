@@ -9878,6 +9878,7 @@ var cheerio = require('cheerio');
              */
             exports.showLintReportForCurrentDocument = function (disabledIds) {
                 var seenLint = false;
+                var errorCount = 0;
                 var reporter = function (lint) {
                     if (!seenLint) {
                         /*eslint-disable no-alert, no-undef, block-scoped-var */
@@ -9886,8 +9887,13 @@ var cheerio = require('cheerio');
                         seenLint = true;
                     }
                     console.warn("bootlint:", lint.id, lint.message);
+                    errorCount++;
                 };
                 this.lintCurrentDocument(reporter, disabledIds);
+
+                if (errorCount > 0) {
+                    console.log("For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
+                }
             };
             /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;
