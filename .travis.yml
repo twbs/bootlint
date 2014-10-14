@@ -18,7 +18,8 @@
     ],
     "script": [
         "npm test",
-        "./src/cli.js bootstrap/_gh_pages/**/index.html"
+        "./src/cli.js bootstrap/_gh_pages/**/index.html",
+        "./src/cli.js --disable W003,E001 test/fixtures/doctype/missing.html test/fixtures/viewport/missing.html"
     ],
     "after_script": [
         "./test-infra/s3_cache.py upload npm-modules",
