@@ -35,8 +35,13 @@ $ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 ### In the browser
-[Use the CDN](http://www.bootstrapcdn.com/#bootlint_tab) provided by the fine folks at BootstrapCDN, or [download the code](https://raw.github.com/twbs/bootlint/master/dist/browser/bootlint.js), and insert a `<script>` tag for Bootlint into your webpage.
+Use the following [bookmarklet](http://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
+```
+javascript:(function(){var s=document.createElement("script");s.src="//maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
+```
 Then check the JavaScript console for lint warning messages.
+
+You can also download [the browser-ready version of the code](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js) manually.
 
 ## Lint problem explanations
 For detailed explanations of each lint problem, [look up the IDs](https://github.com/twbs/bootlint/wiki) (for example, [`E001`](https://github.com/twbs/bootlint/wiki/E001) or [`W002`](https://github.com/twbs/bootlint/wiki/W002)) in [our wiki](https://github.com/twbs/bootlint/wiki).
