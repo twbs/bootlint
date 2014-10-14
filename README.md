@@ -41,7 +41,7 @@ javascript:(function(){var s=document.createElement("script");s.src="//maxcdn.bo
 ```
 Then check the JavaScript console for lint warning messages.
 
-You can also download [the browser-ready version of the code](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js) manually.
+You can also manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
 
 ## Lint problem explanations
 For detailed explanations of each lint problem, [look up the IDs](https://github.com/twbs/bootlint/wiki) (for example, [`E001`](https://github.com/twbs/bootlint/wiki/E001) or [`W002`](https://github.com/twbs/bootlint/wiki/W002)) in [our wiki](https://github.com/twbs/bootlint/wiki).
