@@ -16,7 +16,7 @@ patterns.forEach(function (pattern) {
 
     filenames.forEach(function (filename) {
         var reporter = function (lint) {
-            console.log(filename + ":", lint.id, lint.message);
+            console.log(filename + ":", lint.id, lint.message, "\n\tSee: https://github.com/twbs/bootlint/wiki/" + lint.id);
             totalErrCount++;
         };
 

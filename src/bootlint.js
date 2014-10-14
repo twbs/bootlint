@@ -685,7 +685,7 @@ var cheerio = require('cheerio');
                         /*eslint-enable no-alert, no-undef, block-scoped-var */
                         seenLint = true;
                     }
-                    console.warn("bootlint:", lint.id, lint.message);
+                    console.warn("bootlint:", lint.id, lint.message, "See: https://github.com/twbs/bootlint/wiki/" + lint.id);
                 };
                 this.lintCurrentDocument(reporter, disabledIds);
             };
