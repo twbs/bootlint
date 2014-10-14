@@ -36,6 +36,12 @@ Then check the JavaScript console for lint warning messages.
 ## Lint problem explanations
 For detailed explanations of each lint problem, [look up the IDs](https://github.com/twbs/bootlint/wiki) (for example, [`E001`](https://github.com/twbs/bootlint/wiki/E001) or [`W002`](https://github.com/twbs/bootlint/wiki/W002)) in [our wiki](https://github.com/twbs/bootlint/wiki).
 
+These IDs can be passed into the command line tool by using the the `--disable` or `-d` option.
+
+```
+$ bootlint -d E002,E020 /path/to/some/webpage.html another_webpage.html [...]
+```
+
 ## API Documentation
 Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 

@@ -3,15 +3,24 @@
 /*eslint no-process-exit: 0 */
 'use strict';
 
+var program  = require('commander');
 var fs = require('fs');
 var glob = require('glob');
 var bootlint = require('./bootlint.js');
+var pack = require('./../package.json');
+
+program
+    .version(pack.version)
+    .usage('[options] [files...]')
+    .option('-d, --disable <IDs>', 'Comma separated list of disabled IDs', function (val) {
+        return val.split(',');
+    })
+    .parse(process.argv);
+var disabledIds = program.disable === undefined ? [] : program.disable;
 
 var totalErrCount = 0;
 var totalFileCount = 0;
-var disabledIds = [];
-var patterns = process.argv.slice(2);
-patterns.forEach(function (pattern) {
+program.args.forEach(function (pattern) {
     var filenames = glob.sync(pattern);
 
     filenames.forEach(function (filename) {
