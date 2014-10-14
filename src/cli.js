@@ -7,11 +7,12 @@ var program  = require('commander');
 var fs = require('fs');
 var glob = require('glob');
 var bootlint = require('./bootlint.js');
+var pack = require('./../package.json');
 
 program
-    .version('0.4.0')
+    .version(pack.version)
     .usage('[options] [files...]')
-    .option('-d, --disable <IDs>', 'Comma seperated list of disabled IDs', function (val) {
+    .option('-d, --disable <IDs>', 'Comma separated list of disabled IDs', function (val) {
         return val.split(',');
     })
     .parse(process.argv);
