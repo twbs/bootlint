@@ -16,7 +16,7 @@ program
         return val.split(',');
     })
     .parse(process.argv);
-var disabledIds = program.disable;
+var disabledIds = program.disable === undefined ? [] : program.disable;
 
 var totalErrCount = 0;
 var totalFileCount = 0;
