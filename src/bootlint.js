@@ -8,6 +8,7 @@
 /*eslint-env node */
 
 var cheerio = require('cheerio');
+var semver = require('semver');
 
 (function (exports) {
     'use strict';
@@ -29,6 +30,7 @@ var cheerio = require('cheerio');
     };
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
+    var VALID_JQUERY = '1.9.0';
 
     function compareNums(a, b) {
         return a - b;
@@ -302,6 +304,8 @@ var cheerio = require('cheerio');
         }
     });
     addLinter("W005", function lintJquery($, reporter) {
+        var OLD_JQUERY = "An older version of jQuery was detected, please upgrade to version " + VALID_JQUERY + " or higher";
+        var NO_JQUERY = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -312,11 +316,25 @@ var cheerio = require('cheerio');
             // deliberately do nothing
         }
         if (theWindow && (theWindow.$ || theWindow.jQuery)) {
+            // Detect window jQuery version
+            if (!semver.gt(theWindow.jQuery.fn.jquery, VALID_JQUERY)) {
+                reporter(OLD_JQUERY);
+            }
+
             return;
         }
         var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
         if (!jqueries.length) {
-            reporter("Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work");
+            reporter(NO_JQUERY);
+        }
+        else {
+            jqueries.each(function () {
+                var matches = $(this).attr('src').match(/([0-9]+).([0-9]+).([0-9]+)/);
+
+                if (matches && !semver.gt(matches[0], VALID_JQUERY)) {
+                    reporter(OLD_JQUERY);
+                }
+            });
         }
     });
     addLinter("E006", function lintInputGroupFormControlTypes($, reporter) {
