@@ -37,7 +37,7 @@ $ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ### In the browser
 Use the following [bookmarklet](http://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
 ```
-javascript:(function(){var s=document.createElement("script");s.src="//maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
+javascript:(function(){var s=document.createElement("script");s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 Then check the JavaScript console for lint warning messages.
 
