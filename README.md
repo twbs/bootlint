@@ -37,7 +37,7 @@ $ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ### In the browser
 Use the following [bookmarklet](http://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
 ```
-javascript:(function(){var s=document.createElement("script");s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
+javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 Then check the JavaScript console for lint warning messages.
 
@@ -52,16 +52,18 @@ Bootlint is a [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1).
 Bootlint represents the lint problems it reports using the `LintError` and `LintWarning` classes:
 * `LintWarning`
   * Represents a potential error. It may have false-positives.
-  * Constructor: `LintWarning(id, message)`
+  * Constructor: `LintWarning(id, message, elements)`
   * Properties:
     * `id` - Unique string ID for this type of lint problem. Of the form "W###" (e.g. "W123").
     * `message` - Human-readable string describing the problem
+    * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
 * `LintError`
   * Represents an error. Under the assumptions explained in the above "Caveats" section, it should never have any false-positives.
-  * Constructor: `LintError(id, message)`
+  * Constructor: `LintError(id, message, elements)`
   * Properties:
     * `id` - Unique string ID for this type of lint problem. Of the form "E###" (e.g. "E123").
     * `message` - Human-readable string describing the problem
+    * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
 
 A ***reporter*** is a function that accepts exactly 1 argument of type `LintWarning` or `LintError`. Its return value is ignored. It should somehow record the problem or display it to the user.
 
@@ -77,8 +79,6 @@ In a browser environment, the following public APIs are available:
   * If there are any lint warnings, one general notification message will be `window.alert()`-ed to the user. Each warning will be output individually using `console.warn()`.
   * `disabledIds` is an array of string linter IDs to disable
   * Returns nothing (i.e. `undefined`)
-
-In a browser environment, after Bootlint has loaded, `bootlint.showLintReportForCurrentDocument([])` will be executed once.
 
 ### Node.js
 
@@ -109,16 +109,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
-* `master`
-  * bump `npm-shrinkwrap` to `^4.0.0`
-  * #129: add check for minimum required jQuery version
-  * #126: E008 is now W008 (downgraded from error to warning)
-  * #127: Tweak message for W007 ("Found one or more `<button>`s missing a `type` attribute.")
-  * #131: Colorize output
-  * #128: Add `disable` option to CLI
-  * #102: Add [wiki pages](https://github.com/twbs/bootlint/wiki) explaining each lint problem
-  * #130: Output link to wiki when lint problems are present
-  * #78: Add bookmarklet to docs for easier in-browser use of Bootlint
+* 2014-10-16 - v0.5.0: Add several new features. Add official bookmarklet. Disable auto-lint-on-load in browser. Tweak some checks. **Not backward compatible**
 * 2014-10-07 - v0.4.0: Add checks for correct Glyphicon usage and correct modal DOM structure; fix `.panel-footer` false positive
 * 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
 * 2014-09-23 - v0.2.0: First formal release. Announcement: http://blog.getbootstrap.com/2014/09/23/bootlint/
