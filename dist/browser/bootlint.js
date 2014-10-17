@@ -11078,9 +11078,6 @@ var semver = require('semver');
             /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;
             /*eslint-enable no-undef, block-scoped-var */
-            $(function () {
-                exports.showLintReportForCurrentDocument([]);
-            });
         })();
     }
 })(typeof exports === 'object' && exports || this);
