@@ -6,6 +6,7 @@
   "disallowMultipleVarDecl": true,
   "disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~", "!"],
   "disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+  "disallowSpacesInCallExpression": true,
   "disallowTrailingWhitespace": true,
   "requireCapitalizedConstructors": true,
   "requireCommaBeforeLineBreak": true,
@@ -18,5 +19,6 @@
   "requireSpacesInConditionalExpression": true,
   "requireSpacesInFunctionExpression": { "beforeOpeningCurlyBrace": true },
   "validateIndentation": 4,
-  "validateLineBreaks": "LF"
+  "validateLineBreaks": "LF",
+  "validateParameterSeparator": ", "
 }
