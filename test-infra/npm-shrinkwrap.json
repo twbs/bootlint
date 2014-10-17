@@ -2099,16 +2099,16 @@
       "resolved": "https://registry.npmjs.org/grunt-exec/-/grunt-exec-0.4.6.tgz"
     },
     "grunt-jscs": {
-      "version": "0.7.1",
-      "resolved": "https://registry.npmjs.org/grunt-jscs/-/grunt-jscs-0.7.1.tgz",
+      "version": "0.8.0",
+      "resolved": "https://registry.npmjs.org/grunt-jscs/-/grunt-jscs-0.8.0.tgz",
       "dependencies": {
         "hooker": {
           "version": "0.2.3",
           "resolved": "https://registry.npmjs.org/hooker/-/hooker-0.2.3.tgz"
         },
         "jscs": {
-          "version": "1.6.2",
-          "resolved": "https://registry.npmjs.org/jscs/-/jscs-1.6.2.tgz",
+          "version": "1.7.3",
+          "resolved": "https://registry.npmjs.org/jscs/-/jscs-1.7.3.tgz",
           "dependencies": {
             "colors": {
               "version": "0.6.2",
@@ -2121,6 +2121,10 @@
             "esprima": {
               "version": "1.2.2",
               "resolved": "https://registry.npmjs.org/esprima/-/esprima-1.2.2.tgz"
+            },
+            "esprima-harmony-jscs": {
+              "version": "1.1.0-dev-harmony",
+              "resolved": "https://registry.npmjs.org/esprima-harmony-jscs/-/esprima-harmony-jscs-1.1.0-dev-harmony.tgz"
             },
             "exit": {
               "version": "0.1.2",
