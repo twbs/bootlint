@@ -696,16 +696,19 @@ var semver = require('semver');
         }
     });
     addLinter("E033", function lintAlertDismissibleClass($, reporter) {
-        if ($('.alert .close').parent(':not(.alert-dismissible)').length) {
-            reporter('`.alert` with dismiss button must have class `.alert-dismissible`');
+        var elements = $('.alert .close').parent(':not(.alert-dismissible)');
+        if (elements.length) {
+            reporter('`.alert` with dismiss button must have class `.alert-dismissible`', elements);
         }
     });
     addLinter("E034", function lintAlertDismissStructure($, reporter) {
-        if ($('.alert .close:not(:first-child)').length) {
-            reporter('alert dismiss button must be the first element in `.alert`');
+        var elements = $('.alert .close:not(:first-child)');
+        if (elements.length) {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
         }
-        if ($('.alert .close').length && $('.alert').contents().eq(0).text().trim() !== '') {
-            reporter('alert dismiss button must be the first element in `.alert`');
+        elements = $('.alert .close');
+        if (elements.length && $('.alert').contents().eq(0).text().trim() !== '') {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
         }
     });
 
