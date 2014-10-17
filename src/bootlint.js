@@ -167,6 +167,7 @@ var semver = require('semver');
     var allLinters = {};
     function addLinter(id, linter) {
         if (allLinters[id]) {
+            /* @covignore */
             throw new Error("Linter already registered with ID: " + id);
         }
 
@@ -178,6 +179,7 @@ var semver = require('semver');
             Problem = LintWarning;
         }
         else {
+            /* @covignore */
             throw new Error("Invalid linter ID: " + id);
         }
 
@@ -214,6 +216,7 @@ var semver = require('semver');
             };
         }
         else {
+            /* @covignore */
             return function lintDoctype($, reporter) {
                 /*eslint-disable no-undef, block-scoped-var */
                 var doc = window.document;
@@ -317,6 +320,7 @@ var semver = require('semver');
         catch (e) {
             // deliberately do nothing
         }
+        /* @covignore */
         if (theWindow) {
             // check browser global jQuery
             var globaljQuery = theWindow.$ || theWindow.jQuery;
@@ -723,6 +727,7 @@ var semver = require('semver');
     }
     else {
         // jQuery; in-browser
+        /* @covignore */
         (function () {
             var $ = cheerio;
             /**
