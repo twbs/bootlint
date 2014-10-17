@@ -702,10 +702,10 @@ var semver = require('semver');
     });
     addLinter("E034", function lintAlertDismissStructure($, reporter) {
         if ($('.alert .close:not(:first-child)').length) {
-            reporter('alert dismiss button must be first element in `.alert`');
+            reporter('alert dismiss button must be the first element in `.alert`');
         }
         if ($('.alert .close').length && $('.alert').contents().eq(0).text().trim() !== '') {
-            reporter('alert dismiss button must be first element in `.alert`');
+            reporter('alert dismiss button must be the first element in `.alert`');
         }
     });
 

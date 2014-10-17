@@ -506,5 +506,26 @@ exports.bootlint = {
             'should complain when modal title is not within modal header.'
         );
         test.done();
+    },
+
+    'alert alignment': function (test) {
+        test.expect(4);
+        test.deepEqual(lintHtml(utf8Fixture('alert/alert-dismissible.html')),
+            [],
+            'should not complain when alert markup structure is correct.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert/alert-dismiss-class.html')),
+            ['`.alert` with dismiss button must have class `.alert-dismissible`'],
+            'should complain about `alert-dismissible` class missing.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert/alert-dismiss-alignment.html')),
+            ['alert dismiss button must be the first element in `.alert`'],
+            'should complain about alert dismiss close button not being first element'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert/alert-dismiss-alignment-el.html')),
+            ['alert dismiss button must be the first element in `.alert`'],
+            'should complain about alert dismiss close button not being first element'
+        );
+        test.done();
     }
 };
