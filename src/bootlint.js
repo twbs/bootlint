@@ -740,7 +740,7 @@ var semver = require('semver');
                 this.lintCurrentDocument(reporter, disabledIds);
 
                 if (errorCount > 0) {
-                    console.log("For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
+                    console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
                 }
             };
             /*eslint-disable no-undef, block-scoped-var */
