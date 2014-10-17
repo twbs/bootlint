@@ -27,6 +27,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "grunt-banner": "^0.2.3",
     "grunt-browserify": "^3.0.1",
     "grunt-contrib-clean": "^0.6.0",
@@ -38,7 +39,9 @@
     "grunt-exec": "^0.4.6",
     "grunt-jscs": "^0.7.1",
     "jquery": "~2.1.1",
+    "jscoverage": "^0.5.6",
     "load-grunt-tasks": "^0.6.0",
+    "nodeunit": "^0.9.0",
     "npm-shrinkwrap": "^4.0.0",
     "time-grunt": "^1.0.0"
   },
