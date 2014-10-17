@@ -699,6 +699,22 @@ var semver = require('semver');
             reporter(".modal-title must be a child of .modal-header", elements);
         }
     });
+    addLinter("E033", function lintAlertMissingDismissible($, reporter) {
+        var alertsMissingDismissible = $('.alert:not(.alert-dismissible):has([data-dismiss="alert"])');
+        if (alertsMissingDismissible.length) {
+            reporter('`.alert` with dismiss button must have class `.alert-dismissible`', alertsMissingDismissible);
+        }
+    });
+    addLinter("E034", function lintAlertDismissStructure($, reporter) {
+        var nonFirstChildCloses = $('.alert>.close:not(:first-child)');
+        var closesPrecededByText = $('.alert>.close').filter(function () {
+            return !!($(this).parent().contents().eq(0).text().trim());
+        });
+        var problematicCloses = nonFirstChildCloses.add(closesPrecededByText);
+        if (problematicCloses.length) {
+            reporter('`.close` button for `.alert` must be the first element in the `.alert`', problematicCloses);
+        }
+    });
     addLinter("E035", function lintFormGroupWithFormClass($, reporter) {
         var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
         if (badFormGroups.length) {
