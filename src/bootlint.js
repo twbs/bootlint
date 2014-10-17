@@ -588,7 +588,7 @@ var semver = require('semver');
         }
     });
     addLinter("E027", function lintTableResponsive($, reporter) {
-        var badStructure = $('.table.table-responsive,table.table-responsive');
+        var badStructure = $('.table.table-responsive, table.table-responsive');
         if (badStructure.length) {
             reporter("`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself", badStructure);
         }
@@ -693,6 +693,12 @@ var semver = require('semver');
         elements = $('.modal-title').parent(':not(.modal-header)');
         if (elements.length) {
             reporter(".modal-title must be a child of .modal-header", elements);
+        }
+    });
+    addLinter("E035", function lintFormGroupWithFormClass($, reporter) {
+        var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
+        if (badFormGroups.length) {
+            reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
         }
     });
 
