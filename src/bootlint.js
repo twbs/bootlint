@@ -699,6 +699,14 @@ var semver = require('semver');
             reporter(".modal-title must be a child of .modal-header", elements);
         }
     });
+    addLinter("E036", function lintMultipleInputGroupButtons($, reporter) {
+        $('.input-group-btn').each(function () {
+            var elements = $(this).children('button:not(.dropdown-toggle)');
+            if (elements.length > 1) {
+                reporter('Having multiple <button>s inside of a single `.input-group-btn` is not supported', elements);
+            }
+        });
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
