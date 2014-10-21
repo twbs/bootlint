@@ -103,6 +103,40 @@ In a Node.js environment, Bootlint exposes the following public API:
   * `disabledIds` is an array of string linter IDs to disable
   * Returns nothing (i.e. `undefined`)
 
+### HTTP API
+
+Bootlint can also be run as an HTTP server that exposes a very simple API.
+Use `npm run start` to run the server.
+By default, it runs on port `7070`. Set the `$PORT` environment variable to change which port it uses.
+POST an HTML document to `/` and the document's lint problems will be returned as JSON.
+The endpoint accepts an optional querystring argument named `disable`, whose value is a comma-separated list of linter IDs to disable.
+
+Example:
+```
+Request:
+  POST / HTTP/1.1
+  Content-Type: text/html
+
+  <!DOCTYPE html>
+  ...
+
+Response:
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+
+  [
+    {
+      "id": "W003",
+      "message": "<head> is missing viewport <meta> tag that enables responsiveness"
+    },
+    {
+      "id": "W005",
+      "message": "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work"
+    },
+    ...
+  ]
+```
+
 ## Contributing
 The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
