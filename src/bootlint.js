@@ -699,6 +699,22 @@ var semver = require('semver');
             reporter(".modal-title must be a child of .modal-header", elements);
         }
     });
+    addLinter("E033", function lintAlertDismissibleClass($, reporter) {
+        var elements = $('.alert .close').parent(':not(.alert-dismissible)');
+        if (elements.length) {
+            reporter('`.alert` with dismiss button must have class `.alert-dismissible`', elements);
+        }
+    });
+    addLinter("E034", function lintAlertDismissStructure($, reporter) {
+        var elements = $('.alert .close:not(:first-child)');
+        if (elements.length) {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
+        }
+        elements = $('.alert .close');
+        if (elements.length && $('.alert').contents().eq(0).text().trim() !== '') {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};

@@ -9545,35 +9545,35 @@ SemVer.prototype.comparePre = function(other) {
 
 // preminor will bump the version up to the next minor release, and immediately
 // down to pre-release. premajor and prepatch work the same way.
-SemVer.prototype.inc = function(release) {
+SemVer.prototype.inc = function(release, identifier) {
   switch (release) {
     case 'premajor':
       this.prerelease.length = 0;
       this.patch = 0;
       this.minor = 0;
       this.major++;
-      this.inc('pre');
+      this.inc('pre', identifier);
       break;
     case 'preminor':
       this.prerelease.length = 0;
       this.patch = 0;
       this.minor++;
-      this.inc('pre');
+      this.inc('pre', identifier);
       break;
     case 'prepatch':
       // If this is already a prerelease, it will bump to the next version
       // drop any prereleases that might already exist, since they are not
       // relevant at this point.
       this.prerelease.length = 0;
-      this.inc('patch');
-      this.inc('pre');
+      this.inc('patch', identifier);
+      this.inc('pre', identifier);
       break;
     // If the input is a non-prerelease version, this acts the same as
     // prepatch.
     case 'prerelease':
       if (this.prerelease.length === 0)
-        this.inc('patch');
-      this.inc('pre');
+        this.inc('patch', identifier);
+      this.inc('pre', identifier);
       break;
 
     case 'major':
@@ -9607,7 +9607,7 @@ SemVer.prototype.inc = function(release) {
       this.prerelease = [];
       break;
     // This probably shouldn't be used publicly.
-    // 1.0.0 "pre" would become 1.0.0 which is the wrong direction.
+    // 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
     case 'pre':
       if (this.prerelease.length === 0)
         this.prerelease = [0];
@@ -9622,6 +9622,15 @@ SemVer.prototype.inc = function(release) {
         if (i === -1) // didn't increment anything
           this.prerelease.push(0);
       }
+      if (identifier) {
+        // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
+        // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
+        if (this.prerelease[0] === identifier) {
+          if (isNaN(this.prerelease[1]))
+            this.prerelease = [identifier, 0];
+        } else
+          this.prerelease = [identifier, 0];
+      }
       break;
 
     default:
@@ -9632,9 +9641,14 @@ SemVer.prototype.inc = function(release) {
 };
 
 exports.inc = inc;
-function inc(version, release, loose) {
+function inc(version, release, loose, identifier) {
+  if (typeof(loose) === 'string') {
+    identifier = loose;
+    loose = undefined;
+  }
+
   try {
-    return new SemVer(version, loose).inc(release).version;
+    return new SemVer(version, loose).inc(release, identifier).version;
   } catch (er) {
     return null;
   }
@@ -11001,6 +11015,22 @@ var semver = require('semver');
         elements = $('.modal-title').parent(':not(.modal-header)');
         if (elements.length) {
             reporter(".modal-title must be a child of .modal-header", elements);
+        }
+    });
+    addLinter("E033", function lintAlertDismissibleClass($, reporter) {
+        var elements = $('.alert .close').parent(':not(.alert-dismissible)');
+        if (elements.length) {
+            reporter('`.alert` with dismiss button must have class `.alert-dismissible`', elements);
+        }
+    });
+    addLinter("E034", function lintAlertDismissStructure($, reporter) {
+        var elements = $('.alert .close:not(:first-child)');
+        if (elements.length) {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
+        }
+        elements = $('.alert .close');
+        if (elements.length && $('.alert').contents().eq(0).text().trim() !== '') {
+            reporter('alert dismiss button must be the first element in `.alert`', elements);
         }
     });
 
