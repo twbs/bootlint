@@ -506,5 +506,17 @@ exports.bootlint = {
             'should complain when modal title is not within modal header.'
         );
         test.done();
+    },
+    'test form group validity': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('form/form-inline-group.html')),
+            [".form-inline and .form-horizontal should not be used directly on a .form-group"],
+            'should complain about form-group having .form-inline'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form/form-horizontal-group.html')),
+            [".form-inline and .form-horizontal should not be used directly on a .form-group"],
+            'should complain about form-group having .form-horizontal'
+        );
+        test.done();
     }
 };

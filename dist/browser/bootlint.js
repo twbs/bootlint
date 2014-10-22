@@ -11003,6 +11003,14 @@ var semver = require('semver');
             reporter(".modal-title must be a child of .modal-header", elements);
         }
     });
+    addLinter("E035", function lintFormGroup($, reporter) {
+        var elements = $('.form-inline, .form-horizontal');
+        elements.each(function() {
+            if ($(this).is('.form-group')) {
+                reporter('.form-inline and .form-horizontal should not be used directly on a .form-group', $(this));
+            }
+        });
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
