@@ -105,10 +105,12 @@ In a Node.js environment, Bootlint exposes the following public API:
 
 ### HTTP API
 
-Bootlint can also be run as an HTTP server that exposes a very simple API.
-Use `npm run start` to run the server.
+Bootlint can also be run as an HTTP server that exposes a very simple API. Use `npm run start` to run the server.
+
 By default, it runs on port `7070`. Set the `$PORT` environment variable to change which port it uses.
+
 POST an HTML document to `/` and the document's lint problems will be returned as JSON.
+
 The endpoint accepts an optional querystring argument named `disable`, whose value is a comma-separated list of linter IDs to disable.
 
 Example:
