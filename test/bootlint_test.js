@@ -507,7 +507,8 @@ exports.bootlint = {
         );
         test.done();
     },
-    'test form group validity': function (test) {
+
+    'form classes used directly on form groups': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('form/form-inline-group.html')),
             ["Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal"],
@@ -516,6 +517,27 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('form/form-horizontal-group.html')),
             ["Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal"],
             'should complain about form-group having .form-horizontal'
+        );
+        test.done();
+    },
+
+    'incorrect alerts with dismiss/close buttons': function (test) {
+        test.expect(4);
+        test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/valid.html')),
+            [],
+            'should not complain when dismissible alert markup structure is correct.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/missing-alert-dismissible.html')),
+            ['`.alert` with dismiss button must have class `.alert-dismissible`'],
+            'should complain when alert with dismiss button is missing .alert-dismissible class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/close-preceded-by-text.html')),
+            ['`.close` button for `.alert` must be the first element in the `.alert`'],
+            'should complain when alert close button is not first child in alert.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/close-preceded-by-elem.html')),
+            ['`.close` button for `.alert` must be the first element in the `.alert`'],
+            'should complain when alert close button is not first child in alert.'
         );
         test.done();
     }
