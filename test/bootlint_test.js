@@ -428,6 +428,47 @@ exports.bootlint = {
         test.done();
     },
 
+    'empty spacer grid columns': function (test) {
+        test.expect(9);
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/blank-text.html')),
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with class="col-xs-11" , just add class="col-xs-offset-11" to the next grid column.'],
+            'should complain when spacer column contains only whitespace text content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/non-blank-text.html')),
+            [],
+            'should not complain when spacer-like column contains non-whitespace-only text content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/child-with-text.html')),
+            [],
+            'should not complain when spacer-like column contains child with text content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/child-without-text.html')),
+            [],
+            'should not complain when spacer-like column contains child element without text content.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/no-child-no-text.html')),
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with class="col-xs-11" , just add class="col-xs-offset-11" to the next grid column.'],
+            'should complain when spacer column is completely empty.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/col-element.html')),
+            [],
+            'should not complain about <col> elements with grid column classes.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/last-child.html')),
+            [],
+            'should not complain when the spacer column is the last column in the row.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/tricky-classes.html')),
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with class="col-xs-11" , just add class="col-xs-offset-11" to the next grid column.'],
+            'should process classes named similar to grid column classes correctly.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/multiple-reversed-order.html')),
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with class="col-xs-11 col-sm-8 col-md-6 col-lg-5" , just add class="col-xs-offset-11 col-sm-offset-8 col-md-offset-6 col-lg-offset-5" to the next grid column.'],
+            'should sort the grid classes in its message and handle multiple grid classes correctly.'
+        );
+        test.done();
+    },
+
     '.form-control-feedback without a .has-feedback ancestor': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('feedback/form-control-valid.html')),

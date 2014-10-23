@@ -721,6 +721,31 @@ var semver = require('semver');
             reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
         }
     });
+    addLinter("W009",  function lintEmptySpacerCols($, reporter) {
+        var selector = COL_CLASSES.map(function (colClass) {
+            return colClass + ':not(col):not(:last-child)';
+        }).join(',');
+        var columns = $(selector);
+        columns.each(function (_index, col) {
+            var column = $(col);
+            // can't just use :empty because :empty excludes nodes with all-whitespace text content
+            var hasText = !!column.text().trim().length;
+            var hasChildren = !!column.children(':first-child').length;
+            if (hasChildren || hasText) {
+                return;
+            }
+
+            var colClasses = column.attr('class').split(/\s+/g).filter(function (klass) {
+                return COL_REGEX.test(klass);
+            });
+            colClasses = sortedColumnClasses(colClasses.join(' ')).trim();
+
+            var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
+            var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
+
+            reporter("Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with " + 'class="' + colClasses + '" , just add class="' + offsetClasses + '" to the next grid column.', column);
+        });
+    });
     addLinter("W010", function lintMediaPulls($, reporter) {
         var mediaPulls = $('.media>.pull-left, .media>.pull-right');
         if (mediaPulls.length) {
