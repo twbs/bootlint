@@ -10335,8 +10335,8 @@ var semver = require('semver');
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/g;
+    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
+    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
     var COL_CLASSES = [];
     var SCREENS = ['xs', 'sm', 'md', 'lg'];
     SCREENS.forEach(function (screen) {
@@ -10489,6 +10489,7 @@ var semver = require('semver');
     var allLinters = {};
     function addLinter(id, linter) {
         if (allLinters[id]) {
+            /* @covignore */
             throw new Error("Linter already registered with ID: " + id);
         }
 
@@ -10500,6 +10501,7 @@ var semver = require('semver');
             Problem = LintWarning;
         }
         else {
+            /* @covignore */
             throw new Error("Invalid linter ID: " + id);
         }
 
@@ -10536,6 +10538,7 @@ var semver = require('semver');
             };
         }
         else {
+            /* @covignore */
             return function lintDoctype($, reporter) {
                 /*eslint-disable no-undef, block-scoped-var */
                 var doc = window.document;
@@ -10639,6 +10642,7 @@ var semver = require('semver');
         catch (e) {
             // deliberately do nothing
         }
+        /* @covignore */
         if (theWindow) {
             // check browser global jQuery
             var globaljQuery = theWindow.$ || theWindow.jQuery;
@@ -11017,6 +11021,22 @@ var semver = require('semver');
             reporter(".modal-title must be a child of .modal-header", elements);
         }
     });
+    addLinter("E033", function lintAlertMissingDismissible($, reporter) {
+        var alertsMissingDismissible = $('.alert:not(.alert-dismissible):has([data-dismiss="alert"])');
+        if (alertsMissingDismissible.length) {
+            reporter('`.alert` with dismiss button must have class `.alert-dismissible`', alertsMissingDismissible);
+        }
+    });
+    addLinter("E034", function lintAlertDismissStructure($, reporter) {
+        var nonFirstChildCloses = $('.alert>.close:not(:first-child)');
+        var closesPrecededByText = $('.alert>.close').filter(function () {
+            return !!($(this).parent().contents().eq(0).text().trim());
+        });
+        var problematicCloses = nonFirstChildCloses.add(closesPrecededByText);
+        if (problematicCloses.length) {
+            reporter('`.close` button for `.alert` must be the first element in the `.alert`', problematicCloses);
+        }
+    });
     addLinter("E035", function lintFormGroupWithFormClass($, reporter) {
         var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
         if (badFormGroups.length) {
@@ -11051,6 +11071,7 @@ var semver = require('semver');
     }
     else {
         // jQuery; in-browser
+        /* @covignore */
         (function () {
             var $ = cheerio;
             /**
