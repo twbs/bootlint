@@ -13,8 +13,8 @@ var semver = require('semver');
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{0,2})\b/g;
+    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
+    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
     var COL_CLASSES = [];
     var SCREENS = ['xs', 'sm', 'md', 'lg'];
     SCREENS.forEach(function (screen) {
