@@ -60,6 +60,9 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
+      appJs: {
+        src: 'app.js'
+      },
       gruntfile: {
         src: 'Gruntfile.js'
       },
@@ -71,6 +74,9 @@ module.exports = function (grunt) {
       }
     },
     jscs: {
+      appJs: {
+        src: '<%= jshint.appJs.src %>'
+      },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>',
         options: {
@@ -87,6 +93,9 @@ module.exports = function (grunt) {
     eslint: {
       options: {
         config: '.eslintrc'
+      },
+      appJs: {
+        src: '<%= jshint.appJs.src %>'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>'
