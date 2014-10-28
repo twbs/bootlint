@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/twbs/bootlint"
+    "url": "https://github.com/twbs/bootlint.git"
   },
   "license": "MIT",
   "devDependencies": {
@@ -65,8 +65,10 @@
     "src/cli.js": false
   },
   "files": [
+    "bin",
     "dist",
     "src",
+    "app.js",
     "LICENSE"
   ],
   "scripts": {
