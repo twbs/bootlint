@@ -4,7 +4,7 @@
 'use strict';
 
 var chalk = require('chalk');
-var program  = require('commander');
+var program = require('commander');
 var fs = require('fs');
 var glob = require('glob');
 var bootlint = require('./bootlint.js');
