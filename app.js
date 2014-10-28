@@ -3,6 +3,11 @@ Bootlint HTTP server API
 Run it via: npm run start
 This is pretty niche. Most users should probably use the CLI or bookmarklet instead.
 */
+
+/*eslint-env node */
+
+'use strict';
+
 var bootlint = require('./src/bootlint');
 var express = require('express');
 var logger = require('morgan');
@@ -32,7 +37,9 @@ function lintsFor(html, disabledIds) {
 }
 
 
+/*eslint-disable new-cap */
 var routes = express.Router();
+/*eslint-enable new-cap */
 
 routes.get('/', function (req, res) {
     res.status(200).json({status: 200, message: 'Bootlint is online!'});
@@ -41,7 +48,7 @@ routes.get('/', function (req, res) {
 routes.post('/', function (req, res) {
     var isHtml = HTML_MIME_TYPES.some(function (type) {
         return req.is(type);
-    })
+    });
     if (!isHtml) {
         res.status(415).json({status: 415, message: 'Unsupported Media Type', details: 'Content-Type was not an HTML MIME type'});
         return;
@@ -85,12 +92,15 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
+
+/*eslint-disable no-unused-vars */
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        err.status = (err.status || 500)
+        err.status = (err.status || 500);
         res.status(err.status).json({status: err.status, message: err.message, stack: err.stack});
     });
 }
+/*eslint-enable no-unused-vars */
 
 
 module.exports = app;
