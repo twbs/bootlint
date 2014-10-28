@@ -94,12 +94,23 @@ app.use(function(req, res, next) {
 // will print stacktrace
 
 /*eslint-disable no-unused-vars */
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        err.status = (err.status || 500);
-        res.status(err.status).json({status: err.status, message: err.message, stack: err.stack});
-    });
-}
+app.use(function(err, req, res, next) {
+    var isHttpErr = !!err.status;
+
+    if (!isHttpErr) {
+        err.status = 500;
+    }
+
+    var errJson = {
+        status: err.status,
+        message: err.message
+    };
+    if (!isHttpErr) {
+        errJson.stack = err.stack;
+    }
+
+    res.status(err.status).json(errJson);
+});
 /*eslint-enable no-unused-vars */
 
 
