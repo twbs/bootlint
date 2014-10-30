@@ -1,4 +1,5 @@
 /* global QUnit, expect, bootlint */
+/* jshint browser: true */
 /*eslint-env browser */
 
 (function () {
