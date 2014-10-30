@@ -540,5 +540,18 @@ exports.bootlint = {
             'should complain when alert close button is not first child in alert.'
         );
         test.done();
+    },
+
+    'pull classes inside media': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('media/pull-classes.html')),
+            ['Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.'],
+            'should complain about .pull-* classes in .media'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
+            [],
+            'should not complain about .media-left or .media-right classes'
+        );
+        test.done();
     }
 };
