@@ -721,6 +721,12 @@ var semver = require('semver');
             reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
         }
     });
+    addLinter("W010", function lintMediaPulls($, reporter) {
+        var mediaPulls = $('.media').children('.pull-left, .pull-right');
+        if (mediaPulls.length) {
+            reporter('Using `pull-left` or `pull-right` as part of media component is deprecated. Please use `media-left` or `media-right`.', mediaPulls);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
