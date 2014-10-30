@@ -327,7 +327,7 @@ var semver = require('semver');
             if (globaljQuery) {
                 var globalVersion = null;
                 try {
-                    globalVersion = globaljQuery.fn.jquery;
+                    globalVersion = globaljQuery.fn.jquery.split(' ')[0];
                 }
                 catch (e) {
                     // skip; not actually jQuery?
@@ -347,8 +347,6 @@ var semver = require('semver');
                     }
                     if (upToDate === false) {
                         reporter(OLD_JQUERY);
-                    }
-                    if (upToDate !== null) {
                         return;
                     }
                 }
