@@ -11044,9 +11044,9 @@ var semver = require('semver');
         }
     });
     addLinter("W010", function lintMediaPulls($, reporter) {
-        var mediaPulls = $('.media').children('.pull-left, .pull-right');
+        var mediaPulls = $('.media>.pull-left, .media>.pull-right');
         if (mediaPulls.length) {
-            reporter('Using `pull-left` or `pull-right` as part of media component is deprecated. Please use `media-left` or `media-right`.', mediaPulls);
+            reporter('Using `pull-left` or `pull-right` as part of media component is deprecated as of Bootstrap v3.3.0. Please use `media-left` or `media-right`.', mediaPulls);
         }
     });
 

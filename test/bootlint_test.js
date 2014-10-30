@@ -545,7 +545,7 @@ exports.bootlint = {
     'pull classes inside media': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('media/pull-classes.html')),
-            ['Using `pull-left` or `pull-right` as part of media component is deprecated. Please use `media-left` or `media-right`.'],
+            ['Using `pull-left` or `pull-right` as part of media component is deprecated as of Bootstrap v3.3.0. Please use `media-left` or `media-right`.'],
             'should complain about pull classes inside media'
         );
         test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
