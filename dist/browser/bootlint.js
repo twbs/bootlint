@@ -11043,6 +11043,12 @@ var semver = require('semver');
             reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
         }
     });
+    addLinter("W010", function lintMediaPulls($, reporter) {
+        var mediaPulls = $('.media>.pull-left, .media>.pull-right');
+        if (mediaPulls.length) {
+            reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
