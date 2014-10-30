@@ -149,7 +149,7 @@ exports.bootlint = {
     },
     'row and column classes on same element': function (test) {
         test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('row-col-same-elem.html')),
+        test.deepEqual(lintHtml(utf8Fixture('grid/row-col-same-elem.html')),
             [
                 "Found both `.row` and `.col-*-*` used on the same element",
                 'Columns (.col-*-*) can only be children of `.row`s or `.form-group`s'
@@ -169,7 +169,7 @@ exports.bootlint = {
     },
     'remote modals': function (test) {
         test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('modal-remote.html')),
+        test.deepEqual(lintHtml(utf8Fixture('modal/remote.html')),
             ["Found one or more modals using the deprecated `remote` option"],
             'should complain when remote modals are present.');
         test.done();
@@ -262,7 +262,7 @@ exports.bootlint = {
     },
     'non-column children of rows': function (test) {
         test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('non-col-row-children.html')),
+        test.deepEqual(lintHtml(utf8Fixture('grid/non-col-row-children.html')),
             ["Only columns (.col-*-*) may be children of `.row`s"],
             'should complain when rows have non-column children.');
         test.done();
