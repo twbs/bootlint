@@ -428,6 +428,21 @@ exports.bootlint = {
         test.done();
     },
 
+    'empty columns for offset': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('grid/cols-empty-offset.html')),
+            [
+                'Use `col-sm-offset-2 col-md-offset-3` on the next column with class `col-sm-10 col-md-9` instead of empty columns.',
+                'Use `col-sm-offset-2 col-md-offset-3` on the next column with class `col-sm-10 col-md-9` instead of empty columns.',
+                'Use `col-sm-offset-2 col-md-offset-3` on the next column with class `col-sm-5 col-md-3` instead of empty columns.',
+                'Use `col-sm-offset-2 col-md-offset-3` on the next column with class `col-sm-5 col-md-3` instead of empty columns.',
+                'Use `col-xs-offset-2 col-sm-offset-4 col-md-offset-6 col-lg-offset-3` on the next column with class `col-xs-10 col-sm-8 col-md-6 col-lg-9` instead of empty columns.'
+            ],
+            'should complain about empty offset columns'
+        );
+        test.done();
+    },
+
     '.form-control-feedback without a .has-feedback ancestor': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('feedback/form-control-valid.html')),

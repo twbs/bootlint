@@ -727,6 +727,30 @@ var semver = require('semver');
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
     });
+    addLinter("W009",  function lintEmptyColsForOffset($, reporter) {
+        var columns = $('.row, .form-group').find(COL_CLASSES.join(','));
+        columns.each(function (_index, col) {
+            var column = $(col);
+            var classes = column.attr('class');
+            var simplifiedOffsetClasses = classes;
+
+            if (column.is(':last-child') || column.is('col')) {
+                return;
+            }
+
+            if (column.html().trim() === '') {
+                var splitClasses = simplifiedOffsetClasses.split(/\s+/);
+                simplifiedOffsetClasses = '';
+                for (var i = 0; i < splitClasses.length; i++) {
+                    var klass = splitClasses[i];
+                    simplifiedOffsetClasses += klass.replace(COL_REGEX, 'col-$1-offset-$2') + ' ';
+                }
+                simplifiedOffsetClasses = simplifiedOffsetClasses.trim();
+
+                reporter('Use `' + simplifiedOffsetClasses + '` on the next column with class `' + column.next().attr('class') + '` instead of empty columns.', column);
+            }
+        });
+    });
 
     exports._lint = function ($, reporter, disabledIdList) {
         var disabledIdSet = {};
