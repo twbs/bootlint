@@ -219,7 +219,7 @@ var semver = require('semver');
             /* @covignore */
             return function lintDoctype($, reporter) {
                 /*eslint-disable no-undef, block-scoped-var */
-                var doc = window.document;
+                var doc = window.document;// jshint ignore:line
                 /*eslint-enable un-undef, block-scoped-var */
                 if (doc.doctype === null) {
                     reporter(MISSING_DOCTYPE);
@@ -314,7 +314,7 @@ var semver = require('semver');
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
-            theWindow = window;
+            theWindow = window;// jshint ignore:line
             /*eslint-enable no-undef, block-scoped-var */
         }
         catch (e) {
@@ -781,7 +781,7 @@ var semver = require('semver');
                     var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
                         /*eslint-disable no-alert, no-undef, block-scoped-var */
-                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");
+                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
                         /*eslint-enable no-alert, no-undef, block-scoped-var */
                         seenLint = true;
                     }
@@ -801,7 +801,7 @@ var semver = require('semver');
                 }
             };
             /*eslint-disable no-undef, block-scoped-var */
-            window.bootlint = exports;
+            window.bootlint = exports;// jshint ignore:line
             /*eslint-enable no-undef, block-scoped-var */
         })();
     }

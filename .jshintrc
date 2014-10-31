@@ -1,6 +1,5 @@
 {
   "bitwise": true,
-  "browser": true,
   "curly": true,
   "eqeqeq": true,
   "forin": true,
