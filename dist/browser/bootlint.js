@@ -1,5 +1,5 @@
 /*!
- * Bootlint v0.5.0 (https://github.com/twbs/bootlint)
+ * Bootlint v0.6.0 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
  * Copyright (c) 2014 Christopher Rebert
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
@@ -10541,7 +10541,7 @@ var semver = require('semver');
             /* @covignore */
             return function lintDoctype($, reporter) {
                 /*eslint-disable no-undef, block-scoped-var */
-                var doc = window.document;
+                var doc = window.document;// jshint ignore:line
                 /*eslint-enable un-undef, block-scoped-var */
                 if (doc.doctype === null) {
                     reporter(MISSING_DOCTYPE);
@@ -10636,7 +10636,7 @@ var semver = require('semver');
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
-            theWindow = window;
+            theWindow = window;// jshint ignore:line
             /*eslint-enable no-undef, block-scoped-var */
         }
         catch (e) {
@@ -11043,6 +11043,31 @@ var semver = require('semver');
             reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
         }
     });
+    addLinter("W009",  function lintEmptySpacerCols($, reporter) {
+        var selector = COL_CLASSES.map(function (colClass) {
+            return colClass + ':not(col):not(:last-child)';
+        }).join(',');
+        var columns = $(selector);
+        columns.each(function (_index, col) {
+            var column = $(col);
+            // can't just use :empty because :empty excludes nodes with all-whitespace text content
+            var hasText = !!column.text().trim().length;
+            var hasChildren = !!column.children(':first-child').length;
+            if (hasChildren || hasText) {
+                return;
+            }
+
+            var colClasses = column.attr('class').split(/\s+/g).filter(function (klass) {
+                return COL_REGEX.test(klass);
+            });
+            colClasses = sortedColumnClasses(colClasses.join(' ')).trim();
+
+            var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
+            var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
+
+            reporter("Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with " + 'class="' + colClasses + '" , just add class="' + offsetClasses + '" to the next grid column.', column);
+        });
+    });
     addLinter("W010", function lintMediaPulls($, reporter) {
         var mediaPulls = $('.media>.pull-left, .media>.pull-right');
         if (mediaPulls.length) {
@@ -11103,7 +11128,7 @@ var semver = require('semver');
                     var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
                         /*eslint-disable no-alert, no-undef, block-scoped-var */
-                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");
+                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
                         /*eslint-enable no-alert, no-undef, block-scoped-var */
                         seenLint = true;
                     }
@@ -11123,7 +11148,7 @@ var semver = require('semver');
                 }
             };
             /*eslint-disable no-undef, block-scoped-var */
-            window.bootlint = exports;
+            window.bootlint = exports;// jshint ignore:line
             /*eslint-enable no-undef, block-scoped-var */
         })();
     }
