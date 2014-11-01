@@ -75,10 +75,10 @@ exports.bootlint = {
             [],
             'should not complain when UTF-8 charset <meta> tag is present.');
         test.deepEqual(lintHtml(utf8Fixture('charset/missing.html')),
-            ['<head> is missing UTF-8 charset <meta> tag'],
+            ['`<head>` is missing UTF-8 charset `<meta>` tag'],
             'should complain when charset <meta> tag is missing.');
         test.deepEqual(lintHtml(utf16Fixture('charset/not-utf8.html')),
-            ['charset <meta> tag is specifying a legacy, non-UTF-8 charset'],
+            ['charset `<meta>` tag is specifying a legacy, non-UTF-8 charset'],
             'should complain when <meta> tag specifies non-UTF-8 charset.');
         test.done();
     },
@@ -88,7 +88,7 @@ exports.bootlint = {
             [],
             'should not complain when X-UA-Compatible <meta> tag is present.');
         test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/missing.html')),
-            ["<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes"],
+            ["`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes"],
             'should complain when X-UA-Compatible <meta> tag is missing.');
         test.done();
     },
@@ -143,7 +143,7 @@ exports.bootlint = {
             [],
             'should not complain when viewport <meta> tag is present');
         test.deepEqual(lintHtml(utf8Fixture('viewport/missing.html')),
-            ["<head> is missing viewport <meta> tag that enables responsiveness"],
+            ["`<head>` is missing viewport `<meta>` tag that enables responsiveness"],
             'should complain when viewport <meta> tag is missing.');
         test.done();
     },
@@ -206,10 +206,10 @@ exports.bootlint = {
     'input groups with impermissible kind of form control': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('input-group/textarea.html')),
-            ["`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`"],
+            ["`.input-group` contains a `<textarea>`; only text-based `<input>`s are permitted in an `.input-group`"],
             'should complain about input groups with a <textarea> form control');
         test.deepEqual(lintHtml(utf8Fixture('input-group/select.html')),
-            ["`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers"],
+            ["`.input-group` contains a `<select>`; this should be avoided as `<select>`s cannot be fully styled in WebKit browsers"],
             'should complain about input groups with a <select> form control');
         test.deepEqual(lintHtml(utf8Fixture('input-group/valid.html')),
             [],
@@ -221,7 +221,7 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('tooltips/on-disabled-elems.html')),
             ["Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
             " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
-            " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead."],
+            " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead."],
             'should complain about tooltips and popovers on disabled elements.');
         test.done();
     },
@@ -321,10 +321,10 @@ exports.bootlint = {
             'should complain when invalid .radio markup is used.');
 
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-inline-non-label.html')),
-            [".checkbox-inline should only be used on <label> elements"],
+            [".checkbox-inline should only be used on `<label>` elements"],
             'should complain when .checkbox-inline is used on a non-<label> element.');
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/radio-inline-non-label.html')),
-            [".radio-inline should only be used on <label> elements"],
+            [".radio-inline should only be used on `<label>` elements"],
             'should complain when .radio-inline is used on a non-<label> element.');
 
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-inline-bad-structure.html')),
@@ -402,7 +402,7 @@ exports.bootlint = {
             'should not complain when .table-responsive is used on the table\'s wrapper div.'
         );
         test.deepEqual(lintHtml(utf8Fixture('table/responsive-incorrect.html')),
-            ["`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself"],
+            ["`.table-responsive` is supposed to be used on the table's parent wrapper `<div>`, not on the table itself"],
             'should complain when .table-responsive is used on the table itself.'
         );
         test.done();
@@ -416,12 +416,12 @@ exports.bootlint = {
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-redundant.html')),
             [
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="abc col-xs-2 def col-sm-1 ghi col-md-1 jkl col-lg-1" is redundant and can be simplified to class="abc def ghi jkl col-xs-2 col-sm-1"',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-10 abc col-sm-10 def col-md-10 ghi col-lg-12 jkl" is redundant and can be simplified to class="abc def ghi jkl col-xs-10 col-lg-12"',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-6 col-sm-6 col-md-6 col-lg-6" is redundant and can be simplified to class="col-xs-6"',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-xs-5 col-sm-5" is redundant and can be simplified to class="col-xs-5"',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-sm-4 col-md-4" is redundant and can be simplified to class="col-sm-4"',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), class="col-md-3 col-lg-3" is redundant and can be simplified to class="col-md-3"'
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="abc col-xs-2 def col-sm-1 ghi col-md-1 jkl col-lg-1"` is redundant and can be simplified to `class="abc def ghi jkl col-xs-2 col-sm-1"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-10 abc col-sm-10 def col-md-10 ghi col-lg-12 jkl"` is redundant and can be simplified to `class="abc def ghi jkl col-xs-10 col-lg-12"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-6 col-sm-6 col-md-6 col-lg-6"` is redundant and can be simplified to `class="col-xs-6"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-5 col-sm-5"` is redundant and can be simplified to `class="col-xs-5"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-sm-4 col-md-4"` is redundant and can be simplified to `class="col-sm-4"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-md-3 col-lg-3"` is redundant and can be simplified to `class="col-md-3"`'
             ],
             'should complain when there are redundant grid column classes.'
         );
