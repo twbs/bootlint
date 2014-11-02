@@ -10559,22 +10559,22 @@ var semver = require('semver');
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
         if (!charset) {
-            reporter('<head> is missing UTF-8 charset <meta> tag');
+            reporter('`<head>` is missing UTF-8 charset `<meta>` tag');
         }
         else if (charset.toLowerCase() !== "utf-8") {
-            reporter('charset <meta> tag is specifying a legacy, non-UTF-8 charset', meta);
+            reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
         }
     });
     addLinter("W002", function lintXUaCompatible($, reporter) {
         var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
         if (!meta.length) {
-            reporter("<head> is missing X-UA-Compatible <meta> tag that disables old IE compatibility modes");
+            reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
         }
     });
     addLinter("W003", function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
-            reporter("<head> is missing viewport <meta> tag that enables responsiveness");
+            reporter("`<head>` is missing viewport `<meta>` tag that enables responsiveness");
         }
     });
     addLinter("E002", function lintBootstrapv2($, reporter) {
@@ -10698,11 +10698,11 @@ var semver = require('semver');
     addLinter("E006", function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
         if (selectInputGroups.length) {
-            reporter("`.input-group` contains a <select>; this should be avoided as <select>s cannot be fully styled in WebKit browsers", selectInputGroups);
+            reporter("`.input-group` contains a `<select>`; this should be avoided as `<select>`s cannot be fully styled in WebKit browsers", selectInputGroups);
         }
         var textareaInputGroups = $('.input-group textarea');
         if (textareaInputGroups.length) {
-            reporter("`.input-group` contains a <textarea>; only text-based <input>s are permitted in an `.input-group`", textareaInputGroups);
+            reporter("`.input-group` contains a `<textarea>`; only text-based `<input>`s are permitted in an `.input-group`", textareaInputGroups);
         }
     });
     addLinter("E007", function lintBootstrapJs($, reporter) {
@@ -10737,7 +10737,7 @@ var semver = require('semver');
             reporter(
                 "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
                 " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
-                " put the disabled element inside a wrapper <div> and apply the tooltip or popover to the wrapper <div> instead.",
+                " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead.",
                 disabledWithTooltips
             );
         }
@@ -10850,7 +10850,7 @@ var semver = require('semver');
     addLinter("E019", function lintInlineCheckboxes($, reporter) {
         var wrongElems = $('.checkbox-inline:not(label)');
         if (wrongElems.length) {
-            reporter(".checkbox-inline should only be used on <label> elements", wrongElems);
+            reporter(".checkbox-inline should only be used on `<label>` elements", wrongElems);
         }
         var badStructures = $('.checkbox-inline').filter(function (i, label) {
             return $(label).children('input[type="checkbox"]').length <= 0;
@@ -10862,7 +10862,7 @@ var semver = require('semver');
     addLinter("E020", function lintInlineRadios($, reporter) {
         var wrongElems = $('.radio-inline:not(label)');
         if (wrongElems.length) {
-            reporter(".radio-inline should only be used on <label> elements", wrongElems);
+            reporter(".radio-inline should only be used on `<label>` elements", wrongElems);
         }
         var badStructures = $('.radio-inline').filter(function (i, label) {
             return $(label).children('input[type="radio"]').length <= 0;
@@ -10916,7 +10916,7 @@ var semver = require('semver');
     addLinter("E027", function lintTableResponsive($, reporter) {
         var badStructure = $('.table.table-responsive, table.table-responsive');
         if (badStructure.length) {
-            reporter("`.table-responsive` is supposed to be used on the table's parent wrapper <div>, not on the table itself", badStructure);
+            reporter("`.table-responsive` is supposed to be used on the table's parent wrapper `<div>`, not on the table itself", badStructure);
         }
     });
     addLinter("E028", function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
@@ -10965,8 +10965,8 @@ var semver = require('semver');
 
             simplifiedClasses = sortedColumnClasses(simplifiedClasses);
             simplifiedClasses = simplifiedClasses.replace(/ {2,}/g, ' ').trim();
-            var oldClass = 'class="' + classes + '"';
-            var newClass = 'class="' + simplifiedClasses + '"';
+            var oldClass = '`class="' + classes + '"`';
+            var newClass = '`class="' + simplifiedClasses + '"`';
             reporter(
                 "Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), " +
                 oldClass + " is redundant and can be simplified to " + newClass,
