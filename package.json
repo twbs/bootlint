@@ -54,6 +54,7 @@
     "express": "^4.10.0",
     "glob": "^4.0.6",
     "morgan": "^1.4.1",
+    "npm-check": "^3.2.5",
     "semver": "^4.1.0"
   },
   "main": "./src/bootlint.js",
