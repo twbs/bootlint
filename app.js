@@ -58,7 +58,7 @@ routes.post('/', function (req, res) {
         'application/json': function () {
             var disabledIds = disabledIdsFor(req);
             var html = req.body;
-            console.log("HTML: ", html);
+            // console.log("HTML: ", html);
             var lints = lintsFor(html, disabledIds);
             lints.forEach(function (lint) {
                 lint.elements = undefined;
