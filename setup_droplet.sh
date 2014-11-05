@@ -18,4 +18,4 @@ ufw status verbose
 # setup Docker; written against Docker v1.0.0
 docker build . 2>&1 | tee docker.build.log
 IMAGE_ID="$(tail -n 1 docker.build.log | cut -d ' ' -f 3)"
-docker run -d -p 127.0.0.1:7070:7070 $IMAGE_ID
+docker run -d -p 127.0.0.1:7070:7070 --name bootlint $IMAGE_ID
