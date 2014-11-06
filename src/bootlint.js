@@ -774,7 +774,7 @@ var semver = require('semver');
          * @returns {undefined} Nothing
          */
         exports.lintHtml = function (html, reporter, disabledIds) {
-            var $ = cheerio.load(html);
+            var $ = cheerio.load(html, {withStartIndices: true});
             this._lint($, reporter, disabledIds);
         };
     }
