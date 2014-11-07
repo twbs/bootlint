@@ -6,6 +6,51 @@
  */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = function(haystack, needle, comparator, low, high) {
+  var mid, cmp;
+
+  if(low === undefined)
+    low = 0;
+
+  else {
+    low = low|0;
+    if(low < 0 || low >= haystack.length)
+      throw new RangeError("invalid lower bound");
+  }
+
+  if(high === undefined)
+    high = haystack.length - 1;
+
+  else {
+    high = high|0;
+    if(high < low || high >= haystack.length)
+      throw new RangeError("invalid upper bound");
+  }
+
+  while(low <= high) {
+    /* Note that "(low + high) >>> 1" may overflow, and results in a typecast
+     * to double (which gives the wrong results). */
+    mid = low + (high - low >> 1);
+    cmp = +comparator(haystack[mid], needle);
+
+    /* Too low. */
+    if(cmp < 0.0) 
+      low  = mid + 1;
+
+    /* Too high. */
+    else if(cmp > 0.0)
+      high = mid - 1;
+    
+    /* Key found. */
+    else
+      return mid;
+  }
+
+  /* Key not found. */
+  return ~low;
+}
+
+},{}],2:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -9197,7 +9242,7 @@ return jQuery;
 
 }));
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 ;(function(exports) {
 
 // export the class if we are in a Node-like system.
@@ -10319,7 +10364,7 @@ if (typeof define === 'function' && define.amd)
   semver = {}
 );
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
@@ -10331,6 +10376,8 @@ if (typeof define === 'function' && define.amd)
 
 var cheerio = require('cheerio');
 var semver = require('semver');
+var _location = require('./location');
+var LocationIndex = _location.LocationIndex;
 
 (function (exports) {
     'use strict';
@@ -11075,14 +11122,29 @@ var semver = require('semver');
         }
     });
 
-    exports._lint = function ($, reporter, disabledIdList) {
+    exports._lint = function ($, reporter, disabledIdList, html) {
+        var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
+        var reporterWrapper = IN_NODE_JS ? function (problem) {
+            if (problem.elements) {
+                problem.elements = problem.elements.each(function (i, element) {
+                    if (element.startIndex !== undefined) {
+                        var location = locationIndex.locationOf(element.startIndex);
+                        if (location) {
+                            element.startLocation = location;
+                        }
+                    }
+                });
+            }
+            reporter(problem);
+        } : reporter;
+
         var disabledIdSet = {};
         disabledIdList.forEach(function (disabledId) {
             disabledIdSet[disabledId] = true;
         });
         Object.keys(allLinters).sort().forEach(function (linterId) {
             if (!disabledIdSet[linterId]) {
-                allLinters[linterId]($, reporter);
+                allLinters[linterId]($, reporterWrapper);
             }
         });
     };
@@ -11096,8 +11158,8 @@ var semver = require('semver');
          * @returns {undefined} Nothing
          */
         exports.lintHtml = function (html, reporter, disabledIds) {
-            var $ = cheerio.load(html);
-            this._lint($, reporter, disabledIds);
+            var $ = cheerio.load(html, {withStartIndices: true});
+            this._lint($, reporter, disabledIds, html);
         };
     }
     else {
@@ -11154,4 +11216,88 @@ var semver = require('semver');
     }
 })(typeof exports === 'object' && exports || this);
 
-},{"cheerio":1,"semver":2}]},{},[3]);
+},{"./location":5,"cheerio":2,"semver":3}],5:[function(require,module,exports){
+/*eslint-env node */
+var binarySearch = require('binary-search');
+
+(function () {
+    'use strict';
+
+    /*
+     * line is a 0-based line index
+     * column is a 0-based column index
+     */
+    function Location(line, column) {
+        this.line = line;
+        this.column = column;
+    }
+    exports.Location = Location;
+
+    /**
+     * Maps code unit indices into the string to line numbers and column numbers.
+     * @param {string} String to construct the index for
+     */
+    function LocationIndex(string) {
+        // ensure newline termination
+        if (string[string.length - 1] !== '\n') {
+            string += '\n';
+        }
+        this._stringLength = string.length;
+        /**
+         * Each triple in _lineStartEndTriples consists of:
+         * [0], the 0-based line index of the line the triple represents
+         * [1], the 0-based code unit index (into the string) of the start of the line (inclusive)
+         * [2], the 0-based code unit index (into the string) of the start of the next line (or the length of the string, if it is the last line)
+         * A line starts with a non-newline character,
+         * and always ends in a newline character, unless it is the very last line in the string.
+         */
+        this._lineStartEndTriples = [[0, 0]];
+        var nextLineIndex = 1;
+        var charIndex = 0;
+        while (charIndex < string.length) {
+            charIndex = string.indexOf("\n", charIndex);
+            if (charIndex === -1) {
+                break;
+            }
+            charIndex++;// go past the newline
+            this._lineStartEndTriples[this._lineStartEndTriples.length - 1].push(charIndex);
+            this._lineStartEndTriples.push([nextLineIndex, charIndex]);
+
+            nextLineIndex++;
+        }
+        this._lineStartEndTriples.pop();
+    }
+    exports.LocationIndex = LocationIndex;
+
+    /**
+     * Translates a code unit index into its corresponding Location (line index and column index) within the string
+     * @param {integer} 0-based code unit index into the string
+     * @returns {Location|null} A Location corresponding to the index, or null if the index is out of bounds
+     */
+    LocationIndex.prototype.locationOf = function (charIndex) {
+        if (charIndex < 0 || charIndex >= this._stringLength) {
+            return null;
+        }
+        var index = binarySearch(this._lineStartEndTriples, charIndex, function (bucket, needle) {
+            if (needle < bucket[1]) {
+                return 1;
+            }
+            else if (needle >= bucket[2]) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
+        if (index < 0) { // binarySearch returns a negative number (but not necessarily -1) when match not found
+            return null;
+        }
+        var lineStartEnd = this._lineStartEndTriples[index];
+        var lineIndex = lineStartEnd[0];
+        var lineStartIndex = lineStartEnd[1];
+        var columnIndex = charIndex - lineStartIndex;
+        return new Location(lineIndex, columnIndex);
+    };
+})();
+
+},{"binary-search":1}]},{},[4]);
