@@ -9,6 +9,8 @@
 
 var cheerio = require('cheerio');
 var semver = require('semver');
+var _location = require('./location');
+var LocationIndex = _location.LocationIndex;
 
 (function (exports) {
     'use strict';
@@ -753,14 +755,29 @@ var semver = require('semver');
         }
     });
 
-    exports._lint = function ($, reporter, disabledIdList) {
+    exports._lint = function ($, reporter, disabledIdList, html) {
+        var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
+        var reporterWrapper = IN_NODE_JS ? function (problem) {
+            if (problem.elements) {
+                problem.elements = problem.elements.each(function (i, element) {
+                    if (element.startIndex !== undefined) {
+                        var location = locationIndex.locationOf(element.startIndex);
+                        if (location) {
+                            element.startLocation = location;
+                        }
+                    }
+                });
+            }
+            reporter(problem);
+        } : reporter;
+
         var disabledIdSet = {};
         disabledIdList.forEach(function (disabledId) {
             disabledIdSet[disabledId] = true;
         });
         Object.keys(allLinters).sort().forEach(function (linterId) {
             if (!disabledIdSet[linterId]) {
-                allLinters[linterId]($, reporter);
+                allLinters[linterId]($, reporterWrapper);
             }
         });
     };
@@ -775,7 +792,7 @@ var semver = require('semver');
          */
         exports.lintHtml = function (html, reporter, disabledIds) {
             var $ = cheerio.load(html, {withStartIndices: true});
-            this._lint($, reporter, disabledIds);
+            this._lint($, reporter, disabledIds, html);
         };
     }
     else {
