@@ -64,8 +64,8 @@
   "browser": {
     "binary-search": false,
     "cheerio": "jquery",
-    "src/cli.js": false,
-    "src/location.js": false
+    "./cli": false,
+    "./location": false
   },
   "files": [
     "bin",
