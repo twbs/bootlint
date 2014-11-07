@@ -62,6 +62,7 @@
     "bootlint": "./src/cli.js"
   },
   "browser": {
+    "binary-search": false,
     "cheerio": "jquery",
     "src/cli.js": false,
     "src/location.js": false

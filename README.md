@@ -155,6 +155,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
+* 2014-??-?? - v0.8.0: When in a Node.js environment, report the locations of the HTML source code of problematic elements.
 * 2014-11-01 - v0.7.0: Tweaks lint message texts. Adds 1 new lint check.
 * 2014-10-31 - v0.6.0: Fixes crash bug. Adds some new lint checks. Adds HTTP API.
 * 2014-10-16 - v0.5.0: Add several new features. Add official bookmarklet. Disable auto-lint-on-load in browser. Tweak some checks. **Not backward compatible**
