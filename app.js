@@ -9,6 +9,7 @@ This is pretty niche. Most users should probably use the CLI or bookmarklet inst
 'use strict';
 
 var bootlint = require('./src/bootlint');
+var _extend = require('util')._extend;
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -18,6 +19,10 @@ var HTML_MIME_TYPES = [
     'text/html',
     'application/xhtml+xml'
 ];
+
+function shallowClone(obj) {
+    return _extend({}, obj);
+}
 
 function disabledIdsFor(req) {
     var rawIds = req.query.disable;
@@ -30,7 +35,23 @@ function disabledIdsFor(req) {
 function lintsFor(html, disabledIds) {
     var lints = [];
     var reporter = function (lint) {
-        lints.push(lint);
+        var output = false;
+        if (lint.elements && lint.elements.length) {
+            var elements = lint.elements;
+            lint.elements = undefined;
+            elements.each(function (_, element) {
+                if (element.startLocation) {
+                    var locatedLint = shallowClone(lint);
+                    locatedLint.location = element.startLocation;
+                    lints.push(locatedLint);
+                    output = true;
+                }
+            });
+        }
+        if (!output) {
+            lint.elements = undefined;
+            lints.push(lint);
+        }
     };
     bootlint.lintHtml(html, reporter, disabledIds);
     return lints;
@@ -60,9 +81,6 @@ routes.post('/', function (req, res) {
             var html = req.body;
             // console.log("HTML: ", html);
             var lints = lintsFor(html, disabledIds);
-            lints.forEach(function (lint) {
-                lint.elements = undefined;
-            });
             res.status(200).json(lints);
         },
         'default': function () {
