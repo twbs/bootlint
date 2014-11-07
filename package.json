@@ -46,6 +46,7 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "binary-search": "^1.2.0",
     "body-parser": "^1.9.2",
     "chalk": "^0.5.1",
     "cheerio": "^0.18.0",
@@ -62,7 +63,8 @@
   },
   "browser": {
     "cheerio": "jquery",
-    "src/cli.js": false
+    "src/cli.js": false,
+    "src/location.js": false
   },
   "files": [
     "bin",

@@ -58,6 +58,7 @@ Bootlint represents the lint problems it reports using the `LintError` and `Lint
     * `id` - Unique string ID for this type of lint problem. Of the form "W###" (e.g. "W123").
     * `message` - Human-readable string describing the problem
     * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+      * (**Only available under Node.js**): When available from the underlying HTML parser (which is most of the time), the DOM elements in the collection will have a `.startLocation` property that is a `Location` (see below) indicating the location of the element in the document's HTML source
 * `LintError`
   * Represents an error. Under the assumptions explained in the above "Caveats" section, it should never have any false-positives.
   * Constructor: `LintError(id, message, elements)`
@@ -65,6 +66,14 @@ Bootlint represents the lint problems it reports using the `LintError` and `Lint
     * `id` - Unique string ID for this type of lint problem. Of the form "E###" (e.g. "E123").
     * `message` - Human-readable string describing the problem
     * `elements` - jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+
+Bootlint defines the following public utility class:
+* `Location` (**Only available under Node.js**)
+  * Represents a location in the HTML source
+  * Constructor: `Location(line, column)`
+  * Properties:
+    * `line` - 0-based line number
+    * `column` - 0-based column number
 
 A ***reporter*** is a function that accepts exactly 1 argument of type `LintWarning` or `LintError`. Its return value is ignored. It should somehow record the problem or display it to the user.
 

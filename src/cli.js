@@ -27,8 +27,19 @@ program.args.forEach(function (pattern) {
     filenames.forEach(function (filename) {
         var reporter = function (lint) {
             var lintId = (lint.id[0] === 'E') ? chalk.bgGreen.white(lint.id) : chalk.bgRed.white(lint.id);
-            console.log(filename + ":", lintId, lint.message);
-            totalErrCount++;
+            var output = false;
+            if (lint.elements) {
+                lint.elements.each(function (_, element) {
+                    var loc = element.startLocation;
+                    console.log(filename + ":" + (loc.line + 1) + ":" + (loc.column + 1), lintId, lint.message);
+                    totalErrCount++;
+                    output = true;
+                });
+            }
+            if (!output) {
+                console.log(filename + ":", lintId, lint.message);
+                totalErrCount++;
+            }
         };
 
         var html = null;
