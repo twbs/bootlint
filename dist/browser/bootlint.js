@@ -10356,7 +10356,7 @@ var LocationIndex = _location.LocationIndex;
     };
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
-    var MIN_JQUERY_VERSION = '1.9.0';// as of Bootstrap v3.2.0
+    var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
 
     function compareNums(a, b) {
         return a - b;
@@ -10775,7 +10775,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E011", function lintFormGroupMixedWithInputGroup($, reporter) {
         var badMixes = $('.input-group.form-group');
         if (badMixes.length) {
-            reporter(".input-group and .form-group cannot be used directly on the same element. Instead, nest the .input-group within the .form-group", badMixes);
+            reporter("`.input-group` and `.form-group` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`", badMixes);
         }
     });
     addLinter("E012", function lintGridClassMixedWithInputGroup($, reporter) {
@@ -10785,7 +10785,7 @@ var LocationIndex = _location.LocationIndex;
 
         var badMixes = $(selector);
         if (badMixes.length) {
-            reporter(".input-group and .col-*-* cannot be used directly on the same element. Instead, nest the .input-group within the .col-*-*", badMixes);
+            reporter("`.input-group` and `.col-*-*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col-*-*`", badMixes);
         }
     });
     addLinter("E013", function lintRowChildrenAreCols($, reporter) {
@@ -10796,7 +10796,7 @@ var LocationIndex = _location.LocationIndex;
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            reporter("Only columns (.col-*-*) may be children of `.row`s", nonColRowChildren);
+            reporter("Only columns (`.col-*-*`) may be children of `.row`s", nonColRowChildren);
         }
     });
     addLinter("E014", function lintColParentsAreRowsOrFormGroups($, reporter) {
@@ -10806,7 +10806,7 @@ var LocationIndex = _location.LocationIndex;
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            reporter("Columns (.col-*-*) can only be children of `.row`s or `.form-group`s", colsOutsideRowsAndFormGroups);
+            reporter("Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s", colsOutsideRowsAndFormGroups);
         }
     });
     addLinter("E015", function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
@@ -10854,7 +10854,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E019", function lintInlineCheckboxes($, reporter) {
         var wrongElems = $('.checkbox-inline:not(label)');
         if (wrongElems.length) {
-            reporter(".checkbox-inline should only be used on `<label>` elements", wrongElems);
+            reporter("`.checkbox-inline` should only be used on `<label>` elements", wrongElems);
         }
         var badStructures = $('.checkbox-inline').filter(function (i, label) {
             return $(label).children('input[type="checkbox"]').length <= 0;
@@ -10866,7 +10866,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E020", function lintInlineRadios($, reporter) {
         var wrongElems = $('.radio-inline:not(label)');
         if (wrongElems.length) {
-            reporter(".radio-inline should only be used on `<label>` elements", wrongElems);
+            reporter("`.radio-inline` should only be used on `<label>` elements", wrongElems);
         }
         var badStructures = $('.radio-inline').filter(function (i, label) {
             return $(label).children('input[type="radio"]').length <= 0;
@@ -10884,7 +10884,7 @@ var LocationIndex = _location.LocationIndex;
         ].join(',');
         var mismatchedButtonInputs = $(selector);
         if (mismatchedButtonInputs.length) {
-            reporter(".active class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin", mismatchedButtonInputs);
+            reporter("`.active` class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin", mismatchedButtonInputs);
         }
     });
     addLinter("E022", function lintModalsWithinOtherComponents($, reporter) {
@@ -10983,7 +10983,7 @@ var LocationIndex = _location.LocationIndex;
             return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
         });
         if (missingGlyphiconClass.length) {
-            reporter("Found elements with a .glyphicon-* class that were missing the additional required .glyphicon class.", missingGlyphiconClass);
+            reporter("Found elements with a `.glyphicon-*` class that were missing the additional required `.glyphicon` class.", missingGlyphiconClass);
         }
     });
     addLinter("E031", function lintGlyphiconOnNonEmptyElement($, reporter) {
@@ -10997,32 +10997,32 @@ var LocationIndex = _location.LocationIndex;
 
         elements = $('.modal-dialog').parent(':not(.modal)');
         if (elements.length) {
-            reporter(".modal-dialog must be a child of .modal", elements);
+            reporter("`.modal-dialog` must be a child of `.modal`", elements);
         }
 
         elements = $('.modal-content').parent(':not(.modal-dialog)');
         if (elements.length) {
-            reporter(".modal-content must be a child of .modal-dialog", elements);
+            reporter("`.modal-content` must be a child of `.modal-dialog`", elements);
         }
 
         elements = $('.modal-header').parent(':not(.modal-content)');
         if (elements.length) {
-            reporter(".modal-header must be a child of .modal-content", elements);
+            reporter("`.modal-header` must be a child of `.modal-content`", elements);
         }
 
         elements = $('.modal-body').parent(':not(.modal-content)');
         if (elements.length) {
-            reporter(".modal-body must be a child of .modal-content", elements);
+            reporter("`.modal-body` must be a child of `.modal-content`", elements);
         }
 
         elements = $('.modal-footer').parent(':not(.modal-content)');
         if (elements.length) {
-            reporter(".modal-footer must be a child of .modal-content", elements);
+            reporter("`.modal-footer` must be a child of `.modal-content`", elements);
         }
 
         elements = $('.modal-title').parent(':not(.modal-header)');
         if (elements.length) {
-            reporter(".modal-title must be a child of .modal-header", elements);
+            reporter("`.modal-title` must be a child of `.modal-header`", elements);
         }
     });
     addLinter("E033", function lintAlertMissingDismissible($, reporter) {
@@ -11044,7 +11044,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E035", function lintFormGroupWithFormClass($, reporter) {
         var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
         if (badFormGroups.length) {
-            reporter('Neither .form-inline nor .form-horizontal should be used directly on a `.form-group`. Instead, nest the .form-group within the .form-inline or .form-horizontal', badFormGroups);
+            reporter('Neither `.form-inline` nor `.form-horizontal` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline` or `.form-horizontal`', badFormGroups);
         }
     });
     addLinter("W009",  function lintEmptySpacerCols($, reporter) {
@@ -11069,7 +11069,7 @@ var LocationIndex = _location.LocationIndex;
             var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
             var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
 
-            reporter("Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with " + 'class="' + colClasses + '" , just add class="' + offsetClasses + '" to the next grid column.', column);
+            reporter("Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with " + '`class="' + colClasses + '"` , just add `class="' + offsetClasses + '"` to the next grid column.', column);
         });
     });
     addLinter("W010", function lintMediaPulls($, reporter) {
