@@ -175,10 +175,13 @@ exports.bootlint = {
         test.done();
     },
     'jQuery': function (test) {
-        test.expect(3);
+        test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('jquery/present.html')),
             [],
             'should not complain when jQuery is present.');
+        test.deepEqual(lintHtml(utf8Fixture('jquery/jquery-plugin.html')),
+            [],
+            'should not complain when jQuery & a plugin is present.');
         test.deepEqual(lintHtml(utf8Fixture('jquery/old-url.html')),
             ["Found what might be an outdated version of jQuery; Bootstrap requires jQuery v1.9.1 or higher"],
             'should complain about old version of jQuery based on URL');

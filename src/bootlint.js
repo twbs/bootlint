@@ -358,7 +358,7 @@ var LocationIndex = _location.LocationIndex;
         }
 
         // check for jQuery <script>s
-        var jqueries = $('script[src*="jquery"],script[src*="jQuery"]');
+        var jqueries = $('script[src*="jquery.min"],script[src*="jQuery.min"],script[src*="jquery.js"],script[src*="jQuery.js"]');
         if (!jqueries.length) {
             reporter(NO_JQUERY);
             return;
