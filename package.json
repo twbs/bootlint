@@ -21,6 +21,11 @@
     "email": "code@rebertia.com",
     "url": "http://chrisrebert.com"
   },
+  "contributors": [{
+    "name": "Heinrich Fenkart",
+    "email": "hnrch02@gmail.com",
+    "url": "http://hnrch02.me"
+  }],
   "repository": {
     "type": "git",
     "url": "https://github.com/twbs/bootlint.git"
