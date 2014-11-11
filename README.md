@@ -112,7 +112,7 @@ In a Node.js environment, Bootlint exposes the following public API:
   * `disabledIds` is an array of string linter IDs to disable
   * Returns nothing (i.e. `undefined`)
 
-Online demo (beta): http://www.bootlint.com
+Online demo (beta): http://www.bootlint.com (not operated by Bootstrap Team)
 
 ### HTTP API
 
