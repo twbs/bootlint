@@ -38,6 +38,7 @@ var binarySearch = require('binary-search');
         while (charIndex < string.length) {
             charIndex = string.indexOf("\n", charIndex);
             if (charIndex === -1) {
+                /* @covignore */
                 break;
             }
             charIndex++;// go past the newline
@@ -71,6 +72,7 @@ var binarySearch = require('binary-search');
             }
         });
         if (index < 0) { // binarySearch returns a negative number (but not necessarily -1) when match not found
+            /* @covignore */
             return null;
         }
         var lineStartEnd = this._lineStartEndTriples[index];
