@@ -21,11 +21,13 @@
     "email": "code@rebertia.com",
     "url": "http://chrisrebert.com"
   },
-  "contributors": [{
-    "name": "Heinrich Fenkart",
-    "email": "hnrch02@gmail.com",
-    "url": "http://hnrch02.me"
-  }],
+  "contributors": [
+    {
+      "name": "Heinrich Fenkart",
+      "email": "hnrch02@gmail.com",
+      "url": "http://hnrch02.me"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/twbs/bootlint.git"
@@ -47,7 +49,7 @@
     "jscoverage": "^0.5.9",
     "load-grunt-tasks": "^1.0.0",
     "nodeunit": "^0.9.0",
-    "npm-shrinkwrap": "^4.0.0",
+    "npm-shrinkwrap": "^5.1.0",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
@@ -57,9 +59,9 @@
     "cheerio": "^0.18.0",
     "commander": "^2.5.0",
     "debug": "^2.1.0",
-    "express": "^4.10.1",
+    "express": "^4.10.2",
     "glob": "^4.0.6",
-    "morgan": "^1.4.1",
+    "morgan": "^1.5.0",
     "semver": "^4.1.0"
   },
   "main": "./src/bootlint.js",
