@@ -71,6 +71,7 @@
   "browser": {
     "binary-search": false,
     "cheerio": "jquery",
+    "url": "./src/url.js",
     "./cli": false,
     "./location": false
   },
