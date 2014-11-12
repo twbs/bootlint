@@ -715,7 +715,9 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E034", function lintAlertDismissStructure($, reporter) {
         var nonFirstChildCloses = $('.alert>.close:not(:first-child)');
         var closesPrecededByText = $('.alert>.close').filter(function () {
-            return !!($(this).parent().contents().eq(0).text().trim());
+            var firstNode = $(this).parent().contents().eq(0);
+            var firstNodeIsText = IN_NODE_JS ? firstNode[0].type === 'text' : firstNode[0].nodeType === 3;
+            return !!(firstNodeIsText && firstNode.text().trim());
         });
         var problematicCloses = nonFirstChildCloses.add(closesPrecededByText);
         if (problematicCloses.length) {

@@ -576,10 +576,14 @@ exports.bootlint = {
     },
 
     'incorrect alerts with dismiss/close buttons': function (test) {
-        test.expect(4);
+        test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/valid.html')),
             [],
             'should not complain when dismissible alert markup structure is correct.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/close-preceded-by-nothing.html')),
+            [],
+            'should not complain when close button is preceded by nothing.'
         );
         test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/missing-alert-dismissible.html')),
             ['`.alert` with dismiss button must have class `.alert-dismissible`'],
