@@ -733,9 +733,7 @@ var LocationIndex = _location.LocationIndex;
             ['.btn:not(.dropdown-toggle)', '.dropdown-menu'].forEach(function (selector) {
                 var elements = $(this).children(selector);
                 if (elements.length > 1) {
-                    reporter('Having multiple `' + selector.split(':')[0] + '`s inside of a single `.input-group-btn` is not supported', elements.filter(function (index) {
-                        return index > 0;
-                    }));
+                    reporter('Having multiple `' + selector.split(':')[0] + '`s inside of a single `.input-group-btn` is not supported', elements.slice(1));
                 }
             }, this);
         });
