@@ -780,6 +780,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
     });
+    addLinter("W011", function lintMediaPulls($, reporter) {
+        var mediaPulls = $('.navbar .pull-left, .navbar .pull-right');
+        if (mediaPulls.length) {
+            reporter('To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.', mediaPulls);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;

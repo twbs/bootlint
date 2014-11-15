@@ -611,5 +611,18 @@ exports.bootlint = {
             'should not complain about .media-left or .media-right classes'
         );
         test.done();
+    },
+
+    'pull classes inside navbar': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('navbar/pull-classes.html')),
+            ['To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.'],
+            'should complain about .pull-* classes in .navbar'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-classes.html')),
+            [],
+            'should not complain about .navbar-left or .navbar-right classes'
+        );
+        test.done();
     }
 };
