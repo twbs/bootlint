@@ -608,7 +608,40 @@ exports.bootlint = {
         );
         test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
             [],
-            'should not complain about .media-left or .media-right classes'
+            'should not complain about .media-left or .media-right classes.'
+        );
+        test.done();
+    },
+
+    'invalid nonexistent .col-*-0 classes': function (test) {
+        test.expect(4);
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-xs-0.html')),
+            [
+                'Only columns (`.col-*-*`) may be children of `.row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+            ],
+            'should complain about usage of .col-*-0 class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-sm-0.html')),
+            [
+                'Only columns (`.col-*-*`) may be children of `.row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+            ],
+            'should complain about usage of .col-*-0 class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-md-0.html')),
+            [
+                'Only columns (`.col-*-*`) may be children of `.row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+            ],
+            'should complain about usage of .col-*-0 class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-lg-0.html')),
+            [
+                'Only columns (`.col-*-*`) may be children of `.row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+            ],
+            'should complain about usage of .col-lg-0 class.'
         );
         test.done();
     }

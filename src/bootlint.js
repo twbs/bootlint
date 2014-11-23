@@ -749,6 +749,15 @@ var LocationIndex = _location.LocationIndex;
             }, this);
         });
     });
+    addLinter("E037", function lintColZeros($, reporter) {
+        var selector = SCREENS.map(function (screen) {
+            return ".col-" + screen + "-0";
+        }).join(',');
+        var elements = $(selector);
+        if (elements.length) {
+            reporter("Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.", elements);
+        }
+    });
     addLinter("W009",  function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
