@@ -479,8 +479,8 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E013", function lintRowChildrenAreCols($, reporter) {
-        var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
-        var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) {
+        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix', '.bs-customizer-input']);
+        var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
 
