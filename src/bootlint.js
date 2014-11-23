@@ -34,6 +34,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.1';
 
     function compareNums(a, b) {
         return a - b;
@@ -42,6 +43,13 @@ var LocationIndex = _location.LocationIndex;
     function isDoctype(node) {
         return node.type === 'directive' && node.name === '!doctype';
     }
+
+    var tagNameOf = IN_NODE_JS ? function (element) {
+        return element.name.toUpperCase();
+    } : function (element) {
+        /* @covignore */
+        return element.tagName.toUpperCase();
+    };
 
     function filenameFromUrl(url) {
         var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
@@ -779,6 +787,82 @@ var LocationIndex = _location.LocationIndex;
         if (mediaPulls.length) {
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
+    });
+    addLinter("W013", function lintOutdatedBootstrap($, reporter) {
+        var OUTDATED_BOOTSTRAP = "Bootstrap version might be outdated. Latest version is at least " + CURRENT_BOOTSTRAP_VERSION + " ; saw what appears to be usage of Bootstrap ";
+        var PLUGINS = [
+            'affix',
+            'alert',
+            'button',
+            'carousel',
+            'collapse',
+            'dropdown',
+            'modal',
+            'popover',
+            'scrollspy',
+            'tab',
+            'tooltip'
+        ];
+        var theWindow = null;
+        try {
+            /*eslint-disable no-undef, block-scoped-var */
+            theWindow = window;// jshint ignore:line
+            /*eslint-enable no-undef, block-scoped-var */
+        }
+        catch (e) {
+            // deliberately do nothing
+        }
+        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
+        /* @covignore */
+        if (globaljQuery) {
+            var versions = PLUGINS.map(function (pluginName) {
+                var plugin = globaljQuery.fn[pluginName];
+                if (!plugin) {
+                    return undefined;
+                }
+                var constructor = plugin.Constructor;
+                if (!constructor) {
+                    return undefined;
+                }
+                return constructor.VERSION;
+            }).filter(function (version) {
+                return version !== undefined;
+            }).sort(semver.compare);
+            if (versions.length) {
+                var minVersion = versions[0];
+                reporter(OUTDATED_BOOTSTRAP + minVersion);
+                return;
+            }
+        }
+        // check for Bootstrap <link>s and <script>s
+        var bootstraps = $([
+            'link[rel="stylesheet"][href$="/bootstrap.css"]',
+            'link[rel="stylesheet"][href="bootstrap.css"]',
+            'link[rel="stylesheet"][href$="/bootstrap.min.css"]',
+            'link[rel="stylesheet"][href="bootstrap.min.css"]',
+            'script[src$="/bootstrap.js"]',
+            'script[src="bootstrap.js"]',
+            'script[src$="/bootstrap.min.js"]',
+            'script[src="bootstrap.min.js"]'
+        ].join(','));
+        bootstraps.each(function () {
+            var elem = $(this);
+            var urlAttr = (tagNameOf(this) === 'LINK') ? 'href' : 'src';
+            var pathSegments = parseUrl(elem.attr(urlAttr)).pathname.split('/');
+            var matches = pathSegments.map(function (segment) {
+                var match = segment.match(/^\d+\.\d+\.\d+$/);
+                return match ? match[0] : null;
+            }).filter(function (match) {
+                return match !== null;
+            });
+            if (!matches.length) {
+                return;
+            }
+            var version = matches[matches.length - 1];
+            if (semver.lt(version, CURRENT_BOOTSTRAP_VERSION, true)) {
+                reporter(OUTDATED_BOOTSTRAP + version, elem);
+            }
+        });
     });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
