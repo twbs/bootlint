@@ -364,10 +364,13 @@ exports.bootlint = {
         test.done();
     },
     'modals within other components': function (test) {
-        test.expect(1);
+        test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('modal/within-table.html')),
             ["Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality"],
             'should complain when a modal is placed within a `.table`.');
+        test.deepEqual(lintHtml(utf8Fixture('modal/within-navbar.html')),
+            ["Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality"],
+            'should complain when a modal is placed within a `.navbar`.');
         test.done();
     },
 
