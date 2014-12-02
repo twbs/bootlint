@@ -578,7 +578,11 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E022", function lintModalsWithinOtherComponents($, reporter) {
-        var badNestings = $('.table .modal, .navbar .modal');
+        var selector = [
+          '.table .modal',
+          '.navbar .modal'
+        ].join(',');
+        var badNestings = $(selector);
         if (badNestings.length) {
             reporter("Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality", badNestings);
         }
