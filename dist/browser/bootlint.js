@@ -11106,13 +11106,13 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W012", function lintNavbarContainers($, reporter) {
         var navBars = $('.navbar');
-        var container = [
+        var containers = [
             '.container',
             '.container-fluid'
         ].join(',');
         navBars.each(function () {
             var navBar = $(this);
-            var hasContainerChildren = !!navBar.first().is(container);
+            var hasContainerChildren = !!navBar.children(containers).length;
 
             if (!hasContainerChildren) {
                 reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
