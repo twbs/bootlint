@@ -611,5 +611,14 @@ exports.bootlint = {
             'should not complain about .media-left or .media-right classes'
         );
         test.done();
+    },
+
+    'container inside navbar': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-container.html')),
+            ['`.container` or `.container-fluid` should be the first child inside of a `.navbar`'],
+            'should complain about no .container/.container-fluid inside .navbar'
+        );
+        test.done();
     }
 };
