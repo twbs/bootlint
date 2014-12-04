@@ -11186,6 +11186,27 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
         }
     });
+    addLinter("E040", function lintModalHide($, reporter) {
+        var modalsWithHide = $('.modal.hide');
+        if (modalsWithHide.length) {
+            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
+        }
+    });
+    addLinter("E041", function lintCarouselStructure($, reporter) {
+        var carouselsWithWrongInners = $('.carousel').filter(function () {
+            return $(this).children('.carousel-inner').length !== 1;
+        });
+        if (carouselsWithWrongInners.length) {
+            reporter('`.carousel` must have exactly one `.carousel-inner` child.', carouselsWithWrongInners);
+        }
+
+        var innersWithWrongActiveItems = $('.carousel-inner').filter(function () {
+            return $(this).children('.item.active').length !== 1;
+        });
+        if (innersWithWrongActiveItems.length) {
+            reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
@@ -11216,6 +11237,21 @@ var LocationIndex = _location.LocationIndex;
         if (mediaPulls.length) {
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
+    });
+    addLinter("W012", function lintNavbarContainers($, reporter) {
+        var navBars = $('.navbar');
+        var containers = [
+            '.container',
+            '.container-fluid'
+        ].join(',');
+        navBars.each(function () {
+            var navBar = $(this);
+            var hasContainerChildren = !!navBar.children(containers).length;
+
+            if (!hasContainerChildren) {
+                reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
+            }
+        });
     });
     addLinter("W013", function lintOutdatedBootstrap($, reporter) {
         var OUTDATED_BOOTSTRAP = "Bootstrap version might be outdated. Latest version is at least " + CURRENT_BOOTSTRAP_VERSION + " ; saw what appears to be usage of Bootstrap ";

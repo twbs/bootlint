@@ -857,6 +857,21 @@ var LocationIndex = _location.LocationIndex;
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
     });
+    addLinter("W012", function lintNavbarContainers($, reporter) {
+        var navBars = $('.navbar');
+        var containers = [
+            '.container',
+            '.container-fluid'
+        ].join(',');
+        navBars.each(function () {
+            var navBar = $(this);
+            var hasContainerChildren = !!navBar.children(containers).length;
+
+            if (!hasContainerChildren) {
+                reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
+            }
+        });
+    });
     addLinter("W013", function lintOutdatedBootstrap($, reporter) {
         var OUTDATED_BOOTSTRAP = "Bootstrap version might be outdated. Latest version is at least " + CURRENT_BOOTSTRAP_VERSION + " ; saw what appears to be usage of Bootstrap ";
         var PLUGINS = [
