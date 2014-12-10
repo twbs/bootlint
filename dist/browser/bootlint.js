@@ -10332,6 +10332,7 @@ if (typeof define === 'function' && define.amd)
 /*eslint-env node */
 
 var cheerio = require('cheerio');
+var parseUrl = require('url').parse;
 var semver = require('semver');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
@@ -10683,10 +10684,8 @@ var LocationIndex = _location.LocationIndex;
 
         // check for jQuery <script>s
         var jqueries = $([
-            'script[src*="jquery.min"]',
-            'script[src*="jQuery.min"]',
-            'script[src*="jquery.js"]',
-            'script[src*="jQuery.js"]'
+            'script[src*="jquery"]',
+            'script[src*="jQuery"]'
         ].join(','));
         if (!jqueries.length) {
             reporter(NO_JQUERY);
@@ -10694,8 +10693,18 @@ var LocationIndex = _location.LocationIndex;
         }
         jqueries.each(function () {
             var script = $(this);
-            var matches = script.attr('src').match(/\d+\.\d+\.\d+/g);
-            if (!matches) {
+            var pathSegments = parseUrl(script.attr('src')).pathname.split('/');
+            var filename = pathSegments[pathSegments.length - 1];
+            if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
+                return;
+            }
+            var matches = pathSegments.map(function (segment) {
+                var match = segment.match(/^\d+\.\d+\.\d+$/);
+                return match ? match[0] : null;
+            }).filter(function (match) {
+                return match !== null;
+            });
+            if (!matches.length) {
                 return;
             }
             var version = matches[matches.length - 1];
@@ -10893,7 +10902,11 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E022", function lintModalsWithinOtherComponents($, reporter) {
-        var badNestings = $('.table .modal');
+        var selector = [
+          '.table .modal',
+          '.navbar .modal'
+        ].join(',');
+        var badNestings = $(selector);
         if (badNestings.length) {
             reporter("Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality", badNestings);
         }
@@ -11190,4 +11203,44 @@ var LocationIndex = _location.LocationIndex;
     }
 })(typeof exports === 'object' && exports || this);
 
-},{"./location":1,"cheerio":2,"semver":3}]},{},[4]);
+},{"./location":1,"cheerio":2,"semver":3,"url":5}],5:[function(require,module,exports){
+/*eslint-env node, browser */
+/* jshint browser: true */
+/**
+ * Simple lightweight shim of Node.js's `url.parse()`
+ * ( http://nodejs.org/docs/latest/api/url.html )
+ * for use within browsers.
+ */
+(function () {
+    'use strict';
+
+    // Only properties common to both browsers and Node.js are supported.
+    // For what browsers support, see https://developer.mozilla.org/en-US/docs/Web/API/URLUtils
+    var URL_PROPERTIES = [
+        'hash',
+        'host',
+        'hostname',
+        'href',
+        'pathname',
+        'port',
+        'protocol',
+        'search'
+    ];
+
+    /**
+     * @param {string} urlStr URL to parse
+     * @returns {object} Object with fields representing the various parts of the parsed URL.
+     */
+    function parse(urlStr) {
+        var anchor = document.createElement('a');
+        anchor.href = urlStr;
+        var urlObj = {};
+        URL_PROPERTIES.forEach(function (property) {
+            urlObj[property] = anchor[property];
+        });
+        return urlObj;
+    }
+    exports.parse = parse;
+})();
+
+},{}]},{},[4]);
