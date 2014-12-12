@@ -49,7 +49,7 @@
     "jscoverage": "^0.5.9",
     "load-grunt-tasks": "^1.0.0",
     "nodeunit": "^0.9.0",
-    "npm-shrinkwrap": "5.0.0",
+    "npm-shrinkwrap": "^200.0.0",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
