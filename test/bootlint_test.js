@@ -264,10 +264,13 @@ exports.bootlint = {
         test.done();
     },
     'non-column children of rows': function (test) {
-        test.expect(1);
+        test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/non-col-row-children.html')),
             ["Only columns (`.col-*-*`) may be children of `.row`s"],
             'should complain when rows have non-column children.');
+        test.deepEqual(lintHtml(utf8Fixture('grid/script-child-of-row.html')),
+            [],
+            'should not complain about <script> child of row');
         test.done();
     },
     'multiple columns on the same side of an input group': function (test) {
