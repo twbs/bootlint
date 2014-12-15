@@ -2854,8 +2854,8 @@
       "resolved": "https://registry.npmjs.org/grunt-eslint/-/grunt-eslint-2.1.0.tgz",
       "dependencies": {
         "eslint": {
-          "version": "0.10.1",
-          "resolved": "https://registry.npmjs.org/eslint/-/eslint-0.10.1.tgz",
+          "version": "0.10.2",
+          "resolved": "https://registry.npmjs.org/eslint/-/eslint-0.10.2.tgz",
           "dependencies": {
             "concat-stream": {
               "version": "1.4.7",
