@@ -60,8 +60,8 @@ module.exports = function (grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      appJs: {
-        src: 'app.js'
+      web: {
+        src: ['app.js', 'bin/www']
       },
       gruntfile: {
         src: 'Gruntfile.js'
@@ -74,8 +74,8 @@ module.exports = function (grunt) {
       }
     },
     jscs: {
-      appJs: {
-        src: '<%= jshint.appJs.src %>'
+      web: {
+        src: '<%= jshint.web.src %>'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>',
@@ -94,8 +94,8 @@ module.exports = function (grunt) {
       options: {
         config: '.eslintrc'
       },
-      appJs: {
-        src: '<%= jshint.appJs.src %>'
+      web: {
+        src: '<%= jshint.web.src %>'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>'
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
   grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
   grunt.registerTask('_update-shrinkwrap', function () {
     var done = this.async();
-    npmShrinkwrap({ dev: true, dirname: __dirname }, function (err) {
+    npmShrinkwrap({dev: true, dirname: __dirname}, function (err) {
       if (err) {
         grunt.fail.warn(err);
       }
