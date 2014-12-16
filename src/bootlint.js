@@ -67,7 +67,7 @@ var LocationIndex = _location.LocationIndex;
     /**
      * Moves any grid column classes to the end of the class string and sorts the grid classes by ascending screen size.
      * @param {string} classes The "class" attribute of a DOM node
-     * @returns {string}
+     * @returns {string} The processed "class" attribute value
      */
     function sortedColumnClasses(classes) {
         // extract column classes
@@ -820,12 +820,18 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     };
+    /**
+     * @callback reporter
+     * @param {LintWarning|LintError} problem A lint problem
+     * @returns {undefined} Any return value is ignored.
+     */
+
     if (IN_NODE_JS) {
         // cheerio; Node.js
         /**
          * Lints the given HTML.
          * @param {string} html The HTML to lint
-         * @param reporter Function to call with each lint problem
+         * @param {reporter} reporter Function to call with each lint problem
          * @param {string[]} disabledIds Array of string IDs of linters to disable
          * @returns {undefined} Nothing
          */
@@ -841,7 +847,7 @@ var LocationIndex = _location.LocationIndex;
             var $ = cheerio;
             /**
              * Lints the HTML of the current document.
-             * @param reporter Function to call with each lint problem
+             * @param {reporter} reporter Function to call with each lint problem
              * @param {string[]} disabledIds Array of string IDs of linters to disable
              * @returns {undefined} Nothing
              */
