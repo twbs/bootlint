@@ -124,7 +124,7 @@ var LocationIndex = _location.LocationIndex;
      *      [0, 2, 3, 4, 6, 8, 9, 11] has two such runs: [2, 3, 4], [8, 9]
      *      [0, 2, 4] has no runs.
      * @param {integer[]} list Sorted array of integers
-     * @returns {integer[][]} Array of pairs of start and end values of runs
+     * @returns {Array.<Array.<integer>>} Array of pairs of start and end values of runs
      */
     function incrementingRunsFrom(list) {
         list = list.concat([Infinity]);// use Infinity to ensure any nontrivial (length >= 2) run ends before the end of the loop
