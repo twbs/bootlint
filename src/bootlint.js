@@ -153,6 +153,12 @@ var LocationIndex = _location.LocationIndex;
         return runs;
     }
 
+    /**
+     * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
+     * @param {string} message Human-readable string describing the error
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
@@ -160,6 +166,12 @@ var LocationIndex = _location.LocationIndex;
     }
     exports.LintError = LintError;
 
+    /**
+     * @param {integer} id Unique string ID for this type of lint warning. Of the form "W###" (e.g. "W123").
+     * @param {string} message Human-readable string describing the warning
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
