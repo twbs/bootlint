@@ -47,6 +47,7 @@
     "grunt-jscs": "^1.0.0",
     "jquery": "~2.1.1",
     "jscoverage": "^0.5.9",
+    "jscs-jsdoc": "^0.3.2",
     "load-grunt-tasks": "^1.0.0",
     "nodeunit": "^0.9.0",
     "npm-shrinkwrap": "^200.0.0",
