@@ -45,7 +45,7 @@
     "grunt-eslint": "^2.1.0",
     "grunt-exec": "^0.4.6",
     "grunt-jscs": "^1.0.0",
-    "jquery": "~2.1.1",
+    "jquery": "~2.1.2",
     "jscoverage": "^0.5.9",
     "jscs-jsdoc": "^0.3.2",
     "load-grunt-tasks": "^1.0.0",
