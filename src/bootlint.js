@@ -75,7 +75,7 @@ var LocationIndex = _location.LocationIndex;
     /**
      * Moves any grid column classes to the end of the class string and sorts the grid classes by ascending screen size.
      * @param {string} classes The "class" attribute of a DOM node
-     * @returns {string}
+     * @returns {string} The processed "class" attribute value
      */
     function sortedColumnClasses(classes) {
         // extract column classes
@@ -132,7 +132,7 @@ var LocationIndex = _location.LocationIndex;
      *      [0, 2, 3, 4, 6, 8, 9, 11] has two such runs: [2, 3, 4], [8, 9]
      *      [0, 2, 4] has no runs.
      * @param {integer[]} list Sorted array of integers
-     * @returns {integer[][]} Array of pairs of start and end values of runs
+     * @returns {Array.<Array.<integer>>} Array of pairs of start and end values of runs
      */
     function incrementingRunsFrom(list) {
         list = list.concat([Infinity]);// use Infinity to ensure any nontrivial (length >= 2) run ends before the end of the loop
@@ -161,6 +161,12 @@ var LocationIndex = _location.LocationIndex;
         return runs;
     }
 
+    /**
+     * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
+     * @param {string} message Human-readable string describing the error
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
@@ -168,6 +174,12 @@ var LocationIndex = _location.LocationIndex;
     }
     exports.LintError = LintError;
 
+    /**
+     * @param {integer} id Unique string ID for this type of lint warning. Of the form "W###" (e.g. "W123").
+     * @param {string} message Human-readable string describing the warning
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
@@ -904,12 +916,18 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     };
+    /**
+     * @callback reporter
+     * @param {LintWarning|LintError} problem A lint problem
+     * @returns {undefined} Any return value is ignored.
+     */
+
     if (IN_NODE_JS) {
         // cheerio; Node.js
         /**
          * Lints the given HTML.
          * @param {string} html The HTML to lint
-         * @param reporter Function to call with each lint problem
+         * @param {reporter} reporter Function to call with each lint problem
          * @param {string[]} disabledIds Array of string IDs of linters to disable
          * @returns {undefined} Nothing
          */
@@ -925,7 +943,7 @@ var LocationIndex = _location.LocationIndex;
             var $ = cheerio;
             /**
              * Lints the HTML of the current document.
-             * @param reporter Function to call with each lint problem
+             * @param {reporter} reporter Function to call with each lint problem
              * @param {string[]} disabledIds Array of string IDs of linters to disable
              * @returns {undefined} Nothing
              */

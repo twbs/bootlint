@@ -4,9 +4,11 @@ var binarySearch = require('binary-search');
 (function () {
     'use strict';
 
-    /*
-     * line is a 0-based line index
-     * column is a 0-based column index
+    /**
+     * Represents a location within a source code file.
+     * @param {integer} line A 0-based line index
+     * @param {integer} column A 0-based column index
+     * @class
      */
     function Location(line, column) {
         this.line = line;
@@ -16,7 +18,8 @@ var binarySearch = require('binary-search');
 
     /**
      * Maps code unit indices into the string to line numbers and column numbers.
-     * @param {string} String to construct the index for
+     * @param {string} string String to construct the index for
+     * @class
      */
     function LocationIndex(string) {
         // ensure newline termination
@@ -24,7 +27,7 @@ var binarySearch = require('binary-search');
             string += '\n';
         }
         this._stringLength = string.length;
-        /**
+        /*
          * Each triple in _lineStartEndTriples consists of:
          * [0], the 0-based line index of the line the triple represents
          * [1], the 0-based code unit index (into the string) of the start of the line (inclusive)
@@ -53,7 +56,7 @@ var binarySearch = require('binary-search');
 
     /**
      * Translates a code unit index into its corresponding Location (line index and column index) within the string
-     * @param {integer} 0-based code unit index into the string
+     * @param {integer} charIndex A 0-based code unit index into the string
      * @returns {Location|null} A Location corresponding to the index, or null if the index is out of bounds
      */
     LocationIndex.prototype.locationOf = function (charIndex) {

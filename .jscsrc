@@ -21,5 +21,17 @@
   "requireSpacesInFunctionExpression": { "beforeOpeningCurlyBrace": true },
   "validateIndentation": 4,
   "validateLineBreaks": "LF",
-  "validateParameterSeparator": ", "
+  "validateParameterSeparator": ", ",
+  "plugins": [
+    "jscs-jsdoc"
+  ],
+  "jsDoc": {
+    "checkAnnotations": {
+      "preset": "jsdoc3",
+      "extra": {"class": false}
+    },
+    "checkParamNames": true,
+    "checkRedundantParams": true,
+    "requireParamTypes": true
+  }
 }
