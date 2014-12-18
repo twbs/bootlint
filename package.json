@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "binary-search": "^1.2.0",
+    "bluebird": "^2.3.11",
     "body-parser": "^1.9.2",
     "chalk": "^0.5.1",
     "cheerio": "^0.18.0",

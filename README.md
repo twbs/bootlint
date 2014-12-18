@@ -35,6 +35,17 @@ The CLI also accepts a `--disable` (or `-d`) option to disable certain lint chec
 $ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
+The CLI will also process `stdin` input which means that you can pipe into Bootlint:
+```
+$ cat mypage.html | bootlint
+```
+Or you could use a heredoc (mostly useful for quick testing):
+```
+$ bootlint << EOF
+<button class="btn btn-default">Is this correct Bootstrap markup, Bootlint?</button>
+EOF
+```
+
 ### In the browser
 Use the following [bookmarklet](http://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
 ```
