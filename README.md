@@ -170,15 +170,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
 * (next release) - `master`
-  * #196: Add check for modal dialogs within navbars  
-  * #194: Add check for outdated versions of Bootstrap
-  * #193: Add check for usage of nonexistent `.col-*-0` classes
-  * #192: Allow `<script>`s as children of `.row`s
-  * #182: Improve W005 checker to reduce false positives  
-  * #181: Fix bug in E034 check when there's whitespace before the `.close` button in an alert
-  * #174: Add more backticks to lint messages to improve their Markdown rendering
-  * #164: Avoid W005 false positives due to jQuery plugins  
-  * #138: Add check for multiple `<button>`s inside of a single `.input-group-btn`
+* 2014-12-18 - v0.9.0: Fixes several small bugs and tweaks a few existing checks. Adds 4 new lint checks.
 * 2014-11-07 - v0.8.0: When in a Node.js environment, report the locations of the HTML source code of problematic elements.
 * 2014-11-01 - v0.7.0: Tweaks lint message texts. Adds 1 new lint check.
 * 2014-10-31 - v0.6.0: Fixes crash bug. Adds some new lint checks. Adds HTTP API.
