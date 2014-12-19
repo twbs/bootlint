@@ -855,8 +855,10 @@ var LocationIndex = _location.LocationIndex;
             }).sort(semver.compare);
             if (versions.length) {
                 var minVersion = versions[0];
-                reporter(OUTDATED_BOOTSTRAP + minVersion);
-                return;
+                if (semver.lt(minVersion, CURRENT_BOOTSTRAP_VERSION, true)) {
+                    reporter(OUTDATED_BOOTSTRAP + minVersion);
+                    return;
+                }
             }
         }
         // check for Bootstrap <link>s and <script>s
