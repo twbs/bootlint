@@ -9,7 +9,7 @@
 
 },{}],2:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v2.1.2
+ * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -19,7 +19,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-12-17T14:01Z
+ * Date: 2014-12-18T15:11Z
  */
 
 (function( global, factory ) {
@@ -77,7 +77,7 @@ var
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
 
-	version = "2.1.2",
+	version = "2.1.3",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -7582,7 +7582,7 @@ var
 	allTypes = "*/".concat( "*" ),
 
 	// Document location
-	ajaxLocation = location.href,
+	ajaxLocation = window.location.href,
 
 	// Segment location into parts
 	ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
@@ -11194,8 +11194,10 @@ var LocationIndex = _location.LocationIndex;
             }).sort(semver.compare);
             if (versions.length) {
                 var minVersion = versions[0];
-                reporter(OUTDATED_BOOTSTRAP + minVersion);
-                return;
+                if (semver.lt(minVersion, CURRENT_BOOTSTRAP_VERSION, true)) {
+                    reporter(OUTDATED_BOOTSTRAP + minVersion);
+                    return;
+                }
             }
         }
         // check for Bootstrap <link>s and <script>s
