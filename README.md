@@ -55,7 +55,7 @@ Then check the JavaScript console for lint warning messages.
 
 You can also manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
 
-Bootlint is also available as a unofficial third-party web service at [bootlint.com](http://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](http://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommend way to use Bootlint.
+Bootlint is also available as a unofficial third-party web service at [bootlint.com](http://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](http://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommended way to use Bootlint.
 
 ## Lint problem explanations
 For detailed explanations of each lint problem, [look up the IDs](https://github.com/twbs/bootlint/wiki) (for example, [`E001`](https://github.com/twbs/bootlint/wiki/E001) or [`W002`](https://github.com/twbs/bootlint/wiki/W002)) in [our wiki](https://github.com/twbs/bootlint/wiki).
