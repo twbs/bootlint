@@ -35,7 +35,7 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^2.11.2",
-    "grunt-banner": "^0.2.3",
+    "grunt-banner": "^0.3.0",
     "grunt-browserify": "^3.2.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-jshint": "^0.10.0",

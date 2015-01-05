@@ -1,6 +1,6 @@
 {
   "name": "bootlint",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "npm-shrinkwrap-version": "200.0.0",
   "dependencies": {
     "binary-search": {
@@ -746,8 +746,8 @@
       }
     },
     "grunt-banner": {
-      "version": "0.2.3",
-      "resolved": "https://registry.npmjs.org/grunt-banner/-/grunt-banner-0.2.3.tgz"
+      "version": "0.3.0",
+      "resolved": "https://registry.npmjs.org/grunt-banner/-/grunt-banner-0.3.0.tgz"
     },
     "grunt-browserify": {
       "version": "3.2.1",
