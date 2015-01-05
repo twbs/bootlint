@@ -23,7 +23,7 @@ var totalErrCount = 0;
 var totalFileCount = 0;
 var lintedFiles = [];
 
-function buildReporter (origin) {
+function buildReporter(origin) {
     return function (lint) {
         var lintId = (lint.id[0] === 'E') ? chalk.bgGreen.white(lint.id) : chalk.bgRed.white(lint.id);
         var output = false;
@@ -42,7 +42,7 @@ function buildReporter (origin) {
     };
 }
 
-function handleStdin () {
+function handleStdin() {
     return new Deferred(function (resolve) {
         if (process.stdin.isTTY) {
             return resolve();
@@ -64,7 +64,7 @@ function handleStdin () {
     });
 }
 
-function handlePath (pattern) {
+function handlePath(pattern) {
     return glob(pattern)
         .map(function (name) {
             return Deferred.props({
