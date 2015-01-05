@@ -27,8 +27,7 @@
   ],
   "jsDoc": {
     "checkAnnotations": {
-      "preset": "jsdoc3",
-      "extra": {"class": false}
+      "preset": "jsdoc3"
     },
     "checkParamNames": true,
     "checkRedundantParams": true,

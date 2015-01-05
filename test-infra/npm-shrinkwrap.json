@@ -3684,12 +3684,12 @@
       }
     },
     "jscs-jsdoc": {
-      "version": "0.3.2",
-      "resolved": "https://registry.npmjs.org/jscs-jsdoc/-/jscs-jsdoc-0.3.2.tgz",
+      "version": "0.4.0",
+      "resolved": "https://registry.npmjs.org/jscs-jsdoc/-/jscs-jsdoc-0.4.0.tgz",
       "dependencies": {
         "comment-parser": {
           "version": "0.2.3",
-          "resolved": "https://registry.npmjs.org/comment-parser/-/comment-parser-0.2.3.tgz"
+          "resolved": "git+https://github.com/zxqfox/comment-parser#268e0112a1e4866cd9269a1af8eddbe7d6a99eae"
         },
         "jsdoctypeparser": {
           "version": "1.1.4",
