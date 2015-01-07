@@ -44,7 +44,7 @@ function buildReporter(origin) {
 
 function handleStdin() {
     return new Deferred(function (resolve) {
-        if (process.stdin.isTTY) {
+        if (typeof process.stdin.isTTY !== 'boolean' || process.stdin.isTTY) {
             return resolve();
         }
 
