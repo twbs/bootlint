@@ -16,6 +16,7 @@ program
     .option('-d, --disable <IDs>', 'Comma-separated list of disabled lint problem IDs', function (val) {
         return val.split(',');
     })
+    .option('--no-stdin', 'Explicitly ignore the stdin stream')
     .parse(process.argv);
 var disabledIds = program.disable === undefined ? [] : program.disable;
 
@@ -44,7 +45,7 @@ function buildReporter(origin) {
 
 function handleStdin() {
     return new Deferred(function (resolve) {
-        if (typeof process.stdin.isTTY !== 'boolean' || process.stdin.isTTY) {
+        if (!program.stdin || process.stdin.isTTY) {
             return resolve();
         }
 
