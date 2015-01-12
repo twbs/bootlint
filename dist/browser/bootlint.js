@@ -9671,6 +9671,33 @@ function inc(version, release, loose, identifier) {
   }
 }
 
+exports.diff = diff;
+function diff(version1, version2) {
+  if (eq(version1, version2)) {
+    return null;
+  } else {
+    var v1 = parse(version1);
+    var v2 = parse(version2);
+    if (v1.prerelease.length || v2.prerelease.length) {
+      for (var key in v1) {
+        if (key === 'major' || key === 'minor' || key === 'patch') {
+          if (v1[key] !== v2[key]) {
+            return 'pre'+key;
+          }
+        }
+      }
+      return 'prerelease';
+    }
+    for (var key in v1) {
+      if (key === 'major' || key === 'minor' || key === 'patch') {
+        if (v1[key] !== v2[key]) {
+          return key;
+        }
+      }
+    }
+  }
+}
+
 exports.compareIdentifiers = compareIdentifiers;
 
 var numeric = /^[0-9]+$/;
@@ -11227,6 +11254,18 @@ var LocationIndex = _location.LocationIndex;
             var version = matches[matches.length - 1];
             if (semver.lt(version, CURRENT_BOOTSTRAP_VERSION, true)) {
                 reporter(OUTDATED_BOOTSTRAP + version, elem);
+            }
+        });
+    });
+    addLinter("W014", function lintCarouselControls($, reporter) {
+        var controls = $('.carousel .carousel-indicators > li, .carousel .carousel-control');
+        controls.each(function (_index, cont) {
+            var control = $(cont);
+            var target = control.attr('href') || control.attr('data-target');
+            var carousel = $(target);
+
+            if (!carousel.length || carousel.is(':not(.carousel)')) {
+                reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
             }
         });
     });

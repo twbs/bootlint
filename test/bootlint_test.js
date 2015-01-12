@@ -652,7 +652,6 @@ exports.bootlint = {
         );
         test.done();
     },
-
     'outdated version of Bootstrap': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-css.html')),
@@ -670,6 +669,26 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-extensions-okay.html')),
             [],
             'should not complain about outdated libraries that just have "bootstrap" in their name.');
+        test.done();
+    },
+
+    'carousel control target': function (test) {
+        test.expect(3);
+        test.deepEqual(lintHtml(utf8Fixture('carousel/indicators.html')),
+            [
+                'Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.'
+            ],
+            'should complain about incorrect indicator control targets.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/controls.html')),
+            [
+                'Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.'
+            ],
+            'should complain about incorrect indicator control targets.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/carousel.html')),
+            [], 'should not complain about correct indicator control targets.'
+        );
         test.done();
     }
 };
