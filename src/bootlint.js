@@ -891,6 +891,18 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
+    addLinter("W014", function lintCarouselControls($, reporter) {
+        var controls = $('.carousel-indicators > li, .carousel-control');
+        controls.each(function (_index, cont) {
+            var control = $(cont);
+            var target = control.attr('href') || control.attr('data-target');
+            var carousel = $(target);
+
+            if (!carousel.length || carousel.is(':not(.carousel)')) {
+                reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
+            }
+        });
+    });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
