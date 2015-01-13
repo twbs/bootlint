@@ -996,6 +996,11 @@ var LocationIndex = _location.LocationIndex;
                 if (errorCount > 0) {
                     console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
                 }
+                else {
+                    /*eslint-disable no-alert, no-undef, block-scoped-var */
+                    window.alert("bootlint found no errors in this document.");// jshint ignore:line
+                    /*eslint-enable no-alert, no-undef, block-scoped-var */
+                }
             };
             /*eslint-disable no-undef, block-scoped-var */
             window.bootlint = exports;// jshint ignore:line
