@@ -969,17 +969,26 @@ var LocationIndex = _location.LocationIndex;
              * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
              * Each warning will be output individually using console.warn().
              * @param {string[]} disabledIds Array of string IDs of linters to disable
+             * @param {object} [alertOpts] Options object to configure alert()ing
+             * @param {boolean} [alertOpts.hasProblems=true] Show one alert() when the first lint problem is found?
+             * @param {boolean} [alertOpts.problemFree=true] Show one alert() at the end of linting if the page has no lint problems?
              * @returns {undefined} Nothing
              */
-            exports.showLintReportForCurrentDocument = function (disabledIds) {
+            exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
+                alertOpts = alertOpts || {};
+                var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
+                var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
+
                 var seenLint = false;
                 var errorCount = 0;
                 var reporter = function (lint) {
                     var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
-                        /*eslint-disable no-alert, no-undef, block-scoped-var */
-                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
-                        /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        if (alertOnFirstProblem) {
+                            /*eslint-disable no-alert, no-undef, block-scoped-var */
+                            window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
+                            /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        }
                         seenLint = true;
                     }
 
@@ -996,7 +1005,7 @@ var LocationIndex = _location.LocationIndex;
                 if (errorCount > 0) {
                     console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
                 }
-                else {
+                else if (alertIfNoProblems) {
                     /*eslint-disable no-alert, no-undef, block-scoped-var */
                     window.alert("bootlint found no errors in this document.");// jshint ignore:line
                     /*eslint-enable no-alert, no-undef, block-scoped-var */

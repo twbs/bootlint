@@ -99,9 +99,11 @@ In a browser environment, the following public APIs are available:
   * `reporter` is a *reporter* function (see above for a definition). It will be called repeatedly with each lint problem as an argument.
   * `disabledIds` is an array of string linter IDs to disable
   * Returns nothing (i.e. `undefined`)
-* `bootlint.showLintReportForCurrentDocument(disabledIds)`: Lints the HTML of the current document and reports the linting results to the user.
-  * If there are any lint warnings, one general notification message will be `window.alert()`-ed to the user. Each warning will be output individually using `console.warn()`.
+* `bootlint.showLintReportForCurrentDocument(disabledIds, alertOpts)`: Lints the HTML of the current document and reports the linting results to the user. Each warning will be output individually using `console.warn()`.
   * `disabledIds` is an array of string linter IDs to disable
+  * `alertOpts` is an optional options object with the following properties:
+    * `hasProblems` (type: `boolean`; default: `true`) - `window.alert()` a single general notification message to the user if there are any lint problems?
+    * `problemFree` (type: `boolean`; default: `true`) - `window.alert()` a notification message to the user if the document has no lint problems?
   * Returns nothing (i.e. `undefined`)
 
 ### Node.js
