@@ -161,6 +161,24 @@ var LocationIndex = _location.LocationIndex;
         return runs;
     }
 
+    function bootstrapScriptsIn($) {
+        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.js";
+        });
+        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.min.js";
+        });
+
+        return {
+            longhands: longhands,
+            minifieds: minifieds
+        };
+    }
+
     /**
      * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
      * @param {string} message Human-readable string describing the error
@@ -333,7 +351,10 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W005", function lintJquery($, reporter) {
         var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
-        var NO_JQUERY = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_BUT_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_NOR_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript";
+        var bsScripts = bootstrapScriptsIn($);
+        var hasBsJs = !!(bsScripts.minifieds.length || bsScripts.longhands.length);
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -384,7 +405,7 @@ var LocationIndex = _location.LocationIndex;
             'script[src*="jQuery"]'
         ].join(','));
         if (!jqueries.length) {
-            reporter(NO_JQUERY);
+            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
             return;
         }
         jqueries.each(function () {
@@ -420,24 +441,10 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E007", function lintBootstrapJs($, reporter) {
-        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.js";
-        });
-        if (!longhands.length) {
-            return;
+        var scripts = bootstrapScriptsIn($);
+        if (scripts.longhands.length && scripts.minifieds.length) {
+            reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", scripts.longhands.add(scripts.minifieds));
         }
-        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.min.js";
-        });
-        if (!minifieds.length) {
-            return;
-        }
-
-        reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", longhands.add(minifieds));
     });
     addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
         var selector = [

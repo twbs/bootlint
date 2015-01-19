@@ -54,7 +54,7 @@ module.exports = function (grunt) {
       options: {
         timeout: 10000
       },
-      files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/charset/not-utf8.html']
+      files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/jquery/and_bs_js_both_missing.html', '!test/fixtures/charset/not-utf8.html']
     },
     jshint: {
       options: {
