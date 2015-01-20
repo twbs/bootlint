@@ -34,7 +34,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.1';
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.2';
 
     function compareNums(a, b) {
         return a - b;
