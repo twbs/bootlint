@@ -10527,6 +10527,24 @@ var LocationIndex = _location.LocationIndex;
         return runs;
     }
 
+    function bootstrapScriptsIn($) {
+        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.js";
+        });
+        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.min.js";
+        });
+
+        return {
+            longhands: longhands,
+            minifieds: minifieds
+        };
+    }
+
     /**
      * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
      * @param {string} message Human-readable string describing the error
@@ -10699,7 +10717,10 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W005", function lintJquery($, reporter) {
         var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
-        var NO_JQUERY = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_BUT_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_NOR_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript";
+        var bsScripts = bootstrapScriptsIn($);
+        var hasBsJs = !!(bsScripts.minifieds.length || bsScripts.longhands.length);
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -10750,7 +10771,7 @@ var LocationIndex = _location.LocationIndex;
             'script[src*="jQuery"]'
         ].join(','));
         if (!jqueries.length) {
-            reporter(NO_JQUERY);
+            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
             return;
         }
         jqueries.each(function () {
@@ -10786,24 +10807,10 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E007", function lintBootstrapJs($, reporter) {
-        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.js";
-        });
-        if (!longhands.length) {
-            return;
+        var scripts = bootstrapScriptsIn($);
+        if (scripts.longhands.length && scripts.minifieds.length) {
+            reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", scripts.longhands.add(scripts.minifieds));
         }
-        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.min.js";
-        });
-        if (!minifieds.length) {
-            return;
-        }
-
-        reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", longhands.add(minifieds));
     });
     addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
         var selector = [
@@ -11335,17 +11342,26 @@ var LocationIndex = _location.LocationIndex;
              * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
              * Each warning will be output individually using console.warn().
              * @param {string[]} disabledIds Array of string IDs of linters to disable
+             * @param {object} [alertOpts] Options object to configure alert()ing
+             * @param {boolean} [alertOpts.hasProblems=true] Show one alert() when the first lint problem is found?
+             * @param {boolean} [alertOpts.problemFree=true] Show one alert() at the end of linting if the page has no lint problems?
              * @returns {undefined} Nothing
              */
-            exports.showLintReportForCurrentDocument = function (disabledIds) {
+            exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
+                alertOpts = alertOpts || {};
+                var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
+                var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
+
                 var seenLint = false;
                 var errorCount = 0;
                 var reporter = function (lint) {
                     var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
-                        /*eslint-disable no-alert, no-undef, block-scoped-var */
-                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
-                        /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        if (alertOnFirstProblem) {
+                            /*eslint-disable no-alert, no-undef, block-scoped-var */
+                            window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
+                            /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        }
                         seenLint = true;
                     }
 
@@ -11362,7 +11378,7 @@ var LocationIndex = _location.LocationIndex;
                 if (errorCount > 0) {
                     console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
                 }
-                else {
+                else if (alertIfNoProblems) {
                     /*eslint-disable no-alert, no-undef, block-scoped-var */
                     window.alert("bootlint found no errors in this document.");// jshint ignore:line
                     /*eslint-enable no-alert, no-undef, block-scoped-var */
