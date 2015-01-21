@@ -176,7 +176,7 @@ exports.bootlint = {
         test.done();
     },
     'jQuery': function (test) {
-        test.expect(4);
+        test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('jquery/present.html')),
             [],
             'should not complain when jQuery is present.');
@@ -188,7 +188,10 @@ exports.bootlint = {
             'should complain about old version of jQuery based on URL');
         test.deepEqual(lintHtml(utf8Fixture('jquery/missing.html')),
             ["Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work"],
-            'should complain when jQuery appears to be missing.');
+            "should complain when jQuery appears to be missing.");
+        test.deepEqual(lintHtml(utf8Fixture('jquery/and_bs_js_both_missing.html')),
+            ["Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript"],
+            "should complain differently when jQuery appears to be missing but Bootstrap's JS is also missing.");
         test.done();
     },
     'bootstrap[.min].js': function (test) {
