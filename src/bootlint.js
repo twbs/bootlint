@@ -789,6 +789,14 @@ var LocationIndex = _location.LocationIndex;
             reporter("Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.", elements);
         }
     });
+    addLinter("E038", function lintMediaPulls($, reporter) {
+        var mediaPullsOutsideMedia = $('.media-left, .media-right').filter(function () {
+            return !($(this).parent().closest('.media').length);
+        });
+        if (mediaPullsOutsideMedia.length) {
+            reporter('`.media-left` and `.media-right` should not be used outside of `.media` objects.', mediaPullsOutsideMedia);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
