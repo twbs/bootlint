@@ -612,7 +612,7 @@ exports.bootlint = {
 
     'pull classes inside media': function (test) {
         test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('media/pull-classes.html')),
+        test.deepEqual(lintHtml(utf8Fixture('media/deprecated-pull-classes.html')),
             ['Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.'],
             'should complain about .pull-* classes in .media'
         );
@@ -690,7 +690,29 @@ exports.bootlint = {
             'should complain about incorrect indicator control targets.'
         );
         test.deepEqual(lintHtml(utf8Fixture('carousel/valid.html')),
-            [], 'should not complain about correct indicator control targets.'
+            [],
+            'should not complain about correct indicator control targets.'
+        );
+        test.done();
+    },
+
+    'media pulls outside of media objects': function (test) {
+        test.expect(4);
+        test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
+            [],
+            'should not complain about media pulls inside media objects.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('media/misplaced-media-left.html')),
+            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
+            'should complain about .media-left outside of a media object.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('media/misplaced-media-right.html')),
+            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
+            'should complain about .media-right outside of a media object.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('media/media-pull-on-media.html')),
+            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
+            'should complain about media pulls on .media itself.'
         );
         test.done();
     }
