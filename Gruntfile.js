@@ -1,7 +1,7 @@
 /*!
  * Bootlint's Gruntfile
  * https://github.com/twbs/bootlint
- * Copyright 2014 Christopher Rebert
+ * Copyright 2014-2015 Christopher Rebert
  * Portions Copyright 2013-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootlint/blob/master/LICENSE)
  */
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     banner: (
       "/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
       " * <%= pkg.description %>\n" +
-      " * Copyright (c) 2014 Christopher Rebert\n" +
+      " * Copyright (c) 2014-2015 Christopher Rebert\n" +
       " * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n" +
       " */\n"
     ),

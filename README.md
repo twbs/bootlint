@@ -186,4 +186,4 @@ See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for de
 
 ## License
 
-Copyright (c) 2014 Christopher Rebert. Licensed under the MIT License.
+Copyright (c) 2014-2015 Christopher Rebert. Licensed under the MIT License.

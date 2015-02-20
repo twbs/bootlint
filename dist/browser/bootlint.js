@@ -1,7 +1,7 @@
 /*!
  * Bootlint v0.10.0 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
- * Copyright (c) 2014 Christopher Rebert
+ * Copyright (c) 2014-2015 Christopher Rebert
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
  */
 
@@ -10367,7 +10367,7 @@ if (typeof define === 'function' && define.amd)
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
- * Copyright (c) 2014 Christopher Rebert
+ * Copyright (c) 2014-2015 Christopher Rebert
  * Licensed under the MIT License.
  */
 
