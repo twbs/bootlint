@@ -9722,6 +9722,21 @@ function rcompareIdentifiers(a, b) {
   return compareIdentifiers(b, a);
 }
 
+exports.major = major;
+function major(a, loose) {
+  return new SemVer(a, loose).major;
+}
+
+exports.minor = minor;
+function minor(a, loose) {
+  return new SemVer(a, loose).minor;
+}
+
+exports.patch = patch;
+function patch(a, loose) {
+  return new SemVer(a, loose).patch;
+}
+
 exports.compare = compare;
 function compare(a, b, loose) {
   return new SemVer(a, loose).compare(b);
@@ -11155,7 +11170,7 @@ var LocationIndex = _location.LocationIndex;
             reporter("Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.", elements);
         }
     });
-    addLinter("W009",  function lintEmptySpacerCols($, reporter) {
+    addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
         }).join(',');
