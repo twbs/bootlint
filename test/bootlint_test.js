@@ -736,5 +736,18 @@ exports.bootlint = {
             'should not complain about .navbar-left or .navbar-right inside of .navbar.'
         );
         test.done();
+    },
+
+    'modal with .hide class': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('modal/with-hide.html')),
+            ['`.hide` should not be used on `.modal` in Bootstrap v3.'],
+            'should complain about a modal with the .hide class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('modal/valid.html')),
+            [],
+            'should not complain about a modal without the .hide class.'
+        );
+        test.done();
     }
 };

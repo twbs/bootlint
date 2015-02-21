@@ -805,6 +805,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
         }
     });
+    addLinter("E040", function lintModalHide($, reporter) {
+        var modalsWithHide = $('.modal.hide');
+        if (modalsWithHide.length) {
+            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
