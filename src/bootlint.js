@@ -797,6 +797,14 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.media-left` and `.media-right` should not be used outside of `.media` objects.', mediaPullsOutsideMedia);
         }
     });
+    addLinter("E039", function lintNavbarPulls($, reporter) {
+        var navbarPullsOutsideNavbars = $('.navbar-left, .navbar-right').filter(function () {
+            return !($(this).parent().closest('.navbar').length);
+        });
+        if (navbarPullsOutsideNavbars.length) {
+            reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';
