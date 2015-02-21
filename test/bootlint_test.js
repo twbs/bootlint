@@ -715,5 +715,26 @@ exports.bootlint = {
             'should complain about media pulls on .media itself.'
         );
         test.done();
+    },
+
+    'navbar pulls outside of navbars': function (test) {
+        test.expect(4);
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-left-bad.html')),
+            ['`.navbar-left` and `.navbar-right` should not be used outside of navbars.'],
+            'should complain about .navbar-left outside of .navbar.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-right-bad.html')),
+            ['`.navbar-left` and `.navbar-right` should not be used outside of navbars.'],
+            'should complain about .navbar-right outside of .navbar.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-left-right-on-navbar.html')),
+            ['`.navbar-left` and `.navbar-right` should not be used outside of navbars.'],
+            'should complain about .navbar-left/right directly on a .navbar.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-left-right-valid.html')),
+            [],
+            'should not complain about .navbar-left or .navbar-right inside of .navbar.'
+        );
+        test.done();
     }
 };
