@@ -811,6 +811,21 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
         }
     });
+    addLinter("E041", function lintCarouselStructure($, reporter) {
+        var carouselsWithWrongInners = $('.carousel').filter(function () {
+            return $(this).children('.carousel-inner').length !== 1;
+        });
+        if (carouselsWithWrongInners.length) {
+            reporter('`.carousel` must have exactly one `.carousel-inner` child.', carouselsWithWrongInners);
+        }
+
+        var innersWithWrongActiveItems = $('.carousel-inner').filter(function () {
+            return $(this).children('.item.active').length !== 1;
+        });
+        if (innersWithWrongActiveItems.length) {
+            reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(col):not(:last-child)';

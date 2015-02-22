@@ -17,7 +17,7 @@
     <script src="../generic-qunit.js"></script>
 </head>
 <body>
-    <div class="carousel slide" data-ride="carousel">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0"></li>
         </ol>
@@ -28,11 +28,18 @@
             <div class="item">
                 <div class="carousel-caption"></div>
             </div>
+            <div class="item active">
+                <div class="carousel-caption"></div>
+            </div>
         </div>
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
     </div>
     <div id="qunit"></div>
     <ol id="bootlint">
-        <li data-lint="Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`."></li>
+        <li data-lint="`.carousel-inner` must have exactly one `.item.active` child."></li>
     </ol>
 </body>
 </html>
