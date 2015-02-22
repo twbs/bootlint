@@ -749,5 +749,30 @@ exports.bootlint = {
             'should not complain about a modal without the .hide class.'
         );
         test.done();
+    },
+
+    'carousel structure': function (test) {
+        test.expect(5);
+        test.deepEqual(lintHtml(utf8Fixture('carousel/valid.html')),
+            [],
+            'should not complain about correctly structured carousels.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/missing-inner.html')),
+            ['`.carousel` must have exactly one `.carousel-inner` child.'],
+            'should complain about a carousel without a .carousel-inner.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/multiple-inner.html')),
+            ['`.carousel` must have exactly one `.carousel-inner` child.'],
+            'should complain about a carousel with multiple .carousel-inner children.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/missing-active-item.html')),
+            ['`.carousel-inner` must have exactly one `.item.active` child.'],
+            'should complain about a carousel without an active item.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('carousel/multiple-active-item.html')),
+            ['`.carousel-inner` must have exactly one `.item.active` child.'],
+            'should complain about a carousel with multiple active items.'
+        );
+        test.done();
     }
 };
