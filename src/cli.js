@@ -12,6 +12,7 @@ var bootlint = require('./bootlint');
 
 program
     .version(require('../package.json').version)
+    .description('Lint the HTML of Bootstrap projects')
     .usage('[options] [files...]')
     .option('-d, --disable <IDs>', 'Comma-separated list of disabled lint problem IDs', function (val) {
         return val.split(',');
