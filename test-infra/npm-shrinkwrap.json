@@ -2621,12 +2621,12 @@
       }
     },
     "grunt-eslint": {
-      "version": "6.0.0",
-      "resolved": "https://registry.npmjs.org/grunt-eslint/-/grunt-eslint-6.0.0.tgz",
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/grunt-eslint/-/grunt-eslint-7.0.0.tgz",
       "dependencies": {
         "eslint": {
-          "version": "0.14.1",
-          "resolved": "https://registry.npmjs.org/eslint/-/eslint-0.14.1.tgz",
+          "version": "0.15.0",
+          "resolved": "https://registry.npmjs.org/eslint/-/eslint-0.15.0.tgz",
           "dependencies": {
             "concat-stream": {
               "version": "1.4.7",
