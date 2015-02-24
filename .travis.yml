@@ -28,8 +28,8 @@
     ],
     "env": {
         "global": [
-            {"JEKYLL_VERSION": "2.3.0"},
-            {"ROUGE_VERSION": "1.6.2"},
+            {"JEKYLL_VERSION": "2.5.3"},
+            {"ROUGE_VERSION": "1.8.0"},
             {"secure": "dRdiG/5UykFAVW6GWWcaNHGSPy16PiCeF9XySPDdCSbw+pI2zqE8VNyXgn1kORhLFsKjdIQaLnmFWR1Xw7sP59zpnIRUkZ77spw7hKNf1RlAv3uckE8LFxO1FkMFNOlSHgmCXnyseUNGMDL/lIBMCLfsTOlc6KvbQir7pz+TDwM="},
             {"secure": "Ej9x2sBilYq9Wr86j7NujcPN0qAMHgUzjB9tX0vN90nKOPfAmWWcO9omFzwkuH0VZkZmauK/YQlEqKhx99quVwRHctu0LhZRnBgaCnsGp6CnRorFW4IKZwJSM38BF9XXvCCnQtz6PyItpE+ycbpFI0MHvs0H3BXFmwifvY/Q4/Y="},
             {"secure": "Oq9mxJduZiy0oZmKlg3kkFFWlBTuCynRpZoz0SyG3hHt2uipWfXlm0AlpcjU6jB6g8kNtGF4ZA5uGiMUePSOfK0RveYQa95ixUY6VrbuAIzdDtz/rbMajtGCVpMBgOf5o33rEfocwgADE/i1lE1JJeNjdUBsO1Iyron1ZiT52mE="}
