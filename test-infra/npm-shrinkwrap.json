@@ -1,6 +1,6 @@
 {
   "name": "bootlint",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "npm-shrinkwrap-version": "200.1.0",
   "node-version": "v0.12.0",
   "dependencies": {
@@ -1476,28 +1476,6 @@
                       "version": "1.1.1",
                       "resolved": "https://registry.npmjs.org/through2/-/through2-1.1.1.tgz",
                       "dependencies": {
-                        "readable-stream": {
-                          "version": "1.1.13",
-                          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.13.tgz",
-                          "dependencies": {
-                            "core-util-is": {
-                              "version": "1.0.1",
-                              "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.1.tgz"
-                            },
-                            "inherits": {
-                              "version": "2.0.1",
-                              "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
-                            },
-                            "isarray": {
-                              "version": "0.0.1",
-                              "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
-                            },
-                            "string_decoder": {
-                              "version": "0.10.31",
-                              "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
-                            }
-                          }
-                        },
                         "xtend": {
                           "version": "4.0.0",
                           "resolved": "https://registry.npmjs.org/xtend/-/xtend-4.0.0.tgz"
@@ -4615,6 +4593,10 @@
           "resolved": "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz"
         }
       }
+    },
+    "void-elements": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/void-elements/-/void-elements-2.0.1.tgz"
     }
   }
 }

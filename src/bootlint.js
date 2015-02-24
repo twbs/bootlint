@@ -10,6 +10,7 @@
 var cheerio = require('cheerio');
 var parseUrl = require('url').parse;
 var semver = require('semver');
+var voidElements = require('void-elements');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
 
@@ -828,15 +829,16 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return colClass + ':not(col):not(:last-child)';
+            return colClass + ':not(:last-child)';
         }).join(',');
         var columns = $(selector);
         columns.each(function (_index, col) {
             var column = $(col);
+            var isVoidElement = voidElements[col.tagName.toLowerCase()];
             // can't just use :empty because :empty excludes nodes with all-whitespace text content
             var hasText = !!column.text().trim().length;
             var hasChildren = !!column.children(':first-child').length;
-            if (hasChildren || hasText) {
+            if (hasChildren || hasText || isVoidElement) {
                 return;
             }
 
