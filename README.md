@@ -172,6 +172,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
 * (next release) - `master`
+* 2015-02-23 - v0.11.0: Adds several new lint checks. Improves stdin handling. Bumps dependency versions.
 * 2014-01-21 - v0.10.0: By default, the in-browser version now `alert()`s when no lint problems are found. Adds validity check for carousel control & indicator targets.
 * 2015-01-07 - v0.9.2: Fixes a problem when using the CLI via node's `child_process.exec`.
 * 2014-12-19 - v0.9.1: Fixes a W013 false positive.
@@ -179,8 +180,8 @@ See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for de
 * 2014-11-07 - v0.8.0: When in a Node.js environment, report the locations of the HTML source code of problematic elements.
 * 2014-11-01 - v0.7.0: Tweaks lint message texts. Adds 1 new lint check.
 * 2014-10-31 - v0.6.0: Fixes crash bug. Adds some new lint checks. Adds HTTP API.
-* 2014-10-16 - v0.5.0: Add several new features. Add official bookmarklet. Disable auto-lint-on-load in browser. Tweak some checks. **Not backward compatible**
-* 2014-10-07 - v0.4.0: Add checks for correct Glyphicon usage and correct modal DOM structure; fix `.panel-footer` false positive
+* 2014-10-16 - v0.5.0: Adds several new features. Add official bookmarklet. Disables auto-lint-on-load in browser. Tweaks some checks. **Not backward compatible**
+* 2014-10-07 - v0.4.0: Adds checks for correct Glyphicon usage and correct modal DOM structure; fixes `.panel-footer` false positive
 * 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
 * 2014-09-23 - v0.2.0: First formal release. Announcement: http://blog.getbootstrap.com/2014/09/23/bootlint/
 
