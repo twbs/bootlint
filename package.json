@@ -64,7 +64,8 @@
     "express": "^4.11.2",
     "glob": "^4.4.0",
     "morgan": "^1.5.1",
-    "semver": "^4.3.0"
+    "semver": "^4.3.0",
+    "void-elements": "^2.0.1"
   },
   "main": "./src/bootlint.js",
   "bin": {

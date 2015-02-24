@@ -452,7 +452,7 @@ exports.bootlint = {
     },
 
     'empty spacer grid columns': function (test) {
-        test.expect(9);
+        test.expect(10);
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/blank-text.html')),
             ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11"` , just add `class="col-xs-offset-11"` to the next grid column.'],
             'should complain when spacer column contains only whitespace text content.'
@@ -488,6 +488,10 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/multiple-reversed-order.html')),
             ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11 col-sm-8 col-md-6 col-lg-5"` , just add `class="col-xs-offset-11 col-sm-offset-8 col-md-offset-6 col-lg-offset-5"` to the next grid column.'],
             'should sort the grid classes in its message and handle multiple grid classes correctly.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/void-elements.html')),
+            [],
+            'should ignore void elements.'
         );
         test.done();
     },
