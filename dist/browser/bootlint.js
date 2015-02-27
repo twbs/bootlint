@@ -10379,6 +10379,31 @@ if (typeof define === 'function' && define.amd)
 );
 
 },{}],4:[function(require,module,exports){
+/**
+ * This file automatically generated from `pre-publish.js`.
+ * Do not manually edit.
+ */
+
+module.exports = {
+  "area": true,
+  "base": true,
+  "br": true,
+  "col": true,
+  "embed": true,
+  "hr": true,
+  "img": true,
+  "input": true,
+  "keygen": true,
+  "link": true,
+  "menuitem": true,
+  "meta": true,
+  "param": true,
+  "source": true,
+  "track": true,
+  "wbr": true
+};
+
+},{}],5:[function(require,module,exports){
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
@@ -10391,6 +10416,7 @@ if (typeof define === 'function' && define.amd)
 var cheerio = require('cheerio');
 var parseUrl = require('url').parse;
 var semver = require('semver');
+var voidElements = require('void-elements');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
 
@@ -10416,6 +10442,31 @@ var LocationIndex = _location.LocationIndex;
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
     var CURRENT_BOOTSTRAP_VERSION = '3.3.2';
+    var BOOTSTRAP_VERSION_4 = '4.0.0';
+    var BOOTSTRAP_VERSION_5 = '5.0.0';
+    var PLUGINS = [
+        'affix',
+        'alert',
+        'button',
+        'carousel',
+        'collapse',
+        'dropdown',
+        'modal',
+        'popover',
+        'scrollspy',
+        'tab',
+        'tooltip'
+    ];
+    var BOOTSTRAP_FILES = [
+        'link[rel="stylesheet"][href$="/bootstrap.css"]',
+        'link[rel="stylesheet"][href="bootstrap.css"]',
+        'link[rel="stylesheet"][href$="/bootstrap.min.css"]',
+        'link[rel="stylesheet"][href="bootstrap.min.css"]',
+        'script[src$="/bootstrap.js"]',
+        'script[src="bootstrap.js"]',
+        'script[src$="/bootstrap.min.js"]',
+        'script[src="bootstrap.min.js"]'
+    ].join(',');
 
     function compareNums(a, b) {
         return a - b;
@@ -10540,6 +10591,66 @@ var LocationIndex = _location.LocationIndex;
             prev = current;
         }
         return runs;
+    }
+
+    /**
+     * This function returns the browser window object, or null if this is not running in a browser environment.
+     * @returns {Window|null}
+     */
+    function getBrowserWindowObject() {
+        var theWindow = null;
+        try {
+            /*eslint-disable no-undef, block-scoped-var */
+            theWindow = window;// jshint ignore:line
+            /*eslint-enable no-undef, block-scoped-var */
+        }
+        catch (e) {
+            // deliberately do nothing
+        }
+
+        return theWindow;
+    }
+
+    function findSemverMatches(pathSegments) {
+        return pathSegments.map(function (segment) {
+            var match = segment.match(/^\d+\.\d+\.\d+$/);
+            return match ? match[0] : null;
+        }).filter(function (match) {
+            return match !== null;
+        });
+    }
+
+    function getSemverFromURL($, element) {
+        var elem = $(element);
+        var urlAttr = (tagNameOf(element) === 'LINK') ? 'href' : 'src';
+        var pathSegments = parseUrl(elem.attr(urlAttr)).pathname.split('/');
+        var matches = findSemverMatches(pathSegments);
+        if (!matches.length) {
+            return null;
+        }
+        var version = matches[matches.length - 1];
+
+        return {
+            elem: elem,
+            vers: version
+        };
+    }
+
+    function getSemverFromPlugin(globaljQuery) {
+        /* @covignore */
+        return PLUGINS.map(function (pluginName) {
+            var plugin = globaljQuery.fn[pluginName];
+            if (!plugin) {
+                return undefined;
+            }
+            var constructor = plugin.Constructor;
+            if (!constructor) {
+                return undefined;
+            }
+            return constructor.VERSION;
+        }).filter(function (version) {
+            return version !== undefined;
+        }).sort(semver.compare);
     }
 
     function bootstrapScriptsIn($) {
@@ -10796,12 +10907,7 @@ var LocationIndex = _location.LocationIndex;
             if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
                 return;
             }
-            var matches = pathSegments.map(function (segment) {
-                var match = segment.match(/^\d+\.\d+\.\d+$/);
-                return match ? match[0] : null;
-            }).filter(function (match) {
-                return match !== null;
-            });
+            var matches = findSemverMatches(pathSegments);
             if (!matches.length) {
                 return;
             }
@@ -11209,15 +11315,16 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return colClass + ':not(col):not(:last-child)';
+            return colClass + ':not(:last-child)';
         }).join(',');
         var columns = $(selector);
         columns.each(function (_index, col) {
             var column = $(col);
+            var isVoidElement = voidElements[col.tagName.toLowerCase()];
             // can't just use :empty because :empty excludes nodes with all-whitespace text content
             var hasText = !!column.text().trim().length;
             var hasChildren = !!column.children(':first-child').length;
-            if (hasChildren || hasText) {
+            if (hasChildren || hasText || isVoidElement) {
                 return;
             }
 
@@ -11255,44 +11362,11 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W013", function lintOutdatedBootstrap($, reporter) {
         var OUTDATED_BOOTSTRAP = "Bootstrap version might be outdated. Latest version is at least " + CURRENT_BOOTSTRAP_VERSION + " ; saw what appears to be usage of Bootstrap ";
-        var PLUGINS = [
-            'affix',
-            'alert',
-            'button',
-            'carousel',
-            'collapse',
-            'dropdown',
-            'modal',
-            'popover',
-            'scrollspy',
-            'tab',
-            'tooltip'
-        ];
-        var theWindow = null;
-        try {
-            /*eslint-disable no-undef, block-scoped-var */
-            theWindow = window;// jshint ignore:line
-            /*eslint-enable no-undef, block-scoped-var */
-        }
-        catch (e) {
-            // deliberately do nothing
-        }
+        var theWindow = getBrowserWindowObject();
         var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
         /* @covignore */
         if (globaljQuery) {
-            var versions = PLUGINS.map(function (pluginName) {
-                var plugin = globaljQuery.fn[pluginName];
-                if (!plugin) {
-                    return undefined;
-                }
-                var constructor = plugin.Constructor;
-                if (!constructor) {
-                    return undefined;
-                }
-                return constructor.VERSION;
-            }).filter(function (version) {
-                return version !== undefined;
-            }).sort(semver.compare);
+            var versions = getSemverFromPlugin(globaljQuery);
             if (versions.length) {
                 var minVersion = versions[0];
                 if (semver.lt(minVersion, CURRENT_BOOTSTRAP_VERSION, true)) {
@@ -11302,32 +11376,14 @@ var LocationIndex = _location.LocationIndex;
             }
         }
         // check for Bootstrap <link>s and <script>s
-        var bootstraps = $([
-            'link[rel="stylesheet"][href$="/bootstrap.css"]',
-            'link[rel="stylesheet"][href="bootstrap.css"]',
-            'link[rel="stylesheet"][href$="/bootstrap.min.css"]',
-            'link[rel="stylesheet"][href="bootstrap.min.css"]',
-            'script[src$="/bootstrap.js"]',
-            'script[src="bootstrap.js"]',
-            'script[src$="/bootstrap.min.js"]',
-            'script[src="bootstrap.min.js"]'
-        ].join(','));
+        var bootstraps = $(BOOTSTRAP_FILES);
         bootstraps.each(function () {
-            var elem = $(this);
-            var urlAttr = (tagNameOf(this) === 'LINK') ? 'href' : 'src';
-            var pathSegments = parseUrl(elem.attr(urlAttr)).pathname.split('/');
-            var matches = pathSegments.map(function (segment) {
-                var match = segment.match(/^\d+\.\d+\.\d+$/);
-                return match ? match[0] : null;
-            }).filter(function (match) {
-                return match !== null;
-            });
-            if (!matches.length) {
+            var elementAndVersion = getSemverFromURL($, this);
+            if (elementAndVersion === null) {
                 return;
             }
-            var version = matches[matches.length - 1];
-            if (semver.lt(version, CURRENT_BOOTSTRAP_VERSION, true)) {
-                reporter(OUTDATED_BOOTSTRAP + version, elem);
+            if (semver.lt(elementAndVersion.vers, CURRENT_BOOTSTRAP_VERSION, true)) {
+                reporter(OUTDATED_BOOTSTRAP + elementAndVersion.vers, elementAndVersion.elem);
             }
         });
     });
@@ -11340,6 +11396,36 @@ var LocationIndex = _location.LocationIndex;
 
             if (!carousel.length || carousel.is(':not(.carousel)')) {
                 reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
+            }
+        });
+    });
+    addLinter("W015", function lintNewBootstrap($, reporter) {
+        var BOOTSTRAP_V4_ERROR = "Detected what appears to be Bootstrap v4. Bootlint currently supports Bootstrap version v3.";
+        var theWindow = getBrowserWindowObject();
+
+        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
+        /* @covignore */
+        if (globaljQuery) {
+            var versions = getSemverFromPlugin(globaljQuery);
+            if (versions.length) {
+                var minVersion = versions[0];
+                if (semver.gte(minVersion, BOOTSTRAP_VERSION_4, true) &&
+                    semver.lt(minVersion, BOOTSTRAP_VERSION_5, true)) {
+                    reporter(BOOTSTRAP_V4_ERROR);
+                    return;
+                }
+            }
+        }
+        // check for Bootstrap <link>s and <script>s
+        var bootstraps = $(BOOTSTRAP_FILES);
+        bootstraps.each(function () {
+            var elementAndVersion = getSemverFromURL($, this);
+            if (elementAndVersion === null) {
+                return null;
+            }
+            if (semver.gte(elementAndVersion.vers, BOOTSTRAP_VERSION_4, true) &&
+                semver.lt(elementAndVersion.vers, BOOTSTRAP_VERSION_5, true)) {
+                reporter(BOOTSTRAP_V4_ERROR, elementAndVersion.elem);
             }
         });
     });
@@ -11458,7 +11544,7 @@ var LocationIndex = _location.LocationIndex;
     }
 })(typeof exports === 'object' && exports || this);
 
-},{"./location":1,"cheerio":2,"semver":3,"url":5}],5:[function(require,module,exports){
+},{"./location":1,"cheerio":2,"semver":3,"url":6,"void-elements":4}],6:[function(require,module,exports){
 /*eslint-env node, browser */
 /* jshint browser: true */
 /**
@@ -11498,4 +11584,4 @@ var LocationIndex = _location.LocationIndex;
     exports.parse = parse;
 })();
 
-},{}]},{},[4]);
+},{}]},{},[5]);
