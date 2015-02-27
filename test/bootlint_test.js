@@ -659,6 +659,7 @@ exports.bootlint = {
         );
         test.done();
     },
+
     'outdated version of Bootstrap': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-css.html')),
@@ -676,6 +677,26 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-extensions-okay.html')),
             [],
             'should not complain about outdated libraries that just have "bootstrap" in their name.');
+        test.done();
+    },
+
+    'version 4 of Bootstrap': function (test) {
+        test.expect(5);
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-css.html')),
+            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
+            'should complain about version 4 of bootstrap.css.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-css.html')),
+            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
+            'should complain about version 4 of bootstrap.min.css.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-js.html')),
+            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
+            'should complain about version 4 of bootstrap.js.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-js.html')),
+            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
+            'should complain about version 4 of bootstrap.min.js.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-extensions-okay.html')),
+            [],
+            'should not complain about v4.0.0+ libraries that just have "bootstrap" in their name.');
         test.done();
     },
 
