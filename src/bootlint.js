@@ -7,7 +7,7 @@
 
 /*eslint-env node */
 
-var cheerio = require('cheerio');
+var whacko = require('whacko');
 var parseUrl = require('url').parse;
 var semver = require('semver');
 var voidElements = require('void-elements');
@@ -33,7 +33,7 @@ var LocationIndex = _location.LocationIndex;
         'lg': 3
     };
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
-    var IN_NODE_JS = !!(cheerio.load);
+    var IN_NODE_JS = !!(whacko.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
     var CURRENT_BOOTSTRAP_VERSION = '3.3.2';
 
@@ -183,26 +183,26 @@ var LocationIndex = _location.LocationIndex;
     /**
      * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
      * @param {string} message Human-readable string describing the error
-     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @param {jQuery} elements jQuery or Whacko collection of referenced DOM elements pointing to all problem locations in the document
      * @class
      */
     function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
-        this.elements = elements || cheerio('');
+        this.elements = elements || whacko('');
     }
     exports.LintError = LintError;
 
     /**
      * @param {integer} id Unique string ID for this type of lint warning. Of the form "W###" (e.g. "W123").
      * @param {string} message Human-readable string describing the warning
-     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @param {jQuery} elements jQuery or Whacko collection of referenced DOM elements pointing to all problem locations in the document
      * @class
      */
     function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
-        this.elements = elements || cheerio('');
+        this.elements = elements || whacko('');
     }
     exports.LintWarning = LintWarning;
 
@@ -998,7 +998,7 @@ var LocationIndex = _location.LocationIndex;
      */
 
     if (IN_NODE_JS) {
-        // cheerio; Node.js
+        // whacko; Node.js
         /**
          * Lints the given HTML.
          * @param {string} html The HTML to lint
@@ -1007,7 +1007,7 @@ var LocationIndex = _location.LocationIndex;
          * @returns {undefined} Nothing
          */
         exports.lintHtml = function (html, reporter, disabledIds) {
-            var $ = cheerio.load(html, {withStartIndices: true});
+            var $ = whacko.load(html, {withStartIndices: true});
             this._lint($, reporter, disabledIds, html);
         };
     }
@@ -1015,7 +1015,7 @@ var LocationIndex = _location.LocationIndex;
         // jQuery; in-browser
         /* @covignore */
         (function () {
-            var $ = cheerio;
+            var $ = whacko;
             /**
              * Lints the HTML of the current document.
              * @param {reporter} reporter Function to call with each lint problem

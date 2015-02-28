@@ -10379,6 +10379,31 @@ if (typeof define === 'function' && define.amd)
 );
 
 },{}],4:[function(require,module,exports){
+/**
+ * This file automatically generated from `pre-publish.js`.
+ * Do not manually edit.
+ */
+
+module.exports = {
+  "area": true,
+  "base": true,
+  "br": true,
+  "col": true,
+  "embed": true,
+  "hr": true,
+  "img": true,
+  "input": true,
+  "keygen": true,
+  "link": true,
+  "menuitem": true,
+  "meta": true,
+  "param": true,
+  "source": true,
+  "track": true,
+  "wbr": true
+};
+
+},{}],5:[function(require,module,exports){
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
@@ -10388,9 +10413,10 @@ if (typeof define === 'function' && define.amd)
 
 /*eslint-env node */
 
-var cheerio = require('cheerio');
+var cheerio = require('whacko');
 var parseUrl = require('url').parse;
 var semver = require('semver');
+var voidElements = require('void-elements');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
 
@@ -11209,15 +11235,16 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return colClass + ':not(col):not(:last-child)';
+            return colClass + ':not(:last-child)';
         }).join(',');
         var columns = $(selector);
         columns.each(function (_index, col) {
             var column = $(col);
+            var isVoidElement = voidElements[col.tagName.toLowerCase()];
             // can't just use :empty because :empty excludes nodes with all-whitespace text content
             var hasText = !!column.text().trim().length;
             var hasChildren = !!column.children(':first-child').length;
-            if (hasChildren || hasText) {
+            if (hasChildren || hasText || isVoidElement) {
                 return;
             }
 
@@ -11458,7 +11485,7 @@ var LocationIndex = _location.LocationIndex;
     }
 })(typeof exports === 'object' && exports || this);
 
-},{"./location":1,"cheerio":2,"semver":3,"url":5}],5:[function(require,module,exports){
+},{"./location":1,"semver":3,"url":6,"void-elements":4,"whacko":2}],6:[function(require,module,exports){
 /*eslint-env node, browser */
 /* jshint browser: true */
 /**
@@ -11498,4 +11525,4 @@ var LocationIndex = _location.LocationIndex;
     exports.parse = parse;
 })();
 
-},{}]},{},[4]);
+},{}]},{},[5]);

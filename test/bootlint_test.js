@@ -59,7 +59,7 @@ exports.bootlint = {
             [],
             'should not complain when the normal simple HTML5 doctype is used.');
         test.deepEqual(lintHtml(utf8Fixture('doctype/html5-legacy.html')),
-            [],
+            ['Document declares a non-HTML5 DOCTYPE'],
             'should not complain when the legacy-compatibility HTML5 doctype is used.');
         test.done();
     },
