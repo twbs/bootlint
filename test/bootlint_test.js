@@ -659,6 +659,7 @@ exports.bootlint = {
         );
         test.done();
     },
+
     'outdated version of Bootstrap': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-css.html')),
@@ -674,6 +675,26 @@ exports.bootlint = {
             ['Bootstrap version might be outdated. Latest version is at least 3.3.2 ; saw what appears to be usage of Bootstrap 3.2.0'],
             'should complain about outdated bootstrap.min.js.');
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-extensions-okay.html')),
+            [],
+            'should not complain about outdated libraries that just have "bootstrap" in their name.');
+        test.done();
+    },
+
+    'version 4 of Bootstrap': function (test) {
+        test.expect(5);
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-css.html')),
+            ['Detected what appears to be Bootstrap v4. Bootlint currently supports Bootstrap version v3.'],
+            'should complain about version 4 of bootstrap.css.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-css.html')),
+            ['Detected what appears to be Bootstrap v4. Bootlint currently supports Bootstrap version v3.'],
+            'should complain about version 4 of bootstrap.min.css.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-js.html')),
+            ['Detected what appears to be Bootstrap v4. Bootlint currently supports Bootstrap version v3.'],
+            'should complain about outdated bootstrap.js.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-js.html')),
+            ['Detected what appears to be Bootstrap v4. Bootlint currently supports Bootstrap version v3.'],
+            'should complain about outdated bootstrap.min.js.');
+        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-extensions-okay.html')),
             [],
             'should not complain about outdated libraries that just have "bootstrap" in their name.');
         test.done();
