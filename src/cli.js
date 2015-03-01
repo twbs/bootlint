@@ -43,6 +43,8 @@ function buildReporter(origin) {
     };
 }
 
+exports.buildReporter = buildReporter;
+
 function handleStdin() {
     return new Deferred(function (resolve) {
         if (process.stdin.isTTY) {
@@ -65,6 +67,8 @@ function handleStdin() {
     });
 }
 
+exports.handleStdin = handleStdin;
+
 function handlePath(pattern) {
     return glob(pattern)
         .map(function (name) {
@@ -80,6 +84,8 @@ function handlePath(pattern) {
         });
 }
 
+exports.handlePath = handlePath;
+
 if (!program.args.length) {
     program.args.push('-');
 }
@@ -87,6 +93,8 @@ if (!program.args.length) {
 program.args.forEach(function (pattern) {
     lintedFiles.push(pattern === '-' ? handleStdin() : handlePath(pattern));
 });
+
+exports.program = program;
 
 Deferred.all(lintedFiles).then(function () {
     console.log("");
