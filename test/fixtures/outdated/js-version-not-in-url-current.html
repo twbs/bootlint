@@ -12,9 +12,7 @@
         <script src="../../lib/jquery.min.js"></script>
         <script>
         (function () {
-            var modal = window.$.fn.modal = {};
-            var constructor = modal.Constructor = {};
-            constructor.VERSION = '3.3.2';
+            window.$.fn.modal = { Constructor: { VERSION: '3.3.2' } };
         })();
         </script>
 
