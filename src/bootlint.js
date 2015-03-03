@@ -409,9 +409,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E004", function lintNestedContainers($, reporter) {
-        var nestedContainers = $('.container, .container-fluid').filter(function () {
-            return $(this).find('.navbar').length === 0;
-        }).find('.container, .container-fluid');
+        var nestedContainers = $('.container, .container-fluid').not(':has(.navbar)').find('.container, .container-fluid');
         if (nestedContainers.length) {
             reporter("Containers (`.container` and `.container-fluid`) are not nestable", nestedContainers);
         }
