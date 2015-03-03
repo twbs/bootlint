@@ -24,23 +24,23 @@ To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin
 Install the module with: `npm install -g bootlint`
 
 Run it on some HTML files:
-```
+```shell
 $ bootlint /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 This will output the lint warnings applicable to each file.
 
 The CLI also accepts a `--disable` (or `-d`) option to disable certain lint checks. `--disable` takes a comma-separated list of [lint problem IDs](https://github.com/twbs/bootlint/wiki). Here's an example:
-```
+```shell
 $ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 The CLI will also process `stdin` input which means that you can pipe into Bootlint:
-```
+```shell
 $ cat mypage.html | bootlint
 ```
 Or you could use a heredoc (mostly useful for quick testing):
-```
+```shell
 $ bootlint << EOF
 <button class="btn btn-default">Is this correct Bootstrap markup, Bootlint?</button>
 EOF
@@ -48,7 +48,7 @@ EOF
 
 ### In the browser
 Use the following [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
-```
+```javascript
 javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 Then check the JavaScript console for lint warning messages.
@@ -139,7 +139,7 @@ POST an HTML document to `/` and the document's lint problems will be returned a
 The endpoint accepts an optional querystring argument named `disable`, whose value is a comma-separated list of linter IDs to disable.
 
 Example:
-```
+```http
 Request:
   POST / HTTP/1.1
   Content-Type: text/html
