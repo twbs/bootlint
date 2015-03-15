@@ -84,10 +84,13 @@ exports.bootlint = {
         test.done();
     },
     'X-UA-Compatible': function (test) {
-        test.expect(2);
+        test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/present.html')),
             [],
             'should not complain when X-UA-Compatible <meta> tag is present.');
+        test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/lowercase.html')),
+            [],
+            'should not complain when X-UA-Compatible <meta> tag is present but lowercased.');
         test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/missing.html')),
             ["`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes"],
             'should complain when X-UA-Compatible <meta> tag is missing.');
