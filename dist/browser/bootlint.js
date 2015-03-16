@@ -10441,7 +10441,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.2';
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.4';
     var BOOTSTRAP_VERSION_4 = '4.0.0';
     var PLUGINS = [
         'affix',
@@ -10772,7 +10772,10 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("W002", function lintXUaCompatible($, reporter) {
-        var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
+        var meta = $([
+            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
+            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
+        ].join(','));
         if (!meta.length) {
             reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
         }
