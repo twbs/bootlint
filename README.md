@@ -48,7 +48,7 @@ EOF
 
 ### In the browser
 Use the following [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](http://www.bootstrapcdn.com/#bootlint_tab):
-```javascript
+```js
 javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 Then check the JavaScript console for lint warning messages.
@@ -110,7 +110,7 @@ In a browser environment, the following public APIs are available:
 
 Example:
 
-```javascript
+```js
 var bootlint = require('bootlint');
 
 function reporter(lint) {
@@ -173,7 +173,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
 * (next release) - `master`
 * 2015-02-23 - v0.11.0: Adds several new lint checks. Improves stdin handling. Bumps dependency versions.
-* 2014-01-21 - v0.10.0: By default, the in-browser version now `alert()`s when no lint problems are found. Adds validity check for carousel control & indicator targets.
+* 2015-01-21 - v0.10.0: By default, the in-browser version now `alert()`s when no lint problems are found. Adds validity check for carousel control & indicator targets.
 * 2015-01-07 - v0.9.2: Fixes a problem when using the CLI via node's `child_process.exec`.
 * 2014-12-19 - v0.9.1: Fixes a W013 false positive.
 * 2014-12-18 - v0.9.0: Fixes several small bugs and tweaks a few existing checks. Adds 4 new lint checks.
