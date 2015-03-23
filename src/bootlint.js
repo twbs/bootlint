@@ -905,6 +905,35 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
         }
     });
+    addLinter("E042", function lintFormControlOnWrongControl($, reporter) {
+        var formControlsOnWrongTags = $('.form-control:not(input,textarea,select)');
+        if (formControlsOnWrongTags.length) {
+            reporter('`.form-control` should only be used on `<input>`s, `<textarea>`s, and `<select>`s.', formControlsOnWrongTags);
+        }
+
+        var formControlsOnWrongTypes = $('input.form-control:not(' + ([
+                'color',
+                'email',
+                'number',
+                'password',
+                'search',
+                'tel',
+                'text',
+                'url',
+                'datetime',
+                'datetime-local',
+                'date',
+                'month',
+                'week',
+                'time'
+            ].map(function (type) {
+                return '[type="' + type + '"]';
+            }).join(',')
+        ) + ')');
+        if (formControlsOnWrongTypes.length) {
+            reporter('`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`', formControlsOnWrongTypes);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(:last-child)';

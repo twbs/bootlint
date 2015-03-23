@@ -808,7 +808,56 @@ exports.bootlint = {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-container.html')),
             ['`.container` or `.container-fluid` should be the first child inside of a `.navbar`'],
-            'should complain about no .container/.container-fluid inside .navbar'
+            'should complain about no .container/.container-fluid inside .navbar.'
+        );
+        test.done();
+    },
+
+    '.form-control on wrong element or input type': function (test) {
+        test.expect(11);
+        test.deepEqual(lintHtml(utf8Fixture('form-control/span-invalid.html')),
+            ['`.form-control` should only be used on `<input>`s, `<textarea>`s, and `<select>`s.'],
+            'should complain about .form-control on <span>.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-button.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="button">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-checkbox.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="checkbox">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-file.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="file">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-hidden.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="hidden">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-image.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="image">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-radio.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="radio">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-range.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="range">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-reset.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="reset">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/type-submit.html')),
+            ['`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`'],
+            'should complain about .form-control on <input type="submit">.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form-control/valid.html')),
+            [],
+            'should not complain about usage of .form-control on valid elements and input types.'
         );
         test.done();
     }
