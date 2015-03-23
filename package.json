@@ -42,7 +42,7 @@
     "grunt-contrib-nodeunit": "^0.4.1",
     "grunt-contrib-qunit": "^0.5.2",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-eslint": "^7.0.0",
+    "grunt-eslint": "^9.0.0",
     "grunt-exec": "^0.4.6",
     "grunt-jscs": "^1.5.0",
     "jquery": "~2.1.3",
