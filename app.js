@@ -100,7 +100,7 @@ HTML_MIME_TYPES.forEach(function (type) {
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -112,7 +112,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 
 /*eslint-disable no-unused-vars */
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     var isHttpErr = !!err.status;
 
     if (!isHttpErr) {

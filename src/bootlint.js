@@ -1,7 +1,7 @@
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
- * Copyright (c) 2014 Christopher Rebert
+ * Copyright (c) 2014-2015 Christopher Rebert
  * Licensed under the MIT License.
  */
 
@@ -10,6 +10,7 @@
 var cheerio = require('cheerio');
 var parseUrl = require('url').parse;
 var semver = require('semver');
+var voidElements = require('void-elements');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
 
@@ -34,6 +35,31 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.4';
+    var BOOTSTRAP_VERSION_4 = '4.0.0';
+    var PLUGINS = [
+        'affix',
+        'alert',
+        'button',
+        'carousel',
+        'collapse',
+        'dropdown',
+        'modal',
+        'popover',
+        'scrollspy',
+        'tab',
+        'tooltip'
+    ];
+    var BOOTSTRAP_FILES = [
+        'link[rel="stylesheet"][href$="/bootstrap.css"]',
+        'link[rel="stylesheet"][href="bootstrap.css"]',
+        'link[rel="stylesheet"][href$="/bootstrap.min.css"]',
+        'link[rel="stylesheet"][href="bootstrap.min.css"]',
+        'script[src$="/bootstrap.js"]',
+        'script[src="bootstrap.js"]',
+        'script[src$="/bootstrap.min.js"]',
+        'script[src="bootstrap.min.js"]'
+    ].join(',');
 
     function compareNums(a, b) {
         return a - b;
@@ -42,6 +68,13 @@ var LocationIndex = _location.LocationIndex;
     function isDoctype(node) {
         return node.type === 'directive' && node.name === '!doctype';
     }
+
+    var tagNameOf = IN_NODE_JS ? function (element) {
+        return element.name.toUpperCase();
+    } : function (element) {
+        /* @covignore */
+        return element.tagName.toUpperCase();
+    };
 
     function filenameFromUrl(url) {
         var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
@@ -67,7 +100,7 @@ var LocationIndex = _location.LocationIndex;
     /**
      * Moves any grid column classes to the end of the class string and sorts the grid classes by ascending screen size.
      * @param {string} classes The "class" attribute of a DOM node
-     * @returns {string}
+     * @returns {string} The processed "class" attribute value
      */
     function sortedColumnClasses(classes) {
         // extract column classes
@@ -124,7 +157,7 @@ var LocationIndex = _location.LocationIndex;
      *      [0, 2, 3, 4, 6, 8, 9, 11] has two such runs: [2, 3, 4], [8, 9]
      *      [0, 2, 4] has no runs.
      * @param {integer[]} list Sorted array of integers
-     * @returns {integer[][]} Array of pairs of start and end values of runs
+     * @returns {Array.<Array.<integer>>} Array of pairs of start and end values of runs
      */
     function incrementingRunsFrom(list) {
         list = list.concat([Infinity]);// use Infinity to ensure any nontrivial (length >= 2) run ends before the end of the loop
@@ -153,6 +186,86 @@ var LocationIndex = _location.LocationIndex;
         return runs;
     }
 
+    /**
+     * This function returns the browser window object, or null if this is not running in a browser environment.
+     * @returns {(Window|null)}
+     */
+    function getBrowserWindowObject() {
+        var theWindow = null;
+        try {
+            /*eslint-disable no-undef, block-scoped-var */
+            theWindow = window;// jshint ignore:line
+            /*eslint-enable no-undef, block-scoped-var */
+        }
+        catch (e) {
+            // deliberately do nothing
+        }
+
+        return theWindow;
+    }
+
+    function versionsIn(strings) {
+        return strings.map(function (str) {
+            var match = str.match(/^\d+\.\d+\.\d+$/);
+            return match ? match[0] : null;
+        }).filter(function (match) {
+            return match !== null;
+        });
+    }
+
+    function versionInLinkedElement($, element) {
+        var elem = $(element);
+        var urlAttr = (tagNameOf(element) === 'LINK') ? 'href' : 'src';
+        var pathSegments = parseUrl(elem.attr(urlAttr)).pathname.split('/');
+        var versions = versionsIn(pathSegments);
+        if (!versions.length) {
+            return null;
+        }
+        var version = versions[versions.length - 1];
+        return version;
+    }
+
+    function jqueryPluginVersions(jQuery) {
+        /* @covignore */
+        return PLUGINS.map(function (pluginName) {
+            var plugin = jQuery.fn[pluginName];
+            if (!plugin) {
+                return undefined;
+            }
+            var constructor = plugin.Constructor;
+            if (!constructor) {
+                return undefined;
+            }
+            return constructor.VERSION;
+        }).filter(function (version) {
+            return version !== undefined;
+        }).sort(semver.compare);
+    }
+
+    function bootstrapScriptsIn($) {
+        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.js";
+        });
+        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
+            var url = $(script).attr('src');
+            var filename = filenameFromUrl(url);
+            return filename === "bootstrap.min.js";
+        });
+
+        return {
+            longhands: longhands,
+            minifieds: minifieds
+        };
+    }
+
+    /**
+     * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
+     * @param {string} message Human-readable string describing the error
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintError(id, message, elements) {
         this.id = id;
         this.message = message;
@@ -160,6 +273,12 @@ var LocationIndex = _location.LocationIndex;
     }
     exports.LintError = LintError;
 
+    /**
+     * @param {integer} id Unique string ID for this type of lint warning. Of the form "W###" (e.g. "W123").
+     * @param {string} message Human-readable string describing the warning
+     * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
+     * @class
+     */
     function LintWarning(id, message, elements) {
         this.id = id;
         this.message = message;
@@ -247,7 +366,10 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("W002", function lintXUaCompatible($, reporter) {
-        var meta = $('head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]');
+        var meta = $([
+            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
+            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
+        ].join(','));
         if (!meta.length) {
             reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
         }
@@ -313,7 +435,10 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W005", function lintJquery($, reporter) {
         var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
-        var NO_JQUERY = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_BUT_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_NOR_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript";
+        var bsScripts = bootstrapScriptsIn($);
+        var hasBsJs = !!(bsScripts.minifieds.length || bsScripts.longhands.length);
         var theWindow = null;
         try {
             /*eslint-disable no-undef, block-scoped-var */
@@ -364,7 +489,7 @@ var LocationIndex = _location.LocationIndex;
             'script[src*="jQuery"]'
         ].join(','));
         if (!jqueries.length) {
-            reporter(NO_JQUERY);
+            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
             return;
         }
         jqueries.each(function () {
@@ -374,16 +499,11 @@ var LocationIndex = _location.LocationIndex;
             if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
                 return;
             }
-            var matches = pathSegments.map(function (segment) {
-                var match = segment.match(/^\d+\.\d+\.\d+$/);
-                return match ? match[0] : null;
-            }).filter(function (match) {
-                return match !== null;
-            });
-            if (!matches.length) {
+            var versions = versionsIn(pathSegments);
+            if (!versions.length) {
                 return;
             }
-            var version = matches[matches.length - 1];
+            var version = versions[versions.length - 1];
             if (!semver.gte(version, MIN_JQUERY_VERSION, true)) {
                 reporter(OLD_JQUERY, script);
             }
@@ -400,24 +520,10 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E007", function lintBootstrapJs($, reporter) {
-        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.js";
-        });
-        if (!longhands.length) {
-            return;
+        var scripts = bootstrapScriptsIn($);
+        if (scripts.longhands.length && scripts.minifieds.length) {
+            reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", scripts.longhands.add(scripts.minifieds));
         }
-        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === "bootstrap.min.js";
-        });
-        if (!minifieds.length) {
-            return;
-        }
-
-        reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", longhands.add(minifieds));
     });
     addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
         var selector = [
@@ -479,8 +585,8 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E013", function lintRowChildrenAreCols($, reporter) {
-        var ALLOWED_CHILD_CLASSES = COL_CLASSES.concat(['.clearfix', '.bs-customizer-input']);
-        var selector = '.row>*' + ALLOWED_CHILD_CLASSES.map(function (colClass) {
+        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix', '.bs-customizer-input']);
+        var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
 
@@ -578,7 +684,11 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E022", function lintModalsWithinOtherComponents($, reporter) {
-        var badNestings = $('.table .modal');
+        var selector = [
+          '.table .modal',
+          '.navbar .modal'
+        ].join(',');
+        var badNestings = $(selector);
         if (badNestings.length) {
             reporter("Modal markup should not be placed within other components, so as to avoid the component's styles interfering with the modal's appearance or functionality", badNestings);
         }
@@ -749,17 +859,93 @@ var LocationIndex = _location.LocationIndex;
             }, this);
         });
     });
-    addLinter("W009",  function lintEmptySpacerCols($, reporter) {
+    addLinter("E037", function lintColZeros($, reporter) {
+        var selector = SCREENS.map(function (screen) {
+            return ".col-" + screen + "-0";
+        }).join(',');
+        var elements = $(selector);
+        if (elements.length) {
+            reporter("Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.", elements);
+        }
+    });
+    addLinter("E038", function lintMediaPulls($, reporter) {
+        var mediaPullsOutsideMedia = $('.media-left, .media-right').filter(function () {
+            return !($(this).parent().closest('.media').length);
+        });
+        if (mediaPullsOutsideMedia.length) {
+            reporter('`.media-left` and `.media-right` should not be used outside of `.media` objects.', mediaPullsOutsideMedia);
+        }
+    });
+    addLinter("E039", function lintNavbarPulls($, reporter) {
+        var navbarPullsOutsideNavbars = $('.navbar-left, .navbar-right').filter(function () {
+            return !($(this).parent().closest('.navbar').length);
+        });
+        if (navbarPullsOutsideNavbars.length) {
+            reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
+        }
+    });
+    addLinter("E040", function lintModalHide($, reporter) {
+        var modalsWithHide = $('.modal.hide');
+        if (modalsWithHide.length) {
+            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
+        }
+    });
+    addLinter("E041", function lintCarouselStructure($, reporter) {
+        var carouselsWithWrongInners = $('.carousel').filter(function () {
+            return $(this).children('.carousel-inner').length !== 1;
+        });
+        if (carouselsWithWrongInners.length) {
+            reporter('`.carousel` must have exactly one `.carousel-inner` child.', carouselsWithWrongInners);
+        }
+
+        var innersWithWrongActiveItems = $('.carousel-inner').filter(function () {
+            return $(this).children('.item.active').length !== 1;
+        });
+        if (innersWithWrongActiveItems.length) {
+            reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
+        }
+    });
+    addLinter("E042", function lintFormControlOnWrongControl($, reporter) {
+        var formControlsOnWrongTags = $('.form-control:not(input,textarea,select)');
+        if (formControlsOnWrongTags.length) {
+            reporter('`.form-control` should only be used on `<input>`s, `<textarea>`s, and `<select>`s.', formControlsOnWrongTags);
+        }
+
+        var formControlsOnWrongTypes = $('input.form-control:not(' + ([
+                'color',
+                'email',
+                'number',
+                'password',
+                'search',
+                'tel',
+                'text',
+                'url',
+                'datetime',
+                'datetime-local',
+                'date',
+                'month',
+                'week',
+                'time'
+            ].map(function (type) {
+                return '[type="' + type + '"]';
+            }).join(',')
+        ) + ')');
+        if (formControlsOnWrongTypes.length) {
+            reporter('`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`', formControlsOnWrongTypes);
+        }
+    });
+    addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return colClass + ':not(col):not(:last-child)';
+            return colClass + ':not(:last-child)';
         }).join(',');
         var columns = $(selector);
         columns.each(function (_index, col) {
             var column = $(col);
+            var isVoidElement = voidElements[col.tagName.toLowerCase()];
             // can't just use :empty because :empty excludes nodes with all-whitespace text content
             var hasText = !!column.text().trim().length;
             var hasChildren = !!column.children(':first-child').length;
-            if (hasChildren || hasText) {
+            if (hasChildren || hasText || isVoidElement) {
                 return;
             }
 
@@ -784,11 +970,93 @@ var LocationIndex = _location.LocationIndex;
         var navComponents = '.navbar-nav, .navbar-text, .navbar-btn, .navbar-link, .navbar-brand';
         var pulls = ['pull-right', 'pull-left'];
         $(navComponents).each(function () {
-            pulls.forEach(function(pull) {
+            pulls.forEach(function (pull) {
                 if ($(this).hasClass(pull)) {
                     reporter('To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.', $(this));
                 }
             }, this);
+        });
+    });
+    addLinter("W012", function lintNavbarContainers($, reporter) {
+        var navBars = $('.navbar');
+        var containers = [
+            '.container',
+            '.container-fluid'
+        ].join(',');
+        navBars.each(function () {
+            var navBar = $(this);
+            var hasContainerChildren = !!navBar.children(containers).length;
+
+            if (!hasContainerChildren) {
+                reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
+            }
+        });
+    });
+    addLinter("W013", function lintOutdatedBootstrap($, reporter) {
+        var OUTDATED_BOOTSTRAP = "Bootstrap version might be outdated. Latest version is at least " + CURRENT_BOOTSTRAP_VERSION + " ; saw what appears to be usage of Bootstrap ";
+        var theWindow = getBrowserWindowObject();
+        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
+        /* @covignore */
+        if (globaljQuery) {
+            var versions = jqueryPluginVersions(globaljQuery);
+            if (versions.length) {
+                var minVersion = versions[0];
+                if (semver.lt(minVersion, CURRENT_BOOTSTRAP_VERSION, true)) {
+                    reporter(OUTDATED_BOOTSTRAP + minVersion);
+                    return;
+                }
+            }
+        }
+        // check for Bootstrap <link>s and <script>s
+        var bootstraps = $(BOOTSTRAP_FILES);
+        bootstraps.each(function () {
+            var version = versionInLinkedElement($, this);
+            if (version === null) {
+                return;
+            }
+            if (semver.lt(version, CURRENT_BOOTSTRAP_VERSION, true)) {
+                reporter(OUTDATED_BOOTSTRAP + version, $(this));
+            }
+        });
+    });
+    addLinter("W014", function lintCarouselControls($, reporter) {
+        var controls = $('.carousel-indicators > li, .carousel-control');
+        controls.each(function (_index, cont) {
+            var control = $(cont);
+            var target = control.attr('href') || control.attr('data-target');
+            var carousel = $(target);
+
+            if (!carousel.length || carousel.is(':not(.carousel)')) {
+                reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
+            }
+        });
+    });
+    addLinter("W015", function lintNewBootstrap($, reporter) {
+        var FUTURE_VERSION_ERROR = "Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.";
+        var theWindow = getBrowserWindowObject();
+
+        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
+        /* @covignore */
+        if (globaljQuery) {
+            var versions = jqueryPluginVersions(globaljQuery);
+            if (versions.length) {
+                var minVersion = versions[0];
+                if (semver.gte(minVersion, BOOTSTRAP_VERSION_4, true)) {
+                    reporter(FUTURE_VERSION_ERROR);
+                    return;
+                }
+            }
+        }
+        // check for Bootstrap <link>s and <script>s
+        var bootstraps = $(BOOTSTRAP_FILES);
+        bootstraps.each(function () {
+            var version = versionInLinkedElement($, this);
+            if (version === null) {
+                return;
+            }
+            if (semver.gte(version, BOOTSTRAP_VERSION_4, true)) {
+                reporter(FUTURE_VERSION_ERROR, $(this));
+            }
         });
     });
 
@@ -818,12 +1086,18 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     };
+    /**
+     * @callback reporter
+     * @param {LintWarning|LintError} problem A lint problem
+     * @returns {undefined} Any return value is ignored.
+     */
+
     if (IN_NODE_JS) {
         // cheerio; Node.js
         /**
          * Lints the given HTML.
          * @param {string} html The HTML to lint
-         * @param reporter Function to call with each lint problem
+         * @param {reporter} reporter Function to call with each lint problem
          * @param {string[]} disabledIds Array of string IDs of linters to disable
          * @returns {undefined} Nothing
          */
@@ -839,7 +1113,7 @@ var LocationIndex = _location.LocationIndex;
             var $ = cheerio;
             /**
              * Lints the HTML of the current document.
-             * @param reporter Function to call with each lint problem
+             * @param {reporter} reporter Function to call with each lint problem
              * @param {string[]} disabledIds Array of string IDs of linters to disable
              * @returns {undefined} Nothing
              */
@@ -851,17 +1125,26 @@ var LocationIndex = _location.LocationIndex;
              * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
              * Each warning will be output individually using console.warn().
              * @param {string[]} disabledIds Array of string IDs of linters to disable
+             * @param {object} [alertOpts] Options object to configure alert()ing
+             * @param {boolean} [alertOpts.hasProblems=true] Show one alert() when the first lint problem is found?
+             * @param {boolean} [alertOpts.problemFree=true] Show one alert() at the end of linting if the page has no lint problems?
              * @returns {undefined} Nothing
              */
-            exports.showLintReportForCurrentDocument = function (disabledIds) {
+            exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
+                alertOpts = alertOpts || {};
+                var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
+                var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
+
                 var seenLint = false;
                 var errorCount = 0;
                 var reporter = function (lint) {
                     var background = "background: #" + (lint.id[0] === "W" ? "f0ad4e" : "d9534f") + "; color: #ffffff;";
                     if (!seenLint) {
-                        /*eslint-disable no-alert, no-undef, block-scoped-var */
-                        window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
-                        /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        if (alertOnFirstProblem) {
+                            /*eslint-disable no-alert, no-undef, block-scoped-var */
+                            window.alert("bootlint found errors in this document! See the JavaScript console for details.");// jshint ignore:line
+                            /*eslint-enable no-alert, no-undef, block-scoped-var */
+                        }
                         seenLint = true;
                     }
 
@@ -877,6 +1160,11 @@ var LocationIndex = _location.LocationIndex;
 
                 if (errorCount > 0) {
                     console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
+                }
+                else if (alertIfNoProblems) {
+                    /*eslint-disable no-alert, no-undef, block-scoped-var */
+                    window.alert("bootlint found no errors in this document.");// jshint ignore:line
+                    /*eslint-enable no-alert, no-undef, block-scoped-var */
                 }
             };
             /*eslint-disable no-undef, block-scoped-var */

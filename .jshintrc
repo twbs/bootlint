@@ -3,6 +3,7 @@
   "curly": true,
   "eqeqeq": true,
   "forin": true,
+  "futurehostile": true,
   "immed": true,
   "latedef": true,
   "newcap": true,

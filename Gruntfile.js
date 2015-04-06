@@ -1,7 +1,7 @@
 /*!
  * Bootlint's Gruntfile
  * https://github.com/twbs/bootlint
- * Copyright 2014 Christopher Rebert
+ * Copyright 2014-2015 Christopher Rebert
  * Portions Copyright 2013-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootlint/blob/master/LICENSE)
  */
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     banner: (
       "/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
       " * <%= pkg.description %>\n" +
-      " * Copyright (c) 2014 Christopher Rebert\n" +
+      " * Copyright (c) 2014-2015 Christopher Rebert\n" +
       " * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n" +
       " */\n"
     ),
@@ -54,14 +54,14 @@ module.exports = function (grunt) {
       options: {
         timeout: 10000
       },
-      files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/charset/not-utf8.html']
+      files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/jquery/and_bs_js_both_missing.html', '!test/fixtures/charset/not-utf8.html']
     },
     jshint: {
       options: {
         jshintrc: '.jshintrc'
       },
-      appJs: {
-        src: 'app.js'
+      web: {
+        src: ['app.js', 'bin/www']
       },
       gruntfile: {
         src: 'Gruntfile.js'
@@ -74,8 +74,8 @@ module.exports = function (grunt) {
       }
     },
     jscs: {
-      appJs: {
-        src: '<%= jshint.appJs.src %>'
+      web: {
+        src: '<%= jshint.web.src %>'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>',
@@ -94,8 +94,8 @@ module.exports = function (grunt) {
       options: {
         config: '.eslintrc'
       },
-      appJs: {
-        src: '<%= jshint.appJs.src %>'
+      web: {
+        src: '<%= jshint.web.src %>'
       },
       gruntfile: {
         src: '<%= jshint.gruntfile.src %>'
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
   grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
   grunt.registerTask('_update-shrinkwrap', function () {
     var done = this.async();
-    npmShrinkwrap({ dev: true, dirname: __dirname }, function (err) {
+    npmShrinkwrap({dev: true, dirname: __dirname}, function (err) {
       if (err) {
         grunt.fail.warn(err);
       }

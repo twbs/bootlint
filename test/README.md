@@ -5,7 +5,7 @@
 
 To test usage in a Node.js environment, [Nodeunit](https://github.com/caolan/nodeunit) tests are defined in `/test/bootlint_test.js`, and can be run via the `nodeunit` Grunt task.
 
-To test usage in a browser environment, we use [QUnit](http://qunitjs.com) along with some additional automation in `/test/fixtures/generic-qunit.js`. Basically, when PhantonJS runs each test case webpage, we automatically Bootlint the page and then assert that the list of lint messages equals the `data-lint` attributes of the `<li>`s under the `<ol id="bootlint">` within the page. The `qunit` Grunt task runs these tests in PhantonJS.
+To test usage in a browser environment, we use [QUnit](http://qunitjs.com) along with some additional automation in `/test/fixtures/generic-qunit.js`. Basically, when PhantomJS runs each test case webpage, we automatically Bootlint the page and then assert that the list of lint messages equals the `data-lint` attributes of the `<li>`s under the `<ol id="bootlint">` within the page. The `qunit` Grunt task runs these tests in PhantomJS.
 
 
 ## How do I add a new test?

@@ -1,4 +1,5 @@
 /*eslint-env node */
+/*eslint no-process-env: 0 */
 
 'use strict';
 
@@ -51,11 +52,11 @@ exports.bootlint = {
         test.deepEqual(index.locationOf(22), new Location(2, 10), 'should give the right location for the true end of a line.');
         test.deepEqual(index.locationOf(5), new Location(0, 5), 'should give the right location for the middle of a line.');
         var triples = [
-            [ 0, 0, 11 ],
-            [ 1, 11, 12 ],
-            [ 2, 12, 23 ],
-            [ 3, 23, 27 ],
-            [ 4, 27, 35 ]
+            [0, 0, 11],
+            [1, 11, 12],
+            [2, 12, 23],
+            [3, 23, 27],
+            [4, 27, 35]
         ];
         test.deepEqual(index._lineStartEndTriples, triples, 'should internally generate the right extents data.');
         test.done();
@@ -74,11 +75,11 @@ exports.bootlint = {
         test.deepEqual(index.locationOf(22), new Location(2, 10), 'should give the right location for the true end of a line.');
         test.deepEqual(index.locationOf(5), new Location(0, 5), 'should give the right location for the middle of a line.');
         var triples = [
-            [ 0, 0, 11 ],
-            [ 1, 11, 12 ],
-            [ 2, 12, 23 ],
-            [ 3, 23, 27 ],
-            [ 4, 27, 35 ]
+            [0, 0, 11],
+            [1, 11, 12],
+            [2, 12, 23],
+            [3, 23, 27],
+            [4, 27, 35]
         ];
         test.deepEqual(index._lineStartEndTriples, triples, 'should internally generate the right extents data.');
         test.done();
