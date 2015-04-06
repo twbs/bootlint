@@ -199,6 +199,7 @@ var LocationIndex = _location.LocationIndex;
         }
         catch (e) {
             // deliberately do nothing
+            // empty
         }
 
         return theWindow;
@@ -447,6 +448,7 @@ var LocationIndex = _location.LocationIndex;
         }
         catch (e) {
             // deliberately do nothing
+            // empty
         }
         /* @covignore */
         if (theWindow) {
@@ -459,6 +461,7 @@ var LocationIndex = _location.LocationIndex;
                 }
                 catch (e) {
                     // skip; not actually jQuery?
+                    // empty
                 }
                 if (globalVersion) {
                     // pad out short version numbers (e.g. '1.7')
@@ -472,6 +475,7 @@ var LocationIndex = _location.LocationIndex;
                     }
                     catch (e) {
                         // invalid version number
+                        // empty
                     }
                     if (upToDate === false) {
                         reporter(OLD_JQUERY);
