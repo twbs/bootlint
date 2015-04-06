@@ -62,7 +62,7 @@
     "commander": "^2.6.0",
     "debug": "^2.1.1",
     "express": "^4.11.2",
-    "glob": "^4.4.0",
+    "glob": "^5.0.3",
     "morgan": "^1.5.1",
     "semver": "^4.3.3",
     "void-elements": "^2.0.1"
