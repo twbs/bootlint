@@ -781,10 +781,15 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("W011", function lintPullsInNavbar($, reporter) {
-        var mediaPulls = $('.navbar .pull-left, .navbar .pull-right');
-        if (mediaPulls.length) {
-            reporter('To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.', mediaPulls);
-        }
+        var navComponents = '.navbar-nav, .navbar-text, .navbar-btn, .navbar-link, .navbar-brand';
+        var pulls = ['pull-right', 'pull-left'];
+        $(navComponents).each(function () {
+            pulls.forEach(function(pull) {
+                if ($(this).hasClass(pull)) {
+                    reporter('To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.', $(this));
+                }
+            }, this);
+        });
     });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
