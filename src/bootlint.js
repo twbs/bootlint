@@ -970,6 +970,17 @@ var LocationIndex = _location.LocationIndex;
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.', mediaPulls);
         }
     });
+    addLinter("W011", function lintPullsInNavbar($, reporter) {
+        var navComponents = '.navbar-nav, .navbar-text, .navbar-btn, .navbar-link, .navbar-brand';
+        var pulls = ['pull-right', 'pull-left'];
+        $(navComponents).each(function () {
+            pulls.forEach(function (pull) {
+                if ($(this).hasClass(pull)) {
+                    reporter('To align components in navbars with utility classes, use `.navbar-left` or `.navbar-right` instead.', $(this));
+                }
+            }, this);
+        });
+    });
     addLinter("W012", function lintNavbarContainers($, reporter) {
         var navBars = $('.navbar');
         var containers = [
