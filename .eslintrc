@@ -34,6 +34,7 @@
         "no-trailing-spaces": 2,
         "no-underscore-dangle": 0,
         "no-void": 2,
+        "one-var": [2, "never"],
         "operator-assignment": [2, "always"],
         "padded-blocks": 0,
         "quotes": 0,
