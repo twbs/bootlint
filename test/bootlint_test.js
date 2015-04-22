@@ -270,6 +270,16 @@ exports.bootlint = {
             'should complain when an input group has a grid column class on it.');
         test.done();
     },
+    'input groups missing controls and addons': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('input-group/missing-input-group-addon.html')),
+            ["`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`."],
+            'should complain when missing missing a `.form-control`');
+        test.deepEqual(lintHtml(utf8Fixture('input-group/missing-form-control.html')),
+            ["`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`."],
+            'should complain when missing missing a `.input-group-addon`');
+        test.done();
+    },
     'non-column children of rows': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/non-col-row-children.html')),

@@ -17,14 +17,14 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <textarea class="form-control">Abomination</textarea>
-        </div>
+
+      <div class="input-group">
+        <input class="form-control" type="text">
+      </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.input-group` contains a `&lt;textarea&gt;`; only text-based `&lt;input&gt;`s are permitted in an `.input-group`"></li>
+          <li data-lint="`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`."></li>
         </ol>
     </body>
 </html>
