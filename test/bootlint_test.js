@@ -860,5 +860,18 @@ exports.bootlint = {
             'should not complain about usage of .form-control on valid elements and input types.'
         );
         test.done();
+    },
+
+    'navbar buttons': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-btn-bad.html')),
+            ['`.btn` cannot be used on `<a>`s, within `.navbar-nav`'],
+            'should complain about a .btn within the .navbar-nav class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-navbar_btn-bad.html')),
+            ['`.navbar-btn` cannot be used on `<a>`s, within `.navbar-nav`'],
+            'should complain about a .navbar-btn within the .navbar-nav class.'
+        );
+        test.done();
     }
 };
