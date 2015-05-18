@@ -938,6 +938,20 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`', formControlsOnWrongTypes);
         }
     });
+
+    addLinter("E044", function lintInputGroupAddonChildren($, reporter) {
+        var inputGroups = $('.input-group');
+
+        inputGroups.each(function () {
+            var inputGroup = $(this);
+            var missingFormControl = !inputGroup.find('.form-control').length;
+            var missingInputGroupAddon = !inputGroup.find('.input-group-addon, .input-group-btn').length;
+
+            if (missingFormControl || missingInputGroupAddon) {
+                reporter('`.input-group` must have a `.form-control` and either `.input-group-addon` or `.input-group-btn`.', inputGroup);
+            }
+        });
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(:last-child)';
