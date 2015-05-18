@@ -860,5 +860,17 @@ exports.bootlint = {
             'should not complain about usage of .form-control on valid elements and input types.'
         );
         test.done();
+    },
+    '.img-responsive not on image': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-bad.html')),
+            ['`.img-responsive` should only be used on `<img>`s'],
+            'should complain about .img-responsive not on an image.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-valid.html')),
+            [],
+            'should not complain about .img-responsive on an image.'
+        );
+        test.done();
     }
 };
