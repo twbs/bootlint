@@ -938,6 +938,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`', formControlsOnWrongTypes);
         }
     });
+    addLinter("E043", function lintNavbarNavAnchorButtons($, reporter) {
+        var navbarNavAnchorBtns = $('.navbar-nav a.btn, .navbar-nav a.navbar-btn');
+        if (navbarNavAnchorBtns.length) {
+            reporter('Button classes (`.btn`, `.btn-*`, `.navbar-btn`) cannot be used on `<a>`s within `.navbar-nav`s.', navbarNavAnchorBtns);
+        }
+    });
     addLinter("E045", function lintImgResponsiveOnNonImgs($, reporter) {
         var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
         if (imgResponsiveNotOnImg.length) {

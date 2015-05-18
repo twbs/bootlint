@@ -861,6 +861,7 @@ exports.bootlint = {
         );
         test.done();
     },
+
     '.img-responsive not on image': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-bad.html')),
@@ -870,6 +871,18 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-valid.html')),
             [],
             'should not complain about .img-responsive on an image.'
+        );
+        test.done();
+    },
+    'btn classes on anchors within .navbar-nav': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('navbar/btn-bad.html')),
+            ['Button classes (`.btn`, `.btn-*`, `.navbar-btn`) cannot be used on `<a>`s within `.navbar-nav`s.'],
+            'should complain about a .btn within the .navbar-nav class.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-btn-bad.html')),
+            ['Button classes (`.btn`, `.btn-*`, `.navbar-btn`) cannot be used on `<a>`s within `.navbar-nav`s.'],
+            'should complain about a .navbar-btn within the .navbar-nav class.'
         );
         test.done();
     }
