@@ -356,31 +356,6 @@ var LocationIndex = _location.LocationIndex;
             };
         }
     })());
-    addLinter("W001", function lintMetaCharsetUtf8($, reporter) {
-        var meta = $('head>meta[charset]');
-        var charset = meta.attr('charset');
-        if (!charset) {
-            reporter('`<head>` is missing UTF-8 charset `<meta>` tag');
-        }
-        else if (charset.toLowerCase() !== "utf-8") {
-            reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
-        }
-    });
-    addLinter("W002", function lintXUaCompatible($, reporter) {
-        var meta = $([
-            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
-            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
-        ].join(','));
-        if (!meta.length) {
-            reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
-        }
-    });
-    addLinter("W003", function lintViewport($, reporter) {
-        var meta = $('head>meta[name="viewport"][content]');
-        if (!meta.length) {
-            reporter("`<head>` is missing viewport `<meta>` tag that enables responsiveness");
-        }
-    });
     addLinter("E002", function lintBootstrapv2($, reporter) {
         var columnClasses = [];
         for (var n = 1; n <= 12; n++) {
@@ -428,91 +403,6 @@ var LocationIndex = _location.LocationIndex;
             reporter("Found both `.row` and `.col-*-*` used on the same element", rowCols);
         }
     });
-    addLinter("W004", function lintRemoteModals($, reporter) {
-        var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
-        if (remoteModalTriggers.length) {
-            reporter("Found one or more modals using the deprecated `remote` option", remoteModalTriggers);
-        }
-    });
-    addLinter("W005", function lintJquery($, reporter) {
-        var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
-        var NO_JQUERY_BUT_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
-        var NO_JQUERY_NOR_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript";
-        var bsScripts = bootstrapScriptsIn($);
-        var hasBsJs = !!(bsScripts.minifieds.length || bsScripts.longhands.length);
-        var theWindow = null;
-        try {
-            /*eslint-disable no-undef, block-scoped-var */
-            theWindow = window;// jshint ignore:line
-            /*eslint-enable no-undef, block-scoped-var */
-        }
-        catch (e) {
-            // deliberately do nothing
-            // empty
-        }
-        /* @covignore */
-        if (theWindow) {
-            // check browser global jQuery
-            var globaljQuery = theWindow.$ || theWindow.jQuery;
-            if (globaljQuery) {
-                var globalVersion = null;
-                try {
-                    globalVersion = globaljQuery.fn.jquery.split(' ')[0];
-                }
-                catch (e) {
-                    // skip; not actually jQuery?
-                    // empty
-                }
-                if (globalVersion) {
-                    // pad out short version numbers (e.g. '1.7')
-                    while (globalVersion.match(/\./g).length < 2) {
-                        globalVersion += ".0";
-                    }
-
-                    var upToDate = null;
-                    try {
-                        upToDate = semver.gte(globalVersion, MIN_JQUERY_VERSION, true);
-                    }
-                    catch (e) {
-                        // invalid version number
-                        // empty
-                    }
-                    if (upToDate === false) {
-                        reporter(OLD_JQUERY);
-                    }
-                    if (upToDate !== null) {
-                        return;
-                    }
-                }
-            }
-        }
-
-        // check for jQuery <script>s
-        var jqueries = $([
-            'script[src*="jquery"]',
-            'script[src*="jQuery"]'
-        ].join(','));
-        if (!jqueries.length) {
-            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
-            return;
-        }
-        jqueries.each(function () {
-            var script = $(this);
-            var pathSegments = parseUrl(script.attr('src')).pathname.split('/');
-            var filename = pathSegments[pathSegments.length - 1];
-            if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
-                return;
-            }
-            var versions = versionsIn(pathSegments);
-            if (!versions.length) {
-                return;
-            }
-            var version = versions[versions.length - 1];
-            if (!semver.gte(version, MIN_JQUERY_VERSION, true)) {
-                reporter(OLD_JQUERY, script);
-            }
-        });
-    });
     addLinter("E006", function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
         if (selectInputGroups.length) {
@@ -527,29 +417,6 @@ var LocationIndex = _location.LocationIndex;
         var scripts = bootstrapScriptsIn($);
         if (scripts.longhands.length && scripts.minifieds.length) {
             reporter("Only one copy of Bootstrap's JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js", scripts.longhands.add(scripts.minifieds));
-        }
-    });
-    addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
-        var selector = [
-            '[disabled][data-toggle="tooltip"]',
-            '.disabled[data-toggle="tooltip"]',
-            '[disabled][data-toggle="popover"]',
-            '.disabled[data-toggle="popover"]'
-        ].join(',');
-        var disabledWithTooltips = $(selector);
-        if (disabledWithTooltips.length) {
-            reporter(
-                "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
-                " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
-                " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead.",
-                disabledWithTooltips
-            );
-        }
-    });
-    addLinter("W008", function lintTooltipsInBtnGroups($, reporter) {
-        var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
-        if (nonBodyContainers.length) {
-            reporter("Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
         }
     });
     addLinter("E009", function lintMissingInputGroupSizes($, reporter) {
@@ -627,12 +494,6 @@ var LocationIndex = _location.LocationIndex;
         var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
         if (badBtnToggle.length) {
             reporter("`.btn.dropdown-toggle` must be the last button in a button group.", badBtnToggle);
-        }
-    });
-    addLinter("W007", function lintBtnType($, reporter) {
-        var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
-        if (badBtnType.length) {
-            reporter("Found one or more `<button>`s missing a `type` attribute.", badBtnType);
         }
     });
     addLinter("E017", function lintBlockCheckboxes($, reporter) {
@@ -948,6 +809,145 @@ var LocationIndex = _location.LocationIndex;
         var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
         if (imgResponsiveNotOnImg.length) {
             reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
+        }
+    });
+    addLinter("W001", function lintMetaCharsetUtf8($, reporter) {
+        var meta = $('head>meta[charset]');
+        var charset = meta.attr('charset');
+        if (!charset) {
+            reporter('`<head>` is missing UTF-8 charset `<meta>` tag');
+        }
+        else if (charset.toLowerCase() !== "utf-8") {
+            reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
+        }
+    });
+    addLinter("W002", function lintXUaCompatible($, reporter) {
+        var meta = $([
+            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
+            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
+        ].join(','));
+        if (!meta.length) {
+            reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
+        }
+    });
+    addLinter("W003", function lintViewport($, reporter) {
+        var meta = $('head>meta[name="viewport"][content]');
+        if (!meta.length) {
+            reporter("`<head>` is missing viewport `<meta>` tag that enables responsiveness");
+        }
+    });
+    addLinter("W004", function lintRemoteModals($, reporter) {
+        var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
+        if (remoteModalTriggers.length) {
+            reporter("Found one or more modals using the deprecated `remote` option", remoteModalTriggers);
+        }
+    });
+    addLinter("W005", function lintJquery($, reporter) {
+        var OLD_JQUERY = "Found what might be an outdated version of jQuery; Bootstrap requires jQuery v" + MIN_JQUERY_VERSION + " or higher";
+        var NO_JQUERY_BUT_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work";
+        var NO_JQUERY_NOR_BS_JS = "Unable to locate jQuery, which is required for Bootstrap's JavaScript plugins to work; however, you might not be using Bootstrap's JavaScript";
+        var bsScripts = bootstrapScriptsIn($);
+        var hasBsJs = !!(bsScripts.minifieds.length || bsScripts.longhands.length);
+        var theWindow = null;
+        try {
+            /*eslint-disable no-undef, block-scoped-var */
+            theWindow = window;// jshint ignore:line
+            /*eslint-enable no-undef, block-scoped-var */
+        }
+        catch (e) {
+            // deliberately do nothing
+            // empty
+        }
+        /* @covignore */
+        if (theWindow) {
+            // check browser global jQuery
+            var globaljQuery = theWindow.$ || theWindow.jQuery;
+            if (globaljQuery) {
+                var globalVersion = null;
+                try {
+                    globalVersion = globaljQuery.fn.jquery.split(' ')[0];
+                }
+                catch (e) {
+                    // skip; not actually jQuery?
+                    // empty
+                }
+                if (globalVersion) {
+                    // pad out short version numbers (e.g. '1.7')
+                    while (globalVersion.match(/\./g).length < 2) {
+                        globalVersion += ".0";
+                    }
+
+                    var upToDate = null;
+                    try {
+                        upToDate = semver.gte(globalVersion, MIN_JQUERY_VERSION, true);
+                    }
+                    catch (e) {
+                        // invalid version number
+                        // empty
+                    }
+                    if (upToDate === false) {
+                        reporter(OLD_JQUERY);
+                    }
+                    if (upToDate !== null) {
+                        return;
+                    }
+                }
+            }
+        }
+
+        // check for jQuery <script>s
+        var jqueries = $([
+            'script[src*="jquery"]',
+            'script[src*="jQuery"]'
+        ].join(','));
+        if (!jqueries.length) {
+            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
+            return;
+        }
+        jqueries.each(function () {
+            var script = $(this);
+            var pathSegments = parseUrl(script.attr('src')).pathname.split('/');
+            var filename = pathSegments[pathSegments.length - 1];
+            if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
+                return;
+            }
+            var versions = versionsIn(pathSegments);
+            if (!versions.length) {
+                return;
+            }
+            var version = versions[versions.length - 1];
+            if (!semver.gte(version, MIN_JQUERY_VERSION, true)) {
+                reporter(OLD_JQUERY, script);
+            }
+        });
+    });
+    addLinter("W006", function lintTooltipsOnDisabledElems($, reporter) {
+        var selector = [
+            '[disabled][data-toggle="tooltip"]',
+            '.disabled[data-toggle="tooltip"]',
+            '[disabled][data-toggle="popover"]',
+            '.disabled[data-toggle="popover"]'
+        ].join(',');
+        var disabledWithTooltips = $(selector);
+        if (disabledWithTooltips.length) {
+            reporter(
+                "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
+                " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
+                " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead.",
+                disabledWithTooltips
+            );
+        }
+    });
+    addLinter("W007", function lintBtnType($, reporter) {
+        var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
+        if (badBtnType.length) {
+            reporter("Found one or more `<button>`s missing a `type` attribute.", badBtnType);
+        }
+    });
+    addLinter("W008", function lintTooltipsInBtnGroups($, reporter) {
+        var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
+        if (nonBodyContainers.length) {
+            reporter("Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
         }
     });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
