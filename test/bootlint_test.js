@@ -238,7 +238,7 @@ exports.bootlint = {
     'tooltips and popovers within button groups should have their container set to body': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('tooltips/in-btn-groups.html')),
-            ["Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting."],
+            ["Tooltips and popovers within button groups should have their `container` set to `'body'`. Found tooltips/popovers that might lack this setting."],
             'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
     },
