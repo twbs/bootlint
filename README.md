@@ -2,6 +2,7 @@
 [![NPM version](https://badge.fury.io/js/bootlint.svg)](http://badge.fury.io/js/bootlint)
 [![Build Status](https://img.shields.io/travis/twbs/bootlint/master.svg)](https://travis-ci.org/twbs/bootlint)
 [![Coverage Status](https://img.shields.io/coveralls/twbs/bootlint.svg?branch=master)](https://coveralls.io/r/twbs/bootlint)
+![Development Status :: 5 - Production/Stable](https://img.shields.io/badge/maturity-stable-green.svg "Development Status :: 5 - Production/Stable")
 [![MIT License](https://img.shields.io/github/license/twbs/bootlint.svg)](https://github.com/twbs/bootlint/blob/master/LICENSE)
 [![Dependency Status](https://david-dm.org/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint)
 [![devDependency Status](https://david-dm.org/twbs/bootlint/dev-status.svg)](https://david-dm.org/twbs/bootlint#info=devDependencies)
