@@ -549,7 +549,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("W008", function lintTooltipsInBtnGroups($, reporter) {
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
-            reporter("Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
+            reporter("Tooltips and popovers within button groups should have their `container` set to `'body'`. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
         }
     });
     addLinter("E009", function lintMissingInputGroupSizes($, reporter) {
