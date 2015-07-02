@@ -5,22 +5,29 @@
 (function () {
     'use strict';
 
-    function lintCurrentDoc() {
+    function lintCurrentDoc(disabledIds) {
         var lints = [];
         var reporter = function (lint) {
             lints.push(lint.message);
         };
-        bootlint.lintCurrentDocument(reporter, []);
+        bootlint.lintCurrentDocument(reporter, disabledIds);
         return lints;
     }
 
     QUnit.test(window.location.pathname, function (assert) {
         expect(1);
         var lints = Array.prototype.slice.call(document.querySelectorAll('#bootlint>li'));
-        var expectedLintMsgs = lints.map(function (item) {
+        var expectedLintMsgs = lints.filter(function (item) {
+            return typeof item.dataset.lint === 'string';
+        }).map(function (item) {
             return item.dataset.lint;
         });
-        var actualLintMsgs = lintCurrentDoc();
+        var disabledIds = lints.filter(function (item) {
+            return typeof item.dataset.disabled === 'string';
+        }).map(function (item) {
+            return item.dataset.disabled;
+        });
+        var actualLintMsgs = lintCurrentDoc(disabledIds);
         assert.deepEqual(actualLintMsgs, expectedLintMsgs);
     });
 })();

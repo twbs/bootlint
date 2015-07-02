@@ -1064,7 +1064,13 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
+    addLinter("W016", function lintNavbarContainers($, reporter) {
+        var disabledBtn = $('button.disabled');
 
+        if (disabledBtn.length) {
+            reporter("The `.disabled` class on a `button` doesn't disable button features like click and focus. Use the `disabled` attribute, instead.", disabledBtn);
+        }
+    });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {
