@@ -572,6 +572,12 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
+    addLinter("W016", function lintDisabledClassOnButton($, reporter) {
+        var btnsWithDisabledClass = $('button.btn.disabled, input.btn.disabled');
+        if (btnsWithDisabledClass.length) {
+            reporter("Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.", btnsWithDisabledClass);
+        }
+    });
 
     addLinter("E001", (function () {
         var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";
@@ -1076,7 +1082,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.btn` should only be used on `<a>`, `<button>`, `<input>`, or `<label>` elements.', btns);
         }
     });
-
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {

@@ -229,9 +229,12 @@ exports.bootlint = {
     'tooltips and popovers on disabled elements': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('tooltips/on-disabled-elems.html')),
-            ["Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
-            " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
-            " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead."],
+            [
+                "Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
+                " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
+                " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead.",
+                'Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn\'t prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.'
+            ],
             'should complain about tooltips and popovers on disabled elements.');
         test.done();
     },
@@ -327,6 +330,19 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('buttons/with-type.html')),
             [],
             'should not complain when type is set on buttons');
+        test.done();
+    },
+    'use disabled attribute on button.btn and input.btn instead of .disabled': function (test) {
+        test.expect(3);
+        test.deepEqual(lintHtml(utf8Fixture('buttons/button-disabled-class.html')),
+            ["Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead."],
+            'should complain when Bootstrap v2 grid classes are present.');
+        test.deepEqual(lintHtml(utf8Fixture('buttons/input-btn-disabled-class.html')),
+            ["Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead."],
+            'should complain when Bootstrap v2 grid classes are present.');
+        test.deepEqual(lintHtml(utf8Fixture('buttons/disabled-attribute.html')),
+            [],
+            'should not complain when disabled attribute is set on buttons');
         test.done();
     },
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {

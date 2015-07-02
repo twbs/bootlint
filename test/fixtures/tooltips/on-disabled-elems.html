@@ -25,6 +25,7 @@
         <div id="qunit"></div>
         <ol id="bootlint">
             <li data-lint="Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled. To have tooltips and popovers be triggerable by the user even when their associated element is disabled, put the disabled element inside a wrapper `&lt;div&gt;` and apply the tooltip or popover to the wrapper `&lt;div&gt;` instead."></li>
+            <li data-lint="Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead."></li>
         </ol>
     </body>
 </html>
