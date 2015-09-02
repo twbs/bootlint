@@ -807,7 +807,7 @@ exports.bootlint = {
     'container inside navbar': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-container.html')),
-            ['`.container` or `.container-fluid` should be the first child inside of a `.navbar`'],
+            ["`.navbar`'s first child element should always be either `.container` or `.container-fluid`"],
             'should complain about no .container/.container-fluid inside .navbar.'
         );
         test.done();

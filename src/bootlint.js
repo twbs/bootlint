@@ -993,7 +993,7 @@ var LocationIndex = _location.LocationIndex;
             var hasContainerChildren = !!navBar.children(containers).length;
 
             if (!hasContainerChildren) {
-                reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
+                reporter("`.navbar`'s first child element should always be either `.container` or `.container-fluid`", navBar);
             }
         });
     });
