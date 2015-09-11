@@ -299,16 +299,6 @@ exports.bootlint = {
             'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
         test.done();
     },
-    'multiple buttons/dropdowns inside input-group-btn': function (test) {
-        test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('input-group/multiple-btns-group.html')),
-            ["Having multiple `.btn`s inside of a single `.input-group-btn` is not supported"],
-            'should complain about multiple buttons being inside a single input-group-btn');
-        test.deepEqual(lintHtml(utf8Fixture('input-group/multiple-dropdowns-in-group.html')),
-            ["Having multiple `.dropdown-menu`s inside of a single `.input-group-btn` is not supported"],
-            'should complain about multiple dropdowns being inside a single input-group-btn');
-        test.done();
-    },
     'dropdown-toggle comes before btn': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/btn-toggle.html')),

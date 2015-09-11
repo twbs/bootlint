@@ -853,16 +853,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Neither `.form-inline` nor `.form-horizontal` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline` or `.form-horizontal`', badFormGroups);
         }
     });
-    addLinter("E036", function lintMultipleInputGroupButtons($, reporter) {
-        $('.input-group-btn').each(function () {
-            ['.btn:not(.dropdown-toggle)', '.dropdown-menu'].forEach(function (selector) {
-                var elements = $(this).children(selector);
-                if (elements.length > 1) {
-                    reporter('Having multiple `' + selector.split(':')[0] + '`s inside of a single `.input-group-btn` is not supported', elements.slice(1));
-                }
-            }, this);
-        });
-    });
     addLinter("E037", function lintColZeros($, reporter) {
         var selector = SCREENS.map(function (screen) {
             return ".col-" + screen + "-0";
