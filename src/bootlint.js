@@ -1054,6 +1054,15 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
+    addLinter("E046", function lintModalTabIndex($, reporter) {
+        var modals = $(".modal").filter(function () {
+            return !($(this).attr("tabindex"));
+        });
+
+        if (modals.length) {
+            reporter("Found one or more modals without a `tabindex` atrribute.", modals);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
