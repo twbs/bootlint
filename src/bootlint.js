@@ -1061,6 +1061,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal` elements must have a `tabindex` attribute.', modalsWithoutTabindex);
         }
     });
+    addLinter("E047", function lintBtnElements($, reporter) {
+        var btns = $('.btn:not(a,button,input,label)');
+        if (btns.length) {
+            reporter('`.btn` should only be used on `<a>`, `<button>`, `<input>`, or `<label>` elements.', btns);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
