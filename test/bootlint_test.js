@@ -875,5 +875,17 @@ exports.bootlint = {
             'should complain about a .navbar-btn within the .navbar-nav class.'
         );
         test.done();
+    },
+    '.btn not on a, button, input, label': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('buttons/btn-incorrect-element.html')),
+            ['`.btn` should only be used on `<a>`, `<button>`, `<input>` or `<label>`s'],
+            'should complain about .btn not on an a, button, input, label.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('buttons/btn-correct-element.html')),
+            [],
+            'should not complain about .btn not on an a, button, input, label.'
+        );
+        test.done();
     }
 };

@@ -1054,6 +1054,12 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
+    addLinter("E046", function lintBtnElements($, reporter) {
+        var btns = $('.btn:not(a,button,input,label)');
+        if (btns.length) {
+            reporter('`.btn` should only be used on `<a>`, `<button>`, `<input>` or `<label>`s', btns);
+        }
+    });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
