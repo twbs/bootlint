@@ -940,6 +940,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
         }
     });
+    addLinter("E046", function lintModalTabIndex($, reporter) {
+        var modalsWithoutTabindex = $('.modal:not([tabindex])');
+        if (modalsWithoutTabindex.length) {
+            reporter('`.modal` elements must have a `tabindex` attribute.', modalsWithoutTabindex);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(:last-child)';
