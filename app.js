@@ -19,6 +19,9 @@ var HTML_MIME_TYPES = [
     'text/html',
     'application/xhtml+xml'
 ];
+// For context, unminified bootstrap.css + bootstrap.js is ~200KiB,
+// and JSFiddle inlines the contents of the CSS and JS panes of its editor into the resulting HTML.
+var MAX_HTML_SIZE = '1MB';
 
 function shallowClone(obj) {
     return _extend({}, obj);
@@ -94,7 +97,7 @@ var app = express();
 
 app.use(logger('dev'));
 HTML_MIME_TYPES.forEach(function (type) {
-    app.use(bodyParser.text({type: type}));
+    app.use(bodyParser.text({type: type, limit: MAX_HTML_SIZE}));
 });
 
 app.use('/', routes);
