@@ -413,7 +413,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E004", function lintNestedContainers($, reporter) {
-        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
+        var nestedContainers = $('.container, .container-fluid').not(':has(.navbar)').find('.container, .container-fluid');
         if (nestedContainers.length) {
             reporter("Containers (`.container` and `.container-fluid`) are not nestable", nestedContainers);
         }
