@@ -4,10 +4,6 @@
   "npm-shrinkwrap-version": "200.4.0",
   "node-version": "v5.0.0",
   "dependencies": {
-    "Base64": {
-      "version": "0.2.1",
-      "resolved": "https://registry.npmjs.org/Base64/-/Base64-0.2.1.tgz"
-    },
     "JSONStream": {
       "version": "1.0.6",
       "resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-1.0.6.tgz"
@@ -215,8 +211,8 @@
       "resolved": "https://registry.npmjs.org/browser-resolve/-/browser-resolve-1.10.1.tgz"
     },
     "browserify": {
-      "version": "10.2.6",
-      "resolved": "https://registry.npmjs.org/browserify/-/browserify-10.2.6.tgz",
+      "version": "11.2.0",
+      "resolved": "https://registry.npmjs.org/browserify/-/browserify-11.2.0.tgz",
       "dependencies": {
         "glob": {
           "version": "4.5.3",
@@ -225,6 +221,10 @@
         "minimatch": {
           "version": "2.0.10",
           "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz"
+        },
+        "readable-stream": {
+          "version": "2.0.4",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.0.4.tgz"
         }
       }
     },
@@ -807,6 +807,10 @@
     "for-own": {
       "version": "0.1.3",
       "resolved": "https://registry.npmjs.org/for-own/-/for-own-0.1.3.tgz"
+    },
+    "foreach": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/foreach/-/foreach-2.0.5.tgz"
     },
     "forever-agent": {
       "version": "0.5.2",
@@ -1405,8 +1409,8 @@
       "resolved": "https://registry.npmjs.org/grunt-banner/-/grunt-banner-0.6.0.tgz"
     },
     "grunt-browserify": {
-      "version": "3.8.0",
-      "resolved": "https://registry.npmjs.org/grunt-browserify/-/grunt-browserify-3.8.0.tgz",
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/grunt-browserify/-/grunt-browserify-4.0.1.tgz",
       "dependencies": {
         "glob": {
           "version": "5.0.15",
@@ -1567,10 +1571,6 @@
           "resolved": "https://registry.npmjs.org/entities/-/entities-1.0.0.tgz"
         }
       }
-    },
-    "http-browserify": {
-      "version": "1.7.0",
-      "resolved": "https://registry.npmjs.org/http-browserify/-/http-browserify-1.7.0.tgz"
     },
     "http-errors": {
       "version": "1.3.1",
@@ -1997,6 +1997,10 @@
         "nopt": {
           "version": "2.1.2",
           "resolved": "https://registry.npmjs.org/nopt/-/nopt-2.1.2.tgz"
+        },
+        "object-keys": {
+          "version": "0.4.0",
+          "resolved": "https://registry.npmjs.org/object-keys/-/object-keys-0.4.0.tgz"
         },
         "strip-ansi": {
           "version": "0.1.1",
@@ -3177,8 +3181,8 @@
       "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-2.1.1.tgz"
     },
     "object-keys": {
-      "version": "0.4.0",
-      "resolved": "https://registry.npmjs.org/object-keys/-/object-keys-0.4.0.tgz"
+      "version": "1.0.9",
+      "resolved": "https://registry.npmjs.org/object-keys/-/object-keys-1.0.9.tgz"
     },
     "object.omit": {
       "version": "2.0.0",
@@ -3595,8 +3599,14 @@
       "resolved": "https://registry.npmjs.org/statuses/-/statuses-1.2.1.tgz"
     },
     "stream-browserify": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-1.0.0.tgz"
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-2.0.1.tgz",
+      "dependencies": {
+        "readable-stream": {
+          "version": "2.0.4",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.0.4.tgz"
+        }
+      }
     },
     "stream-combiner2": {
       "version": "1.0.2",
@@ -3617,8 +3627,8 @@
       }
     },
     "stream-http": {
-      "version": "2.0.2",
-      "resolved": "https://registry.npmjs.org/stream-http/-/stream-http-2.0.2.tgz"
+      "version": "1.7.1",
+      "resolved": "https://registry.npmjs.org/stream-http/-/stream-http-1.7.1.tgz"
     },
     "stream-splicer": {
       "version": "1.3.2",
@@ -3916,13 +3926,13 @@
           "version": "0.4.2",
           "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.4.2.tgz"
         },
-        "stream-browserify": {
-          "version": "2.0.1",
-          "resolved": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-2.0.1.tgz"
-        },
         "stream-combiner2": {
           "version": "1.1.1",
           "resolved": "https://registry.npmjs.org/stream-combiner2/-/stream-combiner2-1.1.1.tgz"
+        },
+        "stream-http": {
+          "version": "2.0.2",
+          "resolved": "https://registry.npmjs.org/stream-http/-/stream-http-2.0.2.tgz"
         },
         "stream-splicer": {
           "version": "2.0.0",
