@@ -875,5 +875,13 @@ exports.bootlint = {
             'should complain about a .navbar-btn within the .navbar-nav class.'
         );
         test.done();
+    },
+    'modal missing tabindex': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('modal/tabindex-missing.html')),
+            ['`.modal` elements must have a `tabindex` attribute.'],
+            'should complain about modal missing a `tabindex` attribute.'
+        );
+        test.done();
     }
 };
