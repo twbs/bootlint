@@ -1,6 +1,6 @@
 {
   "name": "bootlint",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "HTML linter for Bootstrap projects",
   "keywords": [
     "bootstrap",
