@@ -37,7 +37,7 @@
     "coveralls": "^2.11.2",
     "grunt": "^0.4.5",
     "grunt-banner": "^0.6.0",
-    "grunt-browserify": "^3.2.0",
+    "grunt-browserify": "^4.0.1",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-nodeunit": "^0.4.1",
@@ -76,8 +76,8 @@
     "binary-search": false,
     "cheerio": "jquery",
     "url": "./src/url.js",
-    "./cli": false,
-    "./location": false
+    "./src/cli.js": false,
+    "./src/location.js": false
   },
   "files": [
     "bin",
