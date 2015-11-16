@@ -9,7 +9,7 @@
 
 },{}],2:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v2.1.3
+ * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -19,7 +19,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-12-18T15:11Z
+ * Date: 2015-04-28T16:01Z
  */
 
 (function( global, factory ) {
@@ -77,7 +77,7 @@ var
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
 
-	version = "2.1.3",
+	version = "2.1.4",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -541,7 +541,12 @@ jQuery.each("Boolean Number String Function Array Date RegExp Object Error".spli
 });
 
 function isArraylike( obj ) {
-	var length = obj.length,
+
+	// Support: iOS 8.2 (not reproducible in simulator)
+	// `in` check used to prevent JIT error (gh-2145)
+	// hasOwn isn't used here due to false negatives
+	// regarding Nodelist length in IE
+	var length = "length" in obj && obj.length,
 		type = jQuery.type( obj );
 
 	if ( type === "function" || jQuery.isWindow( obj ) ) {
@@ -9227,6 +9232,9 @@ if (typeof module === 'object' && module.exports === exports)
 // Not necessarily the package version of this code.
 exports.SEMVER_SPEC_VERSION = '2.0.0';
 
+var MAX_LENGTH = 256;
+var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+
 // The actual regexps go on exports.re
 var re = exports.re = [];
 var src = exports.src = [];
@@ -9440,8 +9448,24 @@ for (var i = 0; i < R; i++) {
 
 exports.parse = parse;
 function parse(version, loose) {
+  if (version instanceof SemVer)
+    return version;
+
+  if (typeof version !== 'string')
+    return null;
+
+  if (version.length > MAX_LENGTH)
+    return null;
+
   var r = loose ? re[LOOSE] : re[FULL];
-  return (r.test(version)) ? new SemVer(version, loose) : null;
+  if (!r.test(version))
+    return null;
+
+  try {
+    return new SemVer(version, loose);
+  } catch (er) {
+    return null;
+  }
 }
 
 exports.valid = valid;
@@ -9469,6 +9493,9 @@ function SemVer(version, loose) {
     throw new TypeError('Invalid Version: ' + version);
   }
 
+  if (version.length > MAX_LENGTH)
+    throw new TypeError('version is longer than ' + MAX_LENGTH + ' characters')
+
   if (!(this instanceof SemVer))
     return new SemVer(version, loose);
 
@@ -9486,12 +9513,26 @@ function SemVer(version, loose) {
   this.minor = +m[2];
   this.patch = +m[3];
 
+  if (this.major > MAX_SAFE_INTEGER || this.major < 0)
+    throw new TypeError('Invalid major version')
+
+  if (this.minor > MAX_SAFE_INTEGER || this.minor < 0)
+    throw new TypeError('Invalid minor version')
+
+  if (this.patch > MAX_SAFE_INTEGER || this.patch < 0)
+    throw new TypeError('Invalid patch version')
+
   // numberify any prerelease numeric ids
   if (!m[4])
     this.prerelease = [];
   else
     this.prerelease = m[4].split('.').map(function(id) {
-      return (/^[0-9]+$/.test(id)) ? +id : id;
+      if (/^[0-9]+$/.test(id)) {
+        var num = +id
+        if (num >= 0 && num < MAX_SAFE_INTEGER)
+          return num
+      }
+      return id;
     });
 
   this.build = m[5] ? m[5].split('.') : [];
@@ -10241,7 +10282,7 @@ function testSet(set, version) {
     for (var i = 0; i < set.length; i++) {
       ;
       if (set[i].semver === ANY)
-        return true;
+        continue;
 
       if (set[i].semver.prerelease.length > 0) {
         var allowed = set[i].semver;
@@ -10341,6 +10382,9 @@ function outside(version, range, hilo, loose) {
     var low = null;
 
     comparators.forEach(function(comparator) {
+      if (comparator.semver === ANY) {
+        comparator = new Comparator('>=0.0.0')
+      }
       high = high || comparator;
       low = low || comparator;
       if (gtfn(comparator.semver, high.semver, loose)) {
@@ -10441,7 +10485,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.4';
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.5';
     var BOOTSTRAP_VERSION_4 = '4.0.0';
     var PLUGINS = [
         'affix',
@@ -10605,6 +10649,7 @@ var LocationIndex = _location.LocationIndex;
         }
         catch (e) {
             // deliberately do nothing
+            // empty
         }
 
         return theWindow;
@@ -10853,6 +10898,7 @@ var LocationIndex = _location.LocationIndex;
         }
         catch (e) {
             // deliberately do nothing
+            // empty
         }
         /* @covignore */
         if (theWindow) {
@@ -10865,6 +10911,7 @@ var LocationIndex = _location.LocationIndex;
                 }
                 catch (e) {
                     // skip; not actually jQuery?
+                    // empty
                 }
                 if (globalVersion) {
                     // pad out short version numbers (e.g. '1.7')
@@ -10878,6 +10925,7 @@ var LocationIndex = _location.LocationIndex;
                     }
                     catch (e) {
                         // invalid version number
+                        // empty
                     }
                     if (upToDate === false) {
                         reporter(OLD_JQUERY);
@@ -10951,7 +10999,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter("W008", function lintTooltipsInBtnGroups($, reporter) {
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
-            reporter("Tooltips and popovers within button groups should have their `container` set to 'body'. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
+            reporter("Tooltips and popovers within button groups should have their `container` set to `'body'`. Found tooltips/popovers that might lack this setting.", nonBodyContainers);
         }
     });
     addLinter("E009", function lintMissingInputGroupSizes($, reporter) {
@@ -11255,16 +11303,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Neither `.form-inline` nor `.form-horizontal` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline` or `.form-horizontal`', badFormGroups);
         }
     });
-    addLinter("E036", function lintMultipleInputGroupButtons($, reporter) {
-        $('.input-group-btn').each(function () {
-            ['.btn:not(.dropdown-toggle)', '.dropdown-menu'].forEach(function (selector) {
-                var elements = $(this).children(selector);
-                if (elements.length > 1) {
-                    reporter('Having multiple `' + selector.split(':')[0] + '`s inside of a single `.input-group-btn` is not supported', elements.slice(1));
-                }
-            }, this);
-        });
-    });
     addLinter("E037", function lintColZeros($, reporter) {
         var selector = SCREENS.map(function (screen) {
             return ".col-" + screen + "-0";
@@ -11311,6 +11349,47 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
         }
     });
+    addLinter("E042", function lintFormControlOnWrongControl($, reporter) {
+        var formControlsOnWrongTags = $('.form-control:not(input,textarea,select)');
+        if (formControlsOnWrongTags.length) {
+            reporter('`.form-control` should only be used on `<input>`s, `<textarea>`s, and `<select>`s.', formControlsOnWrongTags);
+        }
+
+        var formControlsOnWrongTypes = $('input.form-control:not(' + ([
+                'color',
+                'email',
+                'number',
+                'password',
+                'search',
+                'tel',
+                'text',
+                'url',
+                'datetime',
+                'datetime-local',
+                'date',
+                'month',
+                'week',
+                'time'
+            ].map(function (type) {
+                return '[type="' + type + '"]';
+            }).join(',')
+        ) + ')');
+        if (formControlsOnWrongTypes.length) {
+            reporter('`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`', formControlsOnWrongTypes);
+        }
+    });
+    addLinter("E043", function lintNavbarNavAnchorButtons($, reporter) {
+        var navbarNavAnchorBtns = $('.navbar-nav a.btn, .navbar-nav a.navbar-btn');
+        if (navbarNavAnchorBtns.length) {
+            reporter('Button classes (`.btn`, `.btn-*`, `.navbar-btn`) cannot be used on `<a>`s within `.navbar-nav`s.', navbarNavAnchorBtns);
+        }
+    });
+    addLinter("E045", function lintImgResponsiveOnNonImgs($, reporter) {
+        var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
+        if (imgResponsiveNotOnImg.length) {
+            reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
+        }
+    });
     addLinter("W009", function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(:last-child)';
@@ -11354,7 +11433,7 @@ var LocationIndex = _location.LocationIndex;
             var hasContainerChildren = !!navBar.children(containers).length;
 
             if (!hasContainerChildren) {
-                reporter('`.container` or `.container-fluid` should be the first child inside of a `.navbar`', navBar);
+                reporter("`.navbar`'s first child element should always be either `.container` or `.container-fluid`", navBar);
             }
         });
     });
@@ -11424,6 +11503,15 @@ var LocationIndex = _location.LocationIndex;
                 reporter(FUTURE_VERSION_ERROR, $(this));
             }
         });
+    });
+    addLinter("E046", function lintModalTabIndex($, reporter) {
+        var modals = $(".modal").filter(function () {
+            return !($(this).attr("tabindex"));
+        });
+
+        if (modals.length) {
+            reporter("Found one or more modals without a `tabindex` atrribute.", modals);
+        }
     });
 
     exports._lint = function ($, reporter, disabledIdList, html) {
