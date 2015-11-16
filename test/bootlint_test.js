@@ -228,7 +228,7 @@ exports.bootlint = {
     },
     'tooltips and popovers on disabled elements': function (test) {
         test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('tooltips/on-disabled-elems.html')),
+        test.deepEqual(lintHtml(utf8Fixture('tooltips/on-disabled-elems.html'), ['W016']),
             ["Tooltips and popovers on disabled elements cannot be triggered by user interaction unless the element becomes enabled." +
             " To have tooltips and popovers be triggerable by the user even when their associated element is disabled," +
             " put the disabled element inside a wrapper `<div>` and apply the tooltip or popover to the wrapper `<div>` instead."],
@@ -327,6 +327,16 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('buttons/with-type.html')),
             [],
             'should not complain when type is set on buttons');
+        test.done();
+    },
+    'use disabled attribute on button.btn instead of .disabled': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('buttons/disabled-class.html')),
+            ["The `.disabled` class on a `button` doesn't disable button features like click and focus. Use the `disabled` attribute, instead."],
+            'should complain when Bootstrap v2 grid classes are present.');
+        test.deepEqual(lintHtml(utf8Fixture('buttons/disabled-attribute.html')),
+            [],
+            'should not complain when disabled attribute is set on buttons');
         test.done();
     },
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
