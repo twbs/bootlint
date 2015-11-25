@@ -1,5 +1,5 @@
 /*!
- * Bootlint v0.14.1 (https://github.com/twbs/bootlint)
+ * Bootlint v0.14.2 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
  * Copyright (c) 2014-2015 Christopher Rebert
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
@@ -10579,7 +10579,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.5';
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.6';
     var BOOTSTRAP_VERSION_4 = '4.0.0';
     var PLUGINS = [
         'affix',
