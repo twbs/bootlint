@@ -174,6 +174,7 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 ## Release History
 See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for detailed changelogs.
 * (next release) - `master`
+* 2015-11-25 - v0.14.2: Fix critical CLI bug introduced in v0.14.0 and add tests to prevent its recurrence. Update current Bootstrap version to v3.3.6.
 * 2015-11-16 - v0.14.1: Forgot to regenerate browser version when tagging v0.14.0
 * 2015-11-16 - v0.14.0: Adds 3 new lint checks.
 * 2015-11-15 - v0.13.0: Removes E036. Adds a few new checks. Bumps dependency versions.
