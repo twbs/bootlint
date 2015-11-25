@@ -72,13 +72,14 @@
   },
   "main": "./src/bootlint.js",
   "bin": {
-    "bootlint": "./src/cli.js"
+    "bootlint": "./src/cli-main.js"
   },
   "browser": {
     "binary-search": false,
     "cheerio": "jquery",
     "url": "./src/url.js",
     "./src/cli.js": false,
+    "./src/cli-main.js": false,
     "./src/location.js": false
   },
   "files": [
