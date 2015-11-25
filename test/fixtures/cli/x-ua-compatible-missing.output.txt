@@ -1,0 +1,4 @@
+test/fixtures/x-ua-compatible/missing.html: W002 `<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes
+
+For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki
+1 lint error(s) found across 1 file(s).
