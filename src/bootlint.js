@@ -331,10 +331,10 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter("W002", function lintXUaCompatible($, reporter) {
         var meta = $([
-            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
-            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
+            'head>meta[http-equiv="X-UA-Compatible"][content]',
+            'head>meta[http-equiv="x-ua-compatible"][content]'
         ].join(','));
-        if (!meta.length) {
+        if (!meta.length || meta.attr('content').toLowerCase().indexOf('ie=edge') === -1) {
             reporter("`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes");
         }
     });
