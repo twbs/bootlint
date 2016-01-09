@@ -22,6 +22,10 @@ Bootlint assumes that you are using Bootstrap's default class names in your webp
 
 To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint)
 
+### Via Gulp
+
+If you want to use Bootlint with [Gulp](http://gulpjs.com), there is an *unofficial* Gulp plugin: [gulp-bootlint](https://github.com/tschortsch/gulp-bootlint)
+
 ### On the command line
 Install the module with: `npm install -g bootlint`
 
