@@ -1082,6 +1082,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.btn` should only be used on `<a>`, `<button>`, `<input>`, or `<label>` elements.', btns);
         }
     });
+    addLinter("E048", function lintModalRole($, reporter) {
+        var modals = $('.modal:not([role=dialog])');
+        if (modals.length) {
+            reporter('`.modal` should always have a `role` attribute with a value of `dialog`.', modals);
+        }
+    });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {
