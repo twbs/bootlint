@@ -1083,9 +1083,9 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter("E048", function lintModalRole($, reporter) {
-        var modals = $('.modal:not([role=dialog])');
+        var modals = $('.modal:not([role="dialog"])');
         if (modals.length) {
-            reporter('`.modal` should always have a `role` attribute with a value of `dialog`.', modals);
+            reporter('`.modal` must have a `role="dialog"` attribute.', modals);
         }
     });
     exports._lint = function ($, reporter, disabledIdList, html) {
