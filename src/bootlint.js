@@ -1088,6 +1088,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal` must have a `role="dialog"` attribute.', modals);
         }
     });
+    addLinter("E049", function lintModalDialogRole($, reporter) {
+        var modalDialogs = $('.modal-dialog:not([role="document"])');
+        if (modalDialogs.length) {
+            reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
+        }
+    });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {
