@@ -929,5 +929,13 @@ exports.bootlint = {
             'should complain about modal missing a `role` attribute.'
         );
         test.done();
+    },
+    'modal-dialog missing role document': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('modal/missing-role-document.html')),
+            ['`.modal-dialog` must have a `role="document"` attribute.'],
+            'should complain about modal-dialog missing a `role` attribute.'
+        );
+        test.done();
     }
 };
