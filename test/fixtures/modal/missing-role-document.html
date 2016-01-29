@@ -18,13 +18,12 @@
     </head>
     <body>
         <div class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <!--Oops, the .modal-header ought to be within the .modal-content-->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
+            <div class="modal-dialog">
                 <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
                     <div class="modal-body">
                         <p>One fine body&hellip;</p>
                     </div>
@@ -38,7 +37,7 @@
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.modal-header` must be a child of `.modal-content`"></li>
+            <li data-lint="`.modal-dialog` must have a `role=&quot;document&quot;` attribute."></li>
         </ol>
     </body>
 </html>
