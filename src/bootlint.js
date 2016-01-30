@@ -578,6 +578,12 @@ var LocationIndex = _location.LocationIndex;
             reporter("Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.", btnsWithDisabledClass);
         }
     });
+    addLinter("W017", function lintInputsMissingTypeAttr($, reporter) {
+        var inputsMissingTypeAttr = $('input:not([type])');
+        if (inputsMissingTypeAttr.length) {
+            reporter("Found one or more `<input>`s missing a `type` attribute.", inputsMissingTypeAttr);
+        }
+    });
 
     addLinter("E001", (function () {
         var MISSING_DOCTYPE = "Document is missing a DOCTYPE declaration";

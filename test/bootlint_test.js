@@ -345,6 +345,16 @@ exports.bootlint = {
             'should not complain when disabled attribute is set on buttons');
         test.done();
     },
+    'inputs should set type': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('form-control/without-type.html')),
+            ["Found one or more `<input>`s missing a `type` attribute."],
+            'should complain about lack of type attribute on inputs');
+        test.deepEqual(lintHtml(utf8Fixture('form-control/with-type.html')),
+            [],
+            'should not complain when type is set on inputs');
+        test.done();
+    },
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
         test.expect(7);
 
