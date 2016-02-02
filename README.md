@@ -11,8 +11,7 @@
 An HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](http://getbootstrap.com) projects
 
 ## What's Bootlint?
-
-Bootlint is a tool that checks for several common HTML mistakes in webpages that are using [Bootstrap](http://getbootstrap.com) in a fairly "vanilla" way. Vanilla Bootstrap's components/widgets require their parts of the DOM to conform to certain structures. Bootlint checks that instances of Bootstrap components have correctly-structured HTML. Optimal usage of Bootstrap also requires that your pages include certain `<meta>` tags, an HTML5 doctype declaration, etc.; Bootlint checks that these are present.
+Bootlint is a tool that checks for several common HTML mistakes in webpages that are using [Bootstrap](https://getbootstrap.com) in a fairly "vanilla" way. Vanilla Bootstrap's components/widgets require their parts of the DOM to conform to certain structures. Bootlint checks that instances of Bootstrap components have correctly-structured HTML. Optimal usage of Bootstrap also requires that your pages include certain `<meta>` tags, an HTML5 doctype declaration, etc.; Bootlint checks that these are present.
 
 ### Caveats
 
@@ -21,6 +20,7 @@ Bootlint assumes that your webpage is already valid HTML5. If you need to check 
 Bootlint assumes that you are using Bootstrap's default class names in your webpage, as opposed to taking advantage of the "mixins" functionality of Less or Sass to map them to custom class names. If you are using mixins, Bootlint may report some false-positive warnings. However, there are some Bootlint checks that are applicable even if you are using mixins pervasively.
 
 ## Getting Started
+
 ### Via Grunt
 
 To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint)
@@ -36,7 +36,7 @@ Install the module with: `npm install -g bootlint`
 Run it on some HTML files:
 
 ```shell
-$ bootlint /path/to/some/webpage.html another_webpage.html [...]
+bootlint /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 This will output the lint warnings applicable to each file.
@@ -44,19 +44,19 @@ This will output the lint warnings applicable to each file.
 The CLI also accepts a `--disable` (or `-d`) option to disable certain lint checks. `--disable` takes a comma-separated list of [lint problem IDs](https://github.com/twbs/bootlint/wiki). Here's an example:
 
 ```shell
-$ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
+bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 The CLI will also process `stdin` input which means that you can pipe into Bootlint:
 
 ```shell
-$ cat mypage.html | bootlint
+cat mypage.html | bootlint
 ```
 
 Or you could use a heredoc (mostly useful for quick testing):
 
 ```shell
-$ bootlint << EOF
+bootlint << EOF
 <button class="btn btn-default">Is this correct Bootstrap markup, Bootlint?</button>
 EOF
 ```
@@ -90,6 +90,20 @@ Note: The snippet above will ensure you are always running the latest version of
 3. If issues exist, please open the developer tools and select the console tab
 
 #### Alternative Options
+##### Browser ready script
+
+You can manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
+
+Note: The snippet above will ensure you are always running the latest version of bootlint. If you want to reference a specific version of bootlint please see the [BootstrapCDN](http://www.bootstrapcdn.com/bootlint/). Copy the URL and update `s.src=“PASTE-ME-HERE”`.
+
+#### How to use the bookmarklet
+
+1. Click the bookmark you created above
+2. A popup will appear informing you if issues were detected
+3. If issues exist, please open the developer tools and select the console tab
+
+#### Alternative Options
+
 ##### Browser ready script
 
 You can manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
