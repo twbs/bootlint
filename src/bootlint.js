@@ -1188,6 +1188,9 @@ var LocationIndex = _location.LocationIndex;
                         seenLint = true;
                     }
 
+                    // Append the wiki URL to the lint message.
+                    lint.message += " (https://github.com/twbs/bootlint/wiki/" + lint.id + ")";
+
                     if (!lint.elements.length) {
                         console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
                     }
