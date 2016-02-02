@@ -947,5 +947,17 @@ exports.bootlint = {
             'should complain about modal-dialog missing a `role` attribute.'
         );
         test.done();
+    },
+    'nested form groups': function (test) {
+        test.expect(2);
+        test.deepEqual(lintHtml(utf8Fixture('form/valid.html')),
+            [],
+            'should not complain when form-groups are used correctly'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('form/nested-form-groups.html')),
+            ['`.form-group`s should not be nested.'],
+            'should complain when form-groups are nested'
+        );
+        test.done();
     }
 };
