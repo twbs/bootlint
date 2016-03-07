@@ -1,6 +1,5 @@
-/* global QUnit, expect, bootlint */
-/* jshint browser: true, jquery: true */
-/*eslint-env browser */
+/* eslint-env browser, jquery, qunit */
+/* global bootlint */
 
 (function () {
     'use strict';
