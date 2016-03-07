@@ -363,10 +363,10 @@ exports.bootlint = {
             'should not complain when correct radio and checkbox markup is used.');
 
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-block-bad.html')),
-            ['Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]'],
+            ['Incorrect markup used with the `.checkbox` class. The correct markup structure is `.checkbox>label>input[type="checkbox"]`'],
             'should complain when invalid .checkbox markup is used.');
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/radio-block-bad.html')),
-            ['Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]'],
+            ['Incorrect markup used with the `.radio` class. The correct markup structure is `.radio>label>input[type="radio"]`'],
             'should complain when invalid .radio markup is used.');
 
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-inline-non-label.html')),
@@ -377,10 +377,10 @@ exports.bootlint = {
             'should complain when .radio-inline is used on a non-<label> element.');
 
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-inline-bad-structure.html')),
-            ['Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]'],
+            ['Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is `label.checkbox-inline>input[type="checkbox"]`'],
             'should complain when invalid .checkbox-inline markup is used.');
         test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/radio-inline-bad-structure.html')),
-            ['Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]'],
+            ['Incorrect markup used with the `.radio-inline` class. The correct markup structure is `label.radio-inline>input[type="radio"]`'],
             'should complain when invalid .radio-inline markup is used.');
 
         test.done();

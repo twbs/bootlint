@@ -767,7 +767,7 @@ var LocationIndex = _location.LocationIndex;
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
         });
         if (badCheckboxes.length) {
-            reporter('Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]', badCheckboxes);
+            reporter('Incorrect markup used with the `.checkbox` class. The correct markup structure is `.checkbox>label>input[type="checkbox"]`', badCheckboxes);
         }
     });
     addLinter("E018", function lintBlockRadios($, reporter) {
@@ -775,7 +775,7 @@ var LocationIndex = _location.LocationIndex;
             return $(div).filter(':has(>label>input[type="radio"])').length <= 0;
         });
         if (badRadios.length) {
-            reporter('Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]', badRadios);
+            reporter('Incorrect markup used with the `.radio` class. The correct markup structure is `.radio>label>input[type="radio"]`', badRadios);
         }
     });
     addLinter("E019", function lintInlineCheckboxes($, reporter) {
@@ -787,7 +787,7 @@ var LocationIndex = _location.LocationIndex;
             return $(label).children('input[type="checkbox"]').length <= 0;
         });
         if (badStructures.length) {
-            reporter('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]', badStructures);
+            reporter('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is `label.checkbox-inline>input[type="checkbox"]`', badStructures);
         }
     });
     addLinter("E020", function lintInlineRadios($, reporter) {
@@ -799,7 +799,7 @@ var LocationIndex = _location.LocationIndex;
             return $(label).children('input[type="radio"]').length <= 0;
         });
         if (badStructures.length) {
-            reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]', badStructures);
+            reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is `label.radio-inline>input[type="radio"]`', badStructures);
         }
     });
     addLinter("E021", function lintButtonsCheckedActive($, reporter) {
