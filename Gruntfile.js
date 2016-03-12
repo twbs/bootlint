@@ -28,7 +28,7 @@ module.exports = function (grunt) {
     banner: (
       "/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
       " * <%= pkg.description %>\n" +
-      " * Copyright (c) 2014-2015 Christopher Rebert\n" +
+      " * Copyright (c) 2014-2016 Christopher Rebert\n" +
       " * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n" +
       " */\n"
     ),
