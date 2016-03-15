@@ -1,18 +1,22 @@
 # Contributing
 
 ## Important notes
+
 Please don't edit files in the `dist` subdirectory as they are generated via Grunt. You'll find source code in the `src` subdirectory!
 
 ### Code style
+
 The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations.
 
 ### PhantomJS
+
 Grunt can run the included unit tests via [PhantomJS](http://phantomjs.org/).
 
 ## Modifying the code
-First, ensure that you have the latest [Node.js](http://nodejs.org/) and [npm](http://npmjs.org/) installed.
 
-Test that Grunt's CLI is installed by running `grunt --version`.  If the command isn't found, run `npm install -g grunt-cli`.  For more information about installing Grunt, see the [getting started with Grunt guide](http://gruntjs.com/getting-started).
+First, ensure that you have the latest [Node.js](https://nodejs.org/en/) and [npm](https://www.npmjs.com/) installed.
+
+Test that Grunt's CLI is installed by running `grunt --version`. If the command isn't found, run `npm install -g grunt-cli`. For more information about installing Grunt, see the [getting started with Grunt guide](http://gruntjs.com/getting-started).
 
 1. Fork and clone the repo.
 2. Run `npm install` to install all build dependencies (including Grunt).
@@ -31,4 +35,5 @@ Assuming that you don't see any red, you're ready to go. Just be sure to run `gr
 7. Push to your fork and submit a pull request.
 
 ### Licensing
+
 By contributing your code, you agree to license your contribution under [the MIT License](https://github.com/twbs/bootlint/blob/master/LICENSE).
