@@ -1100,6 +1100,22 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
         }
     });
+    addLinter("E050", function lintColumnsNoPullClasses($, reporter) {
+        var selector = COL_CLASSES.map(function (col) {
+            return ".pull-left" + col + ",.pull-right" + col;
+        }).join(',');
+        var pulledCols = $(selector);
+        if (pulledCols.length) {
+            reporter("`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements", pulledCols);
+        }
+    });
+    addLinter("E051", function lintRowsNoPullClasses($, reporter) {
+        var selector = ".row.pull-left,.row.pull-right";
+        var pulledRows = $(selector);
+        if (pulledRows.length) {
+            reporter("`.pull-right` and `.pull-left` should not be used on `.row` elements", pulledRows);
+        }
+    });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {
