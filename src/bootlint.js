@@ -1106,14 +1106,18 @@ var LocationIndex = _location.LocationIndex;
         }).join(',');
         var pulledCols = $(selector);
         if (pulledCols.length) {
-            reporter("`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements", pulledCols);
+            pulledCols.each(function (_index, col) {
+                reporter("`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements", $(col));
+            });
         }
     });
     addLinter("E051", function lintRowsNoPullClasses($, reporter) {
         var selector = ".row.pull-left,.row.pull-right";
         var pulledRows = $(selector);
         if (pulledRows.length) {
-            reporter("`.pull-right` and `.pull-left` should not be used on `.row` elements", pulledRows);
+            pulledRows.each(function (_index, row) {
+                reporter("`.pull-right` and `.pull-left` should not be used on `.row` elements", $(row));
+            });
         }
     });
     exports._lint = function ($, reporter, disabledIdList, html) {

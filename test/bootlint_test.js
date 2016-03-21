@@ -951,16 +951,22 @@ exports.bootlint = {
     '.pull-right/left classes not allowed on .col-*-*': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/col-no-pull.html')),
-            ['`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements'],
-            'should complain about a `.pull-left` class on a `.col-*-*`'
+            [
+                '`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements',
+                '`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements'
+            ],
+            'should complain about a `.pull-right` class on a `.col-*-*` AND a `.pull-left` on a `.col-*-*`'
         );
         test.done();
     },
     '.pull-right/left classes not allowed on .row': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/row-no-pull.html')),
-            ['`.pull-right` and `.pull-left` should not be used on `.row` elements'],
-            'should complain about a `.pull-right` class on a `.row`'
+            [
+                '`.pull-right` and `.pull-left` should not be used on `.row` elements',
+                '`.pull-right` and `.pull-left` should not be used on `.row` elements'
+            ],
+            'should complain about a `.pull-right` class on a `.row` AND a `.pull-left` on a `.row`'
         );
         test.done();
     }
