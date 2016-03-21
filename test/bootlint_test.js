@@ -977,5 +977,17 @@ exports.bootlint = {
             'should complain about a `.pull-right/.pull-left` classes on `.row` AND manual `style="float:left;"/style="float:right;"` on a `.row`'
         );
         test.done();
+    },
+    '.col-*-12 columns by themselves are not useful': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-no-full-width.html')),
+            [
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-12 col-sm-12"` is redundant and can be simplified to `class="col-xs-12"`',
+                '`.col-*-12` classes used alone are not useful. This element does not need to be in a row/column since it will render the same way without using the grid here at all',
+                '`.col-*-12` classes used alone are not useful. This element does not need to be in a row/column since it will render the same way without using the grid here at all'
+            ],
+            'should complain about a `.col-*-12` class used with no other grid classes AND about multiple `.col-*-12` classes appearing with no other grid classes'
+        );
+        test.done();
     }
 };

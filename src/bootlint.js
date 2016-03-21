@@ -586,6 +586,29 @@ var LocationIndex = _location.LocationIndex;
             reporter('Found one or more `<input>`s missing a `type` attribute.', inputsMissingTypeAttr);
         }
     });
+    addLinter('W018', function lintUselessFullColumns($, reporter) {
+        var selector = SCREENS.map(function (size) {
+            return '.col-' + size + '-' + NUM_COLS;
+        }).join(',');
+        var fullRows = $(selector);
+        if (fullRows.length) {
+            var fullColRegex = new RegExp('^col-(' + SCREENS.join('|') + ')-' + NUM_COLS + '$');
+            fullRows.each(function (_index, row) {
+                var $row = $(row);
+                var gridClasses = $row.attr('class').match(COL_REGEX_G);
+                var fullWidthColCount = 0;
+                for (var i = 0; i < gridClasses.length; i++) {
+                    if (fullColRegex.test(gridClasses[i])) {
+                        fullWidthColCount++;
+                    }
+                }
+                if (fullWidthColCount === gridClasses.length) {
+                    //The ONLY grid classes found here were full column classes.
+                    reporter('`.col-*-' + NUM_COLS + '` classes used alone are not useful. This element does not need to be in a row/column since it will render the same way without using the grid here at all', $row);
+                }
+            });
+        }
+    });
 
     addLinter('E001', (function () {
         var MISSING_DOCTYPE = 'Document is missing a DOCTYPE declaration';

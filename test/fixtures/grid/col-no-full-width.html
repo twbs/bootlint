@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Test</title>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="../../lib/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="../../lib/qunit.css">
+        <script src="../../lib/qunit.js"></script>
+        <script src="../../../dist/browser/bootlint.js"></script>
+        <script src="../generic-qunit.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">Useless</div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">Useless</div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-12">This is fine</div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-12">This is fine</div>
+            </div>
+        </div>
+
+        <div id="qunit"></div>
+        <ol id="bootlint">
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-12 col-sm-12"` is redundant and can be simplified to `class="col-xs-12"`'></li>
+            <li data-lint="`.col-*-12` classes used alone are not useful. This element does not need to be in a row/column since it will render the same way without using the grid here at all"></li>
+            <li data-lint="`.col-*-12` classes used alone are not useful. This element does not need to be in a row/column since it will render the same way without using the grid here at all"></li>
+        </ol>
+    </body>
+</html>
