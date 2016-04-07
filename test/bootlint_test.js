@@ -959,5 +959,21 @@ exports.bootlint = {
             'should complain about missing `.form-control` classes'
         );
         test.done();
+    },
+    'require checkboxes to be structured': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/checkbox-no-structure.html')),
+            ['Checkboxes must use either the `.checkbox>label>input[type="checkbox"]` structure, or the `label.checkbox-inline>input[type="checkbox"]` structure'],
+            'should complain about checkboxes not in the proper HTML structure'
+        );
+        test.done();
+    },
+    'require radios to be structured': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('checkboxes-radios/radio-no-structure.html')),
+            ['Radios must use either the `.radio>label>input[type="radio"]` structure, or the `label.radio-inline>input[type="radio"]` structure'],
+            'should complain about radios not in the proper HTML structure'
+        );
+        test.done();
     }
 };
