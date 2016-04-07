@@ -947,5 +947,17 @@ exports.bootlint = {
             'should complain about modal-dialog missing a `role` attribute.'
         );
         test.done();
+    },
+    'require the form-group class': function (test) {
+        //The same error is reported 16 times, so this is a simpler way to write this
+        var errorArray = Array.apply(null, Array(16)).map(function () {
+            return 'The `.form-control` class must appear on all textual `<input/>` elements, `<textarea>` elements, and `<select>` elements';
+        });
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('form-control/require-form-control-class.html')),
+            errorArray,
+            'should complain about missing `.form-control` classes'
+        );
+        test.done();
     }
 };

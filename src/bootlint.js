@@ -60,7 +60,22 @@ var LocationIndex = _location.LocationIndex;
         'script[src$="/bootstrap.min.js"]',
         'script[src="bootstrap.min.js"]'
     ].join(',');
-
+    var FORM_CONTROL_VALID_TYPES = [
+        'color',
+        'email',
+        'number',
+        'password',
+        'search',
+        'tel',
+        'text',
+        'url',
+        'datetime',
+        'datetime-local',
+        'date',
+        'month',
+        'week',
+        'time'
+    ];
     function compareNums(a, b) {
         return a - b;
     }
@@ -1032,22 +1047,7 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.form-control` should only be used on `<input>`s, `<textarea>`s, and `<select>`s.', formControlsOnWrongTags);
         }
 
-        var formControlsOnWrongTypes = $('input.form-control:not(' + ([
-                'color',
-                'email',
-                'number',
-                'password',
-                'search',
-                'tel',
-                'text',
-                'url',
-                'datetime',
-                'datetime-local',
-                'date',
-                'month',
-                'week',
-                'time'
-            ].map(function (type) {
+        var formControlsOnWrongTypes = $('input.form-control:not(' + (FORM_CONTROL_VALID_TYPES.map(function (type) {
                 return '[type="' + type + '"]';
             }).join(',')
         ) + ')');
@@ -1098,6 +1098,19 @@ var LocationIndex = _location.LocationIndex;
         var modalDialogs = $('.modal-dialog:not([role="document"])');
         if (modalDialogs.length) {
             reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
+        }
+    });
+    addLinter("E050", function requireFormControlClass($, reporter) {
+        //Select inputs of the proper type that do not have a `.form-control` class OR a `.col-*-*` class
+        var colSelector = COL_CLASSES.join(",");
+        var inputs = $('select:not(.form-control,' + colSelector + '), textarea:not(.form-control,' + colSelector + '), ' + (FORM_CONTROL_VALID_TYPES.map(function (type) {
+                return 'input:not(.form-control,' + colSelector + ')[type="' + type + '"]';
+            }).join(',')
+        ));
+        if (inputs.length) {
+            inputs.each(function (i, el) {
+                reporter('The `.form-control` class must appear on all textual `<input/>` elements, `<textarea>` elements, and `<select>` elements', $(el));
+            });
         }
     });
     exports._lint = function ($, reporter, disabledIdList, html) {

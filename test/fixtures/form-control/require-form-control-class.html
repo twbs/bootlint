@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Test</title>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="../../lib/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="../../lib/qunit.css">
+        <script src="../../lib/qunit.js"></script>
+        <script src="../../../dist/browser/bootlint.js"></script>
+        <script src="../generic-qunit.js"></script>
+    </head>
+    <body>
+        <!--These input types ARE NOT supposed to have the `.form-control` class (so these are fine!)-->
+        <input type="hidden" value="I'm hidden!'" />
+        <input type="button" value="I'm a button!'" />
+        <input type="file" value="" />
+        <input type="range" value="100" />
+        <input type="checkbox" value="I'm a checkbox!'" />
+        <input type="radio" value="I'm on the radio!'" />
+        
+        <!--These input types ARE supposed to have the `.form-control` class (So these are in error!)-->
+        <select>
+            <option>blah</option>
+        </select>
+        <textarea>some text here</textarea>
+        <input type="color" value="#C0FFEE" />
+        <input type="email" value="bob@aol.com" />
+        <input type="number" value="42" />
+        <input type="password" value="qwerty123" />
+        <input type="search" value="some text" />
+        <input type="tel" value="1-800-flowers" />
+        <input type="text" value="some text" />
+        <input type="url" value="http://google.com" />
+        <input type="datetime" value="" />
+        <input type="datetime-local" value="" />
+        <input type="date" value="" />
+        <input type="month" value="" />
+        <input type="week" value="" />
+        <input type="time" value="" />
+
+        <div id="qunit"></div>
+        <ol id="bootlint">
+            <li data-lint="The `.form-control` class must appear on all textual `<input/>` elements, `<textarea>` elements, and `<select>` elements"></li>
+        </ol>
+    </body>
+</html>
