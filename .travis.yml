@@ -4,9 +4,10 @@
     "node_js": ["5"],
     "before_install": [
         "travis_retry pip install -r test-infra/requirements.txt --user",
-        "rvm use 1.9.3 --fuzzy",
+        "rvm install 2.2",
+        "rvm use 2.2 --fuzzy",
         "export GEMDIR=$(rvm gemdir)",
-        "echo \"ruby=$(basename $GEMDIR) jekyll=$JEKYLL_VERSION rouge=$ROUGE_VERSION\" > pseudo_Gemfile.lock"
+        "echo \"ruby=$(basename $GEMDIR) jekyll=$JEKYLL_VERSION\" > pseudo_Gemfile.lock"
     ],
     "install": [
         "npm install -g grunt-cli",
@@ -31,8 +32,7 @@
     ],
     "env": {
         "global": [
-            {"JEKYLL_VERSION": "2.5.3"},
-            {"ROUGE_VERSION": "1.8.0"},
+            {"JEKYLL_VERSION": "3.1.2"},
             {"secure": "dRdiG/5UykFAVW6GWWcaNHGSPy16PiCeF9XySPDdCSbw+pI2zqE8VNyXgn1kORhLFsKjdIQaLnmFWR1Xw7sP59zpnIRUkZ77spw7hKNf1RlAv3uckE8LFxO1FkMFNOlSHgmCXnyseUNGMDL/lIBMCLfsTOlc6KvbQir7pz+TDwM="},
             {"secure": "Ej9x2sBilYq9Wr86j7NujcPN0qAMHgUzjB9tX0vN90nKOPfAmWWcO9omFzwkuH0VZkZmauK/YQlEqKhx99quVwRHctu0LhZRnBgaCnsGp6CnRorFW4IKZwJSM38BF9XXvCCnQtz6PyItpE+ycbpFI0MHvs0H3BXFmwifvY/Q4/Y="},
             {"secure": "Oq9mxJduZiy0oZmKlg3kkFFWlBTuCynRpZoz0SyG3hHt2uipWfXlm0AlpcjU6jB6g8kNtGF4ZA5uGiMUePSOfK0RveYQa95ixUY6VrbuAIzdDtz/rbMajtGCVpMBgOf5o33rEfocwgADE/i1lE1JJeNjdUBsO1Iyron1ZiT52mE="}
