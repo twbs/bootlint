@@ -60,6 +60,7 @@ var LocationIndex = _location.LocationIndex;
         'script[src$="/bootstrap.min.js"]',
         'script[src="bootstrap.min.js"]'
     ].join(',');
+    var WIKI_URL = 'https://github.com/twbs/bootlint/wiki/';
 
     function compareNums(a, b) {
         return a - b;
@@ -269,6 +270,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintError(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -282,6 +284,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintWarning(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -1189,7 +1192,7 @@ var LocationIndex = _location.LocationIndex;
                     }
 
                     // Append the wiki URL to the lint message.
-                    lint.message += " (https://github.com/twbs/bootlint/wiki/" + lint.id + ")";
+                    lint.message += " (" + lint.url + ")";
 
                     if (!lint.elements.length) {
                         console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
