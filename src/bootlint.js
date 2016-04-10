@@ -1191,14 +1191,11 @@ var LocationIndex = _location.LocationIndex;
                         seenLint = true;
                     }
 
-                    // Append the wiki URL to the lint message.
-                    lint.message += " (" + lint.url + ")";
-
                     if (!lint.elements.length) {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message, "Documentation: " + lint.url);
                     }
                     else {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + '\n', lint.elements);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message, "Documentation: " + lint.url, lint.elements);
                     }
                     errorCount++;
                 };
