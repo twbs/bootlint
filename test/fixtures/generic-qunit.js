@@ -1,5 +1,5 @@
 /* global QUnit, expect, bootlint */
-/* jshint browser: true */
+/* jshint browser: true, jquery: true */
 /*eslint-env browser */
 
 (function () {
