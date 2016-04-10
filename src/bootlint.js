@@ -1113,7 +1113,7 @@ var LocationIndex = _location.LocationIndex;
         ));
         if (inputs.length) {
             inputs.each(function (i, el) {
-                reporter('The `.form-control` class must appear on all textual `<input/>` elements, `<textarea>` elements, and `<select>` elements', $(el));
+                reporter('The `.form-control` class must appear on all textual `<input>` elements, `<textarea>` elements, and `<select>` elements', $(el));
             });
         }
     });
