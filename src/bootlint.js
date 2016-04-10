@@ -76,6 +76,8 @@ var LocationIndex = _location.LocationIndex;
         'week',
         'time'
     ];
+    var WIKI_URL = 'https://github.com/twbs/bootlint/wiki/';
+
     function compareNums(a, b) {
         return a - b;
     }
@@ -284,6 +286,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintError(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -297,6 +300,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintWarning(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -1226,10 +1230,10 @@ var LocationIndex = _location.LocationIndex;
                     }
 
                     if (!lint.elements.length) {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + " Documentation: " + lint.url);
                     }
                     else {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + '\n', lint.elements);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + " Documentation: " + lint.url, lint.elements);
                     }
                     errorCount++;
                 };
