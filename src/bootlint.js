@@ -1120,10 +1120,8 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E051", function requireCheckboxClass($, reporter) {
         //Checkboxes are allowed to exist inside of `label.btn` when used with the buttons.js plugin: http://getbootstrap.com/javascript/#buttons-checkbox-radio
         //Checkboxes are allowed to exist inside of input groups as addons: http://getbootstrap.com/components/#input-groups-checkboxes-radios
-        //We will ignore checkboxes that incorrectly have the `.form-control` class since rule E042 handles warning about this
         var badCheckboxes = $('input[type="checkbox"]').filter(function (i, checkbox) {
-            var $cb = $(checkbox);
-            return !$cb.hasClass("form-control") && $cb.parents('.checkbox, .checkbox-inline, .btn, .input-group-addon').length <= 0;
+            return $(checkbox).parents('.checkbox, .checkbox-inline, .btn, .input-group-addon').length <= 0;
         });
         if (badCheckboxes.length) {
             reporter('Checkboxes must use either the `.checkbox>label>input[type="checkbox"]` structure, or the `label.checkbox-inline>input[type="checkbox"]` structure', badCheckboxes);
@@ -1132,10 +1130,8 @@ var LocationIndex = _location.LocationIndex;
     addLinter("E052", function requireRadioClass($, reporter) {
         //Radios are allowed to exist inside of `label.btn` when used with the buttons.js plugin: http://getbootstrap.com/javascript/#buttons-checkbox-radio
         //Radios are allowed to exist inside of input groups as addons: http://getbootstrap.com/components/#input-groups-checkboxes-radios
-        //We will ignore radios that incorrectly have the `.form-control` class since rule E042 handles warning about this
         var badRadios = $('input[type="radio"]').filter(function (i, radio) {
-            var $rdo = $(radio);
-            return !$rdo.hasClass("form-control") && $rdo.parents('.radio, .radio-inline, .btn, .input-group-addon').length <= 0;
+            return $(radio).parents('.radio, .radio-inline, .btn, .input-group-addon').length <= 0;
         });
         if (badRadios.length) {
             reporter('Radios must use either the `.radio>label>input[type="radio"]` structure, or the `label.radio-inline>input[type="radio"]` structure', badRadios);
