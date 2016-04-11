@@ -1112,9 +1112,7 @@ var LocationIndex = _location.LocationIndex;
             }).join(',')
         ));
         if (inputs.length) {
-            inputs.each(function (i, el) {
-                reporter('The `.form-control` class must appear on all textual `<input>` elements, `<textarea>` elements, and `<select>` elements', $(el));
-            });
+            reporter('The `.form-control` class must appear on all textual `<input>` elements, `<textarea>` elements, and `<select>` elements', inputs);
         }
     });
     addLinter("E051", function requireCheckboxClass($, reporter) {
