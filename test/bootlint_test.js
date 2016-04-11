@@ -953,7 +953,6 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('grid/col-no-pull.html')),
             [
                 '`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements',
-                '`.pull-right` and `.pull-left` should not be used on `.col-*-*` elements'
             ],
             'should complain about a `.pull-right` class on a `.col-*-*` AND a `.pull-left` on a `.col-*-*`'
         );
@@ -964,7 +963,6 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('grid/row-no-pull.html')),
             [
                 '`.pull-right` and `.pull-left` should not be used on `.row` elements',
-                '`.pull-right` and `.pull-left` should not be used on `.row` elements'
             ],
             'should complain about a `.pull-right` class on a `.row` AND a `.pull-left` on a `.row`'
         );
