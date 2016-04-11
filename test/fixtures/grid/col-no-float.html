@@ -18,18 +18,21 @@
     </head>
     <body>
         <div class="container">
-            <div class="row pull-right">
-                <div class="col-xs-6">Content</div>
+            <div class="row">
+                <div class="col-xs-6 pull-right">Content</div>
+                <div class="col-md-6 pull-left">Content</div>
             </div>
             
-            <div class="row pull-left">
-                <div class="col-md-6">Content</div>
+            <div class="row">
+                <div class="col-xs-6" style="float:left">Content</div>
+                <div class="col-md-6" style="float:right">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.pull-right` and `.pull-left` should not be used on `.row` elements"></li>
+            <li data-lint="`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements"></li>
+            <li data-lint="Manually added `float` styles must not be added on `.col-*-*` elements"></li>
         </ol>
     </body>
 </html>
