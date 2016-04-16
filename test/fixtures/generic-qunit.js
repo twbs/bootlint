@@ -1,5 +1,5 @@
 /* global QUnit, expect, bootlint */
-/* jshint browser: true */
+/* jshint browser: true, jquery: true */
 /*eslint-env browser */
 
 (function () {
@@ -15,6 +15,10 @@
     }
 
     QUnit.test(window.location.pathname, function (assert) {
+        // Remove checkboxes QUnit dynamically adds to the DOM as part of its UI
+        // because these checkboxes may not comply with some Bootlint checks.
+        $('#qunit-filter-pass, #qunit-urlconfig-noglobals, #qunit-urlconfig-notrycatch').remove();
+
         expect(1);
         var lints = Array.prototype.slice.call(document.querySelectorAll('#bootlint>li'));
         var expectedLintMsgs = lints.map(function (item) {

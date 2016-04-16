@@ -1,7 +1,7 @@
 /*!
  * Bootlint - an HTML linter for Bootstrap projects
  * https://github.com/twbs/bootlint
- * Copyright (c) 2014-2015 Christopher Rebert
+ * Copyright (c) 2014-2016 Christopher Rebert
  * Licensed under the MIT License.
  */
 
@@ -60,6 +60,7 @@ var LocationIndex = _location.LocationIndex;
         'script[src$="/bootstrap.min.js"]',
         'script[src="bootstrap.min.js"]'
     ].join(',');
+    var WIKI_URL = 'https://github.com/twbs/bootlint/wiki/';
 
     function compareNums(a, b) {
         return a - b;
@@ -269,6 +270,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintError(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -282,6 +284,7 @@ var LocationIndex = _location.LocationIndex;
      */
     function LintWarning(id, message, elements) {
         this.id = id;
+        this.url = WIKI_URL + id;
         this.message = message;
         this.elements = elements || cheerio('');
     }
@@ -767,7 +770,7 @@ var LocationIndex = _location.LocationIndex;
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
         });
         if (badCheckboxes.length) {
-            reporter('Incorrect markup used with the `.checkbox` class. The correct markup structure is .checkbox>label>input[type="checkbox"]', badCheckboxes);
+            reporter('Incorrect markup used with the `.checkbox` class. The correct markup structure is `.checkbox>label>input[type="checkbox"]`', badCheckboxes);
         }
     });
     addLinter("E018", function lintBlockRadios($, reporter) {
@@ -775,7 +778,7 @@ var LocationIndex = _location.LocationIndex;
             return $(div).filter(':has(>label>input[type="radio"])').length <= 0;
         });
         if (badRadios.length) {
-            reporter('Incorrect markup used with the `.radio` class. The correct markup structure is .radio>label>input[type="radio"]', badRadios);
+            reporter('Incorrect markup used with the `.radio` class. The correct markup structure is `.radio>label>input[type="radio"]`', badRadios);
         }
     });
     addLinter("E019", function lintInlineCheckboxes($, reporter) {
@@ -787,7 +790,7 @@ var LocationIndex = _location.LocationIndex;
             return $(label).children('input[type="checkbox"]').length <= 0;
         });
         if (badStructures.length) {
-            reporter('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is label.checkbox-inline>input[type="checkbox"]', badStructures);
+            reporter('Incorrect markup used with the `.checkbox-inline` class. The correct markup structure is `label.checkbox-inline>input[type="checkbox"]`', badStructures);
         }
     });
     addLinter("E020", function lintInlineRadios($, reporter) {
@@ -799,7 +802,7 @@ var LocationIndex = _location.LocationIndex;
             return $(label).children('input[type="radio"]').length <= 0;
         });
         if (badStructures.length) {
-            reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is label.radio-inline>input[type="radio"]', badStructures);
+            reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is `label.radio-inline>input[type="radio"]`', badStructures);
         }
     });
     addLinter("E021", function lintButtonsCheckedActive($, reporter) {
@@ -1189,10 +1192,10 @@ var LocationIndex = _location.LocationIndex;
                     }
 
                     if (!lint.elements.length) {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + " Documentation: " + lint.url);
                     }
                     else {
-                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + '\n', lint.elements);
+                        console.warn("bootlint: %c " + lint.id + " ", background, lint.message + " Documentation: " + lint.url, lint.elements);
                     }
                     errorCount++;
                 };
