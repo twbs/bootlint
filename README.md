@@ -1,4 +1,5 @@
 # Bootlint
+
 [![NPM version](https://img.shields.io/npm/v/bootlint.svg)](https://www.npmjs.com/package/bootlint)
 [![Build Status](https://img.shields.io/travis/twbs/bootlint/master.svg)](https://travis-ci.org/twbs/bootlint)
 [![Coverage Status](https://img.shields.io/coveralls/twbs/bootlint.svg?branch=master)](https://coveralls.io/r/twbs/bootlint)
