@@ -235,7 +235,6 @@ See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for de
 * 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
 * 2014-09-23 - v0.2.0: First formal release. Announcement: <http://blog.getbootstrap.com/2014/09/23/bootlint/>
 
-
 ## License
 
 Copyright (c) 2014-2016 Christopher Rebert. Licensed under the MIT License.
