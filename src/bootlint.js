@@ -17,10 +17,10 @@ var LocationIndex = _location.LocationIndex;
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
+    var COL_REGEX = /\bcol-(xs|sm|md|lg|xl)-(\d{1,2})\b/;
+    var COL_REGEX_G = /\bcol-(xs|sm|md|lg|xl)-(\d{1,2})\b/g;
     var COL_CLASSES = [];
-    var SCREENS = ['xs', 'sm', 'md', 'lg'];
+    var SCREENS = ['xs', 'sm', 'md', 'lg', 'xl'];
     SCREENS.forEach(function (screen) {
         for (var n = 1; n <= NUM_COLS; n++) {
             COL_CLASSES.push('.col-' + screen + '-' + n);
@@ -30,9 +30,10 @@ var LocationIndex = _location.LocationIndex;
         'xs': 0,
         'sm': 1,
         'md': 2,
-        'lg': 3
+        'lg': 3,
+        'xl': 4
     };
-    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
+    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
     var CURRENT_BOOTSTRAP_VERSION = '3.3.6';
