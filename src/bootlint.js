@@ -326,7 +326,10 @@ var LocationIndex = _location.LocationIndex;
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
         if (!charset) {
-            reporter('`<head>` is missing UTF-8 charset `<meta>` tag');
+            meta = $('head>meta[http-equiv="Content-Type"][content="text/html; charset=utf-8"]');
+            if (!meta.length) {
+                reporter('`<head>` is missing UTF-8 charset `<meta>` tag');
+            }
         }
         else if (charset.toLowerCase() !== "utf-8") {
             reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
