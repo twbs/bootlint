@@ -75,6 +75,9 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('charset/utf8.html')),
             [],
             'should not complain when UTF-8 charset <meta> tag is present.');
+        test.deepEqual(lintHtml(utf8Fixture('charset/utf8-meta.html')),
+            [],
+            'should not complain when UTF-8 charset is present in <meta> Content-Type tag');
         test.deepEqual(lintHtml(utf8Fixture('charset/missing.html')),
             ['`<head>` is missing UTF-8 charset `<meta>` tag'],
             'should complain when charset <meta> tag is missing.');
