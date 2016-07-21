@@ -4,13 +4,13 @@
 
 var Deferred = require('bluebird');
 var chalk = require('chalk');
-var program = require('commander');
+var commander = require('commander');
 var readFile = Deferred.promisify(require('fs').readFile);
 var glob = Deferred.promisify(require('glob'));
 var bootlint = require('./bootlint');
 
 module.exports = function () {
-    program
+    var program = (new commander.Command('bootlint'))
         .version(require('../package.json').version)
         .description('Lint the HTML of Bootstrap projects')
         .usage('[options] [files...]')
