@@ -1,7 +1,7 @@
 {
     "sudo": false,
     "language": "node_js",
-    "node_js": ["5"],
+    "node_js": ["6"],
     "before_install": [
         "travis_retry pip install -r test-infra/requirements.txt --user",
         "rvm install 2.2",
