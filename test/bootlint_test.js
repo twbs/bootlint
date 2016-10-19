@@ -16,12 +16,12 @@ function utf8Fixture(name) {
 function utf16Fixture(name) {
     return fs.readFileSync(_fixtureNameToFilepath(name), {encoding: 'utf16le'});
 }
-function lintHtml(html, disabledIds) {
+function lintHtml(html, options) {
     var lints = [];
     var reporter = function (lint) {
         lints.push(lint.message);
     };
-    bootlint.lintHtml(html, reporter, disabledIds || []);
+    bootlint.lintHtml(html, reporter, options || {});
     return lints;
 }
 /*
@@ -434,12 +434,20 @@ exports.bootlint = {
     },
 
     'columns outside of rows and form groups': function (test) {
-        test.expect(3);
+        test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-row.html')),
             [],
             'should not complain when columns are within a row.'
         );
-        test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-form-group.html')),
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-lg-20.html'), {cols: 20}),
+            [],
+            'should not complain when there is own number of grid columns and proper options.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-xlg-10.html'), {screens: ['xxs', 'xlg']}),
+            [],
+            'should not complain when columns have custom screen sizes and proper options.'
+        );
+        test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-form-group.html'), {cols: 12, screens: ['xs', 'sm', 'md', 'lg']}),
             [],
             'should not complain when columns are within a form group.'
         );

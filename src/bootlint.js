@@ -62,6 +62,43 @@ var LocationIndex = _location.LocationIndex;
     ].join(',');
     var WIKI_URL = 'https://github.com/twbs/bootlint/wiki/';
 
+    exports.configure = function (options) {
+        var changed = false;
+
+        if (options.cols) {
+            NUM_COLS = options.cols || NUM_COLS;
+            changed = true;
+        }
+
+        if (options.screens) {
+            if (typeof options.screens === 'string') {
+                options.screens = options.screens.split(',');
+            }
+
+            SCREENS = options.screens;
+            changed = true;
+        }
+
+        if (changed) {
+            SCREEN2NUM = {};
+            NUM2SCREEN = [];
+            COL_CLASSES = [];
+
+            SCREENS.forEach(function (screen, index) {
+                SCREEN2NUM[screen] = index;
+                NUM2SCREEN[index] = screen;
+
+                for (var n = 1; n <= NUM_COLS; n++) {
+                    COL_CLASSES.push('.col-' + screen + '-' + n);
+                }
+            });
+
+            var colPattern = '\\bcol-(' + SCREENS.join('|') + ')-(\\d{1,2})\\b';
+            COL_REGEX = new RegExp(colPattern);
+            COL_REGEX_G = new RegExp(colPattern, 'g');
+        }
+    };
+
     function compareNums(a, b) {
         return a - b;
     }
@@ -1111,7 +1148,8 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
         }
     });
-    exports._lint = function ($, reporter, disabledIdList, html) {
+    exports._lint = function ($, reporter, options, html) {
+        options = options || {};
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {
             if (problem.elements) {
@@ -1127,10 +1165,21 @@ var LocationIndex = _location.LocationIndex;
             reporter(problem);
         } : reporter;
 
+        // Backward compatibility with previous param disabledIdList
+        if (options instanceof Array) {
+            options = {
+                disabledIds: options
+            };
+        }
+
+        this.configure(options);
+
         var disabledIdSet = {};
-        disabledIdList.forEach(function (disabledId) {
-            disabledIdSet[disabledId] = true;
-        });
+        if (options.disabledIds instanceof Array) {
+            options.disabledIds.forEach(function (disabledId) {
+                disabledIdSet[disabledId] = true;
+            });
+        }
         Object.keys(allLinters).sort().forEach(function (linterId) {
             if (!disabledIdSet[linterId]) {
                 allLinters[linterId]($, reporterWrapper);
@@ -1149,12 +1198,15 @@ var LocationIndex = _location.LocationIndex;
          * Lints the given HTML.
          * @param {string} html The HTML to lint
          * @param {reporter} reporter Function to call with each lint problem
-         * @param {string[]} disabledIds Array of string IDs of linters to disable
+         * @param {object} [options] Options object to configure linting
+         * @param {integer} [options.cols] Number of bootstrap columns
+         * @param {string[]} [options.disabledIds=[]] Array of string IDs of linters to disable
+         * @param {string[]} [options.screens=[]] Array of custom screen sizes
          * @returns {undefined} Nothing
          */
-        exports.lintHtml = function (html, reporter, disabledIds) {
+        exports.lintHtml = function (html, reporter, options) {
             var $ = cheerio.load(html, {withStartIndices: true});
-            this._lint($, reporter, disabledIds, html);
+            this._lint($, reporter, options, html);
         };
     }
     else {
@@ -1165,23 +1217,30 @@ var LocationIndex = _location.LocationIndex;
             /**
              * Lints the HTML of the current document.
              * @param {reporter} reporter Function to call with each lint problem
-             * @param {string[]} disabledIds Array of string IDs of linters to disable
+             * @param {object} [options] Options object to configure linting
+             * @param {integer} [options.cols] Number of bootstrap columns
+             * @param {string[]} [options.disabledIds=[]] Array of string IDs of linters to disable
+             * @param {string[]} [options.screens=[]] Array of custom screen sizes
              * @returns {undefined} Nothing
              */
-            exports.lintCurrentDocument = function (reporter, disabledIds) {
-                this._lint($, reporter, disabledIds);
+            exports.lintCurrentDocument = function (reporter, options) {
+                this._lint($, reporter, options);
             };
             /**
              * Lints the HTML of the current document.
              * If there are any lint warnings, one general notification message will be window.alert()-ed to the user.
              * Each warning will be output individually using console.warn().
-             * @param {string[]} disabledIds Array of string IDs of linters to disable
+             * @param {object} [options] Options object to configure linting
+             * @param {integer} [options.cols] Number of bootstrap columns
+             * @param {string[]} [options.disabledIds=[]] Array of string IDs of linters to disable
+             * @param {string[]} [options.screens=[]] Array of custom screen sizes
              * @param {object} [alertOpts] Options object to configure alert()ing
              * @param {boolean} [alertOpts.hasProblems=true] Show one alert() when the first lint problem is found?
              * @param {boolean} [alertOpts.problemFree=true] Show one alert() at the end of linting if the page has no lint problems?
              * @returns {undefined} Nothing
              */
-            exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
+            exports.showLintReportForCurrentDocument = function (options, alertOpts) {
+                options = options || {};
                 alertOpts = alertOpts || {};
                 var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
                 var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
@@ -1207,7 +1266,7 @@ var LocationIndex = _location.LocationIndex;
                     }
                     errorCount++;
                 };
-                this.lintCurrentDocument(reporter, disabledIds);
+                this.lintCurrentDocument(reporter, options);
 
                 if (errorCount > 0) {
                     console.info("bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");

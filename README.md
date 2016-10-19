@@ -61,6 +61,16 @@ $ bootlint << EOF
 EOF
 ```
 
+Customized Bootstrap grid support with options:  
+`--cols` (or `-c`) to set number of columns.  
+`--screens` (or `-s`) which takes a comma-separated list of screen sizes.  
+Here's an example:
+
+```shell
+$ bootlint -c 20 -s xxs,xs,sm,md,lg,xlg /path/to/some/webpage.html another_webpage.html [...]
+```
+
+
 ### In the browser
 
 Use the following [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](https://www.bootstrapcdn.com/bootlint/):
@@ -118,12 +128,18 @@ A ***reporter*** is a function that accepts exactly 1 argument of type `LintWarn
 Bootlint exports a `bootlint` property on the global `window` object.
 In a browser environment, the following public APIs are available:
 
-* `bootlint.lintCurrentDocument(reporter, disabledIds)`: Lints the HTML of the current document and calls the `reporter()` function repeatedly with each lint problem as an argument.
+* `bootlint.lintCurrentDocument(reporter, options)`: Lints the HTML of the current document and calls the `reporter()` function repeatedly with each lint problem as an argument.
   * `reporter` is a *reporter* function (see above for a definition). It will be called repeatedly with each lint problem as an argument.
-  * `disabledIds` is an array of string linter IDs to disable
+  * `options` is an optional object of configuration options
+    * `cols` is number of bootstrap columns
+    * `disabledIds` is an array of string linter IDs to disable
+    * `screens` is an array of custom screen sizes (e.g. `['xxs', 'xs', 'sm', 'md', 'lg', 'xlg']`)
   * Returns nothing (i.e. `undefined`)
 * `bootlint.showLintReportForCurrentDocument(disabledIds, alertOpts)`: Lints the HTML of the current document and reports the linting results to the user. Each warning will be output individually using `console.warn()`.
-  * `disabledIds` is an array of string linter IDs to disable
+  * `options` is an optional object of configuration options
+    * `cols` is number of bootstrap columns
+    * `disabledIds` is an array of string linter IDs to disable
+    * `screens` is an array of custom screen sizes (e.g. `['xxs', 'xs', 'sm', 'md', 'lg', 'xlg']`)
   * `alertOpts` is an optional options object with the following properties:
     * `hasProblems` (type: `boolean`; default: `true`) - `window.alert()` a single general notification message to the user if there are any lint problems?
     * `problemFree` (type: `boolean`; default: `true`) - `window.alert()` a notification message to the user if the document has no lint problems?
@@ -140,15 +156,18 @@ function reporter(lint) {
     console.log(lint.id, lint.message);
 }
 
-bootlint.lintHtml("<!DOCTYPE html><html>...", reporter, []); // calls reporter() repeatedly with each lint problem as an argument
+bootlint.lintHtml("<!DOCTYPE html><html>...", reporter); // calls reporter() repeatedly with each lint problem as an argument
 ```
 
 In a Node.js environment, Bootlint exposes the following public API:
 
-* `bootlint.lintHtml(html, reporter, disabledIds)`: Lints the given HTML for a webpage and returns the linting results.
+* `bootlint.lintHtml(html, reporter, options)`: Lints the given HTML for a webpage and returns the linting results.
   * `html` is the HTML to lint, as a string
   * `reporter` is a *reporter* function (see above for a definition). It will be called repeatedly with each lint problem as an argument.
-  * `disabledIds` is an array of string linter IDs to disable
+  * `options` is an optional object of configuration options
+    * `cols` is number of bootstrap columns
+    * `disabledIds` is an array of string linter IDs to disable
+    * `screens` is an array of custom screen sizes (e.g. `['xxs', 'xs', 'sm', 'md', 'lg', 'xlg']`)
   * Returns nothing (i.e. `undefined`)
 
 ### HTTP API

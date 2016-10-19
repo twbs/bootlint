@@ -17,9 +17,19 @@ module.exports = function () {
         .option('-d, --disable <IDs>', 'Comma-separated list of disabled lint problem IDs', function (val) {
             return val.split(',');
         })
+        .option('-c, --cols <num>', 'Number of grid columns', function (val) {
+            return parseInt(val, 10);
+        })
+        .option('-s, --screens <sizes>', 'Comma-separated list of custom screen sizes', function (val) {
+            return val.split(',');
+        })
         .parse(process.argv);
 
-    var disabledIds = program.disable === undefined ? [] : program.disable;
+    var options = {
+        cols: program.cols,
+        disabledIds: program.disable === undefined ? [] : program.disable,
+        screens: program.screens === undefined ? [] : program.screens
+    };
     var totalErrCount = 0;
     var totalFileCount = 0;
     var lintedFiles = [];
@@ -58,7 +68,7 @@ module.exports = function () {
             });
 
             process.stdin.on('end', function () {
-                bootlint.lintHtml(stdInput.join(''), buildReporter('<stdin>'), disabledIds);
+                bootlint.lintHtml(stdInput.join(''), buildReporter('<stdin>'), options);
                 totalFileCount++;
                 resolve();
             });
@@ -74,7 +84,7 @@ module.exports = function () {
                 });
             })
             .each(function (file) {
-                bootlint.lintHtml(file.contents, buildReporter(file.name), disabledIds);
+                bootlint.lintHtml(file.contents, buildReporter(file.name), options);
                 totalFileCount++;
                 return Deferred.resolve();
             });
