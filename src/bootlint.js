@@ -642,7 +642,7 @@ var LocationIndex = _location.LocationIndex;
         var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function () {
             var parent = $(this).parent();
             while (parent.length) {
-                if (parent.is('.container, .container-fluid')) {
+                if (parent.is('.container, .container-fluid, .modal-body')) {
                     return false;
                 }
                 parent = $(parent).parent();
@@ -650,7 +650,7 @@ var LocationIndex = _location.LocationIndex;
             return true;
         });
         if (rowsOutsideColumnsAndContainers.length) {
-            reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`', rowsOutsideColumnsAndContainers);
+            reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`', rowsOutsideColumnsAndContainers);
         }
     });
     addLinter('E004', function lintNestedContainers($, reporter) {
