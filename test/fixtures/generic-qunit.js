@@ -4,12 +4,12 @@
 (function () {
     'use strict';
 
-    function lintCurrentDoc() {
+    function lintCurrentDoc(options) {
         var lints = [];
         var reporter = function (lint) {
             lints.push(lint.message);
         };
-        bootlint.lintCurrentDocument(reporter, []);
+        bootlint.lintCurrentDocument(reporter, options);
         return lints;
     }
 
@@ -23,7 +23,8 @@
         var expectedLintMsgs = lints.map(function (item) {
             return item.dataset.lint;
         });
-        var actualLintMsgs = lintCurrentDoc();
+        var bootlintOptions = $('#bootlint').data('bootlint-options');
+        var actualLintMsgs = lintCurrentDoc(bootlintOptions);
         assert.deepEqual(actualLintMsgs, expectedLintMsgs);
     });
 })();
