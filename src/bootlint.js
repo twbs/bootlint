@@ -584,9 +584,9 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     addLinter("W016", function lintDisabledClassOnButton($, reporter) {
-        var btnsWithDisabledClass = $('button.btn.disabled, input.btn.disabled');
-        if (btnsWithDisabledClass.length) {
-            reporter("Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.", btnsWithDisabledClass);
+        var enabledBtnsWithDisabledClass = $('button.btn.disabled:not([disabled]), input.btn.disabled:not([disabled])');
+        if (enabledBtnsWithDisabledClass.length) {
+            reporter("Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn't prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.", enabledBtnsWithDisabledClass);
         }
     });
     addLinter("W017", function lintInputsMissingTypeAttr($, reporter) {
