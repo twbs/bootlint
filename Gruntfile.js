@@ -1,7 +1,7 @@
 /*!
  * Bootlint's Gruntfile
  * https://github.com/twbs/bootlint
- * Copyright 2014-2016 The Bootlint Authors
+ * Copyright 2014-2017 The Bootlint Authors
  * Portions Copyright 2013-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootlint/blob/master/LICENSE)
  */
