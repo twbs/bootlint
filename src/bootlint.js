@@ -35,7 +35,7 @@ var LocationIndex = _location.LocationIndex;
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = !!(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';// as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.6';
+    var CURRENT_BOOTSTRAP_VERSION = '3.3.7';
     var BOOTSTRAP_VERSION_4 = '4.0.0';
     var PLUGINS = [
         'affix',
