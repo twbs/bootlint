@@ -7,7 +7,8 @@
         "rvm install 2.2",
         "rvm use 2.2 --fuzzy",
         "export GEMDIR=$(rvm gemdir)",
-        "echo \"ruby=$(basename $GEMDIR) jekyll=$JEKYLL_VERSION\" > pseudo_Gemfile.lock"
+        "echo \"ruby=$(basename $GEMDIR) jekyll=$JEKYLL_VERSION\" > pseudo_Gemfile.lock",
+        "npm install -g npm@3.10.7"
     ],
     "install": [
         "npm install -g grunt-cli",
