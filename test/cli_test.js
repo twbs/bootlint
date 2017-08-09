@@ -53,7 +53,7 @@ exports.bootlint = {
     'Disable tags': function (test) {
         var i = 0;
 
-        sinon.stub(console, 'log', function (message) {
+        sinon.stub(console, 'log').callsFake(function (message) {
             switch (i) {
                 case 0: {
                     test.strictEqual(message, '');
