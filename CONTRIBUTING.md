@@ -6,7 +6,7 @@ Please don't edit files in the `dist` subdirectory as they are generated via Gru
 
 ### Code style
 
-The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations.
+The project's coding style is laid out in the ESLint configuration.
 
 ### PhantomJS
 
