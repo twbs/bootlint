@@ -90,6 +90,6 @@
   "scripts": {
     "test": "grunt test",
     "coveralls": "jscoverage src && BOOTLINT_COV=1 nodeunit --reporter=lcov test | coveralls",
-    "start": "./bin/www"
+    "start": "node ./bin/www"
   }
 }
