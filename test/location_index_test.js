@@ -1,6 +1,6 @@
 'use strict';
 
-var _location = process.env.BOOTLINT_COV === '1' ? require('../src-cov/location.js') : require('../src/location.js');
+var _location = require('../src/location.js');
 var Location = _location.Location;
 var LocationIndex = _location.LocationIndex;
 

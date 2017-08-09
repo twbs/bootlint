@@ -215,9 +215,9 @@ Response:
 
 ## Contributing
 
-The project's coding style is laid out in the ESLint configuration. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+The project's coding style is laid out in the ESLint configuration. Add unit tests for any new or changed functionality. Lint and test your code using the npm scripts..
 
-_Also, please don't edit files in the "dist" subdirectory as they are generated via Grunt. You'll find source code in the "src" subdirectory!_
+_Also, please don't edit files in the "dist" subdirectory as they are generated via `npm run dist`. You'll find the source code in the "src" subdirectory!_
 
 ## Release History
 

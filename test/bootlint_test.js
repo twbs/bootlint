@@ -1,6 +1,6 @@
 'use strict';
 
-var bootlint = process.env.BOOTLINT_COV === '1' ? require('../src-cov/bootlint.js') : require('../src/bootlint.js');
+var bootlint = require('../src/bootlint.js');
 var fs = require('fs');
 var path = require('path');
 

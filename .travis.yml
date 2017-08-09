@@ -9,19 +9,18 @@ node_js:
 before_install:
     - if [[ `npm -v` != 5* ]]; then npm install -g npm@5; fi
 install:
-    - npm install -g grunt-cli
     - npm install
 before_script:
     - git clone --depth 1 https://github.com/twbs/bootstrap.git --branch v3-dev
     - bundle install --deployment --path "$(pwd)/vendor/bundle" --gemfile bootstrap/Gemfile --jobs=3 --retry=3
     - pushd bootstrap && bundle exec jekyll build && popd
 script:
-    - npm test
+    - npm run travis
     - node ./src/cli-main.js --disable W003,W005 "bootstrap/_gh_pages/**/index.html"
     - node ./src/cli-main.js --disable W003,E001 test/fixtures/doctype/missing.html test/fixtures/viewport/missing.html
     - node ./src/cli-main.js test/fixtures/x-ua-compatible/missing.html &> x-ua-compatible-missing.output.actual.txt || true
     - diff test/fixtures/cli/x-ua-compatible-missing.output.txt x-ua-compatible-missing.output.actual.txt
-after_script:
+after_success:
     - npm run coveralls
 matrix:
     fast_finish: true

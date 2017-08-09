@@ -2,7 +2,7 @@
 
 var sinon = require('sinon');
 var rewire = require('rewire');
-var cli = process.env.BOOTLINT_COV === '1' ? rewire('../src-cov/cli.js') : rewire('../src/cli.js');
+var cli = rewire('../src/cli.js');
 
 /*
     ======== A Handy Little Nodeunit Reference ========
