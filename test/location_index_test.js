@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint no-process-env: 0 */
-
 'use strict';
 
 var _location = process.env.BOOTLINT_COV === '1' ? require('../src-cov/location.js') : require('../src/location.js');

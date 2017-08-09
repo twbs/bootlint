@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint no-process-env: 0 */
-
 'use strict';
 
 var bootlint = process.env.BOOTLINT_COV === '1' ? require('../src-cov/bootlint.js') : require('../src/bootlint.js');
