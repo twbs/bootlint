@@ -33,37 +33,44 @@
     "url": "https://github.com/twbs/bootlint.git"
   },
   "license": "MIT",
+  "scripts": {
+    "browserify": "browserify src/bootlint.js | node build/stamp.js > dist/browser/bootlint.js",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "dist": "npm run browserify",
+    "eslint": "eslint \"**/*.js\"",
+    "lint": "npm run eslint",
+    "nodeunit": "nodeunit test",
+    "qunit": "node build/phantom.js",
+    "start": "node ./bin/www",
+    "test": "npm run eslint && npm run dist && npm run nodeunit && npm run qunit",
+    "travis": "nyc npm test"
+  },
   "dependencies": {
     "binary-search": "^1.3.2",
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.17.2",
-    "chalk": "^2.1.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.0",
     "cheerio": "^0.22.0",
     "commander": "^2.11.0",
-    "debug": "^3.0.0",
-    "express": "^4.15.4",
+    "debug": "^3.1.0",
+    "express": "^4.16.2",
     "glob": "^7.1.2",
-    "morgan": "^1.8.2",
+    "morgan": "^1.9.0",
     "semver": "^5.4.1",
     "void-elements": "^3.1.0"
   },
   "devDependencies": {
-    "coveralls": "^2.13.1",
-    "grunt": "^1.0.1",
-    "grunt-banner": "^0.6.0",
-    "grunt-browserify": "^5.0.0",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-nodeunit": "^1.0.0",
-    "grunt-contrib-qunit": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^20.0.0",
+    "async": "^2.6.0",
+    "browserify": "^14.5.0",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.11.0",
     "jquery": "^3.2.1",
-    "jscoverage": "^0.6.0",
-    "load-grunt-tasks": "^3.5.2",
-    "nodeunit": "^0.11.1",
-    "rewire": "^2.5.2",
-    "sinon": "^3.1.0",
-    "time-grunt": "^1.4.0"
+    "node-qunit-phantomjs": "^1.6.1",
+    "nodeunit": "^0.11.2",
+    "nyc": "^11.3.0",
+    "qunitjs": "^2.4.1",
+    "rewire": "^3.0.2",
+    "sinon": "^4.1.2"
   },
   "main": "./src/bootlint.js",
   "bin": {
@@ -77,6 +84,11 @@
     "./src/cli-main.js": false,
     "./src/location.js": false
   },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  },
   "engines": {
     "node": ">=6"
   },
@@ -84,12 +96,6 @@
     "bin",
     "dist",
     "src",
-    "app.js",
-    "LICENSE"
-  ],
-  "scripts": {
-    "test": "grunt test",
-    "coveralls": "jscoverage src && BOOTLINT_COV=1 nodeunit --reporter=lcov test | coveralls",
-    "start": "node ./bin/www"
-  }
+    "app.js"
+  ]
 }

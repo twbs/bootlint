@@ -1,0 +1,8 @@
+/.git/
+/bootstrap/
+/coverage/
+/dist/
+/node_modules/
+/src-cov/
+/test/lib/
+/vendor/
