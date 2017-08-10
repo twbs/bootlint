@@ -1,5 +1,5 @@
-/*eslint-env node, browser */
-/* jshint browser: true */
+/* eslint-env node, browser */
+
 /**
  * Simple lightweight shim of Node.js's `url.parse()`
  * ( http://nodejs.org/docs/latest/api/url.html )

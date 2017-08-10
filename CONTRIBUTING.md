@@ -6,7 +6,7 @@ Please don't edit files in the `dist` subdirectory as they are generated via Gru
 
 ### Code style
 
-The project's coding style is laid out in the JSHint, ESLint, and JSCS configurations.
+The project's coding style is laid out in the ESLint configuration.
 
 ### PhantomJS
 
@@ -31,8 +31,7 @@ Assuming that you don't see any red, you're ready to go. Just be sure to run `gr
 3. Fix stuff.
 4. Run `grunt` to see if the tests pass. Repeat steps 2-4 until done.
 5. Update the documentation to reflect any changes.
-6. If you upgraded or added any dependencies in `package.json`, run `grunt update-shrinkwrap` and (in a separate commit) commit the updated `/test-infra/npm-shrinkwrap.json` file. This updates the package versions used by the Travis CI build.
-7. Push to your fork and submit a pull request.
+6. Push to your fork and submit a pull request.
 
 ### Licensing
 

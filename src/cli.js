@@ -1,16 +1,16 @@
-/*eslint-env node */
-/*eslint no-process-exit: 0 */
+/* eslint-env node */
+/* eslint no-process-exit: 0 */
 'use strict';
 
 var Deferred = require('bluebird');
 var chalk = require('chalk');
-var program = require('commander');
+var commander = require('commander');
 var readFile = Deferred.promisify(require('fs').readFile);
 var glob = Deferred.promisify(require('glob'));
 var bootlint = require('./bootlint');
 
 module.exports = function () {
-    program
+    var program = (new commander.Command('bootlint'))
         .version(require('../package.json').version)
         .description('Lint the HTML of Bootstrap projects')
         .usage('[options] [files...]')
@@ -26,25 +26,25 @@ module.exports = function () {
 
     function buildReporter(origin) {
         return function (lint) {
-            var lintId = (lint.id[0] === 'E') ? chalk.bgGreen.white(lint.id) : chalk.bgRed.white(lint.id);
+            var lintId = lint.id[0] === 'E' ? chalk.bgGreen.white(lint.id) : chalk.bgRed.white(lint.id);
             var output = false;
             if (lint.elements) {
                 lint.elements.each(function (_, element) {
                     var loc = element.startLocation;
-                    console.log(origin + ":" + (loc.line + 1) + ":" + (loc.column + 1), lintId, lint.message);
+                    console.log(origin + ':' + (loc.line + 1) + ':' + (loc.column + 1), lintId, lint.message);
                     totalErrCount++;
                     output = true;
                 });
             }
             if (!output) {
-                console.log(origin + ":", lintId, lint.message);
+                console.log(origin + ':', lintId, lint.message);
                 totalErrCount++;
             }
         };
     }
 
     function handleStdin() {
-        return new Deferred(function (resolve) {
+        return new Deferred(function (resolve) {    // eslint-disable-line consistent-return
             if (process.stdin.isTTY) {
                 return resolve();
             }
@@ -89,13 +89,13 @@ module.exports = function () {
     });
 
     Deferred.all(lintedFiles).then(function () {
-        console.log("");
+        console.log('');
 
         if (totalErrCount > 0) {
-            console.log("For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki");
+            console.log('For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki');
         }
 
-        console.log("" + totalErrCount + " lint error(s) found across " + totalFileCount + " file(s).");
+        console.log(String(totalErrCount) + ' lint error(s) found across ' + totalFileCount + ' file(s).');
 
         if (totalErrCount) {
             process.exit(1);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Test</title>
@@ -17,14 +17,7 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <p>
-            <input type="checkbox" name="isAwesome" value="Yes" class="form-control" /> Awesome?
-        </p>
-
         <div id="qunit"></div>
-        <ol id="bootlint">
-            <li data-lint="`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`"></li>
-            <li data-lint='Checkboxes must use either the `.checkbox>label>input[type="checkbox"]` structure, or the `label.checkbox-inline>input[type="checkbox"]` structure'></li>
-        </ol>
+        <ol id="bootlint"></ol>
     </body>
 </html>

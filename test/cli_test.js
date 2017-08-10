@@ -1,11 +1,8 @@
-/*eslint-env node */
-/*eslint no-process-env: 0 */
-
 'use strict';
 
 var sinon = require('sinon');
 var rewire = require('rewire');
-var cli = (process.env.BOOTLINT_COV === '1') ? rewire('../src-cov/cli.js') : rewire('../src/cli.js');
+var cli = process.env.BOOTLINT_COV === '1' ? rewire('../src-cov/cli.js') : rewire('../src/cli.js');
 
 /*
     ======== A Handy Little Nodeunit Reference ========
@@ -38,14 +35,14 @@ function rAfter() {
 }
 
 exports.bootlint = {
-    setUp: function (done) {
+    'setUp': function (done) {
         oldTTY = process.stdin.isTTY;
 
         sinon.stub(process.stdout, 'write');
         sinon.stub(process.stderr, 'write');
         done();
     },
-    tearDown: function (done) {
+    'tearDown': function (done) {
         process.stdin.isTTY = oldTTY;
         process.chdir(startingDir);
 
@@ -56,7 +53,7 @@ exports.bootlint = {
     'Disable tags': function (test) {
         var i = 0;
 
-        sinon.stub(console, 'log', function (message) {
+        sinon.stub(console, 'log').callsFake(function (message) {
             switch (i) {
                 case 0: {
                     test.strictEqual(message, '');
@@ -66,6 +63,7 @@ exports.bootlint = {
                     test.strictEqual(message, '0 lint error(s) found across 0 file(s).');
                     break;
                 }
+                // no default
             }
 
             i++;

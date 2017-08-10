@@ -1,22 +1,22 @@
 {
     "sudo": false,
+    "dist": "trusty",
     "language": "node_js",
-    "node_js": ["5"],
+    "node_js": ["4", "8"],
     "before_install": [
-        "travis_retry pip install -r test-infra/requirements.txt --user",
-        "rvm install 2.2",
-        "rvm use 2.2 --fuzzy",
-        "export GEMDIR=$(rvm gemdir)",
-        "echo \"ruby=$(basename $GEMDIR) jekyll=$JEKYLL_VERSION\" > pseudo_Gemfile.lock"
+        "if [[ `npm -v` != 5* ]]; then npm install -g npm@5; fi"
     ],
     "install": [
         "npm install -g grunt-cli",
-        "./test-infra/s3_cache.py download npm-modules",
-        "./test-infra/s3_cache.py download rubygems"
+        "npm install",
+        "bundle install --deployment --jobs=3 --retry=3"
     ],
     "before_script": [
-        "git clone --depth 1 https://github.com/twbs/bootstrap.git",
+        "git clone --depth 1 https://github.com/twbs/bootstrap.git --branch v3-dev",
         "pushd bootstrap && jekyll build; popd"
+    ],
+    "matrix": [
+        "fast_finish": true
     ],
     "script": [
         "npm test",
@@ -26,16 +26,12 @@
         "diff test/fixtures/cli/x-ua-compatible-missing.output.txt x-ua-compatible-missing.output.actual.txt"
     ],
     "after_script": [
-        "npm run coveralls",
-        "./test-infra/s3_cache.py upload npm-modules",
-        "./test-infra/s3_cache.py upload rubygems"
+        "npm run coveralls"
     ],
-    "env": {
-        "global": [
-            {"JEKYLL_VERSION": "3.1.2"},
-            {"secure": "dRdiG/5UykFAVW6GWWcaNHGSPy16PiCeF9XySPDdCSbw+pI2zqE8VNyXgn1kORhLFsKjdIQaLnmFWR1Xw7sP59zpnIRUkZ77spw7hKNf1RlAv3uckE8LFxO1FkMFNOlSHgmCXnyseUNGMDL/lIBMCLfsTOlc6KvbQir7pz+TDwM="},
-            {"secure": "Ej9x2sBilYq9Wr86j7NujcPN0qAMHgUzjB9tX0vN90nKOPfAmWWcO9omFzwkuH0VZkZmauK/YQlEqKhx99quVwRHctu0LhZRnBgaCnsGp6CnRorFW4IKZwJSM38BF9XXvCCnQtz6PyItpE+ycbpFI0MHvs0H3BXFmwifvY/Q4/Y="},
-            {"secure": "Oq9mxJduZiy0oZmKlg3kkFFWlBTuCynRpZoz0SyG3hHt2uipWfXlm0AlpcjU6jB6g8kNtGF4ZA5uGiMUePSOfK0RveYQa95ixUY6VrbuAIzdDtz/rbMajtGCVpMBgOf5o33rEfocwgADE/i1lE1JJeNjdUBsO1Iyron1ZiT52mE="}
+    "cache": {
+        "directories": [
+            "node_modules",
+            "vendor/bundle"
         ]
     }
 }

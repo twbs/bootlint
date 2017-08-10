@@ -17,14 +17,20 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <p>
-            <input type="checkbox" name="isAwesome" value="Yes" class="form-control" /> Awesome?
-        </p>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
 
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+            </div>
+        </form>
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.form-control` cannot be used on non-textual `<input>`s, such as those whose `type` is: `file`, `checkbox`, `radio`, `range`, `button`"></li>
-            <li data-lint='Checkboxes must use either the `.checkbox>label>input[type="checkbox"]` structure, or the `label.checkbox-inline>input[type="checkbox"]` structure'></li>
+            <li data-lint="`.form-group`s should not be nested."></li>
         </ol>
     </body>
 </html>
