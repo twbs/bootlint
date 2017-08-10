@@ -1099,7 +1099,7 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
         }
     });
-    addLinter("E050", function lintNestedFormGroups($, reporter) {
+    addLinter('E050', function lintNestedFormGroups($, reporter) {
         var nestedFormGroups = $('.form-group > .form-group');
         if (nestedFormGroups.length) {
             reporter('`.form-group`s should not be nested.', nestedFormGroups);
