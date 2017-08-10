@@ -4,7 +4,7 @@ Run it via: npm run start
 This is pretty niche. Most users should probably use the CLI or bookmarklet instead.
 */
 
-/*eslint-env node */
+/* eslint-env node */
 
 'use strict';
 
@@ -61,12 +61,15 @@ function lintsFor(html, disabledIds) {
 }
 
 
-/*eslint-disable new-cap */
+/* eslint-disable new-cap */
 var routes = express.Router();
-/*eslint-enable new-cap */
+/* eslint-enable new-cap */
 
 routes.get('/', function (req, res) {
-    res.status(200).json({status: 200, message: 'Bootlint is online!'});
+    res.status(200).json({
+        status: 200,
+        message: 'Bootlint is online!'
+    });
 });
 
 routes.post('/', function (req, res) {
@@ -74,7 +77,11 @@ routes.post('/', function (req, res) {
         return req.is(type);
     });
     if (!isHtml) {
-        res.status(415).json({status: 415, message: 'Unsupported Media Type', details: 'Content-Type was not an HTML MIME type'});
+        res.status(415).json({
+            status: 415,
+            message: 'Unsupported Media Type',
+            details: 'Content-Type was not an HTML MIME type'
+        });
         return;
     }
 
@@ -82,12 +89,16 @@ routes.post('/', function (req, res) {
         'application/json': function () {
             var disabledIds = disabledIdsFor(req);
             var html = req.body;
-            // console.log("HTML: ", html);
+            // console.log('HTML: ', html);
             var lints = lintsFor(html, disabledIds);
             res.status(200).json(lints);
         },
         'default': function () {
-            res.status(406).json({status: 406, message: 'Not Acceptable', details: '"Accept" header must allow MIME type application/json'});
+            res.status(406).json({
+                status: 406,
+                message: 'Not Acceptable',
+                details: '"Accept" header must allow MIME type application/json'
+            });
         }
     });
 });
@@ -97,7 +108,10 @@ var app = express();
 
 app.use(logger('dev'));
 HTML_MIME_TYPES.forEach(function (type) {
-    app.use(bodyParser.text({type: type, limit: MAX_HTML_SIZE}));
+    app.use(bodyParser.text({
+        type: type,
+        limit: MAX_HTML_SIZE
+    }));
 });
 
 app.use('/', routes);
@@ -114,9 +128,9 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 
-/*eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 app.use(function (err, req, res, next) {
-    var isHttpErr = !!err.status;
+    var isHttpErr = Boolean(err.status);
 
     if (!isHttpErr) {
         err.status = 500;
@@ -132,7 +146,7 @@ app.use(function (err, req, res, next) {
 
     res.status(err.status).json(errJson);
 });
-/*eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars */
 
 
 module.exports = app;

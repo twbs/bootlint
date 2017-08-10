@@ -1,4 +1,4 @@
-/*eslint-env node */
+/* eslint-env node */
 var binarySearch = require('binary-search');
 
 (function () {
@@ -39,7 +39,7 @@ var binarySearch = require('binary-search');
         var nextLineIndex = 1;
         var charIndex = 0;
         while (charIndex < string.length) {
-            charIndex = string.indexOf("\n", charIndex);
+            charIndex = string.indexOf('\n', charIndex);
             if (charIndex === -1) {
                 /* @covignore */
                 break;
@@ -66,13 +66,12 @@ var binarySearch = require('binary-search');
         var index = binarySearch(this._lineStartEndTriples, charIndex, function (bucket, needle) {
             if (needle < bucket[1]) {
                 return 1;
-            }
-            else if (needle >= bucket[2]) {
+            } else if (needle >= bucket[2]) {
                 return -1;
             }
-            else {
-                return 0;
-            }
+
+            return 0;
+
         });
         if (index < 0) { // binarySearch returns a negative number (but not necessarily -1) when match not found
             /* @covignore */

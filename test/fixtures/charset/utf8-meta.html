@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Test</title>
@@ -10,11 +10,6 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="../../lib/jquery.min.js"></script>
-        <script>
-        (function () {
-            window.$.fn.modal = { Constructor: { VERSION: '3.2.0' } };
-        })();
-        </script>
 
         <link rel="stylesheet" href="../../lib/qunit.css">
         <script src="../../lib/qunit.js"></script>
@@ -23,8 +18,6 @@
     </head>
     <body>
         <div id="qunit"></div>
-        <ol id="bootlint">
-            <li data-lint="Bootstrap version might be outdated. Latest version is at least 3.3.7 ; saw what appears to be usage of Bootstrap 3.2.0"></li>
-        </ol>
+        <ol id="bootlint"></ol>
     </body>
 </html>

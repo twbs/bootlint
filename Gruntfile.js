@@ -1,20 +1,20 @@
 /*!
  * Bootlint's Gruntfile
  * https://github.com/twbs/bootlint
- * Copyright 2014-2015 Christopher Rebert
+ * Copyright 2014-2017 The Bootlint Authors
  * Portions Copyright 2013-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootlint/blob/master/LICENSE)
  */
-/*eslint-env node */
+
+/* eslint-env node */
+/* eslint indent: [2, 2] */
+
+'use strict';
 
 module.exports = function (grunt) {
-  'use strict';
 
   // Force use of Unix newlines
   grunt.util.linefeed = '\n';
-
-  var fs = require('fs');
-  var npmShrinkwrap = require('npm-shrinkwrap');
 
   // Load all grunt tasks
   require('load-grunt-tasks')(grunt);
@@ -25,13 +25,11 @@ module.exports = function (grunt) {
   grunt.initConfig({
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
-    banner: (
-      "/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
-      " * <%= pkg.description %>\n" +
-      " * Copyright (c) 2014-2016 Christopher Rebert\n" +
-      " * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n" +
-      " */\n"
-    ),
+    banner: '/*!\n * Bootlint v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+      ' * <%= pkg.description %>\n' +
+      ' * Copyright (c) 2014-2016 The Bootlint Authors\n' +
+      ' * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).\n' +
+      ' */\n',
     // Task configuration.
     browserify: {
       dist: {
@@ -56,9 +54,9 @@ module.exports = function (grunt) {
       },
       files: ['test/fixtures/**/*.html', '!test/fixtures/jquery/missing.html', '!test/fixtures/jquery/and_bs_js_both_missing.html', '!test/fixtures/charset/not-utf8.html']
     },
-    jshint: {
+    eslint: {
       options: {
-        jshintrc: '.jshintrc'
+        config: '.eslintrc'
       },
       web: {
         src: ['app.js', 'bin/www']
@@ -73,80 +71,25 @@ module.exports = function (grunt) {
         src: ['test/**/*.js', '!test/lib/**/*.js']
       }
     },
-    jscs: {
-      web: {
-        src: '<%= jshint.web.src %>'
-      },
-      gruntfile: {
-        src: '<%= jshint.gruntfile.src %>',
-        options: {
-          validateIndentation: 2
-        }
-      },
-      lib: {
-        src: '<%= jshint.lib.src %>'
-      },
-      test: {
-        src: '<%= jshint.test.src %>'
-      }
-    },
-    eslint: {
-      options: {
-        config: '.eslintrc'
-      },
-      web: {
-        src: '<%= jshint.web.src %>'
-      },
-      gruntfile: {
-        src: '<%= jshint.gruntfile.src %>'
-      },
-      lib: {
-        src: '<%= jshint.lib.src %>'
-      },
-      test: {
-        src: '<%= jshint.test.src %>'
-      }
-    },
     watch: {
       gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
+        files: '<%= eslint.gruntfile.src %>',
+        tasks: ['eslint:gruntfile']
       },
       lib: {
-        files: '<%= jshint.lib.src %>',
-        tasks: ['jshint:lib', 'nodeunit']
+        files: '<%= eslint.lib.src %>',
+        tasks: ['eslint:lib', 'nodeunit']
       },
       test: {
-        files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
-      }
-    },
-    exec: {
-      npmUpdate: {
-        command: 'npm update'
+        files: '<%= eslint.test.src %>',
+        tasks: ['eslint:test', 'nodeunit']
       }
     }
   });
 
   // Tasks
-  grunt.registerTask('lint', ['jshint', 'jscs', 'eslint']);
+  grunt.registerTask('lint', 'eslint');
   grunt.registerTask('dist', ['browserify', 'usebanner']);
   grunt.registerTask('test', ['lint', 'dist', 'nodeunit', 'qunit']);
   grunt.registerTask('default', ['test']);
-
-  // Task for updating the cached npm packages used by the Travis build (which are controlled by test-infra/npm-shrinkwrap.json).
-  // This task should be run and the updated file should be committed whenever Bootstrap's dependencies change.
-  grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
-  grunt.registerTask('_update-shrinkwrap', function () {
-    var done = this.async();
-    npmShrinkwrap({dev: true, dirname: __dirname}, function (err) {
-      if (err) {
-        grunt.fail.warn(err);
-      }
-      var dest = 'test-infra/npm-shrinkwrap.json';
-      fs.renameSync('npm-shrinkwrap.json', dest);
-      grunt.log.writeln('File ' + dest.cyan + ' updated.');
-      done();
-    });
-  });
 };
