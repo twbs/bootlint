@@ -32,6 +32,10 @@ function rAfter() {
     if (process.stderr.write.restore) {
         process.stderr.write.restore();
     }
+
+    if (console.log.restore) {
+        console.log.restore();
+    }
 }
 
 exports.bootlint = {
