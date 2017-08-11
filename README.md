@@ -62,6 +62,7 @@ EOF
 ```
 
 ### In the browser
+
 Bootlint can run directly in the browser! This is accomplished by using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet), which appends bootlint to the body of the active page. There are a few nice benefits of running bootlint directly in the browser. They include:
 
 1. Evaluating page markup after AJAX requests complete.
@@ -69,6 +70,7 @@ Bootlint can run directly in the browser! This is accomplished by using a [bookm
 3. Evaluating pages/sites that do not have a build script.
 
 #### How to install the bookmarklet
+
 Please follow the instructions below to get up and running:
 
 1. Create a new bookmark in your browser
@@ -82,15 +84,18 @@ javascript:(function(){var s=document.createElement("script");s.onload=function(
 Note: The snippet above will ensure you are always running the latest version of bootlint. If you want to reference a specific version of bootlint please see the [BootstrapCDN](https://www.bootstrapcdn.com/bootlint/). Copy the URL and update `s.src=“PASTE-ME-HERE”`.
 
 #### How to use the bookmarklet
+
 1. Click the bookmark you created above
 2. A popup will appear informing you if issues were detected
 3. If issues exist, please open the developer tools and select the console tab
 
 #### Alternative Options
 ##### Browser ready script
+
 You can manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
 
 ##### Third-party service
+
 Bootlint is also available as a unofficial third-party web service at [bootlint.com](http://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](https://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommended way to use Bootlint.
 
 ## Lint problem explanations
