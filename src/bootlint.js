@@ -1105,6 +1105,38 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.form-group`s should not be nested.', nestedFormGroups);
         }
     });
+    addLinter('E051', function lintColumnsNoFloats($, reporter) {
+        var pullSelector = COL_CLASSES.map(function (col) {
+            return '.pull-left' + col + ',.pull-right' + col;
+        }).join(',');
+        var pulledCols = $(pullSelector);
+        if (pulledCols.length) {
+            reporter('`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements', pulledCols);
+        }
+        var styledSelector = COL_CLASSES.map(function (col) {
+            return col + '[style]';
+        }).join(',');
+        var styledCols = $(styledSelector).filter(function (i, el) {
+            //test for `float:*` in the style attribute
+            return /float\s*:\s*[a-z]+/i.test($(el).attr('style'));
+        });
+        if (styledCols.length) {
+            reporter('Manually added `float` styles must not be added on `.col-*-*` elements', styledCols);
+        }
+    });
+    addLinter('E052', function lintRowsNoFloats($, reporter) {
+        var pulledRows = $('.row.pull-right, .row.pull-left');
+        if (pulledRows.length) {
+            reporter('`.pull-right` and `.pull-left` must not be used on `.row` elements', pulledRows);
+        }
+        var styledRows = $('.row[style]').filter(function (i, el) {
+            //test for `float:*` in the style attribute
+            return /float\s*:\s*[a-z]+/i.test($(el).attr('style'));
+        });
+        if (styledRows.length) {
+            reporter('Manually added `float` styles must not be added on `.row` elements', styledRows);
+        }
+    });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ? function (problem) {

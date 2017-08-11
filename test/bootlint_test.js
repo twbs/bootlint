@@ -955,5 +955,27 @@ exports.bootlint = {
             'should complain when form-groups are nested'
         );
         test.done();
+    },
+    '.pull-right/left classes and manual float styles not allowed on .col-*-*': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-no-float.html')),
+            [
+                '`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements',
+                'Manually added `float` styles must not be added on `.col-*-*` elements'
+            ],
+            'should complain about a `.pull-right/.pull-left` classes on `.col-*-*` AND manual `style="float:left;"/style="float:right;"` on a `.col-*-*`'
+        );
+        test.done();
+    },
+    '.pull-right/left classes and manual float styles not allowed on .row': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('grid/row-no-float.html')),
+            [
+                '`.pull-right` and `.pull-left` must not be used on `.row` elements',
+                'Manually added `float` styles must not be added on `.row` elements'
+            ],
+            'should complain about a `.pull-right/.pull-left` classes on `.row` AND manual `style="float:left;"/style="float:right;"` on a `.row`'
+        );
+        test.done();
     }
 };
