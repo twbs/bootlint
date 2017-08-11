@@ -21,9 +21,10 @@ Bootlint assumes that your webpage is already valid HTML5. If you need to check 
 Bootlint assumes that you are using Bootstrap's default class names in your webpage, as opposed to taking advantage of the "mixins" functionality of Less or Sass to map them to custom class names. If you are using mixins, Bootlint may report some false-positive warnings. However, there are some Bootlint checks that are applicable even if you are using mixins pervasively.
 
 ## Getting Started
+
 ### Via Grunt
 
-To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint)
+To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint).
 
 ### Via Gulp
 
@@ -36,7 +37,7 @@ Install the module with: `npm install -g bootlint`
 Run it on some HTML files:
 
 ```shell
-$ bootlint /path/to/some/webpage.html another_webpage.html [...]
+bootlint /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 This will output the lint warnings applicable to each file.
@@ -44,34 +45,58 @@ This will output the lint warnings applicable to each file.
 The CLI also accepts a `--disable` (or `-d`) option to disable certain lint checks. `--disable` takes a comma-separated list of [lint problem IDs](https://github.com/twbs/bootlint/wiki). Here's an example:
 
 ```shell
-$ bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
+bootlint -d W002,E020 /path/to/some/webpage.html another_webpage.html [...]
 ```
 
 The CLI will also process `stdin` input which means that you can pipe into Bootlint:
 
 ```shell
-$ cat mypage.html | bootlint
+cat mypage.html | bootlint
 ```
 
 Or you could use a heredoc (mostly useful for quick testing):
 
 ```shell
-$ bootlint << EOF
+bootlint << EOF
 <button class="btn btn-default">Is this correct Bootstrap markup, Bootlint?</button>
 EOF
 ```
 
 ### In the browser
 
-Use the following [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that's powered by [BootstrapCDN](https://www.bootstrapcdn.com/bootlint/):
+Bootlint can run directly in the browser! This is accomplished by using a [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet), which appends bootlint to the body of the active page. There are a few nice benefits of running bootlint directly in the browser. They include:
+
+1. Evaluating page markup after AJAX requests complete.
+2. Evaluating pages that are dynamically created server-side (ex: CMS).
+3. Evaluating pages/sites that do not have a build script.
+
+#### How to install the bookmarklet
+
+Please follow the instructions below to get up and running:
+
+1. Create a new bookmark in your browser
+2. Set the name/title equal to something that is easy to remember. Ex: Run Bootlint
+3. Set the URL equal to
 
 ```js
 javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 
-Then check the JavaScript console for lint warning messages.
+Note: The snippet above will ensure you are always running the latest version of bootlint. If you want to reference a specific version of bootlint please see the [BootstrapCDN](https://www.bootstrapcdn.com/bootlint/). Copy the URL and update `s.src="PASTE-ME-HERE"`.
 
-You can also manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
+#### How to use the bookmarklet
+
+1. Click the bookmark you created above
+2. A popup will appear informing you if issues were detected
+3. If issues exist, please open the developer tools and select the console tab
+
+#### Alternative Options
+
+##### Browser ready script
+
+You can manually download [the browser-ready version of Bootlint](https://github.com/twbs/bootlint/blob/master/dist/browser/bootlint.js).
+
+##### Third-party service
 
 Bootlint is also available as a unofficial third-party web service at [bootlint.com](http://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](https://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommended way to use Bootlint.
 
