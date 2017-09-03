@@ -491,21 +491,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.');
         }
     });
-    addLinter('W012', function lintNavbarContainers($, reporter) {
-        var navBars = $('.navbar');
-        var containers = [
-            '.container',
-            '.container-fluid'
-        ].join(',');
-        navBars.each(function () {
-            var navBar = $(this);
-            var hasContainerChildren = Boolean(navBar.children(containers).length);
-
-            if (!hasContainerChildren) {
-                reporter('`.navbar`\'s first child element should always be either `.container` or `.container-fluid`', navBar);
-            }
-        });
-    });
     addLinter('W013', function lintOutdatedBootstrap($, reporter) {
         var OUTDATED_BOOTSTRAP = 'Bootstrap version does not seem to match the version this bootlint version is for (' + CURRENT_BOOTSTRAP_VERSION + '); saw what appears to be usage of Bootstrap ';
         var theWindow = getBrowserWindowObject();
