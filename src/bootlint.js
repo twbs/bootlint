@@ -32,9 +32,8 @@ var LocationIndex = _location.LocationIndex;
     };
     var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
     var IN_NODE_JS = Boolean(cheerio.load);
-    var MIN_JQUERY_VERSION = '1.9.1';   // as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.7';
-    var BOOTSTRAP_VERSION_4 = '4.0.0';
+    var MIN_JQUERY_VERSION = '3.2.1';
+    var CURRENT_BOOTSTRAP_VERSION = '4.0.0';
     var PLUGINS = [
         'affix',
         'alert',
@@ -508,7 +507,7 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     addLinter('W013', function lintOutdatedBootstrap($, reporter) {
-        var OUTDATED_BOOTSTRAP = 'Bootstrap version might be outdated. Latest version is at least ' + CURRENT_BOOTSTRAP_VERSION + ' ; saw what appears to be usage of Bootstrap ';
+        var OUTDATED_BOOTSTRAP = 'Bootstrap version does not seem to match the version this bootlint version is for (' + CURRENT_BOOTSTRAP_VERSION + '); saw what appears to be usage of Bootstrap ';
         var theWindow = getBrowserWindowObject();
         var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
         /* @covignore */
@@ -543,34 +542,6 @@ var LocationIndex = _location.LocationIndex;
 
             if (!carousel.length || carousel.is(':not(.carousel)')) {
                 reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
-            }
-        });
-    });
-    addLinter('W015', function lintNewBootstrap($, reporter) {
-        var FUTURE_VERSION_ERROR = 'Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.';
-        var theWindow = getBrowserWindowObject();
-
-        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        /* @covignore */
-        if (globaljQuery) {
-            var versions = jqueryPluginVersions(globaljQuery);
-            if (versions.length) {
-                var minVersion = versions[0];
-                if (semver.gte(minVersion, BOOTSTRAP_VERSION_4, true)) {
-                    reporter(FUTURE_VERSION_ERROR);
-                    return;
-                }
-            }
-        }
-        // check for Bootstrap <link>s and <script>s
-        var bootstraps = $(BOOTSTRAP_FILES);
-        bootstraps.each(function () {
-            var version = versionInLinkedElement($, this);
-            if (version === null) {
-                return;
-            }
-            if (semver.gte(version, BOOTSTRAP_VERSION_4, true)) {
-                reporter(FUTURE_VERSION_ERROR, $(this));
             }
         });
     });
