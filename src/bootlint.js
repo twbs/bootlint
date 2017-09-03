@@ -15,27 +15,27 @@ var LocationIndex = _location.LocationIndex;
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
+    var COL_REGEX = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/;
+    var COL_REGEX_G = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/g;
     var COL_CLASSES = [];
-    var SCREENS = ['xs', 'sm', 'md', 'lg'];
+    var SCREENS = ['', 'sm', 'md', 'lg', 'xl'];
     SCREENS.forEach(function (screen) {
-        for (var n = 1; n <= NUM_COLS; n++) {
-            COL_CLASSES.push('.col-' + screen + '-' + n);
+        for (var n = -1; n <= NUM_COLS; n++) {
+            COL_CLASSES.push('.col' + (screen || '-' + screen) + (n < 0 ? '' : '-' + (n || 'auto')));
         }
     });
     var SCREEN2NUM = {
-        xs: 0,
+        '': 0,
         sm: 1,
         md: 2,
-        lg: 3
+        lg: 3,
+        xl: 4
     };
-    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
+    var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
     var MIN_JQUERY_VERSION = '3.2.1';
-    var CURRENT_BOOTSTRAP_VERSION = '4.0.0';
+    var CURRENT_BOOTSTRAP_VERSION = '4.0.0-beta';
     var PLUGINS = [
-        'affix',
         'alert',
         'button',
         'carousel',
@@ -333,15 +333,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
         }
     });
-    addLinter('W002', function lintXUaCompatible($, reporter) {
-        var meta = $([
-            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
-            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
-        ].join(','));
-        if (!meta.length) {
-            reporter('`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes');
-        }
-    });
     addLinter('W003', function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
@@ -351,7 +342,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('W004', function lintRemoteModals($, reporter) {
         var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
         if (remoteModalTriggers.length) {
-            reporter('Found one or more modals using the deprecated `remote` option', remoteModalTriggers);
+            reporter('Found one or more modals using the removed `remote` option', remoteModalTriggers);
         }
     });
     addLinter('W005', function lintJquery($, reporter) {
@@ -678,19 +669,19 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E013', function lintRowChildrenAreCols($, reporter) {
-        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix', '.bs-customizer-input']);
+        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix']);
         var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            reporter('Only columns (`.col-*-*`) may be children of `.row`s', nonColRowChildren);
+            reporter('Only columns (`.col*`) may be children of `.row`s', nonColRowChildren);
         }
     });
     addLinter('E014', function lintColParentsAreRowsOrFormGroups($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row):not(.form-group)>' + colClass + ':not(col):not(th):not(td)';
+            return '*:not(.row)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
@@ -839,7 +830,7 @@ var LocationIndex = _location.LocationIndex;
 
                     // remove redundant classes
                     for (var screenNum = min + 1; screenNum <= max; screenNum++) {
-                        var colClass = 'col-' + NUM2SCREEN[screenNum] + '-' + width;
+                        var colClass = 'col' + (NUM2SCREEN[screenNum] || '-' + NUM2SCREEN[screenNum]) + '-' + width;
                         simplifiedClasses = withoutClass(simplifiedClasses, colClass);
                     }
                 }
