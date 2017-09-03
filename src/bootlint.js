@@ -804,12 +804,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.panel-title` must have a `.panel-heading` parent', badPanelTitle);
         }
     });
-    addLinter('E027', function lintTableResponsive($, reporter) {
-        var badStructure = $('.table.table-responsive, table.table-responsive');
-        if (badStructure.length) {
-            reporter('`.table-responsive` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself', badStructure);
-        }
-    });
     addLinter('E028', function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
         var ancestorsMissingClasses = $('.form-control-feedback').filter(function () {
             return $(this).closest('.form-group.has-feedback').length !== 1;
