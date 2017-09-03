@@ -695,7 +695,7 @@ var LocationIndex = _location.LocationIndex;
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            reporter('Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s', colsOutsideRowsAndFormGroups);
+            reporter('Columns (`.col*`) can only be children of `.row`s', colsOutsideRowsAndFormGroups);
         }
     });
     addLinter('E015', function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
