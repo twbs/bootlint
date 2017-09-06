@@ -664,20 +664,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Columns (`.col*`) can only be children of `.row`s', colsOutsideRowsAndFormGroups);
         }
     });
-    addLinter('E015', function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
-        var addOnClasses = ['.input-group-addon', '.input-group-btn'];
-        var combos = [];
-        addOnClasses.forEach(function (first) {
-            addOnClasses.forEach(function (second) {
-                combos.push('.input-group>' + first + '+' + second);
-            });
-        });
-        var selector = combos.join(',');
-        var multipleAddOns = $(selector);
-        if (multipleAddOns.length) {
-            reporter('Having multiple add-ons on a single side of an input group is not supported', multipleAddOns);
-        }
-    });
     addLinter('E016', function lintBtnToggle($, reporter) {
         var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
         if (badBtnToggle.length) {
