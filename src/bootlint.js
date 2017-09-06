@@ -476,12 +476,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="' + colClasses + '"` , just add `class="' + offsetClasses + '"` to the next grid column.', column);
         });
     });
-    addLinter('W010', function lintMediaPulls($, reporter) {
-        var mediaPulls = $('.media>.pull-left, .media>.pull-right');
-        if (mediaPulls.length) {
-            reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.');
-        }
-    });
     addLinter('W013', function lintOutdatedBootstrap($, reporter) {
         var OUTDATED_BOOTSTRAP = 'Bootstrap version does not seem to match the version this bootlint version is for (' + CURRENT_BOOTSTRAP_VERSION + '); saw what appears to be usage of Bootstrap ';
         var theWindow = getBrowserWindowObject();
@@ -569,17 +563,6 @@ var LocationIndex = _location.LocationIndex;
         };
 
     })());
-    addLinter('E002', function lintBootstrapv2($, reporter) {
-        var columnClasses = [];
-        for (var n = 1; n <= 12; n++) {
-            columnClasses.push('.span' + n);
-        }
-        var selector = columnClasses.join(',');
-        var spanNs = $(selector);
-        if (spanNs.length) {
-            reporter('Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes', spanNs);
-        }
-    });
     addLinter('E003', function lintContainers($, reporter) {
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
@@ -598,12 +581,6 @@ var LocationIndex = _location.LocationIndex;
         });
         if (rowsOutsideColumnsAndContainers.length) {
             reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`', rowsOutsideColumnsAndContainers);
-        }
-    });
-    addLinter('E004', function lintNestedContainers($, reporter) {
-        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
-        if (nestedContainers.length) {
-            reporter('Containers (`.container` and `.container-fluid`) are not nestable', nestedContainers);
         }
     });
     addLinter('E005', function lintRowAndColOnSameElem($, reporter) {
