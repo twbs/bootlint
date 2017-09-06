@@ -628,9 +628,9 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E011', function lintFormGroupMixedWithInputGroup($, reporter) {
-        var badMixes = $('.input-group.form-group');
+        var badMixes = $('.input-group.form-group, .input-group.row');
         if (badMixes.length) {
-            reporter('`.input-group` and `.form-group` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`', badMixes);
+            reporter('`.input-group` and `.form-group`/`.row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`', badMixes);
         }
     });
     addLinter('E012', function lintGridClassMixedWithInputGroup($, reporter) {
@@ -640,7 +640,7 @@ var LocationIndex = _location.LocationIndex;
 
         var badMixes = $(selector);
         if (badMixes.length) {
-            reporter('`.input-group` and `.col-*-*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col-*-*`', badMixes);
+            reporter('`.input-group` and `.col*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col*`', badMixes);
         }
     });
     addLinter('E013', function lintRowChildrenAreCols($, reporter) {
