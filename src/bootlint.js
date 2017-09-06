@@ -907,12 +907,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
         }
     });
-    addLinter('E040', function lintModalHide($, reporter) {
-        var modalsWithHide = $('.modal.hide');
-        if (modalsWithHide.length) {
-            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
-        }
-    });
     addLinter('E041', function lintCarouselStructure($, reporter) {
         var carouselsWithWrongInners = $('.carousel').filter(function () {
             return $(this).children('.carousel-inner').length !== 1;
