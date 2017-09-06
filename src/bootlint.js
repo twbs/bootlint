@@ -612,9 +612,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E009', function lintMissingInputGroupSizes($, reporter) {
         var selector = [
             '.input-group:not(.input-group-lg) .btn-lg',
-            '.input-group:not(.input-group-lg) .input-lg',
             '.input-group:not(.input-group-sm) .btn-sm',
-            '.input-group:not(.input-group-sm) .input-sm'
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
