@@ -26,10 +26,10 @@ var LocationIndex = _location.LocationIndex;
     });
     var SCREEN2NUM = {
         '': 0,
-        sm: 1,
-        md: 2,
-        lg: 3,
-        xl: 4
+        'sm': 1,
+        'md': 2,
+        'lg': 3,
+        'xl': 4
     };
     var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
@@ -614,7 +614,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E009', function lintMissingInputGroupSizes($, reporter) {
         var selector = [
             '.input-group:not(.input-group-lg) .btn-lg',
-            '.input-group:not(.input-group-sm) .btn-sm',
+            '.input-group:not(.input-group-sm) .btn-sm'
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
