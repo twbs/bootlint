@@ -21,7 +21,7 @@ var LocationIndex = _location.LocationIndex;
     var SCREENS = ['', 'sm', 'md', 'lg', 'xl'];
     SCREENS.forEach(function (screen) {
         for (var n = -1; n <= NUM_COLS; n++) {
-            COL_CLASSES.push('.col' + (screen || '-' + screen) + (n < 0 ? '' : '-' + (n || 'auto')));
+            COL_CLASSES.push('.col' + (screen && '-' + screen) + (n < 0 ? '' : '-' + (n || 'auto')));
         }
     });
     var SCREEN2NUM = {
@@ -886,7 +886,7 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter('E037', function lintColZeros($, reporter) {
         var selector = SCREENS.map(function (screen) {
-            return '.col' + (screen || '-' + screen) + '-0';
+            return '.col' + (screen && '-' + screen) + '-0';
         }).join(',');
         var elements = $(selector);
         if (elements.length) {
