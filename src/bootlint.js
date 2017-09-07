@@ -33,7 +33,7 @@ var LocationIndex = _location.LocationIndex;
     };
     var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
-    var MIN_JQUERY_VERSION = '3.2.1';
+    var MIN_JQUERY_VERSION = '3.0.0';
     var CURRENT_BOOTSTRAP_VERSION = '4.0.0-beta';
     var PLUGINS = [
         'alert',
@@ -445,6 +445,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('W008', function lintTooltipsInBtnGroups($, reporter) {
+        // TODO: what about input groups?
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
             reporter('Tooltips and popovers within button groups should have their `container` set to `\'body\'`. Found tooltips/popovers that might lack this setting.', nonBodyContainers);
@@ -504,6 +505,7 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     addLinter('W014', function lintCarouselControls($, reporter) {
+        // TODO: adapt for BS4
         var controls = $('.carousel-indicators > li, .carousel-control');
         controls.each(function (_index, cont) {
             var control = $(cont);
@@ -590,13 +592,13 @@ var LocationIndex = _location.LocationIndex;
 
         var rowCols = $(selector);
         if (rowCols.length) {
-            reporter('Found both `.row` and `.col-*-*` used on the same element', rowCols);
+            reporter('Found both `.row` and `.col*` used on the same element', rowCols);
         }
     });
     addLinter('E006', function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
         if (selectInputGroups.length) {
-            reporter('`.input-group` contains a `<select>`; this should be avoided as `<select>`s cannot be fully styled in WebKit browsers', selectInputGroups);
+            reporter('`.input-group` contains a `<select>`; only text-based `<input>`s are permitted in an `.input-group`', selectInputGroups);
         }
         var textareaInputGroups = $('.input-group textarea');
         if (textareaInputGroups.length) {
