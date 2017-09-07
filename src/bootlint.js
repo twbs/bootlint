@@ -132,8 +132,8 @@ var LocationIndex = _location.LocationIndex;
             if (!match) {
                 break;
             }
-            var screen = match[1];
-            width = match[2];
+            var screen = match[1] || '';
+            width = match[2] || ''; // can also be 'auto'
             var screens = width2screens[width];
             if (!screens) {
                 screens = width2screens[width] = [];
@@ -1097,27 +1097,26 @@ var LocationIndex = _location.LocationIndex;
             var simplifiedClasses = classes;
             var width2screens = width2screensFor(classes);
             var isRedundant = false;
-            for (var width = 1; width <= NUM_COLS; width++) {
-                var screens = width2screens[width];
-                if (!screens) {
-                    continue;
-                }
-                var runs = incrementingRunsFrom(screens);
-                if (!runs.length) {
-                    continue;
-                }
+            for (var width in width2screens) {
+                if (width2screens.hasOwnProperty(width)) {
+                    var screens = width2screens[width];
+                    var runs = incrementingRunsFrom(screens);
+                    if (!runs.length) {
+                        continue;
+                    }
 
-                isRedundant = true;
+                    isRedundant = true;
 
-                for (var i = 0; i < runs.length; i++) {
-                    var run = runs[i];
-                    var min = run[0];
-                    var max = run[1];
+                    for (var i = 0; i < runs.length; i++) {
+                        var run = runs[i];
+                        var min = run[0];
+                        var max = run[1];
 
-                    // remove redundant classes
-                    for (var screenNum = min + 1; screenNum <= max; screenNum++) {
-                        var colClass = 'col' + (NUM2SCREEN[screenNum] || '-' + NUM2SCREEN[screenNum]) + '-' + width;
-                        simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        // remove redundant classes
+                        for (var screenNum = min + 1; screenNum <= max; screenNum++) {
+                            var colClass = 'col' + (NUM2SCREEN[screenNum] && '-' + NUM2SCREEN[screenNum]) + (width && '-' + width);
+                            simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        }
                     }
                 }
             }
