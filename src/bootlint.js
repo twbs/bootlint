@@ -1179,7 +1179,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E035', function lintFormGroupWithFormClass($, reporter) {
-        var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
+        var badFormGroups = $('.form-group.form-inline');
         if (badFormGroups.length) {
             reporter('Neither `.form-inline` nor `.form-horizontal` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline` or `.form-horizontal`', badFormGroups);
         }
