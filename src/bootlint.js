@@ -953,7 +953,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E011', function lintFormGroupMixedWithInputGroup($, reporter) {
-        var badMixes = $('.input-group.form-group, .input-group.row');
+        var badMixes = $('.input-group.form-group, .input-group.row, .input-group.form-row');
         if (badMixes.length) {
             reporter('`.input-group` and `.form-group`/`.row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`', badMixes);
         }
@@ -981,12 +981,12 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter('E014', function lintColParentsAreRowsOrFormGroups($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row)>' + colClass + ':not(col):not(th):not(td)';
+            return '*:not(.row):not(.form-row)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            reporter('Columns (`.col*`) can only be children of `.row`s', colsOutsideRowsAndFormGroups);
+            reporter('Columns (`.col*`) can only be children of `.row`s or `.form-row`s', colsOutsideRowsAndFormGroups);
         }
     });
     addLinter('E016', function lintBtnToggle($, reporter) {
