@@ -1265,10 +1265,10 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`.', badInputGroups);
         }
     });
-    addLinter('E045', function lintImgResponsiveOnNonImgs($, reporter) {
-        var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
-        if (imgResponsiveNotOnImg.length) {
-            reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
+    addLinter('E045', function lintImgFluidOnNonImgs($, reporter) {
+        var imgFluidNotOnImg = $('.img-fluid:not(img)');
+        if (imgFluidNotOnImg.length) {
+            reporter('`.img-fluid` should only be used on `<img>`s', imgFluidNotOnImg);
         }
     });
     addLinter('E046', function lintModalTabIndex($, reporter) {
