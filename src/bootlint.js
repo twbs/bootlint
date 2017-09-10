@@ -466,15 +466,7 @@ var LocationIndex = _location.LocationIndex;
                 return;
             }
 
-            var colClasses = column.attr('class').split(/\s+/g).filter(function (klass) {
-                return COL_REGEX.test(klass);
-            });
-            colClasses = sortedColumnClasses(colClasses.join(' ')).trim();
-
-            var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
-            var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
-
-            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="' + colClasses + '"` , just add `class="' + offsetClasses + '"` to the next grid column.', column);
+            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.', column);
         });
     });
     addLinter('W013', function lintOutdatedBootstrap($, reporter) {
