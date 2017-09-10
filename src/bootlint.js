@@ -947,7 +947,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E011', function lintFormGroupMixedWithInputGroup($, reporter) {
         var badMixes = $('.input-group.form-group, .input-group.row, .input-group.form-row');
         if (badMixes.length) {
-            reporter('`.input-group` and `.form-group`/`.row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`', badMixes);
+            reporter('`.input-group` and `.form-group`/`.row`/`.form-row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`/`.form-row`', badMixes);
         }
     });
     addLinter('E012', function lintGridClassMixedWithInputGroup($, reporter) {
