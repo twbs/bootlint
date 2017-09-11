@@ -1050,27 +1050,27 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E023', function lintPanelBodyWithoutPanel($, reporter) {
-        var badPanelBody = $('.panel-body').parent(':not(.panel, .panel-collapse)');
+        var badPanelBody = $('.card-body').parent(':not(.card)');
         if (badPanelBody.length) {
-            reporter('`.panel-body` must have a `.panel` or `.panel-collapse` parent', badPanelBody);
+            reporter('`.card-body` must have a `.card` parent', badPanelBody);
         }
     });
     addLinter('E024', function lintPanelHeadingWithoutPanel($, reporter) {
-        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
+        var badPanelHeading = $('.card-header').parent(':not(.card)');
         if (badPanelHeading.length) {
-            reporter('`.panel-heading` must have a `.panel` parent', badPanelHeading);
+            reporter('`.card-header` must have a `.card` parent', badPanelHeading);
         }
     });
     addLinter('E025', function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel, .panel-collapse)');
+        var badPanelFooter = $('.card-footer').parent(':not(.card)');
         if (badPanelFooter.length) {
-            reporter('`.panel-footer` must have a `.panel` or `.panel-collapse` parent', badPanelFooter);
+            reporter('`.card-footer` must have a `.card` parent', badPanelFooter);
         }
     });
     addLinter('E026', function lintPanelTitleWithoutPanelHeading($, reporter) {
-        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
+        var badPanelTitle = $('.card-title').parent(':not(.card-header)');
         if (badPanelTitle.length) {
-            reporter('`.panel-title` must have a `.panel-heading` parent', badPanelTitle);
+            reporter('`.card-title` must have a `.card-header` parent', badPanelTitle);
         }
     });
     addLinter('E028', function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
