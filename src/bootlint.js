@@ -962,13 +962,14 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter('E013', function lintRowChildrenAreCols($, reporter) {
         var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix']);
-        var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
+        var disallowedChildren = ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
+        var selector = '.row>*' + disallowedChildren + ',.form-row>*' + disallowedChildren;
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            reporter('Only columns (`.col*`) may be children of `.row`s', nonColRowChildren);
+            reporter('Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s.', nonColRowChildren);
         }
     });
     addLinter('E014', function lintColParentsAreRowsOrFormGroups($, reporter) {
