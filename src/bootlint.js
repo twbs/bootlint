@@ -1303,11 +1303,11 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter('E051', function lintColumnsNoFloats($, reporter) {
         var pullSelector = COL_CLASSES.map(function (col) {
-            return '.pull-left' + col + ',.pull-right' + col;
+            return '.float-left' + col + ',.float-right' + col;
         }).join(',');
         var pulledCols = $(pullSelector);
         if (pulledCols.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements', pulledCols);
+            reporter('`.float-right` and `.float-left` must not be used on `.col*` elements', pulledCols);
         }
         var styledSelector = COL_CLASSES.map(function (col) {
             return col + '[style]';
@@ -1317,13 +1317,13 @@ var LocationIndex = _location.LocationIndex;
             return /float\s*:\s*[a-z]+/i.test($(el).attr('style'));
         });
         if (styledCols.length) {
-            reporter('Manually added `float` styles must not be added on `.col-*-*` elements', styledCols);
+            reporter('Manually added `float` styles must not be added on `.col*` elements', styledCols);
         }
     });
     addLinter('E052', function lintRowsNoFloats($, reporter) {
-        var pulledRows = $('.row.pull-right, .row.pull-left');
+        var pulledRows = $('.row.float-right, .row.float-left');
         if (pulledRows.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.row` elements', pulledRows);
+            reporter('`.float-right` and `.float-left` must not be used on `.row` elements', pulledRows);
         }
         var styledRows = $('.row[style]').filter(function (i, el) {
             //test for `float:*` in the style attribute
