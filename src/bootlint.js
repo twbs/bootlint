@@ -1050,15 +1050,15 @@ var LocationIndex = _location.LocationIndex;
             reporter('Modal markup should not be placed within other components, so as to avoid the component\'s styles interfering with the modal\'s appearance or functionality', badNestings);
         }
     });
-    addLinter('E023', function lintPanelBodyWithoutPanel($, reporter) {
+    addLinter('E023', function lintCardBodyWithoutCard($, reporter) {
         var badPanelBody = $('.card-body').filter(function () {
-            return $(this).parents('.card').length !== 1;
+            return $(this).closest('.card').length !== 1;
         });
         if (badPanelBody.length) {
-            reporter('`.card-body` must have one `.card` ancestor.', badPanelBody);
+            reporter('`.card-body` must have `.card` or such an ancestor.', badPanelBody);
         }
     });
-    addLinter('E024', function lintPanelHeadingWithoutPanel($, reporter) {
+    addLinter('E024', function lintCardHeadingWithoutCard($, reporter) {
         var badPanelHeading = $('.card-header').filter(function () {
             return $(this).parents('.card').length !== 1;
         });
@@ -1066,7 +1066,7 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.card-header` must have one `.card` ancestor.', badPanelHeading);
         }
     });
-    addLinter('E025', function lintPanelFooterWithoutPanel($, reporter) {
+    addLinter('E025', function lintCardFooterWithoutCard($, reporter) {
         var badPanelFooter = $('.card-footer').filter(function () {
             return $(this).parents('.card').length !== 1;
         });
@@ -1074,7 +1074,7 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.card-footer` must have one `.card` ancestor.', badPanelFooter);
         }
     });
-    addLinter('E026', function lintPanelTitleWithoutPanelHeading($, reporter) {
+    addLinter('E026', function lintCardTitleWithoutCard($, reporter) {
         var badPanelTitle = $('.card-title').filter(function () {
             return $(this).parents('.card').length !== 1;
         });
@@ -1087,7 +1087,7 @@ var LocationIndex = _location.LocationIndex;
             return $(this).closest('.form-group.has-feedback').length !== 1;
         });
         if (ancestorsMissingClasses.length) {
-            reporter('`.form-control-feedback` must have a `.form-group.has-feedback` ancestor', ancestorsMissingClasses);
+            reporter('`.form-control-feedback` must have `.form-group.has-feedback` or such an ancestor', ancestorsMissingClasses);
         }
     });
     addLinter('E029', function lintRedundantColumnClasses($, reporter) {
