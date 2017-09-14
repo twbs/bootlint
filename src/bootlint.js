@@ -1051,27 +1051,35 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E023', function lintPanelBodyWithoutPanel($, reporter) {
-        var badPanelBody = $('.card-body').parent(':not(.card)');
+        var badPanelBody = $('.card-body').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelBody.length) {
-            reporter('`.card-body` must have a `.card` parent', badPanelBody);
+            reporter('`.card-body` must have one `.card` ancestor.', badPanelBody);
         }
     });
     addLinter('E024', function lintPanelHeadingWithoutPanel($, reporter) {
-        var badPanelHeading = $('.card-header').parent(':not(.card)');
+        var badPanelHeading = $('.card-header').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelHeading.length) {
-            reporter('`.card-header` must have a `.card` parent', badPanelHeading);
+            reporter('`.card-header` must have one `.card` ancestor.', badPanelHeading);
         }
     });
     addLinter('E025', function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.card-footer').parent(':not(.card)');
+        var badPanelFooter = $('.card-footer').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelFooter.length) {
-            reporter('`.card-footer` must have a `.card` parent', badPanelFooter);
+            reporter('`.card-footer` must have one `.card` ancestor.', badPanelFooter);
         }
     });
     addLinter('E026', function lintPanelTitleWithoutPanelHeading($, reporter) {
-        var badPanelTitle = $('.card-title').parent(':not(.card-header)');
+        var badPanelTitle = $('.card-title').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelTitle.length) {
-            reporter('`.card-title` must have a `.card-header` parent', badPanelTitle);
+            reporter('`.card-title` must have one `.card` ancestor.', badPanelBody);
         }
     });
     addLinter('E028', function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
