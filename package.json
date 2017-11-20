@@ -78,7 +78,7 @@
     "./src/location.js": false
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "files": [
     "bin",
