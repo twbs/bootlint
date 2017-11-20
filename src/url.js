@@ -2,7 +2,7 @@
 
 /**
  * Simple lightweight shim of Node.js's `url.parse()`
- * ( http://nodejs.org/docs/latest/api/url.html )
+ * ( https://nodejs.org/docs/latest/api/url.html )
  * for use within browsers.
  */
 (function () {

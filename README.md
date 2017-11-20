@@ -8,11 +8,11 @@
 [![Dependency Status](https://img.shields.io/david/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint)
 [![devDependency Status](https://img.shields.io/david/dev/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint#info=devDependencies)
 
-An HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](http://getbootstrap.com) projects
+An HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](https://getbootstrap.com/) projects
 
 ## What's Bootlint?
 
-Bootlint is a tool that checks for several common HTML mistakes in webpages that are using [Bootstrap](http://getbootstrap.com) in a fairly "vanilla" way. Vanilla Bootstrap's components/widgets require their parts of the DOM to conform to certain structures. Bootlint checks that instances of Bootstrap components have correctly-structured HTML. Optimal usage of Bootstrap also requires that your pages include certain `<meta>` tags, an HTML5 doctype declaration, etc.; Bootlint checks that these are present.
+Bootlint is a tool that checks for several common HTML mistakes in webpages that are using [Bootstrap](https://getbootstrap.com/) in a fairly "vanilla" way. Vanilla Bootstrap's components/widgets require their parts of the DOM to conform to certain structures. Bootlint checks that instances of Bootstrap components have correctly-structured HTML. Optimal usage of Bootstrap also requires that your pages include certain `<meta>` tags, an HTML5 doctype declaration, etc.; Bootlint checks that these are present.
 
 ### Caveats
 
@@ -24,11 +24,11 @@ Bootlint assumes that you are using Bootstrap's default class names in your webp
 
 ### Via Grunt
 
-To use Bootlint with [Grunt](http://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint).
+To use Bootlint with [Grunt](https://gruntjs.com/), use the official Grunt plugin: [grunt-bootlint](https://github.com/twbs/grunt-bootlint).
 
 ### Via Gulp
 
-If you want to use Bootlint with [Gulp](http://gulpjs.com), there is an *unofficial* Gulp plugin: [gulp-bootlint](https://github.com/tschortsch/gulp-bootlint)
+If you want to use Bootlint with [Gulp](https://gulpjs.com/), there is an *unofficial* Gulp plugin: [gulp-bootlint](https://github.com/tschortsch/gulp-bootlint)
 
 ### On the command line
 
@@ -240,7 +240,7 @@ See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for de
 * 2014-10-16 - v0.5.0: Adds several new features. Adds official bookmarklet. Disables auto-lint-on-load in browser. Tweaks some checks. **Not backward compatible**
 * 2014-10-07 - v0.4.0: Adds checks for correct Glyphicon usage and correct modal DOM structure; fixes `.panel-footer` false positive
 * 2014-09-26 - v0.3.0: Several bug fixes and enhancements. **Not backward compatible**
-* 2014-09-23 - v0.2.0: First formal release. Announcement: <http://blog.getbootstrap.com/2014/09/23/bootlint/>
+* 2014-09-23 - v0.2.0: First formal release. Announcement: <https://blog.getbootstrap.com/2014/09/23/bootlint/>
 
 ## License
 
