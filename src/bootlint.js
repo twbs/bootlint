@@ -1041,8 +1041,6 @@ var LocationIndex = _location.LocationIndex;
             'tel',
             'text',
             'url',
-            'datetime',
-            'datetime-local',
             'date',
             'month',
             'week',
