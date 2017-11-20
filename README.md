@@ -193,7 +193,7 @@ Request:
   POST / HTTP/1.1
   Content-Type: text/html
 
-  <!DOCTYPE html>
+  <!doctype html>
   ...
 
 Response:
