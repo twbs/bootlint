@@ -1,30 +1,32 @@
-/* eslint-env node */
+/* eslint-env node, es6 */
 
 'use strict';
 
-var os = require('os');
-var glob = require('glob');
-var async = require('async');
-var qunit = require('node-qunit-phantomjs');
+const os = require('os');
+const glob = require('glob');
+const async = require('async');
+const qunit = require('node-qunit-phantomjs');
 
-var THREADS = os.cpus().length <= 2 ? 1 : os.cpus().length / 2;
+const cpus = os.cpus().length;
+const THREADS = cpus <= 2 ? 1 : cpus / 2;
 
-var ignores = [
+const ignore = [
     'test/fixtures/jquery/missing.html',
     'test/fixtures/jquery/and_bs_js_both_missing.html',
     'test/fixtures/charset/not-utf8.html'
 ];
 
-glob('test/fixtures/**/*.html', {ignore: ignores}, function (err, files) {
+glob('test/fixtures/**/*.html', {ignore}, (err, files) => {
     if (err) {
         throw err;
     }
 
     async.eachLimit(files,
         THREADS,
-        function (file, callback) {
+        (file, callback) => {
             qunit(file, {timeout: 10}, callback);
-        }, function (er) {
+        },
+        (er) => {
             if (er) {
                 throw er;
             }
