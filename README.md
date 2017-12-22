@@ -6,7 +6,7 @@
 ![Development Status :: 5 - Production/Stable](https://img.shields.io/badge/maturity-stable-green.svg "Development Status :: 5 - Production/Stable")
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg "MIT License")](https://github.com/twbs/bootlint/blob/master/LICENSE)
 [![Dependency Status](https://img.shields.io/david/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint)
-[![devDependency Status](https://img.shields.io/david/dev/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint#info=devDependencies)
+[![devDependency Status](https://img.shields.io/david/dev/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint?type=dev)
 
 An HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](https://getbootstrap.com/) projects
 
