@@ -5,10 +5,19 @@
 const os = require('os');
 const glob = require('glob');
 const async = require('async');
+const isTravis = require('is-travis');
 const qunit = require('node-qunit-phantomjs');
 
 const cpus = os.cpus().length;
-const THREADS = cpus <= 2 ? 1 : cpus / 2;
+let THREADS;
+
+if (isTravis) {
+    THREADS = cpus;
+} else if (cpus <= 2) {
+    THREADS = 1;
+} else {
+    THREADS = cpus / 2;
+}
 
 const ignore = [
     'test/fixtures/jquery/missing.html',
