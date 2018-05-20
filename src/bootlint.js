@@ -70,12 +70,14 @@ var LocationIndex = _location.LocationIndex;
         return node.type === 'directive' && node.name === '!doctype';
     }
 
-    var tagNameOf = IN_NODE_JS ? function (element) {
-        return element.name.toUpperCase();
-    } : function (element) {
-        /* @covignore */
-        return element.tagName.toUpperCase();
-    };
+    var tagNameOf = IN_NODE_JS ?
+        function (element) {
+            return element.name.toUpperCase();
+        } :
+        function (element) {
+            /* @covignore */
+            return element.tagName.toUpperCase();
+        };
 
     function filenameFromUrl(url) {
         var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
@@ -237,7 +239,7 @@ var LocationIndex = _location.LocationIndex;
             }
             return constructor.VERSION;
         }).filter(function (version) {
-            return version !== undefined;
+            return typeof version !== 'undefined';
         }).sort(semver.compare);
     }
 
@@ -1137,19 +1139,21 @@ var LocationIndex = _location.LocationIndex;
     });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
-        var reporterWrapper = IN_NODE_JS ? function (problem) {
-            if (problem.elements) {
-                problem.elements = problem.elements.each(function (i, element) {
-                    if (element.startIndex !== undefined) {
-                        var location = locationIndex.locationOf(element.startIndex);
-                        if (location) {
-                            element.startLocation = location;
+        var reporterWrapper = IN_NODE_JS ?
+            function (problem) {
+                if (problem.elements) {
+                    problem.elements = problem.elements.each(function (i, element) {
+                        if (typeof element.startIndex !== 'undefined') {
+                            var location = locationIndex.locationOf(element.startIndex);
+                            if (location) {
+                                element.startLocation = location;
+                            }
                         }
-                    }
-                });
-            }
-            reporter(problem);
-        } : reporter;
+                    });
+                }
+                reporter(problem);
+            } :
+            reporter;
 
         var disabledIdSet = {};
         disabledIdList.forEach(function (disabledId) {
@@ -1206,8 +1210,8 @@ var LocationIndex = _location.LocationIndex;
              */
             exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
                 alertOpts = alertOpts || {};
-                var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
-                var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
+                var alertOnFirstProblem = alertOpts.hasProblems || typeof alertOpts.hasProblems === 'undefined';
+                var alertIfNoProblems = alertOpts.problemFree || typeof alertOpts.problemFree === 'undefined';
 
                 var seenLint = false;
                 var errorCount = 0;

@@ -40,13 +40,14 @@
             "off",
             "declaration"
         ],
-        "global-require": "off",
+        "global-require": "error",
         "guard-for-in": "error",
         "handle-callback-err": "error",
         "indent": [
             "error",
             4,
             {
+                "MemberExpression": "off",
                 "SwitchCase": 1
             }
         ],
@@ -75,8 +76,15 @@
                 "max": 1
             }
         ],
-        "multiline-ternary": "off",
-        "new-cap": "error",
+        "multiline-ternary": [
+            "error",
+            "always-multiline"
+        ],
+        "new-cap": [
+            "error", {
+                "properties": false
+            }
+        ],
         "newline-after-var": [
             "off",
             "always"
@@ -91,6 +99,7 @@
         "no-alert": "error",
         "no-array-constructor": "error",
         "no-bitwise": "error",
+        "no-buffer-constructor": "error",
         "no-caller": "error",
         "no-catch-shadow": "error",
         "no-confusing-arrow": "error",
@@ -218,6 +227,7 @@
             "always"
         ],
         "semi-spacing": "error",
+        "sort-imports": "error",
         "space-before-blocks": [
             "error",
             "always"

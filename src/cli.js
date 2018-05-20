@@ -8,10 +8,11 @@ var commander = require('commander');
 var readFile = Deferred.promisify(require('fs').readFile);
 var glob = Deferred.promisify(require('glob'));
 var bootlint = require('./bootlint');
+var pkg = require('../package.json');
 
 module.exports = function () {
     var program = (new commander.Command('bootlint'))
-        .version(require('../package.json').version)
+        .version(pkg.version)
         .description('Lint the HTML of Bootstrap projects')
         .usage('[options] [files...]')
         .option('-d, --disable <IDs>', 'Comma-separated list of disabled lint problem IDs', function (val) {
@@ -19,7 +20,7 @@ module.exports = function () {
         })
         .parse(process.argv);
 
-    var disabledIds = program.disable === undefined ? [] : program.disable;
+    var disabledIds = typeof program.disable === 'undefined' ? [] : program.disable;
     var totalErrCount = 0;
     var totalFileCount = 0;
     var lintedFiles = [];
