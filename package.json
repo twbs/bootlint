@@ -19,7 +19,7 @@
     "browserify": "browserify src/bootlint.js | node build/stamp.js > dist/browser/bootlint.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dist": "npm run browserify",
-    "eslint": "eslint \"**/*.js\"",
+    "eslint": "eslint .",
     "lint": "npm run eslint",
     "nodeunit": "nodeunit test",
     "qunit": "node build/phantom.js",
