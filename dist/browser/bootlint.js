@@ -5,7 +5,7 @@
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
  */
 
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 },{}],2:[function(require,module,exports){
 /*!
@@ -11983,12 +11983,14 @@ var LocationIndex = _location.LocationIndex;
         return node.type === 'directive' && node.name === '!doctype';
     }
 
-    var tagNameOf = IN_NODE_JS ? function (element) {
-        return element.name.toUpperCase();
-    } : function (element) {
-        /* @covignore */
-        return element.tagName.toUpperCase();
-    };
+    var tagNameOf = IN_NODE_JS ?
+        function (element) {
+            return element.name.toUpperCase();
+        } :
+        function (element) {
+            /* @covignore */
+            return element.tagName.toUpperCase();
+        };
 
     function filenameFromUrl(url) {
         var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
@@ -12150,7 +12152,7 @@ var LocationIndex = _location.LocationIndex;
             }
             return constructor.VERSION;
         }).filter(function (version) {
-            return version !== undefined;
+            return typeof version !== 'undefined';
         }).sort(semver.compare);
     }
 
@@ -13050,19 +13052,21 @@ var LocationIndex = _location.LocationIndex;
     });
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
-        var reporterWrapper = IN_NODE_JS ? function (problem) {
-            if (problem.elements) {
-                problem.elements = problem.elements.each(function (i, element) {
-                    if (element.startIndex !== undefined) {
-                        var location = locationIndex.locationOf(element.startIndex);
-                        if (location) {
-                            element.startLocation = location;
+        var reporterWrapper = IN_NODE_JS ?
+            function (problem) {
+                if (problem.elements) {
+                    problem.elements = problem.elements.each(function (i, element) {
+                        if (typeof element.startIndex !== 'undefined') {
+                            var location = locationIndex.locationOf(element.startIndex);
+                            if (location) {
+                                element.startLocation = location;
+                            }
                         }
-                    }
-                });
-            }
-            reporter(problem);
-        } : reporter;
+                    });
+                }
+                reporter(problem);
+            } :
+            reporter;
 
         var disabledIdSet = {};
         disabledIdList.forEach(function (disabledId) {
@@ -13119,8 +13123,8 @@ var LocationIndex = _location.LocationIndex;
              */
             exports.showLintReportForCurrentDocument = function (disabledIds, alertOpts) {
                 alertOpts = alertOpts || {};
-                var alertOnFirstProblem = alertOpts.hasProblems || alertOpts.hasProblems === undefined;
-                var alertIfNoProblems = alertOpts.problemFree || alertOpts.problemFree === undefined;
+                var alertOnFirstProblem = alertOpts.hasProblems || typeof alertOpts.hasProblems === 'undefined';
+                var alertIfNoProblems = alertOpts.problemFree || typeof alertOpts.problemFree === 'undefined';
 
                 var seenLint = false;
                 var errorCount = 0;
