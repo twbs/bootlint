@@ -1,5 +1,3 @@
-/* eslint-env node, es6 */
-
 'use strict';
 
 const os = require('os');

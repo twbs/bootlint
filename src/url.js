@@ -1,4 +1,4 @@
-/* eslint-env node, browser */
+/* eslint-env browser */
 
 /**
  * Simple lightweight shim of Node.js's `url.parse()`

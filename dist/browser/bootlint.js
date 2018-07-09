@@ -11918,8 +11918,6 @@ module.exports = {
  * Licensed under the MIT License.
  */
 
-/* eslint-env node */
-
 var cheerio = require('cheerio');
 var parseUrl = require('url').parse;
 var semver = require('semver');
@@ -13164,7 +13162,7 @@ var LocationIndex = _location.LocationIndex;
 })(typeof exports === 'object' && exports || this);
 
 },{"./location":1,"cheerio":2,"semver":4,"url":7,"void-elements":5}],7:[function(require,module,exports){
-/* eslint-env node, browser */
+/* eslint-env browser */
 
 /**
  * Simple lightweight shim of Node.js's `url.parse()`

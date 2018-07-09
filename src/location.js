@@ -1,4 +1,3 @@
-/* eslint-env node */
 var binarySearch = require('binary-search');
 
 (function () {
