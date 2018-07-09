@@ -22,7 +22,7 @@ script:
     - node ./src/cli-main.js test/fixtures/x-ua-compatible/missing.html &> x-ua-compatible-missing.output.actual.txt || true
     - diff test/fixtures/cli/x-ua-compatible-missing.output.txt x-ua-compatible-missing.output.actual.txt
 after_success:
-    - npm run coveralls
+  - if [ "$TRAVIS_NODE_VERSION" = "10" ]; then npm run coveralls; fi
 matrix:
     fast_finish: true
 cache:
