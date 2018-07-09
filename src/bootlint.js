@@ -5,8 +5,6 @@
  * Licensed under the MIT License.
  */
 
-/* eslint-env node */
-
 var cheerio = require('cheerio');
 var parseUrl = require('url').parse;
 var semver = require('semver');
