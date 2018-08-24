@@ -98,7 +98,7 @@ You can manually download [the browser-ready version of Bootlint](https://github
 
 ##### Third-party service
 
-Bootlint is also available as a unofficial third-party web service at [bootlint.com](http://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](https://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommended way to use Bootlint.
+Bootlint is also available as a unofficial third-party web service at [bootlint.com](https://www.bootlint.com/) which lints your page simply by entering a URL, similar to the [W3C Markup Validation Service](https://validator.w3.org/). **Please note** that we do *not* operate this service and that it may use an outdated version of Bootlint. Therefore it is not the recommended way to use Bootlint.
 
 ## Lint problem explanations
 
