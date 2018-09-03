@@ -1268,10 +1268,10 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E044', function lintInputGroupAddonChildren($, reporter) {
         var badInputGroups = $('.input-group').filter(function () {
             var inputGroup = $(this);
-            return !inputGroup.children('.form-control').length || !inputGroup.children('.input-group-addon, .input-group-btn').length;
+            return !inputGroup.children('.form-control').length || !inputGroup.children('.input-group-prepend, .input-group-append').length;
         });
         if (badInputGroups.length) {
-            reporter('`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`.', badInputGroups);
+            reporter('`.input-group` must have a `.form-control` and either an `.input-group-prepend` or `.input-group-append`.', badInputGroups);
         }
     });
     addLinter('E045', function lintImgFluidOnNonImgs($, reporter) {
