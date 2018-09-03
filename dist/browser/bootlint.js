@@ -11928,28 +11928,27 @@ var LocationIndex = _location.LocationIndex;
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
+    var COL_REGEX = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/;
+    var COL_REGEX_G = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/g;
     var COL_CLASSES = [];
-    var SCREENS = ['xs', 'sm', 'md', 'lg'];
+    var SCREENS = ['', 'sm', 'md', 'lg', 'xl'];
     SCREENS.forEach(function (screen) {
-        for (var n = 1; n <= NUM_COLS; n++) {
-            COL_CLASSES.push('.col-' + screen + '-' + n);
+        for (var n = -1; n <= NUM_COLS; n++) {
+            COL_CLASSES.push('.col' + (screen && '-' + screen) + (n < 0 ? '' : '-' + (n || 'auto')));
         }
     });
     var SCREEN2NUM = {
-        xs: 0,
-        sm: 1,
-        md: 2,
-        lg: 3
+        '': 0,
+        'sm': 1,
+        'md': 2,
+        'lg': 3,
+        'xl': 4
     };
-    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
+    var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
-    var MIN_JQUERY_VERSION = '1.9.1';   // as of Bootstrap v3.3.0
-    var CURRENT_BOOTSTRAP_VERSION = '3.3.7';
-    var BOOTSTRAP_VERSION_4 = '4.0.0';
+    var MIN_JQUERY_VERSION = '3.0.0';
+    var CURRENT_BOOTSTRAP_VERSION = '4.0.0-beta';
     var PLUGINS = [
-        'affix',
         'alert',
         'button',
         'carousel',
@@ -12046,8 +12045,8 @@ var LocationIndex = _location.LocationIndex;
             if (!match) {
                 break;
             }
-            var screen = match[1];
-            width = match[2];
+            var screen = match[1] || '';
+            width = match[2] || ''; // can also be 'auto'
             var screens = width2screens[width];
             if (!screens) {
                 screens = width2screens[width] = [];
@@ -12247,15 +12246,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
         }
     });
-    addLinter('W002', function lintXUaCompatible($, reporter) {
-        var meta = $([
-            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
-            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
-        ].join(','));
-        if (!meta.length) {
-            reporter('`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes');
-        }
-    });
     addLinter('W003', function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
@@ -12265,7 +12255,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('W004', function lintRemoteModals($, reporter) {
         var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
         if (remoteModalTriggers.length) {
-            reporter('Found one or more modals using the deprecated `remote` option', remoteModalTriggers);
+            reporter('Found one or more modals using the removed `remote` option', remoteModalTriggers);
         }
     });
     addLinter('W005', function lintJquery($, reporter) {
@@ -12368,6 +12358,7 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('W008', function lintTooltipsInBtnGroups($, reporter) {
+        // TODO: what about input groups?
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
         if (nonBodyContainers.length) {
             reporter('Tooltips and popovers within button groups should have their `container` set to `\'body\'`. Found tooltips/popovers that might lack this setting.', nonBodyContainers);
@@ -12388,40 +12379,11 @@ var LocationIndex = _location.LocationIndex;
                 return;
             }
 
-            var colClasses = column.attr('class').split(/\s+/g).filter(function (klass) {
-                return COL_REGEX.test(klass);
-            });
-            colClasses = sortedColumnClasses(colClasses.join(' ')).trim();
-
-            var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
-            var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
-
-            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="' + colClasses + '"` , just add `class="' + offsetClasses + '"` to the next grid column.', column);
-        });
-    });
-    addLinter('W010', function lintMediaPulls($, reporter) {
-        var mediaPulls = $('.media>.pull-left, .media>.pull-right');
-        if (mediaPulls.length) {
-            reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.');
-        }
-    });
-    addLinter('W012', function lintNavbarContainers($, reporter) {
-        var navBars = $('.navbar');
-        var containers = [
-            '.container',
-            '.container-fluid'
-        ].join(',');
-        navBars.each(function () {
-            var navBar = $(this);
-            var hasContainerChildren = Boolean(navBar.children(containers).length);
-
-            if (!hasContainerChildren) {
-                reporter('`.navbar`\'s first child element should always be either `.container` or `.container-fluid`', navBar);
-            }
+            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.', column);
         });
     });
     addLinter('W013', function lintOutdatedBootstrap($, reporter) {
-        var OUTDATED_BOOTSTRAP = 'Bootstrap version might be outdated. Latest version is at least ' + CURRENT_BOOTSTRAP_VERSION + ' ; saw what appears to be usage of Bootstrap ';
+        var OUTDATED_BOOTSTRAP = 'Bootstrap version does not seem to match the version this bootlint version is for (' + CURRENT_BOOTSTRAP_VERSION + '); saw what appears to be usage of Bootstrap ';
         var theWindow = getBrowserWindowObject();
         var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
         /* @covignore */
@@ -12448,6 +12410,7 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     addLinter('W014', function lintCarouselControls($, reporter) {
+        // TODO: adapt for BS4
         var controls = $('.carousel-indicators > li, .carousel-control');
         controls.each(function (_index, cont) {
             var control = $(cont);
@@ -12456,34 +12419,6 @@ var LocationIndex = _location.LocationIndex;
 
             if (!carousel.length || carousel.is(':not(.carousel)')) {
                 reporter('Carousel controls and indicators should use `href` or `data-target` to reference an element with class `.carousel`.', control);
-            }
-        });
-    });
-    addLinter('W015', function lintNewBootstrap($, reporter) {
-        var FUTURE_VERSION_ERROR = 'Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.';
-        var theWindow = getBrowserWindowObject();
-
-        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        /* @covignore */
-        if (globaljQuery) {
-            var versions = jqueryPluginVersions(globaljQuery);
-            if (versions.length) {
-                var minVersion = versions[0];
-                if (semver.gte(minVersion, BOOTSTRAP_VERSION_4, true)) {
-                    reporter(FUTURE_VERSION_ERROR);
-                    return;
-                }
-            }
-        }
-        // check for Bootstrap <link>s and <script>s
-        var bootstraps = $(BOOTSTRAP_FILES);
-        bootstraps.each(function () {
-            var version = versionInLinkedElement($, this);
-            if (version === null) {
-                return;
-            }
-            if (semver.gte(version, BOOTSTRAP_VERSION_4, true)) {
-                reporter(FUTURE_VERSION_ERROR, $(this));
             }
         });
     });
@@ -12497,6 +12432,329 @@ var LocationIndex = _location.LocationIndex;
         var inputsMissingTypeAttr = $('input:not([type])');
         if (inputsMissingTypeAttr.length) {
             reporter('Found one or more `<input>`s missing a `type` attribute.', inputsMissingTypeAttr);
+        }
+    });
+    addLinter('W901', function bs3ClassUsed($, reporter) {
+        var bs3Classes = [
+            'affix',
+            'alert-dismissable',
+            'blockquote-reverse',
+            'bottom',
+            'bottom-left',
+            'bottom-right',
+            'btn-default',
+            'btn-group-justified',
+            'btn-group-xs',
+            'btn-xs',
+            'caption',
+            'caret',
+            'carousel-control',
+            'center-block',
+            'checkbox',
+            'checkbox-inline',
+            'col-lg-offset-0',
+            'col-lg-offset-1',
+            'col-lg-offset-2',
+            'col-lg-offset-3',
+            'col-lg-offset-4',
+            'col-lg-offset-5',
+            'col-lg-offset-6',
+            'col-lg-offset-7',
+            'col-lg-offset-8',
+            'col-lg-offset-9',
+            'col-lg-offset-10',
+            'col-lg-offset-11',
+            'col-lg-offset-12',
+            'col-lg-pull-0',
+            'col-lg-pull-1',
+            'col-lg-pull-2',
+            'col-lg-pull-3',
+            'col-lg-pull-4',
+            'col-lg-pull-5',
+            'col-lg-pull-6',
+            'col-lg-pull-7',
+            'col-lg-pull-8',
+            'col-lg-pull-9',
+            'col-lg-pull-10',
+            'col-lg-pull-11',
+            'col-lg-pull-12',
+            'col-lg-push-0',
+            'col-lg-push-1',
+            'col-lg-push-2',
+            'col-lg-push-3',
+            'col-lg-push-4',
+            'col-lg-push-5',
+            'col-lg-push-6',
+            'col-lg-push-7',
+            'col-lg-push-8',
+            'col-lg-push-9',
+            'col-lg-push-10',
+            'col-lg-push-11',
+            'col-lg-push-12',
+            'col-md-offset-0',
+            'col-md-offset-1',
+            'col-md-offset-2',
+            'col-md-offset-3',
+            'col-md-offset-4',
+            'col-md-offset-5',
+            'col-md-offset-6',
+            'col-md-offset-7',
+            'col-md-offset-8',
+            'col-md-offset-9',
+            'col-md-offset-10',
+            'col-md-offset-11',
+            'col-md-offset-12',
+            'col-md-pull-0',
+            'col-md-pull-1',
+            'col-md-pull-2',
+            'col-md-pull-3',
+            'col-md-pull-4',
+            'col-md-pull-5',
+            'col-md-pull-6',
+            'col-md-pull-7',
+            'col-md-pull-8',
+            'col-md-pull-9',
+            'col-md-pull-10',
+            'col-md-pull-11',
+            'col-md-pull-12',
+            'col-md-push-0',
+            'col-md-push-1',
+            'col-md-push-2',
+            'col-md-push-3',
+            'col-md-push-4',
+            'col-md-push-5',
+            'col-md-push-6',
+            'col-md-push-7',
+            'col-md-push-8',
+            'col-md-push-9',
+            'col-md-push-10',
+            'col-md-push-11',
+            'col-md-push-12',
+            'col-sm-offset-0',
+            'col-sm-offset-1',
+            'col-sm-offset-2',
+            'col-sm-offset-3',
+            'col-sm-offset-4',
+            'col-sm-offset-5',
+            'col-sm-offset-6',
+            'col-sm-offset-7',
+            'col-sm-offset-8',
+            'col-sm-offset-9',
+            'col-sm-offset-10',
+            'col-sm-offset-11',
+            'col-sm-offset-12',
+            'col-sm-pull-0',
+            'col-sm-pull-1',
+            'col-sm-pull-2',
+            'col-sm-pull-3',
+            'col-sm-pull-4',
+            'col-sm-pull-5',
+            'col-sm-pull-6',
+            'col-sm-pull-7',
+            'col-sm-pull-8',
+            'col-sm-pull-9',
+            'col-sm-pull-10',
+            'col-sm-pull-11',
+            'col-sm-pull-12',
+            'col-sm-push-0',
+            'col-sm-push-1',
+            'col-sm-push-2',
+            'col-sm-push-3',
+            'col-sm-push-4',
+            'col-sm-push-5',
+            'col-sm-push-6',
+            'col-sm-push-7',
+            'col-sm-push-8',
+            'col-sm-push-9',
+            'col-sm-push-10',
+            'col-sm-push-11',
+            'col-sm-push-12',
+            'col-xs-1',
+            'col-xs-2',
+            'col-xs-3',
+            'col-xs-4',
+            'col-xs-5',
+            'col-xs-6',
+            'col-xs-7',
+            'col-xs-8',
+            'col-xs-9',
+            'col-xs-10',
+            'col-xs-11',
+            'col-xs-12',
+            'col-xs-offset-0',
+            'col-xs-offset-1',
+            'col-xs-offset-2',
+            'col-xs-offset-3',
+            'col-xs-offset-4',
+            'col-xs-offset-5',
+            'col-xs-offset-6',
+            'col-xs-offset-7',
+            'col-xs-offset-8',
+            'col-xs-offset-9',
+            'col-xs-offset-10',
+            'col-xs-offset-11',
+            'col-xs-offset-12',
+            'col-xs-pull-0',
+            'col-xs-pull-1',
+            'col-xs-pull-2',
+            'col-xs-pull-3',
+            'col-xs-pull-4',
+            'col-xs-pull-5',
+            'col-xs-pull-6',
+            'col-xs-pull-7',
+            'col-xs-pull-8',
+            'col-xs-pull-9',
+            'col-xs-pull-10',
+            'col-xs-pull-11',
+            'col-xs-pull-12',
+            'col-xs-push-0',
+            'col-xs-push-1',
+            'col-xs-push-2',
+            'col-xs-push-3',
+            'col-xs-push-4',
+            'col-xs-push-5',
+            'col-xs-push-6',
+            'col-xs-push-7',
+            'col-xs-push-8',
+            'col-xs-push-9',
+            'col-xs-push-10',
+            'col-xs-push-11',
+            'col-xs-push-12',
+            'control-label',
+            'danger',
+            'divider',
+            'dl-horizontal',
+            'dropdown-backdrop',
+            'dropdown-menu-left',
+            'form-control-static',
+            'form-group-lg',
+            'form-group-sm',
+            'form-horizontal',
+            'gradient',
+            'has-error',
+            'has-success',
+            'has-warning',
+            'help-block',
+            'hidden',
+            'hidden-lg',
+            'hidden-md',
+            'hidden-print',
+            'hidden-sm',
+            'hidden-xs',
+            'hide',
+            'icon-bar',
+            'icon-next',
+            'icon-prev',
+            'img-circle',
+            'img-responsive',
+            'img-rounded',
+            // 'in',
+            // 'info',
+            'input-lg',
+            'input-sm',
+            // 'item',
+            'label',
+            'label-danger',
+            'label-default',
+            'label-info',
+            'label-primary',
+            'label-success',
+            'label-warning',
+            // 'left',
+            'list-group-item-heading',
+            'list-group-item-text',
+            'media-bottom',
+            'media-heading',
+            'media-left',
+            'media-list',
+            'media-middle',
+            'media-object',
+            'media-right',
+            'navbar-btn',
+            'navbar-default',
+            'navbar-fixed-bottom',
+            'navbar-fixed-top',
+            'navbar-form',
+            'navbar-header',
+            'navbar-inverse',
+            'navbar-left',
+            'navbar-link',
+            'navbar-right',
+            'navbar-static-top',
+            'navbar-toggle',
+            'nav-divider',
+            'nav-stacked',
+            'nav-tabs-justified',
+            // 'next',
+            // 'open',
+            'page-header',
+            'pager',
+            'panel',
+            'panel-body',
+            'panel-collapse',
+            'panel-danger',
+            'panel-default',
+            'panel-footer',
+            'panel-group',
+            'panel-heading',
+            'panel-info',
+            'panel-primary',
+            'panel-success',
+            'panel-title',
+            'panel-warning',
+            'popover-content',
+            'popover-title',
+            // 'prev',
+            // 'previous',
+            'progress-bar-danger',
+            'progress-bar-info',
+            'progress-bar-success',
+            'progress-bar-warning',
+            'progress-striped',
+            'pull-left',
+            'pull-right',
+            'radio',
+            'radio-inline',
+            // 'right',
+            'row-no-gutters',
+            'success',
+            'table-condensed',
+            'thumbnail',
+            'tooltip-arrow',
+            // 'top',
+            // 'top-left',
+            // 'top-right',
+            'visible-lg',
+            'visible-lg-block',
+            'visible-lg-inline',
+            'visible-lg-inline-block',
+            'visible-md',
+            'visible-md-block',
+            'visible-md-inline',
+            'visible-md-inline-block',
+            'visible-print',
+            'visible-print-block',
+            'visible-print-inline',
+            'visible-print-inline-block',
+            'visible-sm',
+            'visible-sm-block',
+            'visible-sm-inline',
+            'visible-sm-inline-block',
+            'visible-xs',
+            'visible-xs-block',
+            'visible-xs-inline',
+            'visible-xs-inline-block',
+            'warning',
+            'well',
+            'well-lg',
+            'well-sm'
+        ];
+        var bs3ClassesSelector = bs3Classes.map(function (x) {
+            return '.' + x;
+        }).join();
+        var bs3ClassUsage = $(bs3ClassesSelector);
+        if (bs3ClassUsage.length) {
+            reporter('Found usage of CSS classes specific to Bootstrap 3.', bs3ClassUsage);
         }
     });
 
@@ -12535,17 +12793,6 @@ var LocationIndex = _location.LocationIndex;
         };
 
     })());
-    addLinter('E002', function lintBootstrapv2($, reporter) {
-        var columnClasses = [];
-        for (var n = 1; n <= 12; n++) {
-            columnClasses.push('.span' + n);
-        }
-        var selector = columnClasses.join(',');
-        var spanNs = $(selector);
-        if (spanNs.length) {
-            reporter('Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes', spanNs);
-        }
-    });
     addLinter('E003', function lintContainers($, reporter) {
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
@@ -12566,12 +12813,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`', rowsOutsideColumnsAndContainers);
         }
     });
-    addLinter('E004', function lintNestedContainers($, reporter) {
-        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
-        if (nestedContainers.length) {
-            reporter('Containers (`.container` and `.container-fluid`) are not nestable', nestedContainers);
-        }
-    });
     addLinter('E005', function lintRowAndColOnSameElem($, reporter) {
         var selector = COL_CLASSES.map(function (col) {
             return '.row' + col;
@@ -12579,13 +12820,13 @@ var LocationIndex = _location.LocationIndex;
 
         var rowCols = $(selector);
         if (rowCols.length) {
-            reporter('Found both `.row` and `.col-*-*` used on the same element', rowCols);
+            reporter('Found both `.row` and `.col*` used on the same element', rowCols);
         }
     });
     addLinter('E006', function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
         if (selectInputGroups.length) {
-            reporter('`.input-group` contains a `<select>`; this should be avoided as `<select>`s cannot be fully styled in WebKit browsers', selectInputGroups);
+            reporter('`.input-group` contains a `<select>`; only text-based `<input>`s are permitted in an `.input-group`', selectInputGroups);
         }
         var textareaInputGroups = $('.input-group textarea');
         if (textareaInputGroups.length) {
@@ -12601,9 +12842,7 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E009', function lintMissingInputGroupSizes($, reporter) {
         var selector = [
             '.input-group:not(.input-group-lg) .btn-lg',
-            '.input-group:not(.input-group-lg) .input-lg',
-            '.input-group:not(.input-group-sm) .btn-sm',
-            '.input-group:not(.input-group-sm) .input-sm'
+            '.input-group:not(.input-group-sm) .btn-sm'
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
@@ -12619,9 +12858,9 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E011', function lintFormGroupMixedWithInputGroup($, reporter) {
-        var badMixes = $('.input-group.form-group');
+        var badMixes = $('.input-group.form-group, .input-group.row, .input-group.form-row');
         if (badMixes.length) {
-            reporter('`.input-group` and `.form-group` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`', badMixes);
+            reporter('`.input-group` and `.form-group`/`.row`/`.form-row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`/`.form-row`', badMixes);
         }
     });
     addLinter('E012', function lintGridClassMixedWithInputGroup($, reporter) {
@@ -12631,42 +12870,29 @@ var LocationIndex = _location.LocationIndex;
 
         var badMixes = $(selector);
         if (badMixes.length) {
-            reporter('`.input-group` and `.col-*-*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col-*-*`', badMixes);
+            reporter('`.input-group` and `.col*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col*`', badMixes);
         }
     });
     addLinter('E013', function lintRowChildrenAreCols($, reporter) {
-        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix', '.bs-customizer-input']);
-        var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
+        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix']);
+        var disallowedChildren = ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
+        var selector = '.row>*' + disallowedChildren + ',.form-row>*' + disallowedChildren;
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            reporter('Only columns (`.col-*-*`) may be children of `.row`s', nonColRowChildren);
+            reporter('Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s.', nonColRowChildren);
         }
     });
     addLinter('E014', function lintColParentsAreRowsOrFormGroups($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row):not(.form-group)>' + colClass + ':not(col):not(th):not(td)';
+            return '*:not(.row):not(.form-row)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            reporter('Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s', colsOutsideRowsAndFormGroups);
-        }
-    });
-    addLinter('E015', function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
-        var addOnClasses = ['.input-group-addon', '.input-group-btn'];
-        var combos = [];
-        addOnClasses.forEach(function (first) {
-            addOnClasses.forEach(function (second) {
-                combos.push('.input-group>' + first + '+' + second);
-            });
-        });
-        var selector = combos.join(',');
-        var multipleAddOns = $(selector);
-        if (multipleAddOns.length) {
-            reporter('Having multiple add-ons on a single side of an input group is not supported', multipleAddOns);
+            reporter('Columns (`.col*`) can only be children of `.row`s or `.form-row`s', colsOutsideRowsAndFormGroups);
         }
     });
     addLinter('E016', function lintBtnToggle($, reporter) {
@@ -12737,34 +12963,36 @@ var LocationIndex = _location.LocationIndex;
             reporter('Modal markup should not be placed within other components, so as to avoid the component\'s styles interfering with the modal\'s appearance or functionality', badNestings);
         }
     });
-    addLinter('E023', function lintPanelBodyWithoutPanel($, reporter) {
-        var badPanelBody = $('.panel-body').parent(':not(.panel, .panel-collapse)');
+    addLinter('E023', function lintCardBodyWithoutCard($, reporter) {
+        var badPanelBody = $('.card-body').filter(function () {
+            return $(this).closest('.card').length !== 1;
+        });
         if (badPanelBody.length) {
-            reporter('`.panel-body` must have a `.panel` or `.panel-collapse` parent', badPanelBody);
+            reporter('`.card-body` must have `.card` or such an ancestor.', badPanelBody);
         }
     });
-    addLinter('E024', function lintPanelHeadingWithoutPanel($, reporter) {
-        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
+    addLinter('E024', function lintCardHeadingWithoutCard($, reporter) {
+        var badPanelHeading = $('.card-header').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelHeading.length) {
-            reporter('`.panel-heading` must have a `.panel` parent', badPanelHeading);
+            reporter('`.card-header` must have one `.card` ancestor.', badPanelHeading);
         }
     });
-    addLinter('E025', function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel, .panel-collapse)');
+    addLinter('E025', function lintCardFooterWithoutCard($, reporter) {
+        var badPanelFooter = $('.card-footer').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelFooter.length) {
-            reporter('`.panel-footer` must have a `.panel` or `.panel-collapse` parent', badPanelFooter);
+            reporter('`.card-footer` must have one `.card` ancestor.', badPanelFooter);
         }
     });
-    addLinter('E026', function lintPanelTitleWithoutPanelHeading($, reporter) {
-        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
+    addLinter('E026', function lintCardTitleWithoutCard($, reporter) {
+        var badPanelTitle = $('.card-title').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
         if (badPanelTitle.length) {
-            reporter('`.panel-title` must have a `.panel-heading` parent', badPanelTitle);
-        }
-    });
-    addLinter('E027', function lintTableResponsive($, reporter) {
-        var badStructure = $('.table.table-responsive, table.table-responsive');
-        if (badStructure.length) {
-            reporter('`.table-responsive` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself', badStructure);
+            reporter('`.card-title` must have one `.card` ancestor.', badPanelBody);
         }
     });
     addLinter('E028', function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
@@ -12772,7 +13000,7 @@ var LocationIndex = _location.LocationIndex;
             return $(this).closest('.form-group.has-feedback').length !== 1;
         });
         if (ancestorsMissingClasses.length) {
-            reporter('`.form-control-feedback` must have a `.form-group.has-feedback` ancestor', ancestorsMissingClasses);
+            reporter('`.form-control-feedback` must have `.form-group.has-feedback` or such an ancestor', ancestorsMissingClasses);
         }
     });
     addLinter('E029', function lintRedundantColumnClasses($, reporter) {
@@ -12783,27 +13011,26 @@ var LocationIndex = _location.LocationIndex;
             var simplifiedClasses = classes;
             var width2screens = width2screensFor(classes);
             var isRedundant = false;
-            for (var width = 1; width <= NUM_COLS; width++) {
-                var screens = width2screens[width];
-                if (!screens) {
-                    continue;
-                }
-                var runs = incrementingRunsFrom(screens);
-                if (!runs.length) {
-                    continue;
-                }
+            for (var width in width2screens) {
+                if (width2screens.hasOwnProperty(width)) {
+                    var screens = width2screens[width];
+                    var runs = incrementingRunsFrom(screens);
+                    if (!runs.length) {
+                        continue;
+                    }
 
-                isRedundant = true;
+                    isRedundant = true;
 
-                for (var i = 0; i < runs.length; i++) {
-                    var run = runs[i];
-                    var min = run[0];
-                    var max = run[1];
+                    for (var i = 0; i < runs.length; i++) {
+                        var run = runs[i];
+                        var min = run[0];
+                        var max = run[1];
 
-                    // remove redundant classes
-                    for (var screenNum = min + 1; screenNum <= max; screenNum++) {
-                        var colClass = 'col-' + NUM2SCREEN[screenNum] + '-' + width;
-                        simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        // remove redundant classes
+                        for (var screenNum = min + 1; screenNum <= max; screenNum++) {
+                            var colClass = 'col' + (NUM2SCREEN[screenNum] && '-' + NUM2SCREEN[screenNum]) + (width && '-' + width);
+                            simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        }
                     }
                 }
             }
@@ -12821,20 +13048,6 @@ var LocationIndex = _location.LocationIndex;
                 column
             );
         });
-    });
-    addLinter('E030', function lintSoloGlyphiconClasses($, reporter) {
-        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
-            return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
-        });
-        if (missingGlyphiconClass.length) {
-            reporter('Found elements with a `.glyphicon-*` class that were missing the additional required `.glyphicon` class.', missingGlyphiconClass);
-        }
-    });
-    addLinter('E031', function lintGlyphiconOnNonEmptyElement($, reporter) {
-        var glyphiconNotEmpty = $('.glyphicon:not(:empty)');
-        if (glyphiconNotEmpty.length) {
-            reporter('Glyphicon classes must only be used on elements that contain no text content and have no child elements.', glyphiconNotEmpty);
-        }
     });
     addLinter('E032', function lintModalStructure($, reporter) {
         var elements;
@@ -12888,18 +13101,18 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     addLinter('E035', function lintFormGroupWithFormClass($, reporter) {
-        var badFormGroups = $('.form-group.form-inline, .form-group.form-horizontal');
+        var badFormGroups = $('.form-group.form-inline');
         if (badFormGroups.length) {
-            reporter('Neither `.form-inline` nor `.form-horizontal` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline` or `.form-horizontal`', badFormGroups);
+            reporter('Neither `.form-inline` should be used directly on a `.form-group`. Instead, nest the `.form-group` within the `.form-inline`.', badFormGroups);
         }
     });
     addLinter('E037', function lintColZeros($, reporter) {
         var selector = SCREENS.map(function (screen) {
-            return '.col-' + screen + '-0';
+            return '.col' + (screen && '-' + screen) + '-0';
         }).join(',');
         var elements = $(selector);
         if (elements.length) {
-            reporter('Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.', elements);
+            reporter('Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.', elements);
         }
     });
     addLinter('E038', function lintMediaPulls($, reporter) {
@@ -12916,12 +13129,6 @@ var LocationIndex = _location.LocationIndex;
         });
         if (navbarPullsOutsideNavbars.length) {
             reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
-        }
-    });
-    addLinter('E040', function lintModalHide($, reporter) {
-        var modalsWithHide = $('.modal.hide');
-        if (modalsWithHide.length) {
-            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
         }
     });
     addLinter('E041', function lintCarouselStructure($, reporter) {
@@ -12974,16 +13181,16 @@ var LocationIndex = _location.LocationIndex;
     addLinter('E044', function lintInputGroupAddonChildren($, reporter) {
         var badInputGroups = $('.input-group').filter(function () {
             var inputGroup = $(this);
-            return !inputGroup.children('.form-control').length || !inputGroup.children('.input-group-addon, .input-group-btn').length;
+            return !inputGroup.children('.form-control').length || !inputGroup.children('.input-group-prepend, .input-group-append').length;
         });
         if (badInputGroups.length) {
-            reporter('`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`.', badInputGroups);
+            reporter('`.input-group` must have a `.form-control` and either an `.input-group-prepend` or `.input-group-append`.', badInputGroups);
         }
     });
-    addLinter('E045', function lintImgResponsiveOnNonImgs($, reporter) {
-        var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
-        if (imgResponsiveNotOnImg.length) {
-            reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
+    addLinter('E045', function lintImgFluidOnNonImgs($, reporter) {
+        var imgFluidNotOnImg = $('.img-fluid:not(img)');
+        if (imgFluidNotOnImg.length) {
+            reporter('`.img-fluid` should only be used on `<img>`s', imgFluidNotOnImg);
         }
     });
     addLinter('E046', function lintModalTabIndex($, reporter) {
@@ -13018,11 +13225,11 @@ var LocationIndex = _location.LocationIndex;
     });
     addLinter('E051', function lintColumnsNoFloats($, reporter) {
         var pullSelector = COL_CLASSES.map(function (col) {
-            return '.pull-left' + col + ',.pull-right' + col;
+            return '.float-left' + col + ',.float-right' + col;
         }).join(',');
         var pulledCols = $(pullSelector);
         if (pulledCols.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements', pulledCols);
+            reporter('`.float-right` and `.float-left` must not be used on `.col*` elements', pulledCols);
         }
         var styledSelector = COL_CLASSES.map(function (col) {
             return col + '[style]';
@@ -13032,13 +13239,13 @@ var LocationIndex = _location.LocationIndex;
             return /float\s*:\s*[a-z]+/i.test($(el).attr('style'));
         });
         if (styledCols.length) {
-            reporter('Manually added `float` styles must not be added on `.col-*-*` elements', styledCols);
+            reporter('Manually added `float` styles must not be added on `.col*` elements', styledCols);
         }
     });
     addLinter('E052', function lintRowsNoFloats($, reporter) {
-        var pulledRows = $('.row.pull-right, .row.pull-left');
+        var pulledRows = $('.row.float-right, .row.float-left');
         if (pulledRows.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.row` elements', pulledRows);
+            reporter('`.float-right` and `.float-left` must not be used on `.row` elements', pulledRows);
         }
         var styledRows = $('.row[style]').filter(function (i, el) {
             //test for `float:*` in the style attribute
