@@ -13088,18 +13088,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.alert` with dismiss button must have class `.alert-dismissible`', alertsMissingDismissible);
         }
     });
-    addLinter('E034', function lintAlertDismissStructure($, reporter) {
-        var nonFirstChildCloses = $('.alert>.close:not(:first-child)');
-        var closesPrecededByText = $('.alert>.close').filter(function () {
-            var firstNode = $(this).parent().contents().eq(0);
-            var firstNodeIsText = IN_NODE_JS ? firstNode[0].type === 'text' : firstNode[0].nodeType === 3;
-            return Boolean(firstNodeIsText && firstNode.text().trim());
-        });
-        var problematicCloses = nonFirstChildCloses.add(closesPrecededByText);
-        if (problematicCloses.length) {
-            reporter('`.close` button for `.alert` must be the first element in the `.alert`', problematicCloses);
-        }
-    });
     addLinter('E035', function lintFormGroupWithFormClass($, reporter) {
         var badFormGroups = $('.form-group.form-inline');
         if (badFormGroups.length) {
