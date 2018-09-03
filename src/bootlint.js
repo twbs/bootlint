@@ -1055,7 +1055,7 @@ var LocationIndex = _location.LocationIndex;
             return $(this).closest('.card').length !== 1;
         });
         if (badPanelBody.length) {
-            reporter('`.card-body` must have `.card` or such an ancestor.', badPanelBody);
+            reporter('`.card-body` must have `.card` or have it as an ancestor.', badPanelBody);
         }
     });
     addLinter('E024', function lintCardHeadingWithoutCard($, reporter) {
@@ -1087,7 +1087,7 @@ var LocationIndex = _location.LocationIndex;
             return $(this).closest('.form-group.has-feedback').length !== 1;
         });
         if (ancestorsMissingClasses.length) {
-            reporter('`.form-control-feedback` must have `.form-group.has-feedback` or such an ancestor', ancestorsMissingClasses);
+            reporter('`.form-control-feedback` must have `.form-group.has-feedback` or have it as an ancestor', ancestorsMissingClasses);
         }
     });
     addLinter('E029', function lintRedundantColumnClasses($, reporter) {
