@@ -6,8 +6,6 @@
  */
 
 var cheerio = require('cheerio');
-var parseUrl = require('url').parse;
-var semver = require('semver');
 var voidElements = require('void-elements');
 var _location = require('./location');
 var LocationIndex = _location.LocationIndex;
@@ -33,8 +31,6 @@ var LocationIndex = _location.LocationIndex;
     };
     var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
-    var MIN_JQUERY_VERSION = '3.0.0';
-    var CURRENT_BOOTSTRAP_VERSION = '4.0.0-beta';
     var PLUGINS = [
         'alert',
         'button',
@@ -47,16 +43,6 @@ var LocationIndex = _location.LocationIndex;
         'tab',
         'tooltip'
     ];
-    var BOOTSTRAP_FILES = [
-        'link[rel="stylesheet"][href$="/bootstrap.css"]',
-        'link[rel="stylesheet"][href="bootstrap.css"]',
-        'link[rel="stylesheet"][href$="/bootstrap.min.css"]',
-        'link[rel="stylesheet"][href="bootstrap.min.css"]',
-        'script[src$="/bootstrap.js"]',
-        'script[src="bootstrap.js"]',
-        'script[src$="/bootstrap.min.js"]',
-        'script[src="bootstrap.min.js"]'
-    ].join(',');
     var WIKI_URL = 'https://github.com/twbs/bootlint/wiki/';
 
     function compareNums(a, b) {
@@ -65,24 +51,6 @@ var LocationIndex = _location.LocationIndex;
 
     function isDoctype(node) {
         return node.type === 'directive' && node.name === '!doctype';
-    }
-
-    var tagNameOf = IN_NODE_JS ?
-        function (element) {
-            return element.name.toUpperCase();
-        } :
-        function (element) {
-            /* @covignore */
-            return element.tagName.toUpperCase();
-        };
-
-    function filenameFromUrl(url) {
-        var filename = url.replace(/[#?].*$/, ''); // strip querystring & fragment ID
-        var lastSlash = filename.lastIndexOf('/');
-        if (lastSlash !== -1) {
-            filename = filename.slice(lastSlash + 1);
-        }
-        return filename;
     }
 
     function withoutClass(classes, klass) {
@@ -186,79 +154,6 @@ var LocationIndex = _location.LocationIndex;
     }
 
     /**
-     * @returns {(Window|null)} The browser window object, or null if this is not running in a browser environment
-     */
-    function getBrowserWindowObject() {
-        var theWindow = null;
-        try {
-            /* eslint-disable no-undef, block-scoped-var */
-            theWindow = window;
-            /* eslint-enable no-undef, block-scoped-var */
-        } catch (e) {
-            // deliberately do nothing
-            // empty
-        }
-
-        return theWindow;
-    }
-
-    function versionsIn(strings) {
-        return strings.map(function (str) {
-            var match = str.match(/^\d+\.\d+\.\d+$/);
-            return match ? match[0] : null;
-        }).filter(function (match) {
-            return match !== null;
-        });
-    }
-
-    function versionInLinkedElement($, element) {
-        var elem = $(element);
-        var urlAttr = tagNameOf(element) === 'LINK' ? 'href' : 'src';
-        var pathSegments = parseUrl(elem.attr(urlAttr)).pathname.split('/');
-        var versions = versionsIn(pathSegments);
-        if (!versions.length) {
-            return null;
-        }
-        var version = versions[versions.length - 1];
-        return version;
-    }
-
-    function jqueryPluginVersions(jQuery) {
-        /* @covignore */
-        return PLUGINS.map(function (pluginName) {
-            var plugin = jQuery.fn[pluginName];
-            if (!plugin) {
-                return undefined;
-            }
-            var constructor = plugin.Constructor;
-            if (!constructor) {
-                return undefined;
-            }
-            return constructor.VERSION;
-        }).filter(function (version) {
-            return typeof version !== 'undefined';
-        }).sort(semver.compare);
-    }
-
-    function bootstrapScriptsIn($) {
-        var longhands = $('script[src*="bootstrap.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === 'bootstrap.js';
-        });
-        var minifieds = $('script[src*="bootstrap.min.js"]').filter(function (i, script) {
-            var url = $(script).attr('src');
-            var filename = filenameFromUrl(url);
-            return filename === 'bootstrap.min.js';
-        });
-
-        return {
-            longhands: longhands,
-            minifieds: minifieds
-        };
-    }
-
-    /**
      * @param {integer} id Unique string ID for this type of lint error. Of the form "E###" (e.g. "E123").
      * @param {string} message Human-readable string describing the error
      * @param {jQuery} elements jQuery or Cheerio collection of referenced DOM elements pointing to all problem locations in the document
@@ -345,82 +240,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Found one or more modals using the removed `remote` option', remoteModalTriggers);
         }
     });
-    addLinter('W005', function lintJquery($, reporter) {
-        var OLD_JQUERY = 'Found what might be an outdated version of jQuery; Bootstrap requires jQuery v' + MIN_JQUERY_VERSION + ' or higher';
-        var NO_JQUERY_BUT_BS_JS = 'Unable to locate jQuery, which is required for Bootstrap\'s JavaScript plugins to work';
-        var NO_JQUERY_NOR_BS_JS = 'Unable to locate jQuery, which is required for Bootstrap\'s JavaScript plugins to work; however, you might not be using Bootstrap\'s JavaScript';
-        var bsScripts = bootstrapScriptsIn($);
-        var hasBsJs = Boolean(bsScripts.minifieds.length || bsScripts.longhands.length);
-        var theWindow = null;
-        try {
-            /* eslint-disable no-undef, block-scoped-var */
-            theWindow = window;
-            /* eslint-enable no-undef, block-scoped-var */
-        } catch (e) {
-            // deliberately do nothing
-            // empty
-        }
-        /* @covignore */
-        if (theWindow) {
-            // check browser global jQuery
-            var globaljQuery = theWindow.$ || theWindow.jQuery;
-            if (globaljQuery) {
-                var globalVersion = null;
-                try {
-                    globalVersion = globaljQuery.fn.jquery.split(' ')[0];
-                } catch (e) {
-                    // skip; not actually jQuery?
-                    // empty
-                }
-                if (globalVersion) {
-                    // pad out short version numbers (e.g. '1.7')
-                    while (globalVersion.match(/\./g).length < 2) {
-                        globalVersion += '.0';
-                    }
-
-                    var upToDate = null;
-                    try {
-                        upToDate = semver.gte(globalVersion, MIN_JQUERY_VERSION, true);
-                    } catch (e) {
-                        // invalid version number
-                        // empty
-                    }
-                    if (upToDate === false) {
-                        reporter(OLD_JQUERY);
-                    }
-                    if (upToDate !== null) {
-                        return;
-                    }
-                }
-            }
-        }
-
-        // check for jQuery <script>s
-        var jqueries = $([
-            'script[src*="jquery"]',
-            'script[src*="jQuery"]'
-        ].join(','));
-        if (!jqueries.length) {
-            reporter(hasBsJs ? NO_JQUERY_BUT_BS_JS : NO_JQUERY_NOR_BS_JS);
-            return;
-        }
-        jqueries.each(function () {
-            var script = $(this);
-            var pathSegments = parseUrl(script.attr('src')).pathname.split('/');
-            var filename = pathSegments[pathSegments.length - 1];
-            if (!/^j[qQ]uery(\.min)?\.js$/.test(filename)) {
-                return;
-            }
-            var versions = versionsIn(pathSegments);
-            if (!versions.length) {
-                return;
-            }
-            var version = versions[versions.length - 1];
-            if (!semver.gte(version, MIN_JQUERY_VERSION, true)) {
-                reporter(OLD_JQUERY, script);
-            }
-        });
-    });
     addLinter('W006', function lintTooltipsOnDisabledElems($, reporter) {
         var selector = [
             '[disabled][data-toggle="tooltip"]',
@@ -467,33 +286,6 @@ var LocationIndex = _location.LocationIndex;
             }
 
             reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.', column);
-        });
-    });
-    addLinter('W013', function lintOutdatedBootstrap($, reporter) {
-        var OUTDATED_BOOTSTRAP = 'Bootstrap version does not seem to match the version this bootlint version is for (' + CURRENT_BOOTSTRAP_VERSION + '); saw what appears to be usage of Bootstrap ';
-        var theWindow = getBrowserWindowObject();
-        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        /* @covignore */
-        if (globaljQuery) {
-            var versions = jqueryPluginVersions(globaljQuery);
-            if (versions.length) {
-                var minVersion = versions[0];
-                if (semver.lt(minVersion, CURRENT_BOOTSTRAP_VERSION, true)) {
-                    reporter(OUTDATED_BOOTSTRAP + minVersion);
-                    return;
-                }
-            }
-        }
-        // check for Bootstrap <link>s and <script>s
-        var bootstraps = $(BOOTSTRAP_FILES);
-        bootstraps.each(function () {
-            var version = versionInLinkedElement($, this);
-            if (version === null) {
-                return;
-            }
-            if (semver.lt(version, CURRENT_BOOTSTRAP_VERSION, true)) {
-                reporter(OUTDATED_BOOTSTRAP + version, $(this));
-            }
         });
     });
     addLinter('W014', function lintCarouselControls($, reporter) {
@@ -918,12 +710,6 @@ var LocationIndex = _location.LocationIndex;
         var textareaInputGroups = $('.input-group textarea');
         if (textareaInputGroups.length) {
             reporter('`.input-group` contains a `<textarea>`; only text-based `<input>`s are permitted in an `.input-group`', textareaInputGroups);
-        }
-    });
-    addLinter('E007', function lintBootstrapJs($, reporter) {
-        var scripts = bootstrapScriptsIn($);
-        if (scripts.longhands.length && scripts.minifieds.length) {
-            reporter('Only one copy of Bootstrap\'s JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js', scripts.longhands.add(scripts.minifieds));
         }
     });
     addLinter('E009', function lintMissingInputGroupSizes($, reporter) {
