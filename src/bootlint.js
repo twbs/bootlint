@@ -633,7 +633,13 @@ var LocationIndex = _location.LocationIndex;
         }).join();
         var bs3ClassUsage = $(bs3ClassesSelector);
         if (bs3ClassUsage.length) {
-            reporter('Found usage of CSS classes specific to Bootstrap 3.', bs3ClassUsage);
+            var bs3ClassesUsed = [];
+            for (var i = 0; i < bs3Classes.length; ++i) {
+                if ($("." + bs3Classes[i]).length) {
+                    bs3ClassesUsed.push(bs3Classes[i]);
+                }
+            }
+            reporter('Found usage of CSS classes specific to Bootstrap 3 (' + bs3ClassesUsed.join() + ').', bs3ClassUsage);
         }
     });
 
