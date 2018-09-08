@@ -1,5 +1,6 @@
-# Bootlint
+# Bootlint-NG
 
+<!--
 [![NPM version](https://img.shields.io/npm/v/bootlint.svg)](https://www.npmjs.com/package/bootlint)
 [![Build Status](https://img.shields.io/travis/twbs/bootlint/master.svg)](https://travis-ci.org/twbs/bootlint)
 [![Coverage Status](https://img.shields.io/coveralls/twbs/bootlint.svg?branch=master)](https://coveralls.io/r/twbs/bootlint)
@@ -7,8 +8,13 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg "MIT License")](https://github.com/twbs/bootlint/blob/master/LICENSE)
 [![Dependency Status](https://img.shields.io/david/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint)
 [![devDependency Status](https://img.shields.io/david/dev/twbs/bootlint.svg)](https://david-dm.org/twbs/bootlint?type=dev)
+-->
 
-An HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](https://getbootstrap.com/) projects
+A fork of [Bootlint](https://github.com/twbs/bootlint), an HTML [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) for [Bootstrap](https://getbootstrap.com/) projects.
+
+Below is the README from the original for now. Some of the information might not apply, e.g. for the bookmarklet you would have to change the URL inside.
+
+---
 
 ## What's Bootlint?
 
