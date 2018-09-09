@@ -195,45 +195,6 @@ exports.bootlint = {
     },
     */
     /*
-    'jQuery': function (test) {
-        test.expect(5);
-        test.deepEqual(lintHtml(utf8Fixture('jquery/present.html')),
-            [],
-            'should not complain when jQuery is present.');
-        test.deepEqual(lintHtml(utf8Fixture('jquery/jquery-plugin.html')),
-            [],
-            'should not complain when jQuery & a plugin is present.');
-        test.deepEqual(lintHtml(utf8Fixture('jquery/old-url.html')),
-            ['Found what might be an outdated version of jQuery; Bootstrap requires jQuery v1.9.1 or higher'],
-            'should complain about old version of jQuery based on URL');
-        test.deepEqual(lintHtml(utf8Fixture('jquery/missing.html')),
-            ['Unable to locate jQuery, which is required for Bootstrap\'s JavaScript plugins to work'],
-            'should complain when jQuery appears to be missing.');
-        test.deepEqual(lintHtml(utf8Fixture('jquery/and_bs_js_both_missing.html')),
-            ['Unable to locate jQuery, which is required for Bootstrap\'s JavaScript plugins to work; however, you might not be using Bootstrap\'s JavaScript'],
-            'should complain differently when jQuery appears to be missing but Bootstrap\'s JS is also missing.');
-        test.done();
-    },
-    */
-    /*
-    'bootstrap[.min].js': function (test) {
-        test.expect(4);
-        test.deepEqual(lintHtml(utf8Fixture('js/both.html')),
-            ['Only one copy of Bootstrap\'s JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js'],
-            'should complain when both bootstrap.js and bootstrap.min.js are included.');
-        test.deepEqual(lintHtml(utf8Fixture('js/one.html')),
-            [],
-            'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included.');
-        test.deepEqual(lintHtml(utf8Fixture('js/similar.html')),
-            [],
-            'should not complain when only 1 of bootstrap.js and bootstrap.min.js is included but another JS file with "bootstrap" in its name is included.');
-        test.deepEqual(lintHtml(utf8Fixture('js/weird.html')),
-            ['Only one copy of Bootstrap\'s JS should be included; currently the webpage includes both bootstrap.js and bootstrap.min.js'],
-            'should complain when both bootstrap.js and bootstrap.min.js are included, even when their URLs use fragments and query strings.');
-        test.done();
-    },
-    */
-    /*
     'input groups with impermissible kind of form control': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('input-group/textarea.html')),
@@ -751,48 +712,6 @@ exports.bootlint = {
             ],
             'should complain about usage of .col-lg-0 class.'
         );
-        test.done();
-    },
-    */
-    /*
-    'outdated version of Bootstrap': function (test) {
-        test.expect(5);
-        test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-css.html')),
-            ['Bootstrap version might be outdated. Latest version is at least 3.3.7 ; saw what appears to be usage of Bootstrap 3.2.0'],
-            'should complain about outdated bootstrap.css.');
-        test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-min-css.html')),
-            ['Bootstrap version might be outdated. Latest version is at least 3.3.7 ; saw what appears to be usage of Bootstrap 3.2.0'],
-            'should complain about outdated bootstrap.min.css.');
-        test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-js.html')),
-            ['Bootstrap version might be outdated. Latest version is at least 3.3.7 ; saw what appears to be usage of Bootstrap 3.2.0'],
-            'should complain about outdated bootstrap.js.');
-        test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-min-js.html')),
-            ['Bootstrap version might be outdated. Latest version is at least 3.3.7 ; saw what appears to be usage of Bootstrap 3.2.0'],
-            'should complain about outdated bootstrap.min.js.');
-        test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-extensions-okay.html')),
-            [],
-            'should not complain about outdated libraries that just have "bootstrap" in their name.');
-        test.done();
-    },
-    */
-    /*
-    'version 4 of Bootstrap': function (test) {
-        test.expect(5);
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-css.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.css.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-css.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.min.css.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-js.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.js.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-js.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.min.js.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-extensions-okay.html')),
-            [],
-            'should not complain about v4.0.0+ libraries that just have "bootstrap" in their name.');
         test.done();
     },
     */
