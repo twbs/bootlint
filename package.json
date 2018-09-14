@@ -75,9 +75,9 @@
     "node": ">=6"
   },
   "files": [
-    "bin",
-    "dist",
-    "src",
+    "bin/www",
+    "dist/**/*.js",
+    "src/*.js",
     "app.js"
   ],
   "keywords": [
