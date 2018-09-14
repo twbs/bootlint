@@ -79,7 +79,7 @@ Please follow the instructions below to get up and running:
 3. Set the URL equal to
 
 ```js
-javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
+javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://stackpath.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();
 ```
 
 Note: The snippet above will ensure you are always running the latest version of bootlint. If you want to reference a specific version of bootlint please see the [BootstrapCDN](https://www.bootstrapcdn.com/bootlint/). Copy the URL and update `s.src="PASTE-ME-HERE"`.
