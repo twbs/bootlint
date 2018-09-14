@@ -16,7 +16,7 @@ Bootlint is a tool that checks for several common HTML mistakes in webpages that
 
 ### Caveats
 
-Bootlint assumes that your webpage is already valid HTML5. If you need to check HTML5 validity, we recommend tools like [`vnu.jar`](https://validator.github.io/validator/), [grunt-html](https://www.npmjs.org/package/grunt-html), or [grunt-html-validation](https://www.npmjs.org/package/grunt-html-validation).
+Bootlint assumes that your webpage is already valid HTML5. If you need to check HTML5 validity, we recommend tools like [`vnu.jar`](https://validator.github.io/validator/) or [grunt-html](https://www.npmjs.org/package/grunt-html).
 
 Bootlint assumes that you are using Bootstrap's default class names in your webpage, as opposed to taking advantage of the "mixins" functionality of Less or Sass to map them to custom class names. If you are using mixins, Bootlint may report some false-positive warnings. However, there are some Bootlint checks that are applicable even if you are using mixins pervasively.
 
