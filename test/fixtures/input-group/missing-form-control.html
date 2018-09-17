@@ -17,19 +17,14 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="input-group">
-            <input type="text" class="form-control">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Work it!</button>
-            </span>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Harder!</button>
-            </span>
-        </div>
+
+      <div class="input-group">
+        <input class="form-control" type="text">
+      </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Having multiple add-ons on a single side of an input group is not supported"></li>
+          <li data-lint="`.input-group` must have at least one `.form-control`/`.custom-select`/`.custom-file` child and also at least one `.input-group-prepend`/`.input-group-append` child."></li>
         </ol>
     </body>
 </html>
