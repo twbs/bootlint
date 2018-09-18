@@ -56,6 +56,7 @@ exports.bootlint = {
             'should not complain when the legacy-compatibility HTML5 doctype is used.');
         test.done();
     },
+    /*
     'disabling lint checks': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('bs-v2.html'), ['E002', 'E013']),
@@ -63,6 +64,8 @@ exports.bootlint = {
             'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
+    */
+    /*
     'UTF-8 charset meta tag': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('charset/utf8.html')),
@@ -79,6 +82,8 @@ exports.bootlint = {
             'should complain when <meta> tag specifies non-UTF-8 charset.');
         test.done();
     },
+    */
+    /*
     'X-UA-Compatible': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/present.html')),
@@ -92,6 +97,8 @@ exports.bootlint = {
             'should complain when X-UA-Compatible <meta> tag is missing.');
         test.done();
     },
+    */
+    /*
     'Bootstrap v2': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('bs-v2.html')),
@@ -102,6 +109,8 @@ exports.bootlint = {
             'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
+    */
+    /*
     'rows outside containers': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('containers/fixed.html')),
@@ -121,6 +130,8 @@ exports.bootlint = {
             'should not complain when rows are descendants (but not children) of containers.');
         test.done();
     },
+    */
+    /*
     'nested containers': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('containers/nested-fixed-fixed.html')),
@@ -137,6 +148,8 @@ exports.bootlint = {
             'should complain when a container is within a container.');
         test.done();
     },
+    */
+    /*
     'viewport meta tag': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('viewport/present.html')),
@@ -147,6 +160,8 @@ exports.bootlint = {
             'should complain when viewport <meta> tag is missing.');
         test.done();
     },
+    */
+    /*
     'row and column classes on same element': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/row-col-same-elem.html')),
@@ -157,6 +172,8 @@ exports.bootlint = {
             'should complain when .row and .col-*-* are used on the same element.');
         test.done();
     },
+    */
+    /*
     'row and container classes on same element': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('containers/fixed-row-same-elem.html')),
@@ -167,6 +184,8 @@ exports.bootlint = {
             'should complain when .row and .container-fluid are used on the same element.');
         test.done();
     },
+    */
+    /*
     'remote modals': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('modal/remote.html')),
@@ -174,6 +193,8 @@ exports.bootlint = {
             'should complain when remote modals are present.');
         test.done();
     },
+    */
+    /*
     'jQuery': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('jquery/present.html')),
@@ -193,6 +214,8 @@ exports.bootlint = {
             'should complain differently when jQuery appears to be missing but Bootstrap\'s JS is also missing.');
         test.done();
     },
+    */
+    /*
     'bootstrap[.min].js': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('js/both.html')),
@@ -209,6 +232,8 @@ exports.bootlint = {
             'should complain when both bootstrap.js and bootstrap.min.js are included, even when their URLs use fragments and query strings.');
         test.done();
     },
+    */
+    /*
     'input groups with impermissible kind of form control': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('input-group/textarea.html')),
@@ -222,6 +247,8 @@ exports.bootlint = {
             'should not complain about input groups with text-based <input>s.');
         test.done();
     },
+    */
+    /*
     'tooltips and popovers on disabled elements': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('tooltips/on-disabled-elems.html')),
@@ -234,6 +261,8 @@ exports.bootlint = {
             'should complain about tooltips and popovers on disabled elements.');
         test.done();
     },
+    */
+    /*
     'tooltips and popovers within button groups should have their container set to body': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('tooltips/in-btn-groups.html')),
@@ -241,6 +270,8 @@ exports.bootlint = {
             'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
     },
+    */
+    /*
     'btn/input sizing used without input-group-* size': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('input-group/missing-input-group-sizing.html')),
@@ -248,6 +279,8 @@ exports.bootlint = {
             'should complain when an input/btn sizes are used within input-group.');
         test.done();
     },
+    */
+    /*
     'input groups with multiple form controls': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('input-group/multiple-form-controls.html')),
@@ -255,6 +288,8 @@ exports.bootlint = {
             'should complain when an input group contains multiple form controls.');
         test.done();
     },
+    */
+    /*
     'mixing input groups with form groups': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('input-group/mixed-with-form-group.html')),
@@ -262,6 +297,8 @@ exports.bootlint = {
             'should complain when .input-group and .form-group are used on the same element.');
         test.done();
     },
+    */
+    /*
     'mixing input groups with grid columns': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('input-group/mixed-with-grid-col.html')),
@@ -269,6 +306,8 @@ exports.bootlint = {
             'should complain when an input group has a grid column class on it.');
         test.done();
     },
+    */
+    /*
     'input groups missing controls and addons': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('input-group/missing-input-group-addon.html')),
@@ -279,6 +318,8 @@ exports.bootlint = {
             'should complain when missing missing a `.input-group-addon`');
         test.done();
     },
+    */
+    /*
     'non-column children of rows': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/non-col-row-children.html')),
@@ -289,6 +330,8 @@ exports.bootlint = {
             'should not complain about <script> child of row');
         test.done();
     },
+    */
+    /*
     'multiple columns on the same side of an input group': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('input-group/multiple-add-on-left.html')),
@@ -308,6 +351,8 @@ exports.bootlint = {
             'should complain when both a normal add-on and a button add-on are on the left side of an input group.');
         test.done();
     },
+    */
+    /*
     'dropdown-toggle comes before btn': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/btn-toggle.html')),
@@ -318,6 +363,8 @@ exports.bootlint = {
             'should complain when `.dropdown-toggle` is on the left side of a btn');
         test.done();
     },
+    */
+    /*
     'buttons should set type': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/without-type.html')),
@@ -328,6 +375,8 @@ exports.bootlint = {
             'should not complain when type is set on buttons');
         test.done();
     },
+    */
+    /*
     'use disabled attribute on button.btn and input.btn instead of .disabled': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('buttons/button-disabled-class.html')),
@@ -341,6 +390,8 @@ exports.bootlint = {
             'should not complain when disabled attribute is set on buttons');
         test.done();
     },
+    */
+    /*
     'inputs should set type': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('form-control/without-type.html')),
@@ -351,6 +402,8 @@ exports.bootlint = {
             'should not complain when type is set on inputs');
         test.done();
     },
+    */
+    /*
     'incorrect markup for .checkbox, .radio, .checkbox-inline, and .radio-inline classes': function (test) {
         test.expect(7);
 
@@ -381,7 +434,8 @@ exports.bootlint = {
 
         test.done();
     },
-
+    */
+    /*
     '.active class and checked attribute for buttons plugin do not match': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('buttons-plugin/valid.html')),
@@ -395,6 +449,8 @@ exports.bootlint = {
             'should complain when .active and checked do not correspond correctly in a radio button group.');
         test.done();
     },
+    */
+    /*
     'modals within other components': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('modal/within-table.html')),
@@ -405,7 +461,8 @@ exports.bootlint = {
             'should complain when a modal is placed within a `.navbar`.');
         test.done();
     },
-
+    */
+    /*
     'panel structure': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('panels/panels.html')),
@@ -425,7 +482,8 @@ exports.bootlint = {
             'should complain when .panel-heading is missing .panel parent');
         test.done();
     },
-
+    */
+    /*
     'columns outside of rows and form groups': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-row.html')),
@@ -442,7 +500,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     '.table-responsive on the table itself': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('table/responsive-valid.html')),
@@ -455,7 +514,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'redundant grid column classes': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-not-redundant.html')),
@@ -475,7 +535,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'empty spacer grid columns': function (test) {
         test.expect(10);
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/blank-text.html')),
@@ -520,7 +581,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     '.form-control-feedback without a .has-feedback ancestor': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('feedback/form-control-valid.html')),
@@ -537,7 +599,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'Glyphicons on non-empty elements': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
@@ -554,7 +617,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'Glyphicons missing the .glyphicon class': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
@@ -567,7 +631,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'modal structure': function (test) {
         test.expect(7);
         test.deepEqual(lintHtml(utf8Fixture('modal/valid.html')),
@@ -600,7 +665,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'form classes used directly on form groups': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('form/form-inline-group.html')),
@@ -613,7 +679,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'incorrect alerts with dismiss/close buttons': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('alert-dismiss-close/valid.html')),
@@ -638,7 +705,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'pull classes inside media': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('media/deprecated-pull-classes.html')),
@@ -651,7 +719,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'invalid nonexistent .col-*-0 classes': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('grid/col-xs-0.html')),
@@ -684,7 +753,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'outdated version of Bootstrap': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('outdated/bootstrap-css.html')),
@@ -704,7 +774,8 @@ exports.bootlint = {
             'should not complain about outdated libraries that just have "bootstrap" in their name.');
         test.done();
     },
-
+    */
+    /*
     'version 4 of Bootstrap': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-css.html')),
@@ -724,7 +795,8 @@ exports.bootlint = {
             'should not complain about v4.0.0+ libraries that just have "bootstrap" in their name.');
         test.done();
     },
-
+    */
+    /*
     'carousel control target': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('carousel/indicators.html')),
@@ -745,7 +817,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'media pulls outside of media objects': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
@@ -766,7 +839,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'navbar pulls outside of navbars': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-left-bad.html')),
@@ -787,7 +861,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'modal with .hide class': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('modal/with-hide.html')),
@@ -800,7 +875,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'carousel structure': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('carousel/valid.html')),
@@ -825,7 +901,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     'container inside navbar': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-container.html')),
@@ -834,7 +911,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     '.form-control on wrong element or input type': function (test) {
         test.expect(11);
         test.deepEqual(lintHtml(utf8Fixture('form-control/span-invalid.html')),
@@ -883,7 +961,8 @@ exports.bootlint = {
         );
         test.done();
     },
-
+    */
+    /*
     '.img-responsive not on image': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-bad.html')),
@@ -896,6 +975,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     'btn classes on anchors within .navbar-nav': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('navbar/btn-bad.html')),
@@ -908,6 +989,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     'modal missing tabindex': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('modal/tabindex-missing.html')),
@@ -916,6 +999,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     '.btn not on <a>/<button>/<input>/<label>': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/btn-incorrect-element.html')),
@@ -928,6 +1013,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     'modal missing role dialog': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('modal/missing-role-dialog.html')),
@@ -936,6 +1023,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     'modal-dialog missing role document': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('modal/missing-role-document.html')),
@@ -944,6 +1033,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     'nested form groups': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('form/valid.html')),
@@ -956,6 +1047,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     '.pull-right/left classes and manual float styles not allowed on .col-*-*': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/col-no-float.html')),
@@ -967,6 +1060,8 @@ exports.bootlint = {
         );
         test.done();
     },
+    */
+    /*
     '.pull-right/left classes and manual float styles not allowed on .row': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/row-no-float.html')),
@@ -978,4 +1073,5 @@ exports.bootlint = {
         );
         test.done();
     }
+    */
 };
