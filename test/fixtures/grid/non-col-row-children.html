@@ -18,13 +18,14 @@
     </head>
     <body>
         <div class="container">
-            <div class="row col-xs-6"></div>
+            <div class="row">
+                <div class="foobar">I ought to be a column, but I'm not...</div>
+            </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Found both `.row` and `.col-*-*` used on the same element"></li>
-            <li data-lint="Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s"></li>
+            <li data-lint="Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s"></li>
         </ol>
     </body>
 </html>

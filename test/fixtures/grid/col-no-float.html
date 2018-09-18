@@ -19,14 +19,20 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-xs-1 col-sm-2 col-md-1 col-lg-2">Single-digit columns</div>
+                <div class="col-sm-6 float-right">Content</div>
+                <div class="col-md-6 float-left">Content</div>
             </div>
+
             <div class="row">
-                <div class="col-xs-12 col-sm-11 col-md-10 col-lg-11">Double-digit columns</div>
+                <div class="col-sm-6" style="float:left">Content</div>
+                <div class="col-md-6" style="float:right">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint"></ol>
+        <ol id="bootlint">
+            <li data-lint="`.float-right` and `.float-left` must not be used on `.col*` elements"></li>
+            <li data-lint="Manually added `float` styles must not be added on `.col*` elements"></li>
+        </ol>
     </body>
 </html>
