@@ -19,12 +19,14 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-xs-6">Some content</div>
-                <div class="spacer col-xs-6"></div>
+                <div class="spacer col-xl-3 col-lg-5 col-sm-8 col-11 col-md-6"></div>
+                <div class="col-1">Actual column</div>
             </div>
         </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint"></ol>
+        <ol id="bootlint">
+            <li data-lint="Using empty spacer columns isn't necessary with Bootstrap's grid."></li>
+        </ol>
     </body>
 </html>
