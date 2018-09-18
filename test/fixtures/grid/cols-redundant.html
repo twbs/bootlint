@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Test</title>
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="../../lib/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="../../lib/qunit.css">
+        <script src="../../lib/qunit.js"></script>
+        <script src="../../../dist/browser/bootlint.js"></script>
+        <script src="../generic-qunit.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="abc col-2 def col-sm-1 ghi col-md-1 jkl col-lg-1 mno col-xl-1">Single-digit columns; sm-xl redundant; random classes interleaved</div>
+            </div>
+            <div class="row">
+                <div class="col-10 abc col-sm-10 def col-md-10 ghi col-lg-10 jkl col-xl-12 mno">Double-digit columns; [default]-lg redundant; random classes interleaved</div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">up to xl redundant</div>
+            </div>
+            <div class="row">
+                <div class="col-5 col-sm-5">up to sm redundant</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-md-4">sm-md redundant</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3">md-lg redundant</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-xl-2">lg-xl redundant</div>
+            </div>            
+        </div>
+
+        <div id="qunit"></div>
+        <ol id="bootlint">
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="abc col-2 def col-sm-1 ghi col-md-1 jkl col-lg-1 mno col-xl-1"` is redundant and can be simplified to `class="abc def ghi jkl mno col-2 col-sm-1"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-10 abc col-sm-10 def col-md-10 ghi col-lg-10 jkl col-xl-12 mno"` is redundant and can be simplified to `class="abc def ghi jkl mno col-10 col-xl-12"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"` is redundant and can be simplified to `class="col-6"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-5 col-sm-5"` is redundant and can be simplified to `class="col-5"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-sm-4 col-md-4"` is redundant and can be simplified to `class="col-sm-4"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-md-3 col-lg-3"` is redundant and can be simplified to `class="col-md-3"`'></li>
+            <li data-lint='Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-lg-2 col-xl-2"` is redundant and can be simplified to `class="col-lg-2"`'></li>
+        </ol>
+    </body>
+</html>

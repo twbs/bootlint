@@ -19,20 +19,14 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-xs-6 pull-right">Content</div>
-                <div class="col-md-6 pull-left">Content</div>
-            </div>
-            
-            <div class="row">
-                <div class="col-xs-6" style="float:left">Content</div>
-                <div class="col-md-6" style="float:right">Content</div>
+                <div class="col-md-0">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements"></li>
-            <li data-lint="Manually added `float` styles must not be added on `.col-*-*` elements"></li>
+            <li data-lint="Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s"></li>
+            <li data-lint="Column widths must be positive integers (and &lt;= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes."></li>
         </ol>
     </body>
 </html>

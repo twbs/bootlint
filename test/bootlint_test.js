@@ -161,18 +161,16 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'row and column classes on same element': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/row-col-same-elem.html')),
             [
-                'Found both `.row` and `.col-*-*` used on the same element',
-                'Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s'
+                'Found both `.row` and `.col*` used on the same element',
+                'Columns (`.col*`) can only be children of `.row`s or `.form-row`s'
             ],
-            'should complain when .row and .col-*-* are used on the same element.');
+            'should complain when .row and .col* are used on the same element.');
         test.done();
     },
-    */
     /*
     'row and container classes on same element': function (test) {
         test.expect(2);
@@ -184,7 +182,6 @@ exports.bootlint = {
             'should complain when .row and .container-fluid are used on the same element.');
         test.done();
     },
-    */
     /*
     'remote modals': function (test) {
         test.expect(1);
@@ -319,18 +316,16 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'non-column children of rows': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/non-col-row-children.html')),
-            ['Only columns (`.col-*-*`) may be children of `.row`s'],
+            ['Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s'],
             'should complain when rows have non-column children.');
         test.deepEqual(lintHtml(utf8Fixture('grid/script-child-of-row.html')),
             [],
             'should not complain about <script> child of row');
         test.done();
     },
-    */
     /*
     'multiple columns on the same side of an input group': function (test) {
         test.expect(5);
@@ -483,7 +478,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'columns outside of rows and form groups': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-row.html')),
@@ -495,12 +489,11 @@ exports.bootlint = {
             'should not complain when columns are within a form group.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-outside-row-and-form-group.html')),
-            ['Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s'],
+            ['Columns (`.col*`) can only be children of `.row`s or `.form-row`s'],
             'should complain when columns are outside of rows and form groups.'
         );
         test.done();
     },
-    */
     /*
     '.table-responsive on the table itself': function (test) {
         test.expect(2);
@@ -515,7 +508,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'redundant grid column classes': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-not-redundant.html')),
@@ -524,23 +516,23 @@ exports.bootlint = {
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-redundant.html')),
             [
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="abc col-xs-2 def col-sm-1 ghi col-md-1 jkl col-lg-1"` is redundant and can be simplified to `class="abc def ghi jkl col-xs-2 col-sm-1"`',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-10 abc col-sm-10 def col-md-10 ghi col-lg-12 jkl"` is redundant and can be simplified to `class="abc def ghi jkl col-xs-10 col-lg-12"`',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-6 col-sm-6 col-md-6 col-lg-6"` is redundant and can be simplified to `class="col-xs-6"`',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-xs-5 col-sm-5"` is redundant and can be simplified to `class="col-xs-5"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="abc col-2 def col-sm-1 ghi col-md-1 jkl col-lg-1 mno col-xl-1"` is redundant and can be simplified to `class="abc def ghi jkl mno col-2 col-sm-1"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-10 abc col-sm-10 def col-md-10 ghi col-lg-10 jkl col-xl-12 mno"` is redundant and can be simplified to `class="abc def ghi jkl mno col-10 col-xl-12"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"` is redundant and can be simplified to `class="col-6"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-5 col-sm-5"` is redundant and can be simplified to `class="col-5"`',
                 'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-sm-4 col-md-4"` is redundant and can be simplified to `class="col-sm-4"`',
-                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-md-3 col-lg-3"` is redundant and can be simplified to `class="col-md-3"`'
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-md-3 col-lg-3"` is redundant and can be simplified to `class="col-md-3"`',
+                'Since grid classes apply to devices with screen widths greater than or equal to the breakpoint sizes (unless overridden by grid classes targeting larger screens), `class="col-lg-2 col-xl-2"` is redundant and can be simplified to `class="col-lg-2"`'
             ],
             'should complain when there are redundant grid column classes.'
         );
         test.done();
     },
-    */
     /*
     'empty spacer grid columns': function (test) {
         test.expect(10);
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/blank-text.html')),
-            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11"` , just add `class="col-xs-offset-11"` to the next grid column.'],
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.'],
             'should complain when spacer column contains only whitespace text content.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/non-blank-text.html')),
@@ -556,7 +548,7 @@ exports.bootlint = {
             'should not complain when spacer-like column contains child element without text content.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/no-child-no-text.html')),
-            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11"` , just add `class="col-xs-offset-11"` to the next grid column.'],
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.'],
             'should complain when spacer column is completely empty.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/col-element.html')),
@@ -568,11 +560,11 @@ exports.bootlint = {
             'should not complain when the spacer column is the last column in the row.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/tricky-classes.html')),
-            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11"` , just add `class="col-xs-offset-11"` to the next grid column.'],
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.'],
             'should process classes named similar to grid column classes correctly.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/multiple-reversed-order.html')),
-            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="col-xs-11 col-sm-8 col-md-6 col-lg-5"` , just add `class="col-xs-offset-11 col-sm-offset-8 col-md-offset-6 col-lg-offset-5"` to the next grid column.'],
+            ['Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.'],
             'should sort the grid classes in its message and handle multiple grid classes correctly.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/spacer-col/void-elements.html')),
@@ -581,7 +573,6 @@ exports.bootlint = {
         );
         test.done();
     },
-    */
     /*
     '.form-control-feedback without a .has-feedback ancestor': function (test) {
         test.expect(3);
@@ -720,40 +711,39 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
-    'invalid nonexistent .col-*-0 classes': function (test) {
+
+    'invalid nonexistent .col*-0 classes': function (test) {
         test.expect(4);
-        test.deepEqual(lintHtml(utf8Fixture('grid/col-xs-0.html')),
-            [
-                'Only columns (`.col-*-*`) may be children of `.row`s',
-                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
-            ],
-            'should complain about usage of .col-*-0 class.'
-        );
         test.deepEqual(lintHtml(utf8Fixture('grid/col-sm-0.html')),
             [
-                'Only columns (`.col-*-*`) may be children of `.row`s',
-                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+                'Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.'
             ],
-            'should complain about usage of .col-*-0 class.'
+            'should complain about usage of .col-sm-0 class.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/col-md-0.html')),
             [
-                'Only columns (`.col-*-*`) may be children of `.row`s',
-                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+                'Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.'
             ],
-            'should complain about usage of .col-*-0 class.'
+            'should complain about usage of .col-md-0 class.'
         );
         test.deepEqual(lintHtml(utf8Fixture('grid/col-lg-0.html')),
             [
-                'Only columns (`.col-*-*`) may be children of `.row`s',
-                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.'
+                'Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.'
             ],
             'should complain about usage of .col-lg-0 class.'
         );
+        test.deepEqual(lintHtml(utf8Fixture('grid/col-xl-0.html')),
+            [
+                'Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s',
+                'Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.'
+            ],
+            'should complain about usage of .col-xl-0 class.'
+        );
         test.done();
     },
-    */
     /*
     'outdated version of Bootstrap': function (test) {
         test.expect(5);
@@ -1048,30 +1038,26 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
-    '.pull-right/left classes and manual float styles not allowed on .col-*-*': function (test) {
+    '.float-right/left classes and manual float styles not allowed on .col*': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/col-no-float.html')),
             [
-                '`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements',
-                'Manually added `float` styles must not be added on `.col-*-*` elements'
+                '`.float-right` and `.float-left` must not be used on `.col*` elements',
+                'Manually added `float` styles must not be added on `.col*` elements'
             ],
-            'should complain about a `.pull-right/.pull-left` classes on `.col-*-*` AND manual `style="float:left;"/style="float:right;"` on a `.col-*-*`'
+            'should complain about a `.float-right/.float-left` classes on `.col*` AND manual `style="float:left;"/style="float:right;"` on a `.col*`'
         );
         test.done();
     },
-    */
-    /*
-    '.pull-right/left classes and manual float styles not allowed on .row': function (test) {
+    '.float-right/left classes and manual float styles not allowed on .row': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('grid/row-no-float.html')),
             [
-                '`.pull-right` and `.pull-left` must not be used on `.row` elements',
+                '`.float-right` and `.float-left` must not be used on `.row` elements',
                 'Manually added `float` styles must not be added on `.row` elements'
             ],
-            'should complain about a `.pull-right/.pull-left` classes on `.row` AND manual `style="float:left;"/style="float:right;"` on a `.row`'
+            'should complain about a `.float-right/.float-left` classes on `.row` AND manual `style="float:left;"/style="float:right;"` on a `.row`'
         );
         test.done();
     }
-    */
 };

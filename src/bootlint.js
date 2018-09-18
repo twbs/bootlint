@@ -15,22 +15,23 @@ var LocationIndex = _location.LocationIndex;
 (function (exports) {
     'use strict';
     var NUM_COLS = 12;
-    var COL_REGEX = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/;
-    var COL_REGEX_G = /\bcol-(xs|sm|md|lg)-(\d{1,2})\b/g;
+    var COL_REGEX = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/;
+    var COL_REGEX_G = /\bcol(?:-(sm|md|lg|xl))?(?:-(auto|\d{1,2}))?\b/g;
     var COL_CLASSES = [];
-    var SCREENS = ['xs', 'sm', 'md', 'lg'];
+    var SCREENS = ['', 'sm', 'md', 'lg', 'xl'];
     SCREENS.forEach(function (screen) {
-        for (var n = 1; n <= NUM_COLS; n++) {
-            COL_CLASSES.push('.col-' + screen + '-' + n);
+        for (var n = -1; n <= NUM_COLS; n++) {
+            COL_CLASSES.push('.col' + (screen && '-' + screen) + (n < 0 ? '' : '-' + (n || 'auto')));
         }
     });
     var SCREEN2NUM = {
-        xs: 0,
-        sm: 1,
-        md: 2,
-        lg: 3
+        '': 0,
+        'sm': 1,
+        'md': 2,
+        'lg': 3,
+        'xl': 4
     };
-    var NUM2SCREEN = ['xs', 'sm', 'md', 'lg'];
+    var NUM2SCREEN = ['', 'sm', 'md', 'lg', 'xl'];
     var IN_NODE_JS = Boolean(cheerio.load);
     var MIN_JQUERY_VERSION = '1.9.1';   // as of Bootstrap v3.3.0
     var CURRENT_BOOTSTRAP_VERSION = '3.3.7';
@@ -130,11 +131,11 @@ var LocationIndex = _location.LocationIndex;
         var width2screens = {};
         while (true) {
             var match = COL_REGEX_G.exec(classes);
-            if (!match) {
+            if (!match || !match[1] && !match[2]) {
                 break;
             }
-            var screen = match[1];
-            width = match[2];
+            var screen = match[1] || '';
+            width = match[2] || ''; // can also be 'auto'
             var screens = width2screens[width];
             if (!screens) {
                 screens = width2screens[width] = [];
@@ -475,7 +476,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('W009', function lintEmptySpacerCols($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return colClass + ':not(:last-child)';
@@ -491,18 +491,9 @@ var LocationIndex = _location.LocationIndex;
                 return;
             }
 
-            var colClasses = column.attr('class').split(/\s+/g).filter(function (klass) {
-                return COL_REGEX.test(klass);
-            });
-            colClasses = sortedColumnClasses(colClasses.join(' ')).trim();
-
-            var colRegex = new RegExp('\\b(col-)(' + SCREENS.join('|') + ')(-\\d+)\\b', 'g');
-            var offsetClasses = colClasses.replace(colRegex, '$1$2-offset$3');
-
-            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid. So instead of having an empty grid column with `class="' + colClasses + '"` , just add `class="' + offsetClasses + '"` to the next grid column.', column);
+            reporter('Using empty spacer columns isn\'t necessary with Bootstrap\'s grid.', column);
         });
     });
-    */
     /*
     addLinter('W010', function lintMediaPulls($, reporter) {
         var mediaPulls = $('.media>.pull-left, .media>.pull-right');
@@ -695,7 +686,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E005', function lintRowAndColOnSameElem($, reporter) {
         var selector = COL_CLASSES.map(function (col) {
             return '.row' + col;
@@ -703,10 +693,9 @@ var LocationIndex = _location.LocationIndex;
 
         var rowCols = $(selector);
         if (rowCols.length) {
-            reporter('Found both `.row` and `.col-*-*` used on the same element', rowCols);
+            reporter('Found both `.row` and `.col*` used on the same element', rowCols);
         }
     });
-    */
     /*
     addLinter('E006', function lintInputGroupFormControlTypes($, reporter) {
         var selectInputGroups = $('.input-group select');
@@ -759,7 +748,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E012', function lintGridClassMixedWithInputGroup($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return '.input-group' + colClass;
@@ -767,35 +755,31 @@ var LocationIndex = _location.LocationIndex;
 
         var badMixes = $(selector);
         if (badMixes.length) {
-            reporter('`.input-group` and `.col-*-*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col-*-*`', badMixes);
+            reporter('`.input-group` and `.col*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col*`', badMixes);
         }
     });
-    */
-    /*
     addLinter('E013', function lintRowChildrenAreCols($, reporter) {
-        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix', '.bs-customizer-input']);
-        var selector = '.row>*' + ALLOWED_CHILDREN.map(function (colClass) {
+        var ALLOWED_CHILDREN = COL_CLASSES.concat(['script', '.clearfix']);
+        var disallowedChildren = ALLOWED_CHILDREN.map(function (colClass) {
             return ':not(' + colClass + ')';
         }).join('');
+        var selector = '.row>*' + disallowedChildren + ',.form-row>*' + disallowedChildren;
 
         var nonColRowChildren = $(selector);
         if (nonColRowChildren.length) {
-            reporter('Only columns (`.col-*-*`) may be children of `.row`s', nonColRowChildren);
+            reporter('Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s', nonColRowChildren);
         }
     });
-    */
-    /*
     addLinter('E014', function lintColParentsAreRowsOrFormGroups($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
-            return '*:not(.row):not(.form-group)>' + colClass + ':not(col):not(th):not(td)';
+            return '*:not(.row):not(.form-row)>' + colClass + ':not(col):not(th):not(td)';
         }).join(',');
 
         var colsOutsideRowsAndFormGroups = $(selector);
         if (colsOutsideRowsAndFormGroups.length) {
-            reporter('Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s', colsOutsideRowsAndFormGroups);
+            reporter('Columns (`.col*`) can only be children of `.row`s or `.form-row`s', colsOutsideRowsAndFormGroups);
         }
     });
-    */
     /*
     addLinter('E015', function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
         var addOnClasses = ['.input-group-addon', '.input-group-btn'];
@@ -944,7 +928,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E029', function lintRedundantColumnClasses($, reporter) {
         var columns = $(COL_CLASSES.join(','));
         columns.each(function (_index, col) {
@@ -953,27 +936,26 @@ var LocationIndex = _location.LocationIndex;
             var simplifiedClasses = classes;
             var width2screens = width2screensFor(classes);
             var isRedundant = false;
-            for (var width = 1; width <= NUM_COLS; width++) {
-                var screens = width2screens[width];
-                if (!screens) {
-                    continue;
-                }
-                var runs = incrementingRunsFrom(screens);
-                if (!runs.length) {
-                    continue;
-                }
+            for (var width in width2screens) {
+                if (width2screens.hasOwnProperty(width)) {
+                    var screens = width2screens[width];
+                    var runs = incrementingRunsFrom(screens);
+                    if (!runs.length) {
+                        continue;
+                    }
 
-                isRedundant = true;
+                    isRedundant = true;
 
-                for (var i = 0; i < runs.length; i++) {
-                    var run = runs[i];
-                    var min = run[0];
-                    var max = run[1];
+                    for (var i = 0; i < runs.length; i++) {
+                        var run = runs[i];
+                        var min = run[0];
+                        var max = run[1];
 
-                    // remove redundant classes
-                    for (var screenNum = min + 1; screenNum <= max; screenNum++) {
-                        var colClass = 'col-' + NUM2SCREEN[screenNum] + '-' + width;
-                        simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        // remove redundant classes
+                        for (var screenNum = min + 1; screenNum <= max; screenNum++) {
+                            var colClass = 'col' + (NUM2SCREEN[screenNum] && '-' + NUM2SCREEN[screenNum]) + (width && '-' + width);
+                            simplifiedClasses = withoutClass(simplifiedClasses, colClass);
+                        }
                     }
                 }
             }
@@ -992,7 +974,6 @@ var LocationIndex = _location.LocationIndex;
             );
         });
     });
-    */
     /*
     addLinter('E030', function lintSoloGlyphiconClasses($, reporter) {
         var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
@@ -1076,17 +1057,15 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E037', function lintColZeros($, reporter) {
         var selector = SCREENS.map(function (screen) {
-            return '.col-' + screen + '-0';
+            return '.col' + (screen && '-' + screen) + '-0';
         }).join(',');
         var elements = $(selector);
         if (elements.length) {
-            reporter('Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes.', elements);
+            reporter('Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.', elements);
         }
     });
-    */
     /*
     addLinter('E038', function lintMediaPulls($, reporter) {
         var mediaPullsOutsideMedia = $('.media-left, .media-right').filter(function () {
@@ -1227,14 +1206,13 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E051', function lintColumnsNoFloats($, reporter) {
         var pullSelector = COL_CLASSES.map(function (col) {
-            return '.pull-left' + col + ',.pull-right' + col;
+            return '.float-left' + col + ',.float-right' + col;
         }).join(',');
         var pulledCols = $(pullSelector);
         if (pulledCols.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.col-*-*` elements', pulledCols);
+            reporter('`.float-right` and `.float-left` must not be used on `.col*` elements', pulledCols);
         }
         var styledSelector = COL_CLASSES.map(function (col) {
             return col + '[style]';
@@ -1244,15 +1222,13 @@ var LocationIndex = _location.LocationIndex;
             return /float\s*:\s*[a-z]+/i.test($(el).attr('style'));
         });
         if (styledCols.length) {
-            reporter('Manually added `float` styles must not be added on `.col-*-*` elements', styledCols);
+            reporter('Manually added `float` styles must not be added on `.col*` elements', styledCols);
         }
     });
-    */
-    /*
     addLinter('E052', function lintRowsNoFloats($, reporter) {
-        var pulledRows = $('.row.pull-right, .row.pull-left');
+        var pulledRows = $('.row.float-right, .row.float-left');
         if (pulledRows.length) {
-            reporter('`.pull-right` and `.pull-left` must not be used on `.row` elements', pulledRows);
+            reporter('`.float-right` and `.float-left` must not be used on `.row` elements', pulledRows);
         }
         var styledRows = $('.row[style]').filter(function (i, el) {
             //test for `float:*` in the style attribute
@@ -1262,7 +1238,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Manually added `float` styles must not be added on `.row` elements', styledRows);
         }
     });
-    */
     exports._lint = function ($, reporter, disabledIdList, html) {
         var locationIndex = IN_NODE_JS ? new LocationIndex(html) : null;
         var reporterWrapper = IN_NODE_JS ?

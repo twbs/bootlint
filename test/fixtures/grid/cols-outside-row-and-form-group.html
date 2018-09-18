@@ -17,16 +17,15 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-0">Content</div>
-            </div>
+        <div>
+            <div class="col-md-3">Content</div>
+            <div class="col-md-4">Content</div>
+            <div class="col-md-5">Content</div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Only columns (`.col-*-*`) may be children of `.row`s"></li>
-            <li data-lint="Column widths must be positive integers (and &lt;= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes."></li>
+            <li data-lint="Columns (`.col*`) can only be children of `.row`s or `.form-row`s"></li>
         </ol>
     </body>
 </html>

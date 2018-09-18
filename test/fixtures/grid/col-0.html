@@ -9,24 +9,24 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <script src="../../../lib/jquery.min.js"></script>
+        <script src="../../lib/jquery.min.js"></script>
 
-        <link rel="stylesheet" href="../../../lib/qunit.css">
-        <script src="../../../lib/qunit.js"></script>
-        <script src="../../../../dist/browser/bootlint.js"></script>
-        <script src="../../generic-qunit.js"></script>
+        <link rel="stylesheet" href="../../lib/qunit.css">
+        <script src="../../lib/qunit.js"></script>
+        <script src="../../../dist/browser/bootlint.js"></script>
+        <script src="../generic-qunit.js"></script>
     </head>
     <body>
         <div class="container">
             <div class="row">
-                <div class="spacer col-xs-11"></div>
-                <div class="col-xs-1">Actual column</div>
+                <div class="col-0">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with `class=&quot;col-xs-11&quot;` , just add `class=&quot;col-xs-offset-11&quot;` to the next grid column."></li>
+            <li data-lint="Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s"></li>
+            <li data-lint="Column widths must be positive integers (and &lt;= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes."></li>
         </ol>
     </body>
 </html>

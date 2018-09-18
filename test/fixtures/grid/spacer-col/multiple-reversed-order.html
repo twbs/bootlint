@@ -9,22 +9,24 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <script src="../../lib/jquery.min.js"></script>
+        <script src="../../../lib/jquery.min.js"></script>
 
-        <link rel="stylesheet" href="../../lib/qunit.css">
-        <script src="../../lib/qunit.js"></script>
-        <script src="../../../dist/browser/bootlint.js"></script>
-        <script src="../generic-qunit.js"></script>
+        <link rel="stylesheet" href="../../../lib/qunit.css">
+        <script src="../../../lib/qunit.js"></script>
+        <script src="../../../../dist/browser/bootlint.js"></script>
+        <script src="../../generic-qunit.js"></script>
     </head>
     <body>
         <div class="container">
-            <div class="row col-xs-6"></div>
+            <div class="row">
+                <div class="spacer col-xl-3 col-lg-5 col-sm-8 col-11 col-md-6"></div>
+                <div class="col-1">Actual column</div>
+            </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Found both `.row` and `.col-*-*` used on the same element"></li>
-            <li data-lint="Columns (`.col-*-*`) can only be children of `.row`s or `.form-group`s"></li>
+            <li data-lint="Using empty spacer columns isn't necessary with Bootstrap's grid."></li>
         </ol>
     </body>
 </html>

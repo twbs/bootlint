@@ -18,15 +18,27 @@
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col-xs-1 col-sm-2 col-md-1 col-lg-2">Single-digit columns</div>
+            <div class="row float-right">
+                <div class="col-md-6">Content</div>
             </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-11 col-md-10 col-lg-11">Double-digit columns</div>
+            
+            <div class="row float-left">
+                <div class="col-md-6">Content</div>
+            </div>
+            
+            <div class="row" style="float: left;">
+                <div class="col-md-6">Content</div>
+            </div>
+            
+            <div class="row" style="float: right;">
+                <div class="col-md-6">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint"></ol>
+        <ol id="bootlint">
+            <li data-lint="`.float-right` and `.float-left` must not be used on `.row` elements"></li>
+            <li data-lint="Manually added `float` styles must not be added on `.row` elements"></li>
+        </ol>
     </body>
 </html>

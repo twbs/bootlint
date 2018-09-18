@@ -19,14 +19,14 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-0">Content</div>
+                <div class="col-sm-0">Content</div>
             </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Only columns (`.col-*-*`) may be children of `.row`s"></li>
-            <li data-lint="Column widths must be positive integers (and &lt;= 12 by default). Found usage(s) of invalid nonexistent `.col-*-0` classes."></li>
+            <li data-lint="Only columns (`.col*`) or `.clearfix` may be children of `.row`s or `.form-row`s"></li>
+            <li data-lint="Column widths must be positive integers (and &lt;= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes."></li>
         </ol>
     </body>
 </html>

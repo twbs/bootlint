@@ -18,25 +18,15 @@
     </head>
     <body>
         <div class="container">
-            <table>
-                <colgroup>
-                    <col class="col-xs-6">
-                    <col class="col-xs-6">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
             <div class="row">
-                <div class="spacer col-xs-11"><p>Some text</p></div>
-                <div class="col-xs-1">Actual column</div>
+                <div class="spacer col- col-ab-5 col-a col-11 col-sm-offset-q"></div>
+                <div class="col-1">Actual column</div>
             </div>
         </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint"></ol>
+        <ol id="bootlint">
+            <li data-lint="Using empty spacer columns isn't necessary with Bootstrap's grid."></li>
+        </ol>
     </body>
 </html>

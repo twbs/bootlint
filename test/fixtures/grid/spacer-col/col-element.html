@@ -18,15 +18,25 @@
     </head>
     <body>
         <div class="container">
+            <table>
+                <colgroup>
+                    <col class="col-6">
+                    <col class="col-6">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="row">
-                <div class="spacer col-lg-5 col-sm-8 col-xs-11 col-md-6"></div>
-                <div class="col-xs-1">Actual column</div>
+                <div class="spacer col-11"><p>Some text</p></div>
+                <div class="col-1">Actual column</div>
             </div>
         </div>
 
         <div id="qunit"></div>
-        <ol id="bootlint">
-            <li data-lint="Using empty spacer columns isn't necessary with Bootstrap's grid. So instead of having an empty grid column with `class=&quot;col-xs-11 col-sm-8 col-md-6 col-lg-5&quot;` , just add `class=&quot;col-xs-offset-11 col-sm-offset-8 col-md-offset-6 col-lg-offset-5&quot;` to the next grid column."></li>
-        </ol>
+        <ol id="bootlint"></ol>
     </body>
 </html>
