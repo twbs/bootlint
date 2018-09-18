@@ -4,6 +4,8 @@
         "node": true
     },
     "rules": {
-        "no-process-env": "off"
+        "no-process-env": "off",
+        "comma-dangle": "off",
+        "no-unused-vars": "off"
     }
 }
