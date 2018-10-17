@@ -1,8 +1,7 @@
 sudo: false
-dist: trusty
 language: node_js
 git:
-    depth: 10
+    depth: 5
 node_js:
     - "6"
     - "8"
@@ -10,8 +9,8 @@ node_js:
 install:
     - npm install
 before_script:
-    - git clone --depth 1 https://github.com/twbs/bootstrap.git --branch v3-dev
-    - bundle install --deployment --path "$(pwd)/vendor/bundle" --gemfile bootstrap/Gemfile --jobs=3 --retry=3
+    - git clone --depth 1 https://github.com/twbs/bootstrap.git --branch master
+    - bundle install --deployment --gemfile bootstrap/Gemfile --jobs=3 --retry=3
     - pushd bootstrap && bundle exec jekyll build && popd
 script:
     - npm run travis
@@ -27,3 +26,5 @@ cache:
     directories:
         - node_modules
         - vendor/bundle
+notifications:
+    email: false
