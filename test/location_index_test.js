@@ -1,6 +1,7 @@
 'use strict';
 
 var _location = require('../src/location.js');
+
 var Location = _location.Location;
 var LocationIndex = _location.LocationIndex;
 

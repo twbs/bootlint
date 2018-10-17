@@ -1,8 +1,8 @@
 'use strict';
 
-var bootlint = require('../src/bootlint.js');
 var fs = require('fs');
 var path = require('path');
+var bootlint = require('../src/bootlint.js');
 
 function _fixtureNameToFilepath(name) {
     return path.join(__dirname, '/fixtures/', name);

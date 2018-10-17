@@ -7,8 +7,8 @@ var chalk = require('chalk');
 var commander = require('commander');
 var readFile = Deferred.promisify(require('fs').readFile);
 var glob = Deferred.promisify(require('glob'));
-var bootlint = require('./bootlint');
 var pkg = require('../package.json');
+var bootlint = require('./bootlint');
 
 module.exports = function () {
     var program = (new commander.Command('bootlint'))
@@ -45,7 +45,7 @@ module.exports = function () {
     }
 
     function handleStdin() {
-        return new Deferred(function (resolve) {    // eslint-disable-line consistent-return
+        return new Deferred(function (resolve) { // eslint-disable-line consistent-return
             if (process.stdin.isTTY) {
                 return resolve();
             }

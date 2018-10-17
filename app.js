@@ -6,11 +6,11 @@ This is pretty niche. Most users should probably use the CLI or bookmarklet inst
 
 'use strict';
 
-var bootlint = require('./src/bootlint');
 var _extend = require('util')._extend;
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var bootlint = require('./src/bootlint');
 
 
 var HTML_MIME_TYPES = [

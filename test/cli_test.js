@@ -2,6 +2,7 @@
 
 var sinon = require('sinon');
 var rewire = require('rewire');
+
 var cli = rewire('../src/cli.js');
 
 /*
