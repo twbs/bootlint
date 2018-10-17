@@ -1,8 +1,5 @@
 {
     "extends": "../.eslintrc.json",
-    "env": {
-        "node": true
-    },
     "rules": {
         "no-process-env": "off"
     }

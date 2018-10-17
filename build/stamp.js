@@ -1,7 +1,5 @@
 // This file is taken from Bootstrap and adapted for Bootlint.
 
-/* eslint-env node, es6 */
-
 'use strict';
 
 const path = require('path');

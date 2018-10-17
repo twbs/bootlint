@@ -4,8 +4,6 @@ Run it via: npm run start
 This is pretty niche. Most users should probably use the CLI or bookmarklet instead.
 */
 
-/* eslint-env node */
-
 'use strict';
 
 var bootlint = require('./src/bootlint');
