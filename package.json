@@ -17,8 +17,9 @@
   "homepage": "https://github.com/twbs/bootlint",
   "scripts": {
     "browserify": "browserify src/bootlint.js | node build/stamp.js > dist/browser/bootlint.js",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "build": "npm run browserify",
     "dist": "npm run browserify",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint .",
     "lint": "npm run eslint",
     "nodeunit": "nodeunit test",
