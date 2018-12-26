@@ -460,27 +460,25 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
-    'panel structure': function (test) {
+    'card structure': function (test) {
         test.expect(5);
-        test.deepEqual(lintHtml(utf8Fixture('panels/panels.html')),
+        test.deepEqual(lintHtml(utf8Fixture('cards/cards.html')),
             [],
-            'should not complain when panel is structured correctly.');
-        test.deepEqual(lintHtml(utf8Fixture('panels/panel-body-missing-parent.html')),
-            ['`.panel-body` must have a `.panel` or `.panel-collapse` parent'],
-            'should complain when .panel-body is missing .panel or .panel-collapse parent');
-        test.deepEqual(lintHtml(utf8Fixture('panels/panel-footer-missing-parent.html')),
-            ['`.panel-footer` must have a `.panel` or `.panel-collapse` parent'],
-            'should complain when .panel-footer is missing .panel parent');
-        test.deepEqual(lintHtml(utf8Fixture('panels/panel-title-missing-parent.html')),
-            ['`.panel-title` must have a `.panel-heading` parent'],
-            'should complain when .panel-title is missing .panel-heading parent');
-        test.deepEqual(lintHtml(utf8Fixture('panels/panel-heading-missing-parent.html')),
-            ['`.panel-heading` must have a `.panel` parent'],
-            'should complain when .panel-heading is missing .panel parent');
+            'should not complain when card is structured correctly.');
+        test.deepEqual(lintHtml(utf8Fixture('cards/card-body-missing-ancestor.html')),
+            ['`.card-body` must have `.card` or have it as an ancestor.'],
+            'should complain when .card-body is missing .card ancestor');
+        test.deepEqual(lintHtml(utf8Fixture('cards/card-footer-missing-ancestor.html')),
+            ['`.card-footer` must have a `.card` ancestor.'],
+            'should complain when .card-footer is missing .card ancestor');
+        test.deepEqual(lintHtml(utf8Fixture('cards/card-title-missing-ancestor.html')),
+            ['`.card-title` must have a `.card` ancestor.'],
+            'should complain when .card-title is missing .card ancestor');
+        test.deepEqual(lintHtml(utf8Fixture('cards/card-header-missing-ancestor.html')),
+            ['`.card-header` must have a `.card` ancestor.'],
+            'should complain when .card-header is missing .card ancestor');
         test.done();
     },
-    */
     'columns outside of rows and form groups': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-within-row.html')),
