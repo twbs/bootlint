@@ -816,38 +816,38 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
-    addLinter('E023', function lintPanelBodyWithoutPanel($, reporter) {
-        var badPanelBody = $('.panel-body').parent(':not(.panel, .panel-collapse)');
-        if (badPanelBody.length) {
-            reporter('`.panel-body` must have a `.panel` or `.panel-collapse` parent', badPanelBody);
+    addLinter('E023', function lintCardBodyWithoutCard($, reporter) {
+        var badCardBody = $('.card-body').filter(function () {
+            return $(this).closest('.card').length !== 1;
+        });
+        if (badCardBody.length) {
+            reporter('`.card-body` must have `.card` or have it as an ancestor.', badCardBody);
         }
     });
-    */
-    /*
-    addLinter('E024', function lintPanelHeadingWithoutPanel($, reporter) {
-        var badPanelHeading = $('.panel-heading').parent(':not(.panel)');
-        if (badPanelHeading.length) {
-            reporter('`.panel-heading` must have a `.panel` parent', badPanelHeading);
+    addLinter('E024', function lintCardHeaderWithoutCard($, reporter) {
+        var badCardHeader = $('.card-header').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
+        if (badCardHeader.length) {
+            reporter('`.card-header` must have a `.card` ancestor.', badCardHeader);
         }
     });
-    */
-    /*
-    addLinter('E025', function lintPanelFooterWithoutPanel($, reporter) {
-        var badPanelFooter = $('.panel-footer').parent(':not(.panel, .panel-collapse)');
-        if (badPanelFooter.length) {
-            reporter('`.panel-footer` must have a `.panel` or `.panel-collapse` parent', badPanelFooter);
+    addLinter('E025', function lintCardFooterWithoutCard($, reporter) {
+        var badCardFooter = $('.card-footer').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
+        if (badCardFooter.length) {
+            reporter('`.card-footer` must have a `.card` ancestor.', badCardFooter);
         }
     });
-    */
-    /*
-    addLinter('E026', function lintPanelTitleWithoutPanelHeading($, reporter) {
-        var badPanelTitle = $('.panel-title').parent(':not(.panel-heading)');
-        if (badPanelTitle.length) {
-            reporter('`.panel-title` must have a `.panel-heading` parent', badPanelTitle);
+    addLinter('E026', function lintCardTitleWithoutCard($, reporter) {
+        var badCardTitle = $('.card-title').filter(function () {
+            return $(this).parents('.card').length !== 1;
+        });
+        if (badCardTitle.length) {
+            reporter('`.card-title` must have a `.card` ancestor.', badCardTitle);
         }
     });
-    */
     /*
     addLinter('E027', function lintTableResponsive($, reporter) {
         var badStructure = $('.table.table-responsive, table.table-responsive');
