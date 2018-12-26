@@ -338,17 +338,6 @@ var LocationIndex = _location.LocationIndex;
     });
     */
     /*
-    addLinter('W002', function lintXUaCompatible($, reporter) {
-        var meta = $([
-            'head>meta[http-equiv="X-UA-Compatible"][content="IE=edge"]',
-            'head>meta[http-equiv="x-ua-compatible"][content="ie=edge"]'
-        ].join(','));
-        if (!meta.length) {
-            reporter('`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes');
-        }
-    });
-    */
-    /*
     addLinter('W003', function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
         if (!meta.length) {
@@ -496,14 +485,6 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     /*
-    addLinter('W010', function lintMediaPulls($, reporter) {
-        var mediaPulls = $('.media>.pull-left, .media>.pull-right');
-        if (mediaPulls.length) {
-            reporter('Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.');
-        }
-    });
-    */
-    /*
     addLinter('W012', function lintNavbarContainers($, reporter) {
         var navBars = $('.navbar');
         var containers = [
@@ -564,36 +545,6 @@ var LocationIndex = _location.LocationIndex;
     });
     */
     /*
-    addLinter('W015', function lintNewBootstrap($, reporter) {
-        var FUTURE_VERSION_ERROR = 'Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.';
-        var theWindow = getBrowserWindowObject();
-
-        var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        // istanbul ignore if
-        if (globaljQuery) {
-            var versions = jqueryPluginVersions(globaljQuery);
-            if (versions.length) {
-                var minVersion = versions[0];
-                if (semver.gte(minVersion, BOOTSTRAP_VERSION_4, true)) {
-                    reporter(FUTURE_VERSION_ERROR);
-                    return;
-                }
-            }
-        }
-        // check for Bootstrap <link>s and <script>s
-        var bootstraps = $(BOOTSTRAP_FILES);
-        bootstraps.each(function () {
-            var version = versionInLinkedElement($, this);
-            if (version === null) {
-                return;
-            }
-            if (semver.gte(version, BOOTSTRAP_VERSION_4, true)) {
-                reporter(FUTURE_VERSION_ERROR, $(this));
-            }
-        });
-    });
-    */
-    /*
     addLinter('W016', function lintDisabledClassOnButton($, reporter) {
         var btnsWithDisabledClass = $('button.btn.disabled, input.btn.disabled');
         if (btnsWithDisabledClass.length) {
@@ -643,19 +594,6 @@ var LocationIndex = _location.LocationIndex;
             }
         };
     })());
-    /*
-    addLinter('E002', function lintBootstrapv2($, reporter) {
-        var columnClasses = [];
-        for (var n = 1; n <= 12; n++) {
-            columnClasses.push('.span' + n);
-        }
-        var selector = columnClasses.join(',');
-        var spanNs = $(selector);
-        if (spanNs.length) {
-            reporter('Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes', spanNs);
-        }
-    });
-    */
     /*
     addLinter('E003', function lintContainers($, reporter) {
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
@@ -975,24 +913,6 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     /*
-    addLinter('E030', function lintSoloGlyphiconClasses($, reporter) {
-        var missingGlyphiconClass = $('[class*="glyphicon-"]:not(.glyphicon):not(.glyphicon-class)').filter(function () {
-            return /\bglyphicon-([a-zA-Z]+)\b/.test($(this).attr('class'));
-        });
-        if (missingGlyphiconClass.length) {
-            reporter('Found elements with a `.glyphicon-*` class that were missing the additional required `.glyphicon` class.', missingGlyphiconClass);
-        }
-    });
-    */
-    /*
-    addLinter('E031', function lintGlyphiconOnNonEmptyElement($, reporter) {
-        var glyphiconNotEmpty = $('.glyphicon:not(:empty)');
-        if (glyphiconNotEmpty.length) {
-            reporter('Glyphicon classes must only be used on elements that contain no text content and have no child elements.', glyphiconNotEmpty);
-        }
-    });
-    */
-    /*
     addLinter('E032', function lintModalStructure($, reporter) {
         var elements;
 
@@ -1066,16 +986,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Column widths must be positive integers (and <= 12 by default). Found usage(s) of invalid nonexistent `.col*-0` classes.', elements);
         }
     });
-    /*
-    addLinter('E038', function lintMediaPulls($, reporter) {
-        var mediaPullsOutsideMedia = $('.media-left, .media-right').filter(function () {
-            return !$(this).parent().closest('.media').length;
-        });
-        if (mediaPullsOutsideMedia.length) {
-            reporter('`.media-left` and `.media-right` should not be used outside of `.media` objects.', mediaPullsOutsideMedia);
-        }
-    });
-    */
     /*
     addLinter('E039', function lintNavbarPulls($, reporter) {
         var navbarPullsOutsideNavbars = $('.navbar-left, .navbar-right').filter(function () {

@@ -57,15 +57,6 @@ exports.bootlint = {
         test.done();
     },
     /*
-    'disabling lint checks': function (test) {
-        test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('bs-v2.html'), ['E002', 'E013']),
-            [],
-            'should complain when Bootstrap v2 grid classes are present.');
-        test.done();
-    },
-    */
-    /*
     'UTF-8 charset meta tag': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('charset/utf8.html')),
@@ -80,33 +71,6 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf16Fixture('charset/not-utf8.html')),
             ['charset `<meta>` tag is specifying a legacy, non-UTF-8 charset'],
             'should complain when <meta> tag specifies non-UTF-8 charset.');
-        test.done();
-    },
-    */
-    /*
-    'X-UA-Compatible': function (test) {
-        test.expect(3);
-        test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/present.html')),
-            [],
-            'should not complain when X-UA-Compatible <meta> tag is present.');
-        test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/lowercase.html')),
-            [],
-            'should not complain when X-UA-Compatible <meta> tag is present but lowercased.');
-        test.deepEqual(lintHtml(utf8Fixture('x-ua-compatible/missing.html')),
-            ['`<head>` is missing X-UA-Compatible `<meta>` tag that disables old IE compatibility modes'],
-            'should complain when X-UA-Compatible <meta> tag is missing.');
-        test.done();
-    },
-    */
-    /*
-    'Bootstrap v2': function (test) {
-        test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('bs-v2.html')),
-            [
-                'Found one or more uses of outdated Bootstrap v2 `.spanN` grid classes',
-                'Only columns (`.col-*-*`) may be children of `.row`s'
-            ],
-            'should complain when Bootstrap v2 grid classes are present.');
         test.done();
     },
     */
@@ -595,38 +559,6 @@ exports.bootlint = {
     },
     */
     /*
-    'Glyphicons on non-empty elements': function (test) {
-        test.expect(3);
-        test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
-            [],
-            'should not complain when the .glyphicon element has no text content or children.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('glyphicons/on-elem-with-text.html')),
-            ['Glyphicon classes must only be used on elements that contain no text content and have no child elements.'],
-            'should complain when Glyphicon is used on an element with text content.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('glyphicons/on-elem-with-child.html')),
-            ['Glyphicon classes must only be used on elements that contain no text content and have no child elements.'],
-            'should complain when Glyphicon is used on an element with child element(s).'
-        );
-        test.done();
-    },
-    */
-    /*
-    'Glyphicons missing the .glyphicon class': function (test) {
-        test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('glyphicons/valid.html')),
-            [],
-            'should not complain when Glyphicon is used correctly.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('glyphicons/missing-glyphicon-class.html')),
-            ['Found elements with a `.glyphicon-*` class that were missing the additional required `.glyphicon` class.'],
-            'should complain when .glyphicon-* class is used without the .glyphicon class.'
-        );
-        test.done();
-    },
-    */
-    /*
     'modal structure': function (test) {
         test.expect(7);
         test.deepEqual(lintHtml(utf8Fixture('modal/valid.html')),
@@ -701,20 +633,6 @@ exports.bootlint = {
     },
     */
     /*
-    'pull classes inside media': function (test) {
-        test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('media/deprecated-pull-classes.html')),
-            ['Using `.pull-left` or `.pull-right` as part of the media object component is deprecated as of Bootstrap v3.3.0. Use `.media-left` or `.media-right` instead.'],
-            'should complain about .pull-* classes in .media'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
-            [],
-            'should not complain about .media-left or .media-right classes.'
-        );
-        test.done();
-    },
-    */
-
     'invalid nonexistent .col*-0 classes': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('grid/col-sm-0.html')),
@@ -769,27 +687,6 @@ exports.bootlint = {
     },
     */
     /*
-    'version 4 of Bootstrap': function (test) {
-        test.expect(5);
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-css.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.css.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-css.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.min.css.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-js.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.js.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-min-js.html')),
-            ['Detected what appears to be Bootstrap v4 or later. This version of Bootlint only supports Bootstrap v3.'],
-            'should complain about version 4 of bootstrap.min.js.');
-        test.deepEqual(lintHtml(utf8Fixture('version-4/bootstrap-extensions-okay.html')),
-            [],
-            'should not complain about v4.0.0+ libraries that just have "bootstrap" in their name.');
-        test.done();
-    },
-    */
-    /*
     'carousel control target': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('carousel/indicators.html')),
@@ -807,28 +704,6 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('carousel/valid.html')),
             [],
             'should not complain about correct indicator control targets.'
-        );
-        test.done();
-    },
-    */
-    /*
-    'media pulls outside of media objects': function (test) {
-        test.expect(4);
-        test.deepEqual(lintHtml(utf8Fixture('media/media-classes.html')),
-            [],
-            'should not complain about media pulls inside media objects.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('media/misplaced-media-left.html')),
-            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
-            'should complain about .media-left outside of a media object.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('media/misplaced-media-right.html')),
-            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
-            'should complain about .media-right outside of a media object.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('media/media-pull-on-media.html')),
-            ['`.media-left` and `.media-right` should not be used outside of `.media` objects.'],
-            'should complain about media pulls on .media itself.'
         );
         test.done();
     },
