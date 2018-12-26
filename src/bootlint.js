@@ -594,7 +594,6 @@ var LocationIndex = _location.LocationIndex;
             }
         };
     })());
-    /*
     addLinter('E003', function lintContainers($, reporter) {
         var notAnyColClass = COL_CLASSES.map(function (colClass) {
             return ':not(' + colClass + ')';
@@ -615,15 +614,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`', rowsOutsideColumnsAndContainers);
         }
     });
-    */
-    /*
-    addLinter('E004', function lintNestedContainers($, reporter) {
-        var nestedContainers = $('.container, .container-fluid').children('.container, .container-fluid');
-        if (nestedContainers.length) {
-            reporter('Containers (`.container` and `.container-fluid`) are not nestable', nestedContainers);
-        }
-    });
-    */
     addLinter('E005', function lintRowAndColOnSameElem($, reporter) {
         var selector = COL_CLASSES.map(function (col) {
             return '.row' + col;
