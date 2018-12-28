@@ -20,10 +20,6 @@ var HTML_MIME_TYPES = [
 // and JSFiddle inlines the contents of the CSS and JS panes of its editor into the resulting HTML.
 var MAX_HTML_SIZE = '1MB';
 
-function shallowClone(obj) {
-    return Object.assign({}, obj);
-}
-
 function disabledIdsFor(req) {
     var rawIds = req.query.disable;
     if (!rawIds) {
@@ -41,7 +37,7 @@ function lintsFor(html, disabledIds) {
             lint.elements = undefined;
             elements.each(function (_, element) {
                 if (element.startLocation) {
-                    var locatedLint = shallowClone(lint);
+                    var locatedLint = Object.assign({}, lint);
                     locatedLint.location = element.startLocation;
                     lints.push(locatedLint);
                     output = true;
