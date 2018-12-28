@@ -6,7 +6,6 @@ This is pretty niche. Most users should probably use the CLI or bookmarklet inst
 
 'use strict';
 
-var _extend = require('util')._extend;
 var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -22,7 +21,7 @@ var HTML_MIME_TYPES = [
 var MAX_HTML_SIZE = '1MB';
 
 function shallowClone(obj) {
-    return _extend({}, obj);
+    return Object.assign({}, obj);
 }
 
 function disabledIdsFor(req) {
