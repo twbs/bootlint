@@ -1,5 +1,5 @@
 /*!
- * Bootlint v0.16.0 (https://github.com/twbs/bootlint)
+ * Bootlint v0.16.2 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
  * Copyright (c) 2014-2019 The Bootlint Authors
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
