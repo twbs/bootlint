@@ -244,4 +244,4 @@ See the [GitHub Releases page](https://github.com/twbs/bootlint/releases) for de
 
 ## License
 
-Copyright (c) 2014-2018 The Bootlint Authors. Licensed under the MIT License.
+Copyright (c) 2014-2019 The Bootlint Authors. Licensed under the MIT License.
