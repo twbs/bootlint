@@ -1,6 +1,6 @@
 {
   "name": "bootlint",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "description": "HTML linter for Bootstrap projects",
   "license": "MIT",
   "author": "Chris Rebert <code@rebertia.com> (http://chrisrebert.com)",
