@@ -4,9 +4,6 @@
   "description": "HTML linter for Bootstrap projects",
   "license": "MIT",
   "author": "Chris Rebert <code@rebertia.com> (http://chrisrebert.com)",
-  "contributors": [
-    "Heinrich Fenkart <hnrch02@gmail.com> (http://hnrch02.me)"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/twbs/bootlint.git"
