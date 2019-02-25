@@ -19,7 +19,7 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint .",
     "lint": "npm run eslint",
-    "minify": "uglifyjs --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"includeSources,url=bootlint.min.js.map\" --output dist/browser/bootlint.min.js dist/browser/bootlint.js",
+    "minify": "terser --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"includeSources,url=bootlint.min.js.map\" --output dist/browser/bootlint.min.js dist/browser/bootlint.js",
     "nodeunit": "nodeunit test",
     "qunit": "node build/phantom.js",
     "start": "node ./bin/www",
@@ -52,7 +52,7 @@
     "qunit": "^2.9.1",
     "rewire": "^4.0.1",
     "sinon": "^7.2.3",
-    "uglify-js": "^3.4.9"
+    "terser": "^3.16.1"
   },
   "main": "./src/bootlint.js",
   "bin": {
