@@ -103,7 +103,7 @@ exports.bootlint = {
         test.done();
     },
     'rows outside containers': function (test) {
-        test.expect(5);
+        test.expect(6);
         test.deepEqual(lintHtml(utf8Fixture('containers/fixed.html')),
             [],
             'should not complain when rows are descendants of fixed containers.');
@@ -114,11 +114,14 @@ exports.bootlint = {
             [],
             'should not complain when rows are children of columns.');
         test.deepEqual(lintHtml(utf8Fixture('containers/missing.html')),
-            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`'],
+            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`'],
             'should complain when a row is not a descendant of a container.');
         test.deepEqual(lintHtml(utf8Fixture('containers/ancestor.html')),
             [],
             'should not complain when rows are descendants (but not children) of containers.');
+        test.deepEqual(lintHtml(utf8Fixture('containers/row-inside-modal-body.html')),
+            [],
+            'should not complain when rows are children of `.modal-body`.');
         test.done();
     },
     'nested containers': function (test) {
@@ -160,10 +163,10 @@ exports.bootlint = {
     'row and container classes on same element': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('containers/fixed-row-same-elem.html')),
-            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`'],
+            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`'],
             'should complain when .row and .container are used on the same element.');
         test.deepEqual(lintHtml(utf8Fixture('containers/fluid-row-same-elem.html')),
-            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`'],
+            ['Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`'],
             'should complain when .row and .container-fluid are used on the same element.');
         test.done();
     },
