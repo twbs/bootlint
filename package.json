@@ -23,8 +23,9 @@
     "nodeunit": "nodeunit test",
     "qunit": "node build/phantom.js",
     "start": "node ./bin/www",
+    "nyc": "nyc",
     "test": "npm run eslint && npm run build && npm run nodeunit",
-    "travis": "nyc npm test"
+    "test:all": "npm run eslint && npm run build && npm run nodeunit && npm run qunit"
   },
   "dependencies": {
     "binary-search": "^1.3.5",
