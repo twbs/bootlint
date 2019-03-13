@@ -1,20 +1,28 @@
 # Logs
-logs
+logs/
 *.log
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 
-.nyc_output/
-coverage/
-src-cov
-
-node_modules/
+# Local bootstrap repository
 /bootstrap/
-.bundle/
-vendor/
+
+# Cache
+/.cache/
+
+# Coverage
+/.nyc_output/
+/coverage/
+
+# Bundler files and gems
+/.bundle/
+/vendor/
+
+# npm packages
+/node_modules/
 
 # Vim generated files
 *.swp
