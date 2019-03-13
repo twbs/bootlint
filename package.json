@@ -23,7 +23,7 @@
     "nodeunit": "nodeunit test",
     "qunit": "node build/phantom.js",
     "start": "node ./bin/www",
-    "test": "npm run eslint && npm run build && npm run nodeunit && npm run qunit",
+    "test": "npm run eslint && npm run build && npm run nodeunit",
     "travis": "nyc npm test"
   },
   "dependencies": {
