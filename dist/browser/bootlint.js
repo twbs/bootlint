@@ -1,5 +1,5 @@
 /*!
- * Bootlint v0.16.4 (https://github.com/twbs/bootlint)
+ * Bootlint v0.16.5 (https://github.com/twbs/bootlint)
  * HTML linter for Bootstrap projects
  * Copyright (c) 2014-2019 The Bootlint Authors
  * Licensed under the MIT License (https://github.com/twbs/bootlint/blob/master/LICENSE).
@@ -12583,7 +12583,7 @@ var LocationIndex = _location.LocationIndex;
         var rowsOutsideColumnsAndContainers = rowsOutsideColumns.filter(function () {
             var parent = $(this).parent();
             while (parent.length) {
-                if (parent.is('.container, .container-fluid')) {
+                if (parent.is('.container, .container-fluid, .modal-body')) {
                     return false;
                 }
                 parent = $(parent).parent();
@@ -12591,7 +12591,7 @@ var LocationIndex = _location.LocationIndex;
             return true;
         });
         if (rowsOutsideColumnsAndContainers.length) {
-            reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid`', rowsOutsideColumnsAndContainers);
+            reporter('Found one or more `.row`s that were not children of a grid column or descendants of a `.container` or `.container-fluid` or `.modal-body`', rowsOutsideColumnsAndContainers);
         }
     });
     addLinter('E004', function lintNestedContainers($, reporter) {
