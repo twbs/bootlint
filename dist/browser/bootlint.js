@@ -12015,7 +12015,7 @@ var LocationIndex = _location.LocationIndex;
             return element.name.toUpperCase();
         } :
         function (element) {
-            /* @covignore */
+            /* istanbul ignore next */
             return element.tagName.toUpperCase();
         };
 
@@ -12167,7 +12167,7 @@ var LocationIndex = _location.LocationIndex;
     }
 
     function jqueryPluginVersions(jQuery) {
-        /* @covignore */
+        /* istanbul ignore next */
         return PLUGINS.map(function (pluginName) {
             var plugin = jQuery.fn[pluginName];
             if (!plugin) {
@@ -12232,7 +12232,7 @@ var LocationIndex = _location.LocationIndex;
     var allLinters = {};
     function addLinter(id, linter) {
         if (allLinters[id]) {
-            /* @covignore */
+            /* istanbul ignore next */
             throw new Error('Linter already registered with ID: ' + id);
         }
 
@@ -12242,7 +12242,7 @@ var LocationIndex = _location.LocationIndex;
         } else if (id[0] === 'W') {
             Problem = LintWarning;
         } else {
-            /* @covignore */
+            /* istanbul ignore next */
             throw new Error('Invalid linter ID: ' + id);
         }
 
@@ -12312,7 +12312,7 @@ var LocationIndex = _location.LocationIndex;
             // deliberately do nothing
             // empty
         }
-        /* @covignore */
+        /* istanbul ignore if */
         if (theWindow) {
             // check browser global jQuery
             var globaljQuery = theWindow.$ || theWindow.jQuery;
@@ -12453,7 +12453,7 @@ var LocationIndex = _location.LocationIndex;
         var OUTDATED_BOOTSTRAP = 'Bootstrap version might be outdated. Latest version is at least ' + CURRENT_BOOTSTRAP_VERSION + ' ; saw what appears to be usage of Bootstrap ';
         var theWindow = getBrowserWindowObject();
         var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        /* @covignore */
+        /* istanbul ignore if */
         if (globaljQuery) {
             var versions = jqueryPluginVersions(globaljQuery);
             if (versions.length) {
@@ -12493,7 +12493,7 @@ var LocationIndex = _location.LocationIndex;
         var theWindow = getBrowserWindowObject();
 
         var globaljQuery = theWindow && (theWindow.$ || theWindow.jQuery);
-        /* @covignore */
+        /* istanbul ignore if */
         if (globaljQuery) {
             var versions = jqueryPluginVersions(globaljQuery);
             if (versions.length) {
@@ -12549,7 +12549,7 @@ var LocationIndex = _location.LocationIndex;
             };
         }
 
-        /* @covignore */
+        /* istanbul ignore next */
         return function lintDoctype($, reporter) {
             /* eslint-disable no-undef, block-scoped-var */
             var doc = window.document;
@@ -13125,7 +13125,7 @@ var LocationIndex = _location.LocationIndex;
         };
     } else {
         // jQuery; in-browser
-        /* @covignore */
+        /* istanbul ignore next */
         (function () {
             var $ = cheerio;
             /**
