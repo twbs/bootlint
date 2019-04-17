@@ -9,7 +9,7 @@ install:
     - npm install
 before_script:
     - git clone --depth 1 https://github.com/twbs/bootstrap.git --branch v3-dev || travis_terminate 1
-    - bundle install --deployment --gemfile bootstrap/Gemfile --jobs=3 --retry=3 || travis_terminate 1
+    - bundle install --deployment --path "$(pwd)/vendor/bundle" --gemfile bootstrap/Gemfile --jobs=3 --retry=3 || travis_terminate 1
     - pushd bootstrap && bundle exec jekyll build && popd
 script:
     - if [ "$TRAVIS_NODE_VERSION" = "10" ]; then npm run nyc -- npm run test && npm run qunit; else npm run test; fi || travis_terminate 1
@@ -22,6 +22,7 @@ matrix:
     fast_finish: true
 cache:
     directories:
-        - node_modules
+        - node_modules/
+        - vendor/bundle/
 notifications:
     email: false
