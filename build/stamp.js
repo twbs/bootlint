@@ -2,9 +2,7 @@
 
 'use strict';
 
-const path = require('path');
-
-const pkg = require(path.resolve('package.json'));
+const pkg = require('../package.json');
 const year = new Date().getFullYear();
 
 const stampTop =
