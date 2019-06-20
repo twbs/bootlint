@@ -244,6 +244,13 @@ exports.bootlint = {
             'should complain when `data-*`-based tooltips or popovers lack `data-container="body"`.');
         test.done();
     },
+    'tooltips and popovers with sanitize set to false': function (test) {
+        test.expect(1);
+        test.deepEqual(lintHtml(utf8Fixture('tooltips/disabled-sanitization.html')),
+            ['Since Bootstrap v3.4.1 and v4.3.1, content sanitization for Tooltips and Popovers to avoid XSS vulnerabilities is enabled by default, we strongly encourage you to remove the `data-sanitize="false"` attribute'],
+            'should complain when dangerous `data-sanitize="false"` is set.');
+        test.done();
+    },
     'btn/input sizing used without input-group-* size': function (test) {
         test.expect(1);
         test.deepEqual(lintHtml(utf8Fixture('input-group/missing-input-group-sizing.html')),

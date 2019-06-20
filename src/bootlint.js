@@ -587,6 +587,19 @@ var LocationIndex = _location.LocationIndex;
             reporter('Found one or more `<input>`s missing a `type` attribute.', inputsMissingTypeAttr);
         }
     });
+    addLinter('W018', function lintSanitizationDisabled($, reporter) {
+        var selector = [
+            'button[data-toggle="tooltip"][data-template][data-sanitize="false"]',
+            'button[data-toggle="tooltip"][data-title][data-sanitize="false"]',
+            'button[data-toggle="popover"][data-template][data-sanitize="false"]',
+            'button[data-toggle="popover"][data-content][data-sanitize="false"]',
+            'button[data-toggle="popover"][data-title][data-sanitize="false"]'
+        ].join(',');
+        var disabledSanitizationElements = $(selector);
+        if (disabledSanitizationElements.length) {
+            reporter('Since Bootstrap v3.4.1 and v4.3.1, content sanitization for Tooltips and Popovers to avoid XSS vulnerabilities is enabled by default, we strongly encourage you to remove the `data-sanitize="false"` attribute', disabledSanitizationElements);
+        }
+    });
 
     addLinter('E001', (function () {
         var MISSING_DOCTYPE = 'Document is missing a DOCTYPE declaration';
