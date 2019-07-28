@@ -17,11 +17,24 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <button type="button" data-toggle="modal" data-remote="http://example.invalid/modal.html" data-target="#myModal">Launch modal</button>
+        <div class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <h4 class="modal-title">Modal title but I should be inside a modal header</h4>
+                    <div class="modal-body">
+                        <p>One fine body&hellip;</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Found one or more modals using the deprecated `remote` option"></li>
+            <li data-lint="`.modal-title` must be a child of `.modal-header`"></li>
         </ol>
     </body>
 </html>
