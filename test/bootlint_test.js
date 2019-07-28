@@ -150,15 +150,6 @@ exports.bootlint = {
         test.done();
     },
     /*
-    'remote modals': function (test) {
-        test.expect(1);
-        test.deepEqual(lintHtml(utf8Fixture('modal/remote.html')),
-            ['Found one or more modals using the deprecated `remote` option'],
-            'should complain when remote modals are present.');
-        test.done();
-    },
-    */
-    /*
     'jQuery': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('jquery/present.html')),
@@ -724,20 +715,6 @@ exports.bootlint = {
         test.deepEqual(lintHtml(utf8Fixture('navbar/navbar-left-right-valid.html')),
             [],
             'should not complain about .navbar-left or .navbar-right inside of .navbar.'
-        );
-        test.done();
-    },
-    */
-    /*
-    'modal with .hide class': function (test) {
-        test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('modal/with-hide.html')),
-            ['`.hide` should not be used on `.modal` in Bootstrap v3.'],
-            'should complain about a modal with the .hide class.'
-        );
-        test.deepEqual(lintHtml(utf8Fixture('modal/valid.html')),
-            [],
-            'should not complain about a modal without the .hide class.'
         );
         test.done();
     },

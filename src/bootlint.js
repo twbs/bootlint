@@ -346,14 +346,6 @@ var LocationIndex = _location.LocationIndex;
     });
     */
     /*
-    addLinter('W004', function lintRemoteModals($, reporter) {
-        var remoteModalTriggers = $('[data-toggle="modal"][data-remote]');
-        if (remoteModalTriggers.length) {
-            reporter('Found one or more modals using the deprecated `remote` option', remoteModalTriggers);
-        }
-    });
-    */
-    /*
     addLinter('W005', function lintJquery($, reporter) {
         var OLD_JQUERY = 'Found what might be an outdated version of jQuery; Bootstrap requires jQuery v' + MIN_JQUERY_VERSION + ' or higher';
         var NO_JQUERY_BUT_BS_JS = 'Unable to locate jQuery, which is required for Bootstrap\'s JavaScript plugins to work';
@@ -804,7 +796,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E022', function lintModalsWithinOtherComponents($, reporter) {
         var selector = [
             '.table .modal',
@@ -815,7 +806,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Modal markup should not be placed within other components, so as to avoid the component\'s styles interfering with the modal\'s appearance or functionality', badNestings);
         }
     });
-    */
     addLinter('E023', function lintCardBodyWithoutCard($, reporter) {
         var badCardBody = $('.card-body').filter(function () {
             return $(this).closest('.card').length !== 1;
@@ -912,7 +902,6 @@ var LocationIndex = _location.LocationIndex;
             );
         });
     });
-    /*
     addLinter('E032', function lintModalStructure($, reporter) {
         var elements;
 
@@ -946,7 +935,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal-title` must be a child of `.modal-header`', elements);
         }
     });
-    */
     /*
     addLinter('E033', function lintAlertMissingDismissible($, reporter) {
         var alertsMissingDismissible = $('.alert:not(.alert-dismissible):has([data-dismiss="alert"])');
@@ -993,14 +981,6 @@ var LocationIndex = _location.LocationIndex;
         });
         if (navbarPullsOutsideNavbars.length) {
             reporter('`.navbar-left` and `.navbar-right` should not be used outside of navbars.', navbarPullsOutsideNavbars);
-        }
-    });
-    */
-    /*
-    addLinter('E040', function lintModalHide($, reporter) {
-        var modalsWithHide = $('.modal.hide');
-        if (modalsWithHide.length) {
-            reporter('`.hide` should not be used on `.modal` in Bootstrap v3.', modalsWithHide);
         }
     });
     */
@@ -1076,14 +1056,12 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E046', function lintModalTabIndex($, reporter) {
         var modalsWithoutTabindex = $('.modal:not([tabindex])');
         if (modalsWithoutTabindex.length) {
             reporter('`.modal` elements must have a `tabindex` attribute.', modalsWithoutTabindex);
         }
     });
-    */
     /*
     addLinter('E047', function lintBtnElements($, reporter) {
         var btns = $('.btn:not(a,button,input,label)');
@@ -1092,22 +1070,18 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E048', function lintModalRole($, reporter) {
         var modals = $('.modal:not([role="dialog"])');
         if (modals.length) {
             reporter('`.modal` must have a `role="dialog"` attribute.', modals);
         }
     });
-    */
-    /*
     addLinter('E049', function lintModalDialogRole($, reporter) {
         var modalDialogs = $('.modal-dialog:not([role="document"])');
         if (modalDialogs.length) {
             reporter('`.modal-dialog` must have a `role="document"` attribute.', modalDialogs);
         }
     });
-    */
     /*
     addLinter('E050', function lintNestedFormGroups($, reporter) {
         var nestedFormGroups = $('.form-group > .form-group');
