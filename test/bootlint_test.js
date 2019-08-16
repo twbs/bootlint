@@ -283,19 +283,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
-    'dropdown-toggle comes before btn': function (test) {
-        test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('buttons/btn-toggle.html')),
-            [],
-            'should not complain when correct .dropdown-toggle markup is used.');
-        test.deepEqual(lintHtml(utf8Fixture('buttons/btn-toggle-after-btn.html')),
-            ['`.btn.dropdown-toggle` must be the last button in a button group.'],
-            'should complain when `.dropdown-toggle` is on the left side of a btn');
-        test.done();
-    },
-    */
-    /*
     'buttons should set type': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/without-type.html')),
@@ -306,22 +293,19 @@ exports.bootlint = {
             'should not complain when type is set on buttons');
         test.done();
     },
-    */
-    /*
     'use disabled attribute on button.btn and input.btn instead of .disabled': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('buttons/button-disabled-class.html')),
             ['Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn\'t prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.'],
-            'should complain when Bootstrap v2 grid classes are present.');
+            'should complain when disabled class is set on buttons');
         test.deepEqual(lintHtml(utf8Fixture('buttons/input-btn-disabled-class.html')),
             ['Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn\'t prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.'],
-            'should complain when Bootstrap v2 grid classes are present.');
+            'should complain when disabled class is set an element styled as a buttons');
         test.deepEqual(lintHtml(utf8Fixture('buttons/disabled-attribute.html')),
             [],
             'should not complain when disabled attribute is set on buttons');
         test.done();
     },
-    */
     /*
     'inputs should set type': function (test) {
         test.expect(2);
@@ -363,21 +347,6 @@ exports.bootlint = {
             ['Incorrect markup used with the `.radio-inline` class. The correct markup structure is `label.radio-inline>input[type="radio"]`'],
             'should complain when invalid .radio-inline markup is used.');
 
-        test.done();
-    },
-    */
-    /*
-    '.active class and checked attribute for buttons plugin do not match': function (test) {
-        test.expect(3);
-        test.deepEqual(lintHtml(utf8Fixture('buttons-plugin/valid.html')),
-            [],
-            'should not complain when .active and checked correspond correctly.');
-        test.deepEqual(lintHtml(utf8Fixture('buttons-plugin/checkbox-bad.html')),
-            ['`.active` class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin'],
-            'should complain when .active and checked do not correspond correctly in a checkbox button group.');
-        test.deepEqual(lintHtml(utf8Fixture('buttons-plugin/radio-bad.html')),
-            ['`.active` class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin'],
-            'should complain when .active and checked do not correspond correctly in a radio button group.');
         test.done();
     },
     */
@@ -813,7 +782,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     '.btn not on <a>/<button>/<input>/<label>': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('buttons/btn-incorrect-element.html')),
@@ -826,7 +794,6 @@ exports.bootlint = {
         );
         test.done();
     },
-    */
     /*
     'modal missing role dialog': function (test) {
         test.expect(1);
