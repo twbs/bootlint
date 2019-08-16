@@ -785,20 +785,18 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
-    '.img-responsive not on image': function (test) {
+    '.img-fluid not on image': function (test) {
         test.expect(2);
-        test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-bad.html')),
-            ['`.img-responsive` should only be used on `<img>`s'],
-            'should complain about .img-responsive not on an image.'
+        test.deepEqual(lintHtml(utf8Fixture('images/img-fluid-bad.html')),
+            ['`.img-fluid` should only be used on `<img>`s'],
+            'should complain about .img-fluid not on an image.'
         );
-        test.deepEqual(lintHtml(utf8Fixture('images/img-responsive-valid.html')),
+        test.deepEqual(lintHtml(utf8Fixture('images/img-fluid-valid.html')),
             [],
-            'should not complain about .img-responsive on an image.'
+            'should not complain about .img-fluid on an image.'
         );
         test.done();
     },
-    */
     /*
     'btn classes on anchors within .navbar-nav': function (test) {
         test.expect(2);
