@@ -56,7 +56,6 @@ exports.bootlint = {
             'should not complain when the legacy-compatibility HTML5 doctype is used.');
         test.done();
     },
-    /*
     'UTF-8 charset meta tag': function (test) {
         test.expect(4);
         test.deepEqual(lintHtml(utf8Fixture('charset/utf8.html')),
@@ -73,7 +72,6 @@ exports.bootlint = {
             'should complain when <meta> tag specifies non-UTF-8 charset.');
         test.done();
     },
-    */
     /*
     'rows outside containers': function (test) {
         test.expect(6);
