@@ -1036,14 +1036,12 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E045', function lintImgResponsiveOnNonImgs($, reporter) {
-        var imgResponsiveNotOnImg = $('.img-responsive:not(img)');
+        var imgResponsiveNotOnImg = $('.img-fluid:not(img)');
         if (imgResponsiveNotOnImg.length) {
-            reporter('`.img-responsive` should only be used on `<img>`s', imgResponsiveNotOnImg);
+            reporter('`.img-fluid` should only be used on `<img>`s', imgResponsiveNotOnImg);
         }
     });
-    */
     addLinter('E046', function lintModalTabIndex($, reporter) {
         var modalsWithoutTabindex = $('.modal:not([tabindex])');
         if (modalsWithoutTabindex.length) {
