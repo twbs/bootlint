@@ -828,14 +828,22 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.card-title` must have a `.card` ancestor.', badCardTitle);
         }
     });
-    /*
     addLinter('E027', function lintTableResponsive($, reporter) {
-        var badStructure = $('.table.table-responsive, table.table-responsive');
+
+        var tableSelectors = ['.table', 'table'];
+        var badStructureSelectors = [];
+
+        for (var i = 0; i < tableSelectors.length; i++) {
+            for (var j = 0; j < NUM2SCREEN.length; j++) {
+                badStructureSelectors.push(tableSelectors[i] + '.table-responsive-' + NUM2SCREEN[j]);
+            }
+        }
+
+        var badStructure = $(badStructureSelectors.join(','));
         if (badStructure.length) {
-            reporter('`.table-responsive` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself', badStructure);
+            reporter('`.table-responsive*` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself', badStructure);
         }
     });
-    */
     /*
     addLinter('E028', function lintFormControlFeedbackWithoutHasFeedback($, reporter) {
         var ancestorsMissingClasses = $('.form-control-feedback').filter(function () {

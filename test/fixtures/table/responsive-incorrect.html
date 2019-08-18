@@ -17,17 +17,17 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="table-responsive">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>Cell</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-responsive-xl">
+            <tbody>
+                <tr>
+                    <td>Cell</td>
+                </tr>
+            </tbody>
+        </table>
 
         <div id="qunit"></div>
-        <ol id="bootlint"></ol>
+        <ol id="bootlint">
+            <li data-lint="`.table-responsive*` is supposed to be used on the table's parent wrapper `<div>`, not on the table itself"></li>
+        </ol>
     </body>
 </html>

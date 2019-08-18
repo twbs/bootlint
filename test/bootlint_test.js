@@ -430,7 +430,6 @@ exports.bootlint = {
         );
         test.done();
     },
-    /*
     '.table-responsive on the table itself': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('table/responsive-valid.html')),
@@ -438,12 +437,11 @@ exports.bootlint = {
             'should not complain when .table-responsive is used on the table\'s wrapper div.'
         );
         test.deepEqual(lintHtml(utf8Fixture('table/responsive-incorrect.html')),
-            ['`.table-responsive` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself'],
+            ['`.table-responsive*` is supposed to be used on the table\'s parent wrapper `<div>`, not on the table itself'],
             'should complain when .table-responsive is used on the table itself.'
         );
         test.done();
     },
-    */
     'redundant grid column classes': function (test) {
         test.expect(2);
         test.deepEqual(lintHtml(utf8Fixture('grid/cols-not-redundant.html')),
