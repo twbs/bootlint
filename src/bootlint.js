@@ -318,7 +318,6 @@ var LocationIndex = _location.LocationIndex;
         allLinters[id] = linterWrapper;
     }
 
-    /*
     addLinter('W001', function lintMetaCharsetUtf8($, reporter) {
         var meta = $('head>meta[charset]');
         var charset = meta.attr('charset');
@@ -336,7 +335,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('charset `<meta>` tag is specifying a legacy, non-UTF-8 charset', meta);
         }
     });
-    */
     /*
     addLinter('W003', function lintViewport($, reporter) {
         var meta = $('head>meta[name="viewport"][content]');
