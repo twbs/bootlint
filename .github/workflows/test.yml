@@ -1,0 +1,83 @@
+name: Tests
+on: [push, pull_request]
+
+env:
+  CI: true
+  RUBY: 2.6.x
+
+jobs:
+  run:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [6, 8, 10, 12, 14]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Clone twbs/bootstrap repository
+        uses: actions/checkout@v2
+        with:
+          repository: twbs/bootstrap
+          ref: v3-dev
+          path: bootstrap
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY }}
+
+      - name: Set up Ruby cache
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-ruby-v${{ env.RUBY }}-${{ hashFiles('bootstrap/Gemfile') }}-${{ hashFiles('bootstrap/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-v${{ env.RUBY }}-${{ hashFiles('bootstrap/Gemfile') }}-${{ hashFiles('bootstrap/Gemfile.lock') }}
+            ${{ runner.os }}-ruby-v${{ env.RUBY }}-
+
+      - name: Disable gem docs
+        run: 'echo "gem: --no-document" > ~/.gemrc'
+
+      - name: Set up Bundler
+        run: gem install bundler -v "~> 1.17"
+
+      - run: ruby --version
+      - run: gem --version
+      - run: bundle --version
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Set up Bootstrap repo, doc deps and build docs
+        run: |
+          bundle install --deployment --path "$(pwd)/vendor/bundle" --gemfile bootstrap/Gemfile --jobs=3 --retry=3
+          pushd bootstrap && bundle exec jekyll build && popd
+
+      - name: Run tests with Coveralls
+        run: npm run nyc -- npm run test && npm run qunit
+        if: matrix.node == 12
+
+      - name: Run tests
+        run: npm test
+        if: matrix.node != 12
+
+      - name: Run extra tests
+        run: |
+          node ./src/cli-main.js --disable W003,W005 "bootstrap/_gh_pages/**/index.html"
+          node ./src/cli-main.js test/fixtures/x-ua-compatible/missing.html &> x-ua-compatible-missing.output.actual.txt || true
+          diff test/fixtures/cli/x-ua-compatible-missing.output.txt x-ua-compatible-missing.output.actual.txt
+
+      - name: Run Coveralls
+        run: npm run coveralls
+        if: matrix.node == 12 && github.repository == 'twbs/bootlint' && github.event_name == 'push'
+        env:
+          COVERALLS_REPO_TOKEN: "${{ secrets.COVERALLS_REPO_TOKEN }}"

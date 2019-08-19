@@ -1,7 +1,7 @@
 # Bootlint
 
 [![NPM version](https://img.shields.io/npm/v/bootlint.svg)](https://www.npmjs.com/package/bootlint)
-[![Build Status](https://img.shields.io/travis/twbs/bootlint/master.svg)](https://travis-ci.org/twbs/bootlint)
+[![Build Status](https://github.com/twbs/bootlint/workflows/Tests/badge.svg)](https://github.com/twbs/bootlint/actions?workflow=Tests)
 [![Coverage Status](https://img.shields.io/coveralls/twbs/bootlint.svg?branch=master)](https://coveralls.io/r/twbs/bootlint)
 ![Development Status :: 5 - Production/Stable](https://img.shields.io/badge/maturity-stable-green.svg "Development Status :: 5 - Production/Stable")
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg "MIT License")](https://github.com/twbs/bootlint/blob/master/LICENSE)
