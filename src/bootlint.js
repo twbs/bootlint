@@ -520,9 +520,8 @@ var LocationIndex = _location.LocationIndex;
         });
     });
     */
-    /*
     addLinter('W014', function lintCarouselControls($, reporter) {
-        var controls = $('.carousel-indicators > li, .carousel-control');
+        var controls = $('.carousel-indicators > li, .carousel-control-next, .carousel-control-prev');
         controls.each(function (_index, cont) {
             var control = $(cont);
             var target = control.attr('href') || control.attr('data-target');
@@ -533,7 +532,6 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
-    */
     /*
     addLinter('W016', function lintDisabledClassOnButton($, reporter) {
         var btnsWithDisabledClass = $('button.btn.disabled, input.btn.disabled');
@@ -972,7 +970,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E041', function lintCarouselStructure($, reporter) {
         var carouselsWithWrongInners = $('.carousel').filter(function () {
             return $(this).children('.carousel-inner').length !== 1;
@@ -988,7 +985,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.carousel-inner` must have exactly one `.item.active` child.', innersWithWrongActiveItems);
         }
     });
-    */
     /*
     addLinter('E042', function lintFormControlOnWrongControl($, reporter) {
         var formControlsOnWrongTags = $('.form-control:not(input,textarea,select)');

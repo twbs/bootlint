@@ -653,7 +653,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'carousel control target': function (test) {
         test.expect(3);
         test.deepEqual(lintHtml(utf8Fixture('carousel/indicators.html')),
@@ -674,7 +673,6 @@ exports.bootlint = {
         );
         test.done();
     },
-    */
     /*
     'navbar pulls outside of navbars': function (test) {
         test.expect(4);
@@ -697,7 +695,6 @@ exports.bootlint = {
         test.done();
     },
     */
-    /*
     'carousel structure': function (test) {
         test.expect(5);
         test.deepEqual(lintHtml(utf8Fixture('carousel/valid.html')),
@@ -722,7 +719,6 @@ exports.bootlint = {
         );
         test.done();
     },
-    */
     /*
     'container inside navbar': function (test) {
         test.expect(1);
