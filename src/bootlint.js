@@ -440,14 +440,12 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('W007', function lintBtnType($, reporter) {
         var badBtnType = $('button:not([type="submit"], [type="reset"], [type="button"])');
         if (badBtnType.length) {
             reporter('Found one or more `<button>`s missing a `type` attribute.', badBtnType);
         }
     });
-    */
     /*
     addLinter('W008', function lintTooltipsInBtnGroups($, reporter) {
         var nonBodyContainers = $('.btn-group [data-toggle="tooltip"]:not([data-container="body"]), .btn-group [data-toggle="popover"]:not([data-container="body"])');
@@ -532,22 +530,18 @@ var LocationIndex = _location.LocationIndex;
             }
         });
     });
-    /*
     addLinter('W016', function lintDisabledClassOnButton($, reporter) {
         var btnsWithDisabledClass = $('button.btn.disabled, input.btn.disabled');
         if (btnsWithDisabledClass.length) {
             reporter('Using the `.disabled` class on a `<button>` or `<input>` only changes the appearance of the element. It doesn\'t prevent the user from interacting with the element (for example, clicking on it or focusing it). If you want to truly disable the element, use the `disabled` attribute instead.', btnsWithDisabledClass);
         }
     });
-    */
-    /*
     addLinter('W017', function lintInputsMissingTypeAttr($, reporter) {
         var inputsMissingTypeAttr = $('input:not([type])');
         if (inputsMissingTypeAttr.length) {
             reporter('Found one or more `<input>`s missing a `type` attribute.', inputsMissingTypeAttr);
         }
     });
-    */
     addLinter('E001', (function () {
         var MISSING_DOCTYPE = 'Document is missing a DOCTYPE declaration';
         var NON_HTML5_DOCTYPE = 'Document declares a non-HTML5 DOCTYPE';
@@ -713,14 +707,6 @@ var LocationIndex = _location.LocationIndex;
     });
     */
     /*
-    addLinter('E016', function lintBtnToggle($, reporter) {
-        var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
-        if (badBtnToggle.length) {
-            reporter('`.btn.dropdown-toggle` must be the last button in a button group.', badBtnToggle);
-        }
-    });
-    */
-    /*
     addLinter('E017', function lintBlockCheckboxes($, reporter) {
         var badCheckboxes = $('.checkbox').filter(function (i, div) {
             return $(div).filter(':has(>label>input[type="checkbox"])').length <= 0;
@@ -765,20 +751,6 @@ var LocationIndex = _location.LocationIndex;
         });
         if (badStructures.length) {
             reporter('Incorrect markup used with the `.radio-inline` class. The correct markup structure is `label.radio-inline>input[type="radio"]`', badStructures);
-        }
-    });
-    */
-    /*
-    addLinter('E021', function lintButtonsCheckedActive($, reporter) {
-        var selector = [
-            '[data-toggle="buttons"]>label:not(.active)>input[type="checkbox"][checked]',
-            '[data-toggle="buttons"]>label.active>input[type="checkbox"]:not([checked])',
-            '[data-toggle="buttons"]>label:not(.active)>input[type="radio"][checked]',
-            '[data-toggle="buttons"]>label.active>input[type="radio"]:not([checked])'
-        ].join(',');
-        var mismatchedButtonInputs = $(selector);
-        if (mismatchedButtonInputs.length) {
-            reporter('`.active` class used without the `checked` attribute (or vice-versa) in a button group using the button.js plugin', mismatchedButtonInputs);
         }
     });
     */
@@ -1052,14 +1024,12 @@ var LocationIndex = _location.LocationIndex;
             reporter('`.modal` elements must have a `tabindex` attribute.', modalsWithoutTabindex);
         }
     });
-    /*
     addLinter('E047', function lintBtnElements($, reporter) {
         var btns = $('.btn:not(a,button,input,label)');
         if (btns.length) {
             reporter('`.btn` should only be used on `<a>`, `<button>`, `<input>`, or `<label>` elements.', btns);
         }
     });
-    */
     addLinter('E048', function lintModalRole($, reporter) {
         var modals = $('.modal:not([role="dialog"])');
         if (modals.length) {
