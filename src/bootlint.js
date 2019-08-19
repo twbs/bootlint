@@ -613,18 +613,6 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     /*
-    addLinter('E006', function lintInputGroupFormControlTypes($, reporter) {
-        var selectInputGroups = $('.input-group select');
-        if (selectInputGroups.length) {
-            reporter('`.input-group` contains a `<select>`; this should be avoided as `<select>`s cannot be fully styled in WebKit browsers', selectInputGroups);
-        }
-        var textareaInputGroups = $('.input-group textarea');
-        if (textareaInputGroups.length) {
-            reporter('`.input-group` contains a `<textarea>`; only text-based `<input>`s are permitted in an `.input-group`', textareaInputGroups);
-        }
-    });
-    */
-    /*
     addLinter('E007', function lintBootstrapJs($, reporter) {
         var scripts = bootstrapScriptsIn($);
         if (scripts.longhands.length && scripts.minifieds.length) {
@@ -632,38 +620,24 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E009', function lintMissingInputGroupSizes($, reporter) {
         var selector = [
             '.input-group:not(.input-group-lg) .btn-lg',
-            '.input-group:not(.input-group-lg) .input-lg',
+            '.input-group:not(.input-group-lg) .form-control-lg',
             '.input-group:not(.input-group-sm) .btn-sm',
-            '.input-group:not(.input-group-sm) .input-sm'
+            '.input-group:not(.input-group-sm) .form-control-sm'
         ].join(',');
         var badInputGroupSizing = $(selector);
         if (badInputGroupSizing.length) {
             reporter('Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`', badInputGroupSizing);
         }
     });
-    */
-    /*
-    addLinter('E010', function lintMultipleFormControlsInInputGroup($, reporter) {
-        var badInputGroups = $('.input-group').filter(function (i, inputGroup) {
-            return $(inputGroup).find('.form-control').length > 1;
-        });
-        if (badInputGroups.length) {
-            reporter('Input groups cannot contain multiple `.form-control`s', badInputGroups);
-        }
-    });
-    */
-    /*
     addLinter('E011', function lintFormGroupMixedWithInputGroup($, reporter) {
-        var badMixes = $('.input-group.form-group');
+        var badMixes = $('.input-group.form-group, .input-group.row, .input-group.form-row');
         if (badMixes.length) {
-            reporter('`.input-group` and `.form-group` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`', badMixes);
+            reporter('`.input-group` and `.form-group`/`.row`/`.form-row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`/`.form-row`', badMixes);
         }
     });
-    */
     addLinter('E012', function lintGridClassMixedWithInputGroup($, reporter) {
         var selector = COL_CLASSES.map(function (colClass) {
             return '.input-group' + colClass;
@@ -696,22 +670,6 @@ var LocationIndex = _location.LocationIndex;
             reporter('Columns (`.col*`) can only be children of `.row`s or `.form-row`s', colsOutsideRowsAndFormGroups);
         }
     });
-    /*
-    addLinter('E015', function lintInputGroupsWithMultipleAddOnsPerSide($, reporter) {
-        var addOnClasses = ['.input-group-addon', '.input-group-btn'];
-        var combos = [];
-        addOnClasses.forEach(function (first) {
-            addOnClasses.forEach(function (second) {
-                combos.push('.input-group>' + first + '+' + second);
-            });
-        });
-        var selector = combos.join(',');
-        var multipleAddOns = $(selector);
-        if (multipleAddOns.length) {
-            reporter('Having multiple add-ons on a single side of an input group is not supported', multipleAddOns);
-        }
-    });
-    */
     /*
     addLinter('E016', function lintBtnToggle($, reporter) {
         var badBtnToggle = $('.btn.dropdown-toggle ~ .btn');
@@ -1029,17 +987,15 @@ var LocationIndex = _location.LocationIndex;
         }
     });
     */
-    /*
     addLinter('E044', function lintInputGroupAddonChildren($, reporter) {
         var badInputGroups = $('.input-group').filter(function () {
             var inputGroup = $(this);
-            return !inputGroup.children('.form-control').length || !inputGroup.children('.input-group-addon, .input-group-btn').length;
+            return !inputGroup.children('.form-control, .custom-select, .custom-file').length || !inputGroup.children('.input-group-prepend, .input-group-append').length;
         });
         if (badInputGroups.length) {
-            reporter('`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`.', badInputGroups);
+            reporter('`.input-group` must have at least one `.form-control`/`.custom-select`/`.custom-file` child and also at least one `.input-group-prepend`/`.input-group-append` child.', badInputGroups);
         }
     });
-    */
     addLinter('E045', function lintImgResponsiveOnNonImgs($, reporter) {
         var imgResponsiveNotOnImg = $('.img-fluid:not(img)');
         if (imgResponsiveNotOnImg.length) {

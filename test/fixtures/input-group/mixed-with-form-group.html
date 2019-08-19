@@ -17,24 +17,14 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-
-      <div class="input-group">
-        <span class="input-group-btn">
-            <button id="button1" class="btn btn-default btn-lg" type="button">Go!</button>
-        </span>
-        <input id="input1" type="text" class="form-control input-lg">
-      </div>
-
-      <div class="input-group">
-        <span class="input-group-btn">
-            <button id="button2" class="btn btn-default btn-lg" type="button">Go!</button>
-        </span>
-        <input id="input2" type="text" class="form-control input-lg">
-      </div>
+        <div class="input-group form-group">
+            <span class="input-group-prepend">@</span>
+            <input type="text" class="form-control" placeholder="Username">
+        </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-          <li data-lint="Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`"></li>
+            <li data-lint="`.input-group` and `.form-group`/`.row`/`.form-row` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.form-group`/`.row`/`.form-row`"></li>
         </ol>
     </body>
 </html>

@@ -17,15 +17,24 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control" placeholder="Username">
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+            <button id="button1" class="btn btn-default btn-sm" type="button">Go!</button>
         </div>
+        <input id="input1" type="text" class="form-control form-control-sm">
+      </div>
+
+      <!-- <div class="input-group"></div>
+        <input id="input2" type="text" class="form-control form-control-lg">
+        <div class="input-group-append">
+          <button id="button2" class="btn btn-default btn-lg" type="button">Go!</button>
+        </div>
+      </div> -->
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="Having multiple add-ons on a single side of an input group is not supported"></li>
+          <li data-lint="Button and input sizing within `.input-group`s can cause issues. Instead, use input group sizing classes `.input-group-lg` or `.input-group-sm`"></li>
         </ol>
     </body>
 </html>

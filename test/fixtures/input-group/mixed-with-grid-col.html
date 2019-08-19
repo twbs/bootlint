@@ -17,14 +17,18 @@
         <script src="../generic-qunit.js"></script>
     </head>
     <body>
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <select class="form-control"><option value="no-way">No-how</option></select>
+        <div class="container">
+            <div class="row">
+                <div class="input-group col-sm-12">
+                    <span class="input-group-prepend">@</span>
+                    <input type="text" class="form-control" placeholder="Username">
+                </div>
+            </div>
         </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-            <li data-lint="`.input-group` contains a `&lt;select&gt;`; this should be avoided as `&lt;select&gt;`s cannot be fully styled in WebKit browsers"></li>
+            <li data-lint="`.input-group` and `.col*` cannot be used directly on the same element. Instead, nest the `.input-group` within the `.col*`"></li>
         </ol>
     </body>
 </html>

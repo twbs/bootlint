@@ -19,12 +19,12 @@
     <body>
 
       <div class="input-group">
-        <input class="form-control" type="text">
+        <span class="input-group-prepend">@</span>
       </div>
 
         <div id="qunit"></div>
         <ol id="bootlint">
-          <li data-lint="`.input-group` must have a `.form-control` and either an `.input-group-addon` or an `.input-group-btn`."></li>
+          <li data-lint="`.input-group` must have at least one `.form-control`/`.custom-select`/`.custom-file` child and also at least one `.input-group-prepend`/`.input-group-append` child."></li>
         </ol>
     </body>
 </html>
