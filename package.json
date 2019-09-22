@@ -17,7 +17,7 @@
     "build": "npm run browserify && npm run minify",
     "dist": "npm run build",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "eslint": "eslint --cache-location .cache/.eslintcache .",
+    "eslint": "eslint --cache-location .cache/.eslintcache --report-unused-disable-directives .",
     "lint": "npm run eslint",
     "minify": "terser --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"includeSources,url=bootlint.min.js.map\" --output dist/browser/bootlint.min.js dist/browser/bootlint.js",
     "nodeunit": "nodeunit test",

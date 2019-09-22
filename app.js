@@ -53,10 +53,7 @@ function lintsFor(html, disabledIds) {
     return lints;
 }
 
-
-/* eslint-disable new-cap */
 var routes = express.Router();
-/* eslint-enable new-cap */
 
 routes.get('/', function (req, res) {
     res.status(200).json({

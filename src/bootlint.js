@@ -193,9 +193,8 @@ var LocationIndex = _location.LocationIndex;
     function getBrowserWindowObject() {
         var theWindow = null;
         try {
-            /* eslint-disable no-undef, block-scoped-var */
+            /* eslint-disable-next-line no-undef */
             theWindow = window;
-            /* eslint-enable no-undef, block-scoped-var */
         } catch (e) {
             // deliberately do nothing
             // empty
@@ -364,13 +363,13 @@ var LocationIndex = _location.LocationIndex;
         var hasBsJs = Boolean(bsScripts.minifieds.length || bsScripts.longhands.length);
         var theWindow = null;
         try {
-            /* eslint-disable no-undef, block-scoped-var */
+            /* eslint-disable-next-line no-undef */
             theWindow = window;
-            /* eslint-enable no-undef, block-scoped-var */
         } catch (e) {
             // deliberately do nothing
             // empty
         }
+
         /* istanbul ignore if */
         if (theWindow) {
             // check browser global jQuery
@@ -610,9 +609,8 @@ var LocationIndex = _location.LocationIndex;
 
         /* istanbul ignore next */
         return function lintDoctype($, reporter) {
-            /* eslint-disable no-undef, block-scoped-var */
+            /* eslint-disable-next-line no-undef */
             var doc = window.document;
-            /* eslint-enable un-undef, block-scoped-var */
             if (doc.doctype === null) {
                 reporter(MISSING_DOCTYPE);
             } else if (doc.doctype.publicId) {
@@ -1217,9 +1215,8 @@ var LocationIndex = _location.LocationIndex;
                     var background = 'background: #' + (lint.id[0] === 'W' ? 'f0ad4e' : 'd9534f') + '; color: #ffffff;';
                     if (!seenLint) {
                         if (alertOnFirstProblem) {
-                            /* eslint-disable no-alert, no-undef, block-scoped-var */
+                            /* eslint-disable-next-line no-alert, no-undef */
                             window.alert('bootlint found errors in this document! See the JavaScript console for details.');
-                            /* eslint-enable no-alert, no-undef, block-scoped-var */
                         }
                         seenLint = true;
                     }
@@ -1236,14 +1233,12 @@ var LocationIndex = _location.LocationIndex;
                 if (errorCount > 0) {
                     console.info('bootlint: For details, look up the lint problem IDs in the Bootlint wiki: https://github.com/twbs/bootlint/wiki');
                 } else if (alertIfNoProblems) {
-                    /* eslint-disable no-alert, no-undef, block-scoped-var */
+                    /* eslint-disable-next-line no-alert, no-undef */
                     window.alert('bootlint found no errors in this document.');
-                    /* eslint-enable no-alert, no-undef, block-scoped-var */
                 }
             };
-            /* eslint-disable no-undef, block-scoped-var */
+            /* eslint-disable-next-line no-undef */
             window.bootlint = exports;
-            /* eslint-enable no-undef, block-scoped-var */
         })();
     }
 })(typeof exports === 'object' && exports || this);
