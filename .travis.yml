@@ -5,6 +5,7 @@ node_js:
     - "6"
     - "8"
     - "10"
+    - "12"
 install:
     - npm install
 before_script:
