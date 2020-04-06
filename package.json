@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "async": "^3.2.0",
-    "browserify": "^16.5.0",
-    "coveralls": "^3.0.9",
+    "browserify": "^16.5.1",
+    "coveralls": "^3.0.11",
     "eslint": "^5.16.0",
     "jquery": "^3.4.1",
     "node-qunit-phantomjs": "^2.1.1",
@@ -48,7 +48,7 @@
     "qunit": "^2.9.3",
     "rewire": "github:twbs/rewire#master",
     "sinon": "^7.5.0",
-    "terser": "^4.6.6"
+    "terser": "^4.6.10"
   },
   "main": "./src/bootlint.js",
   "bin": {
