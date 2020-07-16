@@ -77,7 +77,7 @@ jobs:
           diff test/fixtures/cli/x-ua-compatible-missing.output.txt x-ua-compatible-missing.output.actual.txt
 
       - name: Run Coveralls
-        run: npm run coveralls
-        if: matrix.node == 12 && github.repository == 'twbs/bootlint' && github.event_name == 'push'
-        env:
-          COVERALLS_REPO_TOKEN: "${{ secrets.COVERALLS_REPO_TOKEN }}"
+        uses: coverallsapp/github-action@master
+        if: matrix.node == 12 && github.repository == 'twbs/bootlint'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"

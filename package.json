@@ -16,7 +16,6 @@
     "browserify": "browserify src/bootlint.js | node build/stamp.js > dist/browser/bootlint.js",
     "build": "npm run browserify && npm run minify",
     "dist": "npm run build",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "eslint --cache-location .cache/.eslintcache --report-unused-disable-directives .",
     "lint": "npm run eslint",
     "minify": "terser --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"includeSources,url=bootlint.min.js.map\" --output dist/browser/bootlint.min.js dist/browser/bootlint.js",
@@ -39,7 +38,6 @@
   "devDependencies": {
     "async": "^3.2.0",
     "browserify": "^16.5.1",
-    "coveralls": "^3.1.0",
     "eslint": "^5.16.0",
     "jquery": "^3.5.1",
     "node-qunit-phantomjs": "^2.1.1",
@@ -65,6 +63,11 @@
   "nyc": {
     "include": [
       "src/**/*.js"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text-summary"
     ]
   },
   "engines": {
