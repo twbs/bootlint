@@ -1,4 +1,4 @@
-![Bootlint (1)](https://github.com/Anjan50/bootlint/blob/master/Bootlint%20(1).png)
+![Bootlint (1)](https://github.com/Anjan50/bootlint/blob/master/Bootlint%20(1).svg)
 
 # Bootlint
 
